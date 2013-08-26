@@ -63,4 +63,8 @@ public class PVU implements ApplicationListener {
 	@Override
 	public void resume() {
 	}
+	
+	public static void main(String[] args) {
+        //TODO launch desktop app
+	}
 }
