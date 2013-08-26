@@ -42,6 +42,16 @@ RemoteSystemsTempFiles/
 # classpath
 # settings
 
+### Netbeanfiles
+# NetBeans specific #
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
 ### Default
 *.class
 
