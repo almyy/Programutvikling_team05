@@ -42,7 +42,7 @@ RemoteSystemsTempFiles/
 # classpath
 # settings
 
-### Netbeanfiles
+### Netbean files
 # NetBeans specific #
 nbproject/private/
 build/
@@ -51,6 +51,16 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+
+### IntelliJ Idea files
+.idea/
+*.iml
+*.iws
+
+### Eclipse files
+.classpath
+.project
+.settings/
 
 ### Default
 *.class
