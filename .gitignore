@@ -56,6 +56,7 @@ nb-configuration.xml
 .idea/
 *.iml
 *.iws
+out/
 
 ### Eclipse files
 .classpath
