@@ -2,6 +2,8 @@ package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,10 +26,10 @@ public class PVU implements ApplicationListener {
 		camera = new OrthographicCamera(1, h/w);
 		batch = new SpriteBatch();
 		
-		texture = new Texture(Gdx.files.internal("data/libgdx.png"));
+		texture = new Texture(Gdx.files.internal("data/logo.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
-		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
+		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 512);
 		
 		sprite = new Sprite(region);
 		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
@@ -65,6 +67,11 @@ public class PVU implements ApplicationListener {
 	}
 	
 	public static void main(String[] args) {
-        //TODO launch desktop app
+            LwjglApplicationConfiguration a = new LwjglApplicationConfiguration();
+            a.width = 300;
+            a.height = 200;
+            a.fullscreen = false;
+            
+            new LwjglApplication(new PVU(), a);
 	}
 }
