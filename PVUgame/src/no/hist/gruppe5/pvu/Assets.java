@@ -19,8 +19,8 @@ public class Assets {
         Texture testTexture = new Texture(Gdx.files.internal("data/square.png"));
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         primaryFont = new BitmapFont(
-                Gdx.files.internal("data/lucidaBitmap.fnt"),
-                Gdx.files.internal("data/lucidaBitmap_0.png"), false);
+                Gdx.files.internal("data/LucidaBitmap.fnt"),
+                Gdx.files.internal("data/LucidaBitmap_0.png"), false);
         
         testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
     }
