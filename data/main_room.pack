@@ -1,0 +1,12 @@
+
+main_room.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+main_room
+  rotate: false
+  xy: 1, 1
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1

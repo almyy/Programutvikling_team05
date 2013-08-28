@@ -1,12 +1,8 @@
 package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -21,15 +17,25 @@ public class MainScreen extends GameScreen {
     private boolean left = true;
     private boolean up = true;
 
-    private Sprite mTestSprite;
+    private Sprite mBackground;
 
     public MainScreen(PVU game) {
         super(game);
 
-        mTestSprite = new Sprite(Assets.testRegion);
-        mTestSprite.setSize(1f, 1f);
-        mTestSprite.setOrigin(mTestSprite.getWidth() / 2, mTestSprite.getHeight() / 2);
-        mTestSprite.setPosition(mTestSprite.getWidth() / 2, camera.viewportHeight / 1.9f);
+
+
+        // TODO temp
+        moveToAssets();
+        //mBackground = new Sprite(Assets.testRegion);
+
+        mBackground.setSize(PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
+        mBackground.setPosition(0, 0);
+    }
+
+    public void moveToAssets() {
+        TextureAtlas mainscrenAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack")) ;
+        TextureRegion mainscreenBackground = mainscrenAtlas.findRegion("main_room");
+        mBackground = new Sprite(mainscreenBackground);
     }
 
     @Override
@@ -37,27 +43,13 @@ public class MainScreen extends GameScreen {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
-        mTestSprite.draw(batch);
+        mBackground.draw(batch);
         batch.end();
     }
 
     @Override
     protected void update(float delta) {
-        if (mTestSprite.getX() < 0f && left) {
-            left = false;
-        } else if (mTestSprite.getX() + mTestSprite.getWidth() > PVU.GAME_WIDTH && !left) {
-            left = true;
-        }
 
-        if (mTestSprite.getY() < 0f && up) {
-            up = false;
-        } else if (mTestSprite.getY() + mTestSprite.getHeight() > PVU.GAME_HEIGHT && !up) {
-            up = true;
-        }
-
-        float dx = (left) ? -1f : 1f;
-        float dy = (up) ? -1f : 1f;
-        mTestSprite.setPosition(mTestSprite.getX() + dx * delta, mTestSprite.getY() + dy * delta);
     }
 
     @Override
