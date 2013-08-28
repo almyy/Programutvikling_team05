@@ -51,6 +51,11 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+*.properties
+build.xml
+manifest.mf
+build-impl.xml
+PVUgame/nbproject/project.xml
 
 ### IntelliJ Idea files
 .idea/
@@ -70,3 +75,6 @@ out/
 # *.jar
 *.war
 *.ear
+
+#Other
+PVUgame/src/PVU.gwt.xml
