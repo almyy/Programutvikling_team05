@@ -6,11 +6,14 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 public class PVU extends Game {
 
-    public static int GAME_WIDTH = 960;
-    public static int GAME_HEIGHT = 580;
+    public static float SCREEN_WIDTH = 960f;
+    public static float SCREEN_HEIGHT = 580f;
+    public static float GAME_WIDTH = 9.6f;
+    public static float GAME_HEIGHT = 5.8f;
 
 	@Override
 	public void create() {
+        Assets.load();
         setScreen(new MainScreen(this));
 	}
 
@@ -37,11 +40,12 @@ public class PVU extends Game {
 	}
 	
 	public static void main(String[] args) {
-            LwjglApplicationConfiguration a = new LwjglApplicationConfiguration();
-            a.width = PVU.GAME_WIDTH;
-            a.height = PVU.GAME_HEIGHT;
-            a.fullscreen = false;
+            LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+            cfg.width = (int) PVU.SCREEN_WIDTH;
+            cfg.height = (int) PVU.SCREEN_HEIGHT;
+            cfg.fullscreen = false;
+            cfg.resizable = false;
             
-            new LwjglApplication(new PVU(), a);
+            new LwjglApplication(new PVU(), cfg);
 	}
 }
