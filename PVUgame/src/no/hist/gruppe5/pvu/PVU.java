@@ -1,5 +1,6 @@
 package no.hist.gruppe5.pvu;
 
+import no.hist.gruppe5.pvu.dialogdrawer.TestScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -15,7 +16,11 @@ public class PVU extends Game {
 	@Override
 	public void create() {
         Assets.load();
+<<<<<<< HEAD
+        setScreen(new TestScreen(this));
+=======
         setScreen(new CoderacerScreen(this));
+>>>>>>> b9ef1049684a6b978943619f3efea31225b526be
 	}
 
 	@Override
