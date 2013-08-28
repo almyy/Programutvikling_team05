@@ -44,7 +44,8 @@ public class TestScreen extends GameScreen {
        // skin = new Skin();
        // skin.add("logo", new Window.WindowStyle(titleFont, titleFontColor, background));
         titleFontColor = new Color(Color.RED);
-        titleFont = new 
+        titleFont = new BitmapFont();
+        background.draw(batch, 30, 30, 30, 30);
         dialog = new Dialog("Dialog", new Window.WindowStyle(titleFont, titleFontColor, background));
         dialog.add("heia beib");
     }
