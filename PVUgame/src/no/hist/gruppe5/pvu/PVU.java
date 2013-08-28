@@ -3,6 +3,7 @@ package no.hist.gruppe5.pvu;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 
 public class PVU extends Game {
 
@@ -14,7 +15,7 @@ public class PVU extends Game {
 	@Override
 	public void create() {
         Assets.load();
-        setScreen(new MainScreen(this));
+        setScreen(new CoderacerScreen(this));
 	}
 
 	@Override
