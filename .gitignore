@@ -78,3 +78,6 @@ out/
 
 #Other
 PVUgame/src/PVU.gwt.xml
+
+## Temporary ignore
+*/PVU.java
