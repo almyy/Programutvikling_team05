@@ -9,8 +9,8 @@ public class PVU extends Game {
 
     public static float SCREEN_WIDTH = 960f;
     public static float SCREEN_HEIGHT = 580f;
-    public static float GAME_WIDTH = 9.6f;
-    public static float GAME_HEIGHT = 5.8f;
+    public static float GAME_WIDTH = 192f;
+    public static float GAME_HEIGHT = 116f;
 
 	@Override
 	public void create() {
