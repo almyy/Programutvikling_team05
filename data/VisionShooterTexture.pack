@@ -1,0 +1,40 @@
+
+VisionShooterTexture.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+VisionShooterTexture
+  rotate: false
+  xy: 1, 1
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1
+Document
+  rotate: false
+  xy: 195, 100
+  size: 13, 17
+  orig: 13, 17
+  offset: 0, 0
+  index: -1
+VisionShooterShip
+  rotate: false
+  xy: 210, 102
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+Facebook
+  rotate: false
+  xy: 195, 88
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+YouTube
+  rotate: false
+  xy: 227, 107
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
