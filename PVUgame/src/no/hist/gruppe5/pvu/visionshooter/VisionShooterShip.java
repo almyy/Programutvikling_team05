@@ -10,13 +10,13 @@ public class VisionShooterShip{
     
     private Sprite shipSprite;
     
-    private float shipHeight = 5f;
-    private float shipWidth = 5f;
+    private float shipHeight = 10f;
+    private float shipWidth = 10f;
     
-    private float shipX = 14.9f;
+    private float shipX = 3f;
     private float shipY = 10; 
     
-    private float shipSpeed = 2.2f;  
+    private float shipSpeed = 54f;  
     
     public VisionShooterShip(){
         shipSprite = new Sprite(Assets.visionShooterShipRegion); 

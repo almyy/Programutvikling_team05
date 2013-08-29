@@ -10,10 +10,10 @@ import no.hist.gruppe5.pvu.Assets;
  */
 public class VisionBullet {
     
-    private final float projectileSpeed = 6.6f;
+    private final float projectileSpeed = 66f;
     
-    private float projectileHeight = 0.4f;
-    private float projectileWidth = 0.4f; 
+    private float projectileHeight = 8f;
+    private float projectileWidth = 8f; 
     
     private float projectileX; 
     private float projectileY;
