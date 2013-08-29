@@ -1,6 +1,7 @@
 package no.hist.gruppe5.pvu.coderacer;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -8,13 +9,18 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Json.Serializable;
+import com.badlogic.gdx.utils.JsonValue;
 import no.hist.gruppe5.pvu.Assets;
-import static no.hist.gruppe5.pvu.Assets.primaryFont;
+import static no.hist.gruppe5.pvu.Assets.*;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 
@@ -26,18 +32,18 @@ import no.hist.gruppe5.pvu.PVU;
  */
 public class CoderacerScreen extends GameScreen {
 
-    private TextField codeText;
-    private String code = "test";
+    private String code = "Hei, jeg heter Martin. Skriv dette så fort som mulig er du snill.";
     private Label codeOutput;
-    
+    private Stage stage;
+    private Table table;
     public CoderacerScreen(PVU game) {
         super(game);
         
-        LabelStyle labelStyle = new LabelStyle(Assets.primaryFont, Color.BLACK);
+        LabelStyle labelStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         codeOutput = new Label(code, labelStyle);
-        codeOutput.setSize(0.1f, 0.1f);
-        codeOutput.setFontScale(0.1f, 0.1f);
-        System.out.println(camera.viewportWidth + " " + camera.viewportHeight);
+        codeOutput.setFontScale(0.4f);
+        codeOutput.setPosition((PVU.GAME_WIDTH/2)-codeOutput.getPrefWidth()/2, PVU.GAME_HEIGHT*0.9f);
+        
     }
 
     @Override
@@ -56,4 +62,5 @@ public class CoderacerScreen extends GameScreen {
     @Override
     protected void cleanUp() {
     }
+
 }

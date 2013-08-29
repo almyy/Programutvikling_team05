@@ -19,6 +19,12 @@ public class Assets {
     public static TextureRegion visionShooterDocumentRegion; 
     public static TextureRegion visionShooterShipRegion;
     
+<<<<<<< HEAD
+    public static BitmapFont primaryFont16px;
+    public static BitmapFont primaryFont10px;
+    public static BitmapFont primaryFont5px;
+=======
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
     public static BitmapFont primaryFont;
 
     public static void load() {
@@ -26,10 +32,22 @@ public class Assets {
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+<<<<<<< HEAD
+        primaryFont16px = new BitmapFont(
+                Gdx.files.internal("data/LucidaBitmap.fnt"),
+                Gdx.files.internal("data/LucidaBitmap_0.png"), false);
+        primaryFont10px = new BitmapFont(
+                Gdx.files.internal("data/LucidaBitmap10px.fnt"),
+                Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
+        primaryFont5px = new BitmapFont(
+                Gdx.files.internal("data/LucidaBitmap5px.fnt"),
+                Gdx.files.internal("data/LucidaBitmap5px_0.png"), false);
+=======
         primaryFont = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap.fnt"),
                 Gdx.files.internal("data/LucidaBitmap_0.png"), false);
         
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
         testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
         
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
