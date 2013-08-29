@@ -22,6 +22,7 @@ public class Assets {
     public static BitmapFont primaryFont16px;
     public static BitmapFont primaryFont10px;
     public static BitmapFont primaryFont5px;
+    public static BitmapFont primaryFont;
 
     public static void load() {
         Texture testTexture = new Texture(Gdx.files.internal("data/square.png"));
