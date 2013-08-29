@@ -10,22 +10,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
 
-public class VisionShooterShip{
-    
+public class VisionShooterShip {
+
     private Sprite shipSprite;
-    
     private float shipHeight = 0.5f;
     private float shipWidth = 0.5f;
-    
     private float shipX = 0.149f;
-    private float shipY = 1; 
-    
-    private float shipSpeed = 2.2f;  
-    
-    public VisionShooterShip(){
-        shipSprite = new Sprite(Assets.visionShooterShipRegion); 
+    private float shipY = 1;
+    private float shipSpeed = 3.2f;
+
+    public VisionShooterShip() {
+        shipSprite = new Sprite(Assets.visionShooterShipRegion);
         shipSprite.setSize(shipHeight, shipWidth);
-        shipSprite.setPosition(shipX,shipY);
+        shipSprite.setPosition(shipX, shipY);
     }
 
     public Sprite getShipSprite() {
@@ -37,11 +34,12 @@ public class VisionShooterShip{
     }
 
     void update(float delta) {
-        if(Gdx.input.isKeyPressed(Keys.DPAD_UP)){
-            shipY += shipSpeed*delta;
+        if (Gdx.input.isKeyPressed(Keys.DPAD_UP)&&(shipY < 5.8- shipHeight)) {
+            shipY += shipSpeed * delta;
+            System.out.println("Y: " + shipY);
         }
-        if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)){
-            shipY -= shipSpeed*delta; 
+        if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN) && (shipY > 0)) {
+            shipY -= shipSpeed * delta;
         }
         shipSprite.setPosition(shipX, shipY);
     }
@@ -53,5 +51,4 @@ public class VisionShooterShip{
     public float getShipY() {
         return shipY;
     }
-    
 }
