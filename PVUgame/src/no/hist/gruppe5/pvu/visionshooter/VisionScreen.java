@@ -1,6 +1,8 @@
 package no.hist.gruppe5.pvu.visionshooter;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -13,7 +15,6 @@ import no.hist.gruppe5.pvu.PVU;
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:50 AM
  */
 public class VisionScreen extends GameScreen {
-
     private Sprite mVisionDocument;
     private VisionShooterShip mVisionShooterShip;
     private ArrayList<VisionBullet> shipProjectiles;
@@ -26,7 +27,7 @@ public class VisionScreen extends GameScreen {
     }
 
     @Override
-    protected void draw(float delta) {
+    protected void draw(float delta) { 
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
@@ -39,7 +40,6 @@ public class VisionScreen extends GameScreen {
                 shipProjectiles.get(i).draw(batch);
             }
         }
-
         batch.end();
     }
 
