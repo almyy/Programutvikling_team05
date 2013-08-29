@@ -35,6 +35,7 @@ public class VisionBullet {
     }
     void update(float delta){
         projectileX += projectileSpeed*delta; 
+        System.out.println("Bullet X: " + projectileX + " Bullet Y: " + projectileY);
         bulletSprite.setPosition(projectileX, projectileY);
     }
 

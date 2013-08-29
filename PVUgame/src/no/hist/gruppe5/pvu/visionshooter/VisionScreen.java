@@ -55,10 +55,11 @@ public class VisionScreen extends GameScreen {
             }
         }
         for (int i = 0; i < shipProjectiles.size(); i++) {
-            if(shipProjectiles.get(i).getProjectileX()>9.6f){
-                
+            VisionBullet vBHelp = shipProjectiles.get(i);
+            if(vBHelp.getProjectileX()>9.6f){
+                shipProjectiles.remove(vBHelp);
             }
-            shipProjectiles.get(i).update(delta);
+            vBHelp.update(delta);
         }
     }
 
