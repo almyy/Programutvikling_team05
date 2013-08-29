@@ -2,13 +2,19 @@ package no.hist.gruppe5.pvu.visionshooter;
 
 import com.badlogic.gdx.Gdx;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 =======
+=======
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
+<<<<<<< HEAD
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
+=======
 >>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
@@ -34,15 +40,24 @@ public class VisionScreen extends GameScreen {
     private ArrayList<VisionBullet> shipProjectiles;
     private long mLastBulletShot = 0; 
 
+    private Sprite mVisionDocument;
+    private VisionShooterShip mVisionShooterShip;
+    private ArrayList<VisionBullet> shipProjectiles;
+    private long mLastBulletShot = 0; 
+
     public VisionScreen(PVU game) {
         super(game);
         mVisionShooterShip = new VisionShooterShip();
         shipProjectiles = new ArrayList<>();
+<<<<<<< HEAD
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
+=======
 >>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
     }
 
     @Override
     protected void draw(float delta) {
+<<<<<<< HEAD
 <<<<<<< HEAD
         clearCamera(1, 1, 1, 1); 
 
@@ -51,6 +66,8 @@ public class VisionScreen extends GameScreen {
        
         mVisionShooterShip.draw(batch); 
 =======
+=======
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
@@ -64,6 +81,9 @@ public class VisionScreen extends GameScreen {
             }
         }
 
+<<<<<<< HEAD
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
+=======
 >>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
         batch.end();
     }
@@ -71,8 +91,11 @@ public class VisionScreen extends GameScreen {
     @Override
     protected void update(float delta) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         
 =======
+=======
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
         mVisionShooterShip.update(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if ((TimeUtils.millis() - mLastBulletShot) > 1000L) {
@@ -89,6 +112,9 @@ public class VisionScreen extends GameScreen {
             }
             vBHelp.update(delta);
         }
+<<<<<<< HEAD
+>>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
+=======
 >>>>>>> b10031027e2d55197f4a20d4e0260ecf33c89727
     }
 
