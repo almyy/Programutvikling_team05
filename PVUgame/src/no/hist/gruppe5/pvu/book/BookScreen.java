@@ -9,10 +9,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import java.io.File;
+import java.io.IOException;
+import javax.swing.GroupLayout;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
@@ -20,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -28,17 +34,14 @@ import org.w3c.dom.NodeList;
 public class BookScreen extends GameScreen {
 
     public static Texture testTexture;
-    private BitmapFont font;
+    //private BitmapFont font;
+    private Label leftPage;
+    private Label rightPage;
+    private Stage stage;
 
     public BookScreen(PVU game) {
         super(game);
-        testTexture = new Texture(Gdx.files.internal("data/book.png"));
-        testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-                
-        font = Assets.primaryFont16px;
-        font.setColor(Color.BLACK);
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        font.setScale(0.3f);
+        initScreen();
     }
 
     @Override
@@ -47,10 +50,14 @@ public class BookScreen extends GameScreen {
 
         batch.begin();
         batch.draw(testTexture, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
-
-        
-        font.drawWrapped(batch, loadText(), 35, 100, 55);
         batch.end();
+
+        //stage.
+
+        stage.draw();
+        //label.draw(batch, 1f);
+
+        //font.drawWrapped(batch, loadText(), 35, 100, 55);
 
 
     }
@@ -64,31 +71,50 @@ public class BookScreen extends GameScreen {
     protected void cleanUp() {
     }
 
-    public String loadText() {
+    public String loadText(String text, DocumentBuilderFactory dbFactory, File bookContent) {
         try {
-            File bookContent = new File("data/test.xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(bookContent);
             doc.getDocumentElement().normalize();
-
             NodeList nodes = doc.getElementsByTagName("book");
-
             for (int i = 0; i < nodes.getLength(); i++) {
                 Node node = nodes.item(i);
-
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-                    return ("Section 1: " + getValue("section1", element));
+                    return getValue(text, element);
                 }
             }
-        } catch (Exception e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
         }
         return "";
     }
-    
-    public String getPage(){
+
+    private String getPageContent() {
         return null;
+    }
+
+    private void initScreen() {
+        testTexture = new Texture(Gdx.files.internal("data/book.png"));
+        testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        stage = new Stage();
+
+        File bookContent = new File("data/test.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(Assets.primaryFont16px, Color.BLACK);
+        leftPage = new Label(loadText("section1",dbFactory,bookContent), labelStyle);
+        leftPage.setWidth(280);
+        leftPage.setPosition(170, 250);
+        leftPage.setWrap(true);
+
+        rightPage = new Label(loadText("section2",dbFactory,bookContent), labelStyle);
+        rightPage.setWidth(280);
+        rightPage.setPosition(510, 285);
+        rightPage.setWrap(true);
+
+        stage.addActor(leftPage);
+        stage.addActor(rightPage);
     }
 
     private static String getValue(String tag, Element element) {
