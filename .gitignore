@@ -56,6 +56,7 @@ build.xml
 manifest.mf
 build-impl.xml
 PVUgame/nbproject/project.xml
+PVUgame/nbproject/private/private.xml
 
 ### IntelliJ Idea files
 .idea/
@@ -78,3 +79,6 @@ out/
 
 #Other
 PVUgame/src/PVU.gwt.xml
+
+## Temporary ignore
+*/PVU.java
