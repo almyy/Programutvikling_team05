@@ -33,6 +33,14 @@ public class Assets {
     public static TextureRegion secondaryAvatarRight2;
     public static TextureRegion secondaryAvatarRight3; 
     
+    public static TextureRegion secondaryAvatarLeft1Slide2;
+    public static TextureRegion secondaryAvatarLeft2Slide2;
+    public static TextureRegion secondaryAvatarRight1Slide2;
+    public static TextureRegion secondaryAvatarRight2Slide2;
+    public static TextureRegion secondaryAvatarRight3Slide2; 
+    
+    
+    
     
     public static BitmapFont primaryFont16px;
     public static BitmapFont primaryFont10px;
@@ -75,6 +83,12 @@ public class Assets {
         secondaryAvatarRight1 = mainAvatarAtlas.findRegion("Avatar3");
         secondaryAvatarRight2 = mainAvatarAtlas.findRegion("Avatar4");
         secondaryAvatarRight3 = mainAvatarAtlas.findRegion("Avatar5");
+        
+        secondaryAvatarLeft1Slide2 = mainAvatarAtlas.findRegion("Avatar1Slide2");
+        secondaryAvatarLeft2Slide2 = mainAvatarAtlas.findRegion("Avatar2Slide2");
+        secondaryAvatarRight1Slide2 = mainAvatarAtlas.findRegion("Avatar3Slide2");
+        secondaryAvatarRight2Slide2 = mainAvatarAtlas.findRegion("Avatar4Slide2");
+        secondaryAvatarRight3Slide2 = mainAvatarAtlas.findRegion("Avatar5Slide2");
     }
     public static void dispose() {
     }
