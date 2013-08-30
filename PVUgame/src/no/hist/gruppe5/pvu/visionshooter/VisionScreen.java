@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
@@ -14,7 +13,7 @@ import no.hist.gruppe5.pvu.PVU;
 import java.util.Random;
 
 public class VisionScreen extends GameScreen {
-
+    int points = 0;
     private Sprite mVisionDocument;
     private VisionShooterShip mVisionShooterShip;
     private ArrayList<VisionBullet> shipProjectiles;
@@ -28,8 +27,8 @@ public class VisionScreen extends GameScreen {
     public VisionScreen(PVU game) {
         super(game);
         mVisionShooterShip = new VisionShooterShip();
-        shipProjectiles = new ArrayList<>();
-        elements = new ArrayList<>();
+        shipProjectiles = new ArrayList();
+        elements = new ArrayList();
         allElements[0] = new VisionShooterFacebook(0);
         allElements[1] = new VisionShooterYoutube(0);
         allElements[2] = new VisionShooterDocument(0);
@@ -78,6 +77,7 @@ public class VisionScreen extends GameScreen {
             if (shipProjectiles.get(i).getProjectileX() < 196) {
                 shipProjectiles.get(i).update(delta);
             } else {
+                
                 shipProjectiles.remove(i);
             }
         }
@@ -94,9 +94,14 @@ public class VisionScreen extends GameScreen {
                 
             }
         }
+        for(int i = 0;i<elements.size();i++){
+            if(elements.get(i) instanceof VisionShooterDocument){
+                if(elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())){
+                    elements.remove(i); 
+                }
+            }
+        }
                 
-        
-
 
         if (noElements > 0 && (TimeUtils.millis() - lastElementSpawned) > 1500L) {
             int index = random.nextInt(3);
