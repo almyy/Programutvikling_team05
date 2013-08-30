@@ -1,14 +1,13 @@
-package no.hist.gruppe5.pvu;
+package no.hist.gruppe5.pvu.mainroom;
 
-import aurelienribon.bodyeditor.BodyEditorLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.TimeUtils;
+import no.hist.gruppe5.pvu.GameScreen;
+import no.hist.gruppe5.pvu.PVU;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,6 +23,8 @@ public class MainScreen extends GameScreen {
     private World mWorld;
     private Box2DDebugRenderer mDebugRenderer;
 
+    Player mPlayer;
+
     private boolean left = true;
     private boolean up = true;
 
@@ -33,10 +34,10 @@ public class MainScreen extends GameScreen {
         super(game);
 
 
-        mWorld = new World(new Vector2(0, -1f), true);
+        mWorld = new World(new Vector2(0, 0), true);
         mDebugRenderer = new Box2DDebugRenderer();
 
-        createTestBody();
+        createRoomBody();
 
         // TODO temp
         moveToAssets();
@@ -44,6 +45,8 @@ public class MainScreen extends GameScreen {
 
         mBackground.setSize(PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
         mBackground.setPosition(0, 0);
+
+        mPlayer = new Player(mWorld);
 
     }
 
@@ -53,48 +56,42 @@ public class MainScreen extends GameScreen {
         mBackground = new Sprite(mainscreenBackground);
     }
 
+    private void createRoomBody() {
+        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/pvugame.json"));
+
+        //Room Body
+        Body roomBody;
+
+        BodyDef bd = new BodyDef();
+        bd.position.set(0, 0);
+        bd.type = BodyDef.BodyType.StaticBody;
+
+        FixtureDef fd = new FixtureDef();
+        fd.density = 1;
+        fd.friction = 0.5f;
+        fd.restitution = 0.3f;
+
+        roomBody = mWorld.createBody(bd);
+        loader.attachFixture(roomBody, "main_room", fd, 192f);
+    }
+
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
         mBackground.draw(batch);
+        mPlayer.draw(batch);
         batch.end();
 
         mDebugRenderer.render(mWorld, camera.combined);
 
-
-    }
-
-    private void createTestBody() {
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/pvugame.json"));
-        //Ground body
-        BodyDef groundBodyDef =new BodyDef();
-        groundBodyDef.position.set(new Vector2(0f ,0f));
-        Body groundBody = mWorld.createBody(groundBodyDef);
-        PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox((camera.viewportWidth), 0.2f);
-        groundBody.createFixture(groundBox, 0.0f);
-
-        //Dynamic Body  
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2);
-        Body body = mWorld.createBody(bodyDef);
-        CircleShape dynamicCircle = new CircleShape();
-        dynamicCircle.setRadius(0.2f);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = dynamicCircle;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.0f;
-        fixtureDef.restitution = 1;
-        body.createFixture(fixtureDef);
-        mDebugRenderer = new Box2DDebugRenderer();
     }
 
     @Override
     protected void update(float delta) {
         mWorld.step(1 / 60f, 6, 2);
+        mPlayer.update();
     }
 
     @Override
