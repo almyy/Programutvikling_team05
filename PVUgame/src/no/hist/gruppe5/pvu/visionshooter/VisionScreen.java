@@ -20,7 +20,7 @@ public class VisionScreen extends GameScreen {
     public VisionScreen(PVU game) {
         super(game);
         mVisionShooterShip = new VisionShooterShip();
-        shipProjectiles = new ArrayList<>();
+        shipProjectiles = new ArrayList();
     }
 
     @Override
