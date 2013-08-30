@@ -84,7 +84,8 @@ public class BookScreen extends GameScreen {
                     return getValue(text, element);
                 }
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (Exception e) {
+        // catch (ParserConfigurationException | SAXException | IOException e) {
         }
         return "";
     }
