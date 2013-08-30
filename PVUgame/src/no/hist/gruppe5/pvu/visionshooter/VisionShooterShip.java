@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
+import no.hist.gruppe5.pvu.PVU;
 
 public class VisionShooterShip{
     
@@ -35,10 +36,14 @@ public class VisionShooterShip{
 
     void update(float delta) {
         if(Gdx.input.isKeyPressed(Keys.DPAD_UP)){
-            shipY += shipSpeed*delta;
+            if((shipY+shipHeight)<PVU.GAME_HEIGHT){
+                shipY += shipSpeed*delta;
+            }
         }
         if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)){
-            shipY -= shipSpeed*delta; 
+            if(shipY>0){
+                shipY -= shipSpeed*delta;
+            } 
         }
         shipSprite.setPosition(shipX, shipY);
     }
