@@ -11,9 +11,6 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 
-/**
- * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:50 AM
- */
 public class VisionScreen extends GameScreen {
     private Sprite mVisionDocument;
     private VisionShooterShip mVisionShooterShip;
@@ -23,7 +20,7 @@ public class VisionScreen extends GameScreen {
     public VisionScreen(PVU game) {
         super(game);
         mVisionShooterShip = new VisionShooterShip();
-        shipProjectiles = new ArrayList<>();
+        shipProjectiles = new ArrayList();
     }
 
     @Override
@@ -33,13 +30,12 @@ public class VisionScreen extends GameScreen {
         batch.begin();
         batch.draw(Assets.visionShooterRegion, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
 
-        mVisionShooterShip.draw(batch);
-
         if (!shipProjectiles.isEmpty()) {
             for (int i = 0; i < shipProjectiles.size(); i++) {
                 shipProjectiles.get(i).draw(batch);
             }
         }
+        mVisionShooterShip.draw(batch);
         batch.end();
     }
 
@@ -47,18 +43,18 @@ public class VisionScreen extends GameScreen {
     protected void update(float delta) {
         mVisionShooterShip.update(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if ((TimeUtils.millis() - mLastBulletShot) > 1000L) {
+            if ((TimeUtils.millis() - mLastBulletShot) > 800L) {
                 VisionBullet vB = new VisionBullet();
-                vB.setProjectileY(mVisionShooterShip.getShipY());
+                vB.setProjectileY(mVisionShooterShip.getShipY()+(mVisionShooterShip.getShipHeight()/2));
+                vB.setProjectileX(mVisionShooterShip.getShipX());
                 shipProjectiles.add(vB);
                 mLastBulletShot = TimeUtils.millis(); 
             }
         }
         for (int i = 0; i < shipProjectiles.size(); i++) {
-            if(shipProjectiles.get(i).getProjectileX()>9.6f){
-                
-            }
-            shipProjectiles.get(i).update(delta);
+            if(shipProjectiles.get(i).getProjectileX()<196){
+                shipProjectiles.get(i).update(delta);
+            }            
         }
     }
 
