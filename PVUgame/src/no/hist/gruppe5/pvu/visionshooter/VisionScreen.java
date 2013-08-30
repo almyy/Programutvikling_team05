@@ -47,7 +47,7 @@ public class VisionScreen extends GameScreen {
     protected void update(float delta) {
         mVisionShooterShip.update(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if ((TimeUtils.millis() - mLastBulletShot) > 1000L) {
+            if ((TimeUtils.millis() - mLastBulletShot) > 800L) {
                 VisionBullet vB = new VisionBullet();
                 vB.setProjectileY(mVisionShooterShip.getShipY());
                 shipProjectiles.add(vB);
