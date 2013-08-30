@@ -13,6 +13,7 @@ import no.hist.gruppe5.pvu.PVU;
 import java.util.Random;
 
 public class VisionScreen extends GameScreen {
+
     int points = 0;
     private Sprite mVisionDocument;
     private VisionShooterShip mVisionShooterShip;
@@ -56,9 +57,6 @@ public class VisionScreen extends GameScreen {
 
         mVisionShooterShip.draw(batch);
         batch.end();
-
-
-
     }
 
     @Override
@@ -77,31 +75,38 @@ public class VisionScreen extends GameScreen {
             if (shipProjectiles.get(i).getProjectileX() < 196) {
                 shipProjectiles.get(i).update(delta);
             } else {
-                
                 shipProjectiles.remove(i);
             }
         }
-        for(int i=0;i<elements.size();i++){
-            for(int j = 0; j<shipProjectiles.size();){
-                if(shipProjectiles.get(j).getBulletSprite().getBoundingRectangle().overlaps(elements.get(i).getElementSprite().getBoundingRectangle())){
+        for (int i = 0; i < elements.size(); i++) {
+            for (int j = 0; j < shipProjectiles.size();) {
+                if (shipProjectiles.get(j).getBulletSprite().getBoundingRectangle().overlaps(elements.get(i).getElementSprite().getBoundingRectangle())) {
                     shipProjectiles.remove(j);
-                     elements.remove(i);
-                     i--;
-                     break;
-                }else{
+                    elements.remove(i);
+                    i--;
+                    break;
+                } else {
                     j++;
                 }
-                
+
             }
         }
-        for(int i = 0;i<elements.size();i++){
-            if(elements.get(i) instanceof VisionShooterDocument){
-                if(elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())){
-                    elements.remove(i); 
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i) instanceof VisionShooterDocument) {
+                if (elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
+                    points += 40;
+                    System.out.println("Points" + points);
+                    elements.remove(i);
+                }
+            } else {
+                if (elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
+                    points -= 40;
+                    System.out.println("Points" + points);
+                    elements.remove(i);
                 }
             }
         }
-                
+
 
         if (noElements > 0 && (TimeUtils.millis() - lastElementSpawned) > 1500L) {
             int index = random.nextInt(3);
@@ -111,19 +116,18 @@ public class VisionScreen extends GameScreen {
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
-            }
-            else if(i instanceof VisionShooterYoutube){
+            } else if (i instanceof VisionShooterYoutube) {
                 VisionShooterYoutube help = new VisionShooterYoutube(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
-            }else{
+            } else {
                 VisionShooterDocument help = new VisionShooterDocument(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
             }
-            
+
             noElements--;
             lastElementSpawned = TimeUtils.millis();
         }
@@ -131,6 +135,8 @@ public class VisionScreen extends GameScreen {
             if (elements.get(i).getElementX() > 0) {
                 elements.get(i).update(delta);
             } else {
+                points -= 20;
+                System.out.println("Points:" + points);
                 elements.remove(i);
             }
         }
