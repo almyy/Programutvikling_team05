@@ -3,108 +3,122 @@ Avatar.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-MainAvatar
+Avatar
   rotate: false
-  xy: 0, 12
+  xy: 0, 0
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
-  index: -1
-MainAvatarBack
+  index: 10
+Avatar
   rotate: false
-  xy: 13, 12
+  xy: 13, 0
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
-  index: -1
-MainAvatarSide
+  index: 11
+Avatar
   rotate: false
-  xy: 26, 12
+  xy: 26, 0
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
-  index: -1
-MainAvatarSideRight
+  index: 12
+Avatar
   rotate: false
-  xy: 39, 12
+  xy: 39, 0
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
-  index: -1
-Avatar1
-  rotate: false
-  xy: 52, 16
-  size: 11, 16
-  orig: 11, 16
-  offset: 0, 0
-  index: -1
-Avatar1Slide2
-  rotate: false
-  xy: 63, 16
-  size: 11, 16
-  orig: 11, 16
-  offset: 0, 0
-  index: -1
-Avatar2
-  rotate: false
-  xy: 74, 16
-  size: 11, 16
-  orig: 11, 16
-  offset: 0, 0
-  index: -1
-Avatar2Slide2
-  rotate: false
-  xy: 85, 16
-  size: 11, 16
-  orig: 11, 16
-  offset: 0, 0
-  index: -1
-Avatar3
-  rotate: false
-  xy: 96, 16
-  size: 11, 16
-  orig: 11, 16
-  offset: 0, 0
-  index: -1
-Avatar3Slide2
-  rotate: false
-  xy: 107, 16
-  size: 11, 16
-  orig: 11, 16
-  offset: 0, 0
-  index: -1
-Avatar4
+  index: 13
+Avatar
   rotate: false
   xy: 52, 0
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 15
+Avatar
+  rotate: false
+  xy: 65, 0
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 16
+Avatar
+  rotate: false
+  xy: 78, 4
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
-  index: -1
-Avatar4Slide2
+  index: 0
+Avatar
   rotate: false
-  xy: 63, 0
+  xy: 89, 4
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
-  index: -1
-Avatar5
+  index: 1
+Avatar
   rotate: false
-  xy: 74, 0
+  xy: 100, 4
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
-  index: -1
-Avatar5Slide2
+  index: 2
+Avatar
   rotate: false
-  xy: 85, 0
+  xy: 111, 4
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
-  index: -1
-MainAvatarSitting
+  index: 3
+Avatar
   rotate: false
-  xy: 96, 0
+  xy: 122, 4
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: 4
+Avatar
+  rotate: false
+  xy: 133, 4
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: 5
+Avatar
+  rotate: false
+  xy: 144, 4
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: 6
+Avatar
+  rotate: false
+  xy: 155, 4
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: 7
+Avatar
+  rotate: false
+  xy: 166, 4
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: 8
+Avatar
+  rotate: false
+  xy: 177, 4
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: 9
+Avatar
+  rotate: false
+  xy: 188, 4
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
-  index: -1
+  index: 14

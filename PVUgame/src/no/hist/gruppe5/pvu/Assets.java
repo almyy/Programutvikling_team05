@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,26 +23,28 @@ public class Assets {
     public static TextureRegion visionShooterFacebookRegion;
     public static TextureRegion visionShooterYoutubeRegion;
     
-    public static TextureRegion mainAvatarFront;
-    public static TextureRegion mainAvatarBack;
-    public static TextureRegion mainAvatarSideLeft;
-    public static TextureRegion mainAvatarSideRight; 
+    public static TextureRegion[] mainAvatar; 
     
-    public static TextureRegion secondaryAvatarLeft1;
-    public static TextureRegion secondaryAvatarLeft2;
-    public static TextureRegion secondaryAvatarRight1;
-    public static TextureRegion secondaryAvatarRight2;
-    public static TextureRegion secondaryAvatarRight3; 
+    public static final int SECONDARY_AVATAR_LEFT_1 = 0;
+    public static final int SECONDARY_AVATAR_LEFT_1_FRAME_2 = 1;
+    public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 2;
+    public static final int SECONDARY_AVATAR_LEFT_2 = 3;
+    public static final int SECONDARY_AVATAR_RIGHT_1 = 4;
+    public static final int SECONDARY_AVATAR_RIGHT_1_FRAME_2 = 5;
     
-    public static TextureRegion secondaryAvatarLeft1Slide2;
-    public static TextureRegion secondaryAvatarLeft2Slide2;
-    public static TextureRegion secondaryAvatarRight1Slide2;
-    public static TextureRegion secondaryAvatarRight2Slide2;
-    public static TextureRegion secondaryAvatarRight3Slide2; 
+    public static final int SECONDARY_AVATAR_RIGHT_2 = 6;
+    public static final int SECONDARY_AVATAR_RIGHT_2_FRAME_2 = 7;
+    public static final int SECONDARY_AVATAR_RIGHT_3 = 8; 
+    public static final int SECONDARY_AVATAR_RIGHT_3_FRAME_2 = 9; 
     
-    
-    
-    
+    public static final int MAIN_AVATAR_FRONT = 10;
+    public static final int MAIN_AVATAR_BACK = 11;
+    public static final int MAIN_AVATAR_SIDE_LEFT = 12;
+    public static final int MAIN_AVATAR_SIDE_RIGHT = 13;
+    public static final int MAIN_AVATAR_SITTING = 14;
+    public static final int MAIN_AVATAR_STEP_RIGHT = 15;
+    public static final int MAIN_AVATAR_STEP_LEFT = 16; 
+              
     public static BitmapFont primaryFont16px;
     public static BitmapFont primaryFont10px;
     public static BitmapFont primaryFont5px;
@@ -73,22 +76,11 @@ public class Assets {
         visionShooterFacebookRegion = visionShooterAtlas.findRegion("Facebook");
         visionShooterYoutubeRegion = visionShooterAtlas.findRegion("YouTube");
         
-        mainAvatarFront = mainAvatarAtlas.findRegion("MainAvatar");
-        mainAvatarBack = mainAvatarAtlas.findRegion("MainAvatarBack");
-        mainAvatarSideLeft = mainAvatarAtlas.findRegion("MainAvatarSide");
-        mainAvatarSideRight = mainAvatarAtlas.findRegion("MainAvatarSideRight");
-        
-        secondaryAvatarLeft1 = mainAvatarAtlas.findRegion("Avatar1");
-        secondaryAvatarLeft2 = mainAvatarAtlas.findRegion("Avatar2");
-        secondaryAvatarRight1 = mainAvatarAtlas.findRegion("Avatar3");
-        secondaryAvatarRight2 = mainAvatarAtlas.findRegion("Avatar4");
-        secondaryAvatarRight3 = mainAvatarAtlas.findRegion("Avatar5");
-        
-        secondaryAvatarLeft1Slide2 = mainAvatarAtlas.findRegion("Avatar1Slide2");
-        secondaryAvatarLeft2Slide2 = mainAvatarAtlas.findRegion("Avatar2Slide2");
-        secondaryAvatarRight1Slide2 = mainAvatarAtlas.findRegion("Avatar3Slide2");
-        secondaryAvatarRight2Slide2 = mainAvatarAtlas.findRegion("Avatar4Slide2");
-        secondaryAvatarRight3Slide2 = mainAvatarAtlas.findRegion("Avatar5Slide2");
+        Array mainAvatarArray = mainAvatarAtlas.findRegions("Avatar");
+        mainAvatar = new TextureRegion[mainAvatarArray.size];
+        for(int i = 0; i < mainAvatarArray.size;i++){
+            mainAvatar[i] = (TextureRegion)mainAvatarArray.get(i);
+        }
     }
     public static void dispose() {
     }
