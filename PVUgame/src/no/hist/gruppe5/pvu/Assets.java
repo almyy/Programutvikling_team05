@@ -50,6 +50,11 @@ public class Assets {
     public static BitmapFont primaryFont5px;
     public static BitmapFont primaryFont;
 
+    // MAIN SCREEN
+    public static TextureRegion msBackground;
+    public static TextureRegion[] msBurndownCarts;
+
+
     public static void load() {
         Texture testTexture = new Texture(Gdx.files.internal("data/square.png"));
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -81,7 +86,24 @@ public class Assets {
         for(int i = 0; i < mainAvatarArray.size;i++){
             mainAvatar[i] = (TextureRegion)mainAvatarArray.get(i);
         }
+
+        // MAIN SCREEN
+        TextureAtlas msAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack")) ;
+
+        msBackground = msAtlas.findRegion("main_room");
+
+        Array carts = msAtlas.findRegions("chart");
+        msBurndownCarts = new TextureRegion[carts.size];
+        for (int i = 0; i < carts.size; i++) {
+            msBurndownCarts[i] = (TextureRegion) carts.get(i);
+        }
     }
+
+    public static TextureRegion getAvatarRegion(int region) {
+        if (region > mainAvatar.length) return null;
+        return mainAvatar[region];
+    }
+
     public static void dispose() {
     }
 }

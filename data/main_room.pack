@@ -10,3 +10,38 @@ main_room
   orig: 192, 116
   offset: 0, 0
   index: -1
+chart
+  rotate: false
+  xy: 195, 98
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: 1
+chart
+  rotate: false
+  xy: 195, 77
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: 4
+chart
+  rotate: false
+  xy: 221, 98
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: 2
+chart
+  rotate: false
+  xy: 195, 56
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: 3
+chart
+  rotate: false
+  xy: 221, 77
+  size: 24, 19
+  orig: 24, 19
+  offset: 0, 0
+  index: 0
