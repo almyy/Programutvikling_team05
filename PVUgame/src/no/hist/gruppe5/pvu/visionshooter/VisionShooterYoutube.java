@@ -8,7 +8,7 @@ import no.hist.gruppe5.pvu.Assets;
  */
 public class VisionShooterYoutube extends VisionShooterElement {
 
-    public VisionShooterYoutube(Sprite elementSprite, float elementY) {
-        super(new Sprite(Assets.visionShooterYoutubeRegion), elementY,4f);
+    public VisionShooterYoutube(float elementY) {
+        super(new Sprite(Assets.visionShooterYoutubeRegion), elementY,20f);
     }
 }

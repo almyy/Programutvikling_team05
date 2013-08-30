@@ -8,9 +8,9 @@ import no.hist.gruppe5.pvu.Assets;
  */
 public abstract class VisionShooterElement {
     private Sprite elementSprite;
-    private float elementWidth = 0.3f;
-    private float elementHeight = 0.3f;
-    private float elementX = 9f;
+    private float elementWidth = 10f;
+    private float elementHeight = 10f;
+    private float elementX = 180f;
     private float elementY;
     private float speed;
 
@@ -18,6 +18,8 @@ public abstract class VisionShooterElement {
         this.elementSprite = elementSprite;
         this.elementY = elementY;
         this.speed = newSpeed;
+        elementSprite.setSize(elementHeight, elementWidth);
+        elementSprite.setPosition(elementX,elementY);
     }
      void draw(SpriteBatch batch) {
         elementSprite.draw(batch);
@@ -35,6 +37,10 @@ public abstract class VisionShooterElement {
         return elementWidth;
     }
 
+    public float getSpeed() {
+        return speed;
+    }
+
     public float getElementX() {
         return elementX;
     }
@@ -50,4 +56,9 @@ public abstract class VisionShooterElement {
     public void setElementY(float elementY) {
         this.elementY = elementY;
     }
+
+    public void setElementX(float elementX) {
+        this.elementX = elementX;
+    }
+  
 }

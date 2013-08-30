@@ -9,7 +9,7 @@ import no.hist.gruppe5.pvu.Assets;
 public class VisionShooterDocument extends VisionShooterElement {
     
     public VisionShooterDocument(float elementY) {
-        super(new Sprite(Assets.visionShooterDocumentRegion),elementY, 4f);
+        super(new Sprite(Assets.visionShooterDocumentRegion),elementY, 30f);
     }
 
 }

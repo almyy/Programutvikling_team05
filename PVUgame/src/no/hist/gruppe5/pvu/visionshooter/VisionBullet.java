@@ -46,4 +46,9 @@ public class VisionBullet {
     public float getProjectileX() {
         return projectileX;
     }    
+
+    public Sprite getBulletSprite() {
+        return bulletSprite;
+    }
+    
 }
