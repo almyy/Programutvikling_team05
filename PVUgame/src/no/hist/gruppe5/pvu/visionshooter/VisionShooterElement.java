@@ -1,0 +1,53 @@
+package no.hist.gruppe5.pvu.visionshooter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import no.hist.gruppe5.pvu.Assets;
+/**
+ *
+ * @author Frode
+ */
+public abstract class VisionShooterElement {
+    private Sprite elementSprite;
+    private float elementWidth = 0.3f;
+    private float elementHeight = 0.3f;
+    private float elementX = 9f;
+    private float elementY;
+    private float speed;
+
+    public VisionShooterElement(Sprite elementSprite, float elementY, float newSpeed) {
+        this.elementSprite = elementSprite;
+        this.elementY = elementY;
+        this.speed = newSpeed;
+    }
+     void draw(SpriteBatch batch) {
+        elementSprite.draw(batch);
+    }
+
+    public Sprite getElementSprite() {
+        return elementSprite;
+    }
+
+    public float getElementHeight() {
+        return elementHeight;
+    }
+
+    public float getElementWidth() {
+        return elementWidth;
+    }
+
+    public float getElementX() {
+        return elementX;
+    }
+
+    public float getElementY() {
+        return elementY;
+    }
+    void update(float delta){
+        elementX -= speed * delta;
+        elementSprite.setPosition(elementX, elementY);
+    }
+
+    public void setElementY(float elementY) {
+        this.elementY = elementY;
+    }
+}
