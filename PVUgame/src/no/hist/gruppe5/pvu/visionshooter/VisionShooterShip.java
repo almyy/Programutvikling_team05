@@ -50,5 +50,10 @@ public class VisionShooterShip{
     public float getShipY() {
         return shipY;
     }
+
+    public float getShipHeight() {
+        return shipHeight;
+    }
+    
     
 }

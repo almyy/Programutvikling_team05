@@ -12,8 +12,8 @@ public class VisionBullet {
     
     private final float projectileSpeed = 66f;
     
-    private float projectileHeight = 8f;
-    private float projectileWidth = 8f; 
+    private float projectileHeight = 4.5f;
+    private float projectileWidth = 4.5f; 
     
     private float projectileX; 
     private float projectileY;
@@ -21,7 +21,7 @@ public class VisionBullet {
     Sprite bulletSprite; 
 
     public VisionBullet(){        
-        bulletSprite = new Sprite(Assets.visionShooterDocumentRegion); 
+        bulletSprite = new Sprite(Assets.visionShooterBullet); 
         bulletSprite.setSize(projectileHeight, projectileWidth);
         bulletSprite.setPosition(projectileX,projectileY);
     }
@@ -35,8 +35,13 @@ public class VisionBullet {
     }
 
     public void setProjectileY(float projectileY) {
-        this.projectileY = projectileY;
+        this.projectileY = projectileY-projectileHeight/2;
     }
+
+    public void setProjectileX(float projectileX) {
+        this.projectileX = projectileX;
+    }
+    
 
     public float getProjectileX() {
         return projectileX;

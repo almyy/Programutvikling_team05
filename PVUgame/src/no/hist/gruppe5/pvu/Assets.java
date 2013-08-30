@@ -18,6 +18,7 @@ public class Assets {
     public static TextureRegion visionShooterRegion; 
     public static TextureRegion visionShooterDocumentRegion; 
     public static TextureRegion visionShooterShipRegion;
+    public static TextureRegion visionShooterBullet; 
     
     public static BitmapFont primaryFont16px;
     public static BitmapFont primaryFont10px;
@@ -45,6 +46,8 @@ public class Assets {
         visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture"); 
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
         visionShooterShipRegion = visionShooterAtlas.findRegion("VisionShooterShip");
+        visionShooterBullet = visionShooterAtlas.findRegion("Bullet"); 
+        
     }
     public static void dispose() {
     }
