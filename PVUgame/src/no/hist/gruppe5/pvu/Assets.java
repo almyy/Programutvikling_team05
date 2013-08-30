@@ -22,6 +22,11 @@ public class Assets {
     public static TextureRegion visionShooterFacebookRegion;
     public static TextureRegion visionShooterYoutubeRegion;
     
+    public static TextureRegion mainAvatarFront;
+    public static TextureRegion mainAvatarBack;
+    public static TextureRegion mainAvatarSideLeft;
+    public static TextureRegion mainAvatarSideRight; 
+    
     public static BitmapFont primaryFont16px;
     public static BitmapFont primaryFont10px;
     public static BitmapFont primaryFont5px;
@@ -44,6 +49,7 @@ public class Assets {
         testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
         
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
+        TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
         
         visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture"); 
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
@@ -51,6 +57,13 @@ public class Assets {
         visionShooterBullet = visionShooterAtlas.findRegion("Bullet"); 
         visionShooterFacebookRegion = visionShooterAtlas.findRegion("Facebook");
         visionShooterYoutubeRegion = visionShooterAtlas.findRegion("YouTube");
+        
+        mainAvatarFront = mainAvatarAtlas.findRegion("MainAvatar");
+        mainAvatarBack = mainAvatarAtlas.findRegion("MainAvatarBack");
+        mainAvatarSideLeft = mainAvatarAtlas.findRegion("MainAvatarSide");
+        mainAvatarSideRight = mainAvatarAtlas.findRegion("MainAvatarSideRight");
+        
+        
         
     }
     public static void dispose() {
