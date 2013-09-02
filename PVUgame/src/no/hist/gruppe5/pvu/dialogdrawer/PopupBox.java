@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -27,12 +28,7 @@ public class PopupBox {
         setVariables();
     }
 
-    public void draw(float delta) {
-        textfield.draw(batch, 1f);
-        codeOutput.draw(batch, 1f);
-    }
-
-    public void setVariables() {
+    private void setVariables() {
         labelStyle = new Label.LabelStyle(Assets.primaryFont16px, Color.BLACK);
         tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
         textfieldstyle = new TextField.TextFieldStyle();
@@ -46,12 +42,21 @@ public class PopupBox {
         codeOutput.setWrap(true);
     }
 
-    public void setXY(int x, int y) {
+    public void draw(float delta) {
+        textfield.draw(batch, 1f);
+        codeOutput.draw(batch, 1f);
+    }
+
+    public void setXY(float x, float y) {
         codeOutput.setPosition(x + 4, y);
         textfield.setPosition(x, y);
     }
 
-    public void setHeightWidth(String text) {
+    public void setXY(Vector2 vec) {
+        setXY(vec.x, vec.y);
+    }
+
+    public void setText(String text) {
         code = text;
         codeOutput = new Label(code, labelStyle);
         textfield.setWidth(Assets.primaryFont16px.getBounds(code).width + 12);
@@ -61,11 +66,7 @@ public class PopupBox {
 
     }
 
-    public String getCode() {
+    public String getText() {
         return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 }
