@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -18,19 +21,28 @@ import no.hist.gruppe5.pvu.PVU;
  */
 public class CoderacerScreen extends GameScreen {
 
+    private Label finishedCode;
     private Label codeOutput;
     private Label codeInput;
     private String text = "";
     private InputProcessor inputListener;
     private Code code = new Code();
+    private Stage stage;
+    private Group group;
 
     public CoderacerScreen(PVU game) {
         super(game);
 
+        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
+
         LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         codeOutput = new Label(code.getCode(), outputStyle);
         codeOutput.setFontScale(0.4f);
-        codeOutput.setPosition((PVU.GAME_WIDTH / 2) - codeOutput.getPrefWidth() / 2, PVU.GAME_HEIGHT * 0.9f);
+
+        LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
+        finishedCode = new Label("", finishedStyle);
+        finishedCode.setFontScale(0.4f);
+
 
         LabelStyle inputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         inputStyle.font.scale(0.1f);
@@ -40,6 +52,15 @@ public class CoderacerScreen extends GameScreen {
         codeInput.setHeight(PVU.GAME_HEIGHT);
         codeInput.setAlignment(Align.bottom);
 
+        group = new Group();
+        group.addActor(finishedCode);
+        group.addActor(codeOutput);
+        group.setBounds((PVU.GAME_WIDTH/2) - (finishedCode.getPrefWidth() + codeOutput.getPrefWidth())/2, PVU.GAME_HEIGHT*0.9f, finishedCode.getPrefWidth() + codeOutput.getPrefWidth(), finishedCode.getPrefHeight());
+        
+        stage.addActor(group);
+        stage.addActor(codeInput);
+
+
         inputListener = new inputListener();
         Gdx.input.setInputProcessor(inputListener);
 
@@ -48,11 +69,7 @@ public class CoderacerScreen extends GameScreen {
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1); // Important
-
-        batch.begin();
-        codeOutput.draw(batch, 1f);
-        codeInput.draw(batch, 1f);
-        batch.end();
+        stage.draw();
     }
 
     @Override
@@ -84,7 +101,6 @@ public class CoderacerScreen extends GameScreen {
         public boolean keyTyped(char character) {
             if (character > 31) {
                 text += character;
-
                 codeInput.setText(text);
 
             }
@@ -92,7 +108,8 @@ public class CoderacerScreen extends GameScreen {
                 text = "";
                 codeOutput.setText(code.getCode());
                 codeInput.setText(text);
-                codeOutput.setPosition((PVU.GAME_WIDTH / 2) - codeOutput.getPrefWidth() / 2, codeOutput.getY());
+                
+                updateOutput(character);
             }
             return true;
         }
@@ -125,5 +142,10 @@ public class CoderacerScreen extends GameScreen {
 
     private static String removeLastChar(String str) {
         return str.substring(0, str.length() - 1);
+    }
+
+    private void updateOutput(char character) {
+        finishedCode.setText(code.getCorrect());
+        codeOutput.setText(codeOutput.getText().subSequence(code.getCharCounter(), codeOutput.getText().length()));
     }
 }
