@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.dialogdrawer.PopupBox;
 
 /**
@@ -183,7 +184,18 @@ public class MainScreen extends GameScreen {
     }
 
     private void recieveHintInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+            switch (mRayCastManager.getInfront()) {
+                case RayCastManager.BOOK:
+                    game.setScreen(new BookScreen(game));
+                    break;
+                case RayCastManager.PC:
+                    break;
+                case RayCastManager.CART:
+                    break;
+                case RayCastManager.TABLE:
+                    break;
+            }
             System.out.println("Start thingy");
         }
     }
