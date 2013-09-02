@@ -27,8 +27,8 @@ public class Assets {
     
     public static final int SECONDARY_AVATAR_LEFT_1 = 0;
     public static final int SECONDARY_AVATAR_LEFT_1_FRAME_2 = 1;
-    public static final int SECONDARY_AVATAR_LEFT_2 = 2;
-    public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 3;
+    public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 2;
+    public static final int SECONDARY_AVATAR_LEFT_2 = 3;
     public static final int SECONDARY_AVATAR_RIGHT_1 = 4;
     public static final int SECONDARY_AVATAR_RIGHT_1_FRAME_2 = 5;
     
@@ -44,13 +44,6 @@ public class Assets {
     public static final int MAIN_AVATAR_SITTING = 14;
     public static final int MAIN_AVATAR_STEP_RIGHT = 15;
     public static final int MAIN_AVATAR_STEP_LEFT = 16; 
-    
-    public static final int MAIN_AVATAR_STEP_RIGHT_FRAME_2 = 17;
-    public static final int MAIN_AVATAR_STEP_LEFT_FRAME_2 = 18; 
-    public static final int MAIN_AVATAR_STEP_RIGHT_FRAME_3 = 19;
-    public static final int MAIN_AVATAR_STEP_LEFT_FRAME_3 = 20; 
-    public static final int MAIN_AVATAR_BACK_FRAME_2 = 21;
-    public static final int MAIN_AVATAR_BACK_FRAME_3 = 22; 
               
     public static BitmapFont primaryFont16px;
     public static BitmapFont primaryFont10px;
@@ -67,15 +60,9 @@ public class Assets {
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        primaryFont16px = new BitmapFont(
-                Gdx.files.internal("data/LucidaBitmap.fnt"),
-                Gdx.files.internal("data/LucidaBitmap_0.png"), false);
         primaryFont10px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
-        primaryFont5px = new BitmapFont(
-                Gdx.files.internal("data/LucidaBitmap5px.fnt"),
-                Gdx.files.internal("data/LucidaBitmap5px_0.png"), false);
         primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
         
