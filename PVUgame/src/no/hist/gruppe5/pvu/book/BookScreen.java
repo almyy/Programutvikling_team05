@@ -11,13 +11,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import java.io.File;
-import java.io.IOException;
-import javax.swing.GroupLayout;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
@@ -25,7 +24,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -58,7 +56,6 @@ public class BookScreen extends GameScreen {
         //label.draw(batch, 1f);
 
         //font.drawWrapped(batch, loadText(), 35, 100, 55);
-
 
     }
 
@@ -99,12 +96,12 @@ public class BookScreen extends GameScreen {
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stage = new Stage();
-
         File bookContent = new File("data/test.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(Assets.primaryFont16px, Color.BLACK);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
         leftPage = new Label(loadText("section1",dbFactory,bookContent), labelStyle);
+        labelStyle.font.scale(0.7f);
         leftPage.setWidth(280);
         leftPage.setPosition(170, 250);
         leftPage.setWrap(true);
