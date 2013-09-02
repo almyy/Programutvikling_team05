@@ -21,7 +21,8 @@ public abstract class VisionShooterElement {
         elementSprite.setSize(elementHeight, elementWidth);
         elementSprite.setPosition(elementX,elementY);
     }
-     void draw(SpriteBatch batch) {
+
+    public void draw(SpriteBatch batch) {
         elementSprite.draw(batch);
     }
 
@@ -48,7 +49,8 @@ public abstract class VisionShooterElement {
     public float getElementY() {
         return elementY;
     }
-    void update(float delta){
+
+    public void update(float delta){
         elementX -= speed * delta;
         elementSprite.setPosition(elementX, elementY);
     }

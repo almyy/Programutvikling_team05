@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.visionshooter;
+package no.hist.gruppe5.pvu.visionshooter.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.*;
@@ -29,12 +29,12 @@ public class VisionShooterShip{
         return shipSprite;
     }
 
-    void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch) {
         System.out.println();
         shipSprite.draw(batch);
     }
 
-    void update(float delta) {
+    public void update(float delta) {
         if(Gdx.input.isKeyPressed(Keys.DPAD_UP)){
             if((shipY+shipHeight)<PVU.GAME_HEIGHT){
                 shipY += shipSpeed*delta;

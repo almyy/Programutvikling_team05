@@ -1,15 +1,15 @@
 package no.hist.gruppe5.pvu.visionshooter;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.visionshooter.entity.*;
+
 import java.util.Random;
 
 public class VisionScreen extends GameScreen {

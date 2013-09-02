@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.visionshooter;
+package no.hist.gruppe5.pvu.visionshooter.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,10 +26,11 @@ public class VisionBullet {
         bulletSprite.setPosition(projectileX,projectileY);
     }
     
-    void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch) {
         bulletSprite.draw(batch);
     }
-    void update(float delta){
+
+    public void update(float delta){
         projectileX += projectileSpeed*delta; 
         bulletSprite.setPosition(projectileX, projectileY);
     }

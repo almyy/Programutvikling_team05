@@ -1,7 +1,9 @@
-package no.hist.gruppe5.pvu.visionshooter;
+package no.hist.gruppe5.pvu.visionshooter.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
+import no.hist.gruppe5.pvu.visionshooter.VisionShooterElement;
+
 /**
  *
  * @author Frode
