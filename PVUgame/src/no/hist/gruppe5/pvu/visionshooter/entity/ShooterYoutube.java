@@ -8,9 +8,9 @@ import no.hist.gruppe5.pvu.visionshooter.VisionShooterElement;
  *
  * @author Frode
  */
-public class VisionShooterYoutube extends VisionShooterElement {
+public class ShooterYoutube extends VisionShooterElement {
 
-    public VisionShooterYoutube(float elementY) {
+    public ShooterYoutube(float elementY) {
         super(new Sprite(Assets.visionShooterYoutubeRegion), elementY,20f);
     }
 }

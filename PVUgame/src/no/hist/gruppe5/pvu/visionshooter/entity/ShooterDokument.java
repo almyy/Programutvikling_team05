@@ -8,9 +8,9 @@ import no.hist.gruppe5.pvu.visionshooter.VisionShooterElement;
  *
  * @author Frode
  */
-public class VisionShooterDocument extends VisionShooterElement {
+public class ShooterDokument extends VisionShooterElement {
     
-    public VisionShooterDocument(float elementY) {
+    public ShooterDokument(float elementY) {
         super(new Sprite(Assets.visionShooterDocumentRegion),elementY, 30f);
     }
 

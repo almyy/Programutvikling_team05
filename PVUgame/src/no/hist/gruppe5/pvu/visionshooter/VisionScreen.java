@@ -16,8 +16,8 @@ public class VisionScreen extends GameScreen {
 
     int points = 0;
     private Sprite mVisionDocument;
-    private VisionShooterShip mVisionShooterShip;
-    private ArrayList<VisionBullet> shipProjectiles;
+    private ShooterShip mVisionShooterShip;
+    private ArrayList<Bullet> shipProjectiles;
     private long mLastBulletShot = 0;
     private ArrayList<VisionShooterElement> elements;
     private VisionShooterElement[] allElements = new VisionShooterElement[3];
@@ -27,12 +27,12 @@ public class VisionScreen extends GameScreen {
 
     public VisionScreen(PVU game) {
         super(game);
-        mVisionShooterShip = new VisionShooterShip();
+        mVisionShooterShip = new ShooterShip();
         shipProjectiles = new ArrayList();
         elements = new ArrayList();
-        allElements[0] = new VisionShooterFacebook(0);
-        allElements[1] = new VisionShooterYoutube(0);
-        allElements[2] = new VisionShooterDocument(0);
+        allElements[0] = new ShooterFacebook(0);
+        allElements[1] = new ShooterYoutube(0);
+        allElements[2] = new ShooterDokument(0);
 
     }
 
@@ -64,7 +64,7 @@ public class VisionScreen extends GameScreen {
         mVisionShooterShip.update(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if ((TimeUtils.millis() - mLastBulletShot) > 800L) {
-                VisionBullet vB = new VisionBullet();
+                Bullet vB = new Bullet();
                 vB.setProjectileY(mVisionShooterShip.getShipY() + (mVisionShooterShip.getShipHeight() / 2));
                 vB.setProjectileX(mVisionShooterShip.getShipX());
                 shipProjectiles.add(vB);
@@ -92,7 +92,7 @@ public class VisionScreen extends GameScreen {
             }
         }
         for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i) instanceof VisionShooterDocument) {
+            if (elements.get(i) instanceof ShooterDokument) {
                 if (elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
                     points += 40;
                     System.out.println("Points" + points);
@@ -111,18 +111,18 @@ public class VisionScreen extends GameScreen {
         if (noElements > 0 && (TimeUtils.millis() - lastElementSpawned) > 1500L) {
             int index = random.nextInt(3);
             VisionShooterElement i = allElements[index];
-            if (i instanceof VisionShooterFacebook) {
-                VisionShooterFacebook help = new VisionShooterFacebook(allElements[index].getElementY());
+            if (i instanceof ShooterFacebook) {
+                ShooterFacebook help = new ShooterFacebook(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
-            } else if (i instanceof VisionShooterYoutube) {
-                VisionShooterYoutube help = new VisionShooterYoutube(allElements[index].getElementY());
+            } else if (i instanceof ShooterYoutube) {
+                ShooterYoutube help = new ShooterYoutube(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
             } else {
-                VisionShooterDocument help = new VisionShooterDocument(allElements[index].getElementY());
+                ShooterDokument help = new ShooterDokument(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
