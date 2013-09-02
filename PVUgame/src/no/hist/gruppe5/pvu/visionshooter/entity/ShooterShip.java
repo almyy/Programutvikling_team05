@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.PVU;
 
-public class VisionShooterShip{
+public class ShooterShip {
     
     private Sprite shipSprite;
     
@@ -19,7 +19,7 @@ public class VisionShooterShip{
     
     private float shipSpeed = 54f;  
     
-    public VisionShooterShip(){
+    public ShooterShip(){
         shipSprite = new Sprite(Assets.visionShooterShipRegion); 
         shipSprite.setSize(shipHeight, shipWidth);
         shipSprite.setPosition(shipX,shipY);
