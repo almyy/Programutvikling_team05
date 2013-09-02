@@ -1,5 +1,5 @@
 package no.hist.gruppe5.pvu.visionshooter;
- 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Input;
@@ -12,26 +12,30 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
- 
+
 import java.util.Random;
- 
+
 public class VisionScreen extends GameScreen {
- 
+
     int points = 0;
     private Sprite mVisionDocument;
     private ShooterShip mVisionShooterShip;
     private ArrayList<Bullet> shipProjectiles;
     private long mLastBulletShot = 0;
     private ArrayList<ShooterElement> elements;
+    private int[] noElements;//Number of elements
     private ShooterElement[] allElements = new ShooterElement[3];
     private long lastElementSpawned = 0;
-    int noElements = 20;//Number of elements
     private Random random = new Random();
-    private Label textLabel;
-    private Label pointLabel;
-    private String text = "Points: ";
-    private String pointText;
- 
+    private Label pointTextLabel;
+    private Label pointValueLabel;
+    private String pointText = "Points: ";
+    private String pointValue;
+    private Label gradeTextLabel;
+    private Label gradeValueLabel;
+    private String gradeText = "Grade: ";
+    private String gradeValue = "";
+
     public VisionScreen(PVU game) {
         super(game);
         mVisionShooterShip = new ShooterShip();
@@ -40,27 +44,35 @@ public class VisionScreen extends GameScreen {
         allElements[0] = new ShooterFacebook(0);
         allElements[1] = new ShooterYoutube(0);
         allElements[2] = new ShooterDokument(0);
- 
-        LabelStyle style = new LabelStyle(Assets.primaryFont10px, Color.RED);
-        textLabel = new Label(text, style);
-        textLabel.setFontScale(0.8f);
-        textLabel.setPosition((PVU.GAME_WIDTH * 0.9f) - textLabel.getPrefWidth(), PVU.GAME_HEIGHT * 0.05f);
- 
-        pointText = "" + points;
-        pointLabel = new Label(pointText, style);
-        pointLabel.setFontScale(0.8f);
-        pointLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
- 
- 
+
+        noElements = new int[3];
+        
+        noElements[0] = 5;//Dokument
+        noElements[1] = 7;//Facebook
+        noElements[2] = 8;//Youtube
+
+        
+        LabelStyle pointStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
+        pointTextLabel = new Label(pointText, pointStyle);
+        pointTextLabel.setFontScale(0.8f);
+        pointTextLabel.setPosition((PVU.GAME_WIDTH * 0.9f) - pointTextLabel.getPrefWidth(), PVU.GAME_HEIGHT * 0.05f);
+
+        pointValue = "" + points;
+        pointValueLabel = new Label(pointValue, pointStyle);
+        pointValueLabel.setFontScale(0.8f);
+        pointValueLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
+
+        
+        
     }
- 
+
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
- 
+
         batch.begin();
         batch.draw(Assets.visionShooterRegion, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
- 
+
         if (!shipProjectiles.isEmpty()) {
             for (int i = 0; i < shipProjectiles.size(); i++) {
                 shipProjectiles.get(i).draw(batch);
@@ -71,14 +83,15 @@ public class VisionScreen extends GameScreen {
                 elements.get(i).draw(batch);
             }
         }
- 
- 
+
+
         mVisionShooterShip.draw(batch);
-        textLabel.draw(batch, 1f);
-        pointLabel.draw(batch, 1f);
+        pointTextLabel.draw(batch, 1f);
+        pointValueLabel.draw(batch, 1f);
+      
         batch.end();
     }
- 
+
     @Override
     protected void update(float delta) {
         mVisionShooterShip.update(delta);
@@ -101,6 +114,9 @@ public class VisionScreen extends GameScreen {
         for (int i = 0; i < elements.size(); i++) {
             for (int j = 0; j < shipProjectiles.size();) {
                 if (shipProjectiles.get(j).getBulletSprite().getBoundingRectangle().overlaps(elements.get(i).getElementSprite().getBoundingRectangle())) {
+                    if (elements.get(i) instanceof ShooterDokument) {
+                        points -= 60;
+                    }
                     shipProjectiles.remove(j);
                     elements.remove(i);
                     i--;
@@ -108,7 +124,7 @@ public class VisionScreen extends GameScreen {
                 } else {
                     j++;
                 }
- 
+
             }
         }
         for (int i = 0; i < elements.size(); i++) {
@@ -126,29 +142,31 @@ public class VisionScreen extends GameScreen {
                 }
             }
         }
- 
- 
-        if (noElements > 0 && (TimeUtils.millis() - lastElementSpawned) > 1500L) {
+
+
+        if ((TimeUtils.millis() - lastElementSpawned) > 1500L) {
             int index = random.nextInt(3);
             ShooterElement i = allElements[index];
-            if (i instanceof ShooterFacebook) {
+            if (i instanceof ShooterFacebook && (noElements[1] > 0)) {
                 ShooterFacebook help = new ShooterFacebook(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
-            } else if (i instanceof ShooterYoutube) {
+                noElements[1]--;
+            } else if (i instanceof ShooterYoutube && (noElements[2] > 0)) {
                 ShooterYoutube help = new ShooterYoutube(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
-            } else {
+                noElements[2]--;
+            } else if (noElements[0] > 0) {
                 ShooterDokument help = new ShooterDokument(allElements[index].getElementY());
                 help.setElementY(random.nextInt(90));
                 help.setElementX(180f);
                 elements.add(help);
+                noElements[0]--;
             }
- 
-            noElements--;
+
             lastElementSpawned = TimeUtils.millis();
         }
         for (int i = 0; i < elements.size(); i++) {
@@ -160,21 +178,29 @@ public class VisionScreen extends GameScreen {
                 elements.remove(i);
             }
         }
-        pointText = ""+points;
-        pointLabel.setText(pointText);
-       
-        if(elements.isEmpty()){
-            textLabel.setFontScale(2f);
-            textLabel.setPosition((PVU.GAME_WIDTH / 2) - textLabel.getPrefWidth() / 2, PVU.GAME_HEIGHT /2);
-            pointLabel.setFontScale(2f);
-            pointLabel.setPosition(textLabel.getX() + textLabel.getPrefWidth(), PVU.GAME_HEIGHT /2);
-           
+        pointValue = "" + points;
+        pointValueLabel.setText(pointValue);
+
+        if (elements.isEmpty() && finish()) {
+            pointValueLabel.setFontScale(2f);
+            pointTextLabel.setFontScale(2f);
+            pointValueLabel.setPosition(pointTextLabel.getX() + pointTextLabel.getPrefWidth(), PVU.GAME_HEIGHT / 2);
+            pointTextLabel.setPosition((PVU.GAME_WIDTH / 2) - pointTextLabel.getPrefWidth() / 2, PVU.GAME_HEIGHT / 2);
            
         }
- 
+
     }
- 
+
     @Override
     protected void cleanUp() {
+    }
+
+    private boolean finish() {
+        for (int i = 0; i < 3; i++) {
+            if (noElements[i] > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
