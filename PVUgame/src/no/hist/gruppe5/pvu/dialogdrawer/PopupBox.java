@@ -16,58 +16,58 @@ public class PopupBox {
 
     private static final float PADDING = 4f;
 
-    private String code = "Press E";
-    private TextField textfield;
-    private SpriteBatch batch;
-    private Label codeOutput;
-    private Skin textboxskin;
-    private TextField.TextFieldStyle textfieldstyle;
-    private Label.LabelStyle labelStyle;
-    private Texture tex;
+    private String mText = "";
+    private TextField mTextBackground;
+    private SpriteBatch mBatch;
+    private Label mTextLabel;
+    private Label.LabelStyle mLabelStyle;
+    private Texture mTexture;
     private float FONT_SCALE = 0.5f;
 
     public PopupBox(SpriteBatch batch) {
-        this.batch = batch;
+        this.mBatch = batch;
+        mLabelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
+        mTexture = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
+
         setVariables();
     }
 
     private void setVariables() {
-        labelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
-        textfieldstyle = new TextField.TextFieldStyle();
-        textboxskin = new Skin();
-        textboxskin.add("textfieldback", new TextureRegion(tex, 1, 1, 190, 56));
-        textfieldstyle.font = Assets.primaryFont10px;
-        textfieldstyle.background = textboxskin.getDrawable("textfieldback");
-        textfield = new TextField("", textfieldstyle);
-        codeOutput = new Label(code, labelStyle);
-        codeOutput.setFontScale(FONT_SCALE);
-        codeOutput.setWrap(true);
+        TextField.TextFieldStyle textfieldStyle = new TextField.TextFieldStyle();
+        Skin textBoxSkin = new Skin();
+        textBoxSkin.add("text_field_back", new TextureRegion(mTexture, 1, 1, 190, 56));
+        textfieldStyle.font = Assets.primaryFont10px;
+        textfieldStyle.background = textBoxSkin.getDrawable("text_field_back");
+
+        mTextBackground = new TextField("", textfieldStyle);
+        mTextLabel = new Label(mText, mLabelStyle);
+        mTextLabel.setFontScale(FONT_SCALE);
+        mTextLabel.setWrap(true);
     }
 
     public void draw(float delta) {
-        textfield.draw(batch, 1f);
-        codeOutput.draw(batch, 1f);
+        mTextBackground.draw(mBatch, 1f);
+        mTextLabel.draw(mBatch, 1f);
     }
 
     public void setXY(float x, float y) {
-        codeOutput.setPosition(x + 4f, y + 17f);
-        textfield.setPosition(x, y + 17f);
+        mTextLabel.setPosition(x + 4f, y + 17f);
+        mTextBackground.setPosition(x, y + 17f);
 
-        if((codeOutput.getX() + Assets.primaryFont10px.getBounds(code).width * FONT_SCALE) > PVU.GAME_WIDTH) {
-            codeOutput.setX(codeOutput.getX() - Assets.primaryFont10px.getBounds(code).width * FONT_SCALE);
-            textfield.setX(codeOutput.getX() - PADDING);
+        if((mTextLabel.getX() + Assets.primaryFont10px.getBounds(mText).width * FONT_SCALE) > PVU.GAME_WIDTH) {
+            mTextLabel.setX(mTextLabel.getX() - Assets.primaryFont10px.getBounds(mText).width * FONT_SCALE);
+            mTextBackground.setX(mTextLabel.getX() - PADDING);
             positionTextBackground();
         }
     }
 
     private void positionTextBackground() {
-        float height = Assets.primaryFont10px.getBounds(code).height * FONT_SCALE;
-        float width = Assets.primaryFont10px.getBounds(code).width * FONT_SCALE;
-        textfield.setWidth(width + PADDING * 3f);
-        textfield.setHeight(height + PADDING);
-        codeOutput.setWidth(Assets.primaryFont10px.getBounds(code).width);
-        codeOutput.setHeight(Assets.primaryFont10px.getBounds(code).height + 2f);
+        float height = Assets.primaryFont10px.getBounds(mText).height * FONT_SCALE;
+        float width = Assets.primaryFont10px.getBounds(mText).width * FONT_SCALE;
+        mTextBackground.setWidth(width + PADDING * 3f);
+        mTextBackground.setHeight(height + PADDING);
+        mTextLabel.setWidth(Assets.primaryFont10px.getBounds(mText).width);
+        mTextLabel.setHeight(Assets.primaryFont10px.getBounds(mText).height + PADDING);
     }
 
     public void setXY(Vector2 vec) {
@@ -75,15 +75,15 @@ public class PopupBox {
     }
 
     public void setText(String text) {
-        code = text;
-        codeOutput.setText(text);
-        codeOutput.setStyle(labelStyle);
+        mText = text;
+        mTextLabel.setText(text);
+        mTextLabel.setStyle(mLabelStyle);
 
         positionTextBackground();
 
     }
 
     public String getText() {
-        return code;
+        return mText;
     }
 }
