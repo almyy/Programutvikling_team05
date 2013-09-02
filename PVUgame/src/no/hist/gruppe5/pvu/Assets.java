@@ -25,10 +25,10 @@ public class Assets {
     public static BitmapFont primaryFont;
 
     public static void load() {
-        Texture testTexture = new Texture(Gdx.files.internal("data/square.png"));
-        testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-    
-        testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        //Texture testTexture = new Texture(Gdx.files.internal("data/square.png"));
+        //testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        
+        //testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         primaryFont16px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap.fnt"),
                 Gdx.files.internal("data/LucidaBitmap_0.png"), false);
@@ -38,7 +38,8 @@ public class Assets {
         primaryFont5px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap5px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap5px_0.png"), false);
-        testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
+        primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        //testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
         
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         
