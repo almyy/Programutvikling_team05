@@ -1,5 +1,5 @@
 package no.hist.gruppe5.pvu.visionshooter;
-
+ 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Input;
@@ -12,11 +12,11 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
-
+ 
 import java.util.Random;
-
+ 
 public class VisionScreen extends GameScreen {
-
+ 
     int points = 0;
     private Sprite mVisionDocument;
     private ShooterShip mVisionShooterShip;
@@ -31,7 +31,7 @@ public class VisionScreen extends GameScreen {
     private Label pointLabel;
     private String text = "Points: ";
     private String pointText;
-
+ 
     public VisionScreen(PVU game) {
         super(game);
         mVisionShooterShip = new ShooterShip();
@@ -40,27 +40,27 @@ public class VisionScreen extends GameScreen {
         allElements[0] = new ShooterFacebook(0);
         allElements[1] = new ShooterYoutube(0);
         allElements[2] = new ShooterDokument(0);
-
+ 
         LabelStyle style = new LabelStyle(Assets.primaryFont10px, Color.RED);
         textLabel = new Label(text, style);
         textLabel.setFontScale(0.8f);
         textLabel.setPosition((PVU.GAME_WIDTH * 0.9f) - textLabel.getPrefWidth(), PVU.GAME_HEIGHT * 0.05f);
-
+ 
         pointText = "" + points;
         pointLabel = new Label(pointText, style);
         pointLabel.setFontScale(0.8f);
         pointLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
-
-
+ 
+ 
     }
-
+ 
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
-
+ 
         batch.begin();
         batch.draw(Assets.visionShooterRegion, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
-
+ 
         if (!shipProjectiles.isEmpty()) {
             for (int i = 0; i < shipProjectiles.size(); i++) {
                 shipProjectiles.get(i).draw(batch);
@@ -71,14 +71,14 @@ public class VisionScreen extends GameScreen {
                 elements.get(i).draw(batch);
             }
         }
-
-
+ 
+ 
         mVisionShooterShip.draw(batch);
         textLabel.draw(batch, 1f);
         pointLabel.draw(batch, 1f);
         batch.end();
     }
-
+ 
     @Override
     protected void update(float delta) {
         mVisionShooterShip.update(delta);
@@ -108,7 +108,7 @@ public class VisionScreen extends GameScreen {
                 } else {
                     j++;
                 }
-
+ 
             }
         }
         for (int i = 0; i < elements.size(); i++) {
@@ -126,8 +126,8 @@ public class VisionScreen extends GameScreen {
                 }
             }
         }
-
-
+ 
+ 
         if (noElements > 0 && (TimeUtils.millis() - lastElementSpawned) > 1500L) {
             int index = random.nextInt(3);
             ShooterElement i = allElements[index];
@@ -147,7 +147,7 @@ public class VisionScreen extends GameScreen {
                 help.setElementX(180f);
                 elements.add(help);
             }
-
+ 
             noElements--;
             lastElementSpawned = TimeUtils.millis();
         }
@@ -162,18 +162,18 @@ public class VisionScreen extends GameScreen {
         }
         pointText = ""+points;
         pointLabel.setText(pointText);
-        
+       
         if(elements.isEmpty()){
             textLabel.setFontScale(2f);
             textLabel.setPosition((PVU.GAME_WIDTH / 2) - textLabel.getPrefWidth() / 2, PVU.GAME_HEIGHT /2);
             pointLabel.setFontScale(2f);
             pointLabel.setPosition(textLabel.getX() + textLabel.getPrefWidth(), PVU.GAME_HEIGHT /2);
-            
-            
+           
+           
         }
-
+ 
     }
-
+ 
     @Override
     protected void cleanUp() {
     }
