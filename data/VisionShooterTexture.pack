@@ -5,36 +5,43 @@ filter: Nearest,Nearest
 repeat: none
 VisionShooterTexture
   rotate: false
-  xy: 1, 1
+  xy: 1, 8
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 Document
   rotate: false
-  xy: 195, 100
+  xy: 195, 107
   size: 13, 17
   orig: 13, 17
   offset: 0, 0
   index: -1
 VisionShooterShip
   rotate: false
-  xy: 210, 102
+  xy: 210, 109
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 Facebook
   rotate: false
-  xy: 195, 88
+  xy: 195, 95
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 YouTube
   rotate: false
-  xy: 227, 107
+  xy: 227, 114
   size: 10, 10
   orig: 10, 10
+  offset: 0, 0
+  index: -1
+Bullet
+  rotate: false
+  xy: 1, 1
+  size: 5, 5
+  orig: 5, 5
   offset: 0, 0
   index: -1

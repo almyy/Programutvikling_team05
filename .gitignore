@@ -56,7 +56,11 @@ build.xml
 manifest.mf
 build-impl.xml
 PVUgame/nbproject/project.xml
+<<<<<<< HEAD
 */Thumbs.db
+=======
+PVUgame/nbproject/private/private.xml
+>>>>>>> 1b8d6423cb25d812f79ad52ee8335fbe6d4b8e23
 
 ### IntelliJ Idea files
 .idea/

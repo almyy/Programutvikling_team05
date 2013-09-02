@@ -10,36 +10,52 @@ import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import java.util.Random;
 
-/**
- * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:50 AM
- */
 public class VisionScreen extends GameScreen {
+
+    int points = 0;
     private Sprite mVisionDocument;
     private VisionShooterShip mVisionShooterShip;
     private ArrayList<VisionBullet> shipProjectiles;
-    private long mLastBulletShot = 0; 
+    private long mLastBulletShot = 0;
+    private ArrayList<VisionShooterElement> elements;
+    private VisionShooterElement[] allElements = new VisionShooterElement[3];
+    private long lastElementSpawned = 0;
+    int noElements = 40;//Number of elements
+    private Random random = new Random();
 
     public VisionScreen(PVU game) {
         super(game);
         mVisionShooterShip = new VisionShooterShip();
-        shipProjectiles = new ArrayList<>();
+        shipProjectiles = new ArrayList();
+        elements = new ArrayList();
+        allElements[0] = new VisionShooterFacebook(0);
+        allElements[1] = new VisionShooterYoutube(0);
+        allElements[2] = new VisionShooterDocument(0);
+
     }
 
     @Override
-    protected void draw(float delta) { 
+    protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
         batch.draw(Assets.visionShooterRegion, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
-
-        mVisionShooterShip.draw(batch);
 
         if (!shipProjectiles.isEmpty()) {
             for (int i = 0; i < shipProjectiles.size(); i++) {
                 shipProjectiles.get(i).draw(batch);
             }
         }
+        if (!elements.isEmpty()) {
+            for (int i = 0; i < elements.size(); i++) {
+                elements.get(i).draw(batch);
+            }
+        }
+
+
+        mVisionShooterShip.draw(batch);
         batch.end();
     }
 
@@ -47,19 +63,84 @@ public class VisionScreen extends GameScreen {
     protected void update(float delta) {
         mVisionShooterShip.update(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if ((TimeUtils.millis() - mLastBulletShot) > 1000L) {
+            if ((TimeUtils.millis() - mLastBulletShot) > 800L) {
                 VisionBullet vB = new VisionBullet();
-                vB.setProjectileY(mVisionShooterShip.getShipY());
+                vB.setProjectileY(mVisionShooterShip.getShipY() + (mVisionShooterShip.getShipHeight() / 2));
+                vB.setProjectileX(mVisionShooterShip.getShipX());
                 shipProjectiles.add(vB);
-                mLastBulletShot = TimeUtils.millis(); 
+                mLastBulletShot = TimeUtils.millis();
             }
         }
         for (int i = 0; i < shipProjectiles.size(); i++) {
-            if(shipProjectiles.get(i).getProjectileX()>9.6f){
-                
+            if (shipProjectiles.get(i).getProjectileX() < 196) {
+                shipProjectiles.get(i).update(delta);
+            } else {
+                shipProjectiles.remove(i);
             }
-            shipProjectiles.get(i).update(delta);
         }
+        for (int i = 0; i < elements.size(); i++) {
+            for (int j = 0; j < shipProjectiles.size();) {
+                if (shipProjectiles.get(j).getBulletSprite().getBoundingRectangle().overlaps(elements.get(i).getElementSprite().getBoundingRectangle())) {
+                    shipProjectiles.remove(j);
+                    elements.remove(i);
+                    i--;
+                    break;
+                } else {
+                    j++;
+                }
+
+            }
+        }
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i) instanceof VisionShooterDocument) {
+                if (elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
+                    points += 40;
+                    System.out.println("Points" + points);
+                    elements.remove(i);
+                }
+            } else {
+                if (elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
+                    points -= 40;
+                    System.out.println("Points" + points);
+                    elements.remove(i);
+                }
+            }
+        }
+
+
+        if (noElements > 0 && (TimeUtils.millis() - lastElementSpawned) > 1500L) {
+            int index = random.nextInt(3);
+            VisionShooterElement i = allElements[index];
+            if (i instanceof VisionShooterFacebook) {
+                VisionShooterFacebook help = new VisionShooterFacebook(allElements[index].getElementY());
+                help.setElementY(random.nextInt(90));
+                help.setElementX(180f);
+                elements.add(help);
+            } else if (i instanceof VisionShooterYoutube) {
+                VisionShooterYoutube help = new VisionShooterYoutube(allElements[index].getElementY());
+                help.setElementY(random.nextInt(90));
+                help.setElementX(180f);
+                elements.add(help);
+            } else {
+                VisionShooterDocument help = new VisionShooterDocument(allElements[index].getElementY());
+                help.setElementY(random.nextInt(90));
+                help.setElementX(180f);
+                elements.add(help);
+            }
+
+            noElements--;
+            lastElementSpawned = TimeUtils.millis();
+        }
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).getElementX() > 0) {
+                elements.get(i).update(delta);
+            } else {
+                points -= 20;
+                System.out.println("Points:" + points);
+                elements.remove(i);
+            }
+        }
+
     }
 
     @Override
