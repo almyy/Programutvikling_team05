@@ -6,7 +6,7 @@ import no.hist.gruppe5.pvu.Assets;
  *
  * @author Frode
  */
-public abstract class VisionShooterElement {
+public abstract class ShooterElement {
     private Sprite elementSprite;
     private float elementWidth = 10f;
     private float elementHeight = 10f;
@@ -14,7 +14,7 @@ public abstract class VisionShooterElement {
     private float elementY;
     private float speed;
 
-    public VisionShooterElement(Sprite elementSprite, float elementY, float newSpeed) {
+    public ShooterElement(Sprite elementSprite, float elementY, float newSpeed) {
         this.elementSprite = elementSprite;
         this.elementY = elementY;
         this.speed = newSpeed;
