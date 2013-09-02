@@ -80,6 +80,7 @@ public class MainScreen extends GameScreen {
     }
 
     private void createRoomBody() {
+
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/pvugame.json"));
 
         //Room Body
