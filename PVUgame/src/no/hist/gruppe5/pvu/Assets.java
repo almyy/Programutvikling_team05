@@ -67,15 +67,9 @@ public class Assets {
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        primaryFont16px = new BitmapFont(
-                Gdx.files.internal("data/LucidaBitmap.fnt"),
-                Gdx.files.internal("data/LucidaBitmap_0.png"), false);
         primaryFont10px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
-        primaryFont5px = new BitmapFont(
-                Gdx.files.internal("data/LucidaBitmap5px.fnt"),
-                Gdx.files.internal("data/LucidaBitmap5px_0.png"), false);
         primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
         

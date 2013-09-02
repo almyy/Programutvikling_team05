@@ -37,7 +37,7 @@ public class CoderacerScreen extends GameScreen {
 
         LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         codeOutput = new Label(code.getCode(), outputStyle);
-        codeOutput.setFontScale(0.4f);
+        codeOutput.setFontScale(2f);
 
         LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
         finishedCode = new Label("", finishedStyle);
@@ -55,7 +55,7 @@ public class CoderacerScreen extends GameScreen {
         group = new Group();
         group.addActor(finishedCode);
         group.addActor(codeOutput);
-        group.setBounds((PVU.GAME_WIDTH/2) - (finishedCode.getPrefWidth() + codeOutput.getPrefWidth())/2, PVU.GAME_HEIGHT*0.9f, finishedCode.getPrefWidth() + codeOutput.getPrefWidth(), finishedCode.getPrefHeight());
+        group.setPosition((PVU.GAME_WIDTH/2) - group.getWidth()/2, PVU.GAME_HEIGHT/2);
         
         stage.addActor(group);
         stage.addActor(codeInput);
