@@ -8,9 +8,9 @@ import no.hist.gruppe5.pvu.visionshooter.VisionShooterElement;
  *
  * @author Frode
  */
-public class VisionShooterFacebook extends VisionShooterElement {
+public class ShooterFacebook extends VisionShooterElement {
 
-    public VisionShooterFacebook( float elementY) {
+    public ShooterFacebook(float elementY) {
         super(new Sprite(Assets.visionShooterFacebookRegion), elementY,30f);
     }
  

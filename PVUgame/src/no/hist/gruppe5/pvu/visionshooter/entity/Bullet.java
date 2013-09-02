@@ -8,7 +8,7 @@ import no.hist.gruppe5.pvu.Assets;
  *
  * @author Rino
  */
-public class VisionBullet {
+public class Bullet {
     
     private final float projectileSpeed = 66f;
     
@@ -20,7 +20,7 @@ public class VisionBullet {
     
     Sprite bulletSprite; 
 
-    public VisionBullet(){        
+    public Bullet(){
         bulletSprite = new Sprite(Assets.visionShooterBullet); 
         bulletSprite.setSize(projectileHeight, projectileWidth);
         bulletSprite.setPosition(projectileX,projectileY);
