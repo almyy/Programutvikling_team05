@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
+import no.hist.gruppe5.pvu.mainroom.ScoreHandler;
 import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class PVU extends Game {
@@ -15,6 +16,7 @@ public class PVU extends Game {
 
     @Override
     public void create() {
+        ScoreHandler.load();
         Assets.load();
         setScreen(new VisionScreen(this));
     }

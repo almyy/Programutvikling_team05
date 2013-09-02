@@ -10,7 +10,10 @@ public class ScoreHandler {
     private static boolean completedAllLevels;
     private static int total;
 
-    public ScoreHandler() {
+    /**
+     * 
+     */
+    public static void load() {
         totalScore = new int[5];
         completedAllLevels = false;
         total = 0;
@@ -65,9 +68,5 @@ public class ScoreHandler {
         }else{
             return 'E';
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(ScoreHandler.getGrade());
     }
 }
