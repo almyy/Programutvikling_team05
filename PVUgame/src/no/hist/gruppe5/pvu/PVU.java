@@ -16,7 +16,7 @@ public class PVU extends Game {
     @Override
     public void create() {
         Assets.load();
-        setScreen(new CoderacerScreen(this));
+        setScreen(new VisionScreen(this));
     }
 
     @Override
