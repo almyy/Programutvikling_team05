@@ -10,72 +10,79 @@ table
   orig: 192, 116
   offset: 0, 0
   index: -1
-main_room
+book
   rotate: false
   xy: 195, 1
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
-pcscreen
+main_room
   rotate: false
   xy: 389, 1
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
+pcscreen
+  rotate: false
+  xy: 583, 1
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1
 logo
   rotate: false
-  xy: 583, 82
+  xy: 777, 82
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 logo_2_group
   rotate: false
-  xy: 583, 45
+  xy: 777, 45
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 trykk
   rotate: false
-  xy: 665, 82
+  xy: 859, 82
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 chart
   rotate: false
-  xy: 583, 24
+  xy: 777, 24
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 1
 chart
   rotate: false
-  xy: 665, 61
+  xy: 859, 61
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 4
 chart
   rotate: false
-  xy: 747, 98
+  xy: 941, 98
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 2
 chart
   rotate: false
-  xy: 583, 3
+  xy: 777, 3
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 3
 chart
   rotate: false
-  xy: 609, 24
+  xy: 803, 24
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
