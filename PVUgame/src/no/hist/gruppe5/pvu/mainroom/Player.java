@@ -50,8 +50,10 @@ public class Player {
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = 1;
+
         mPlayerBody.createFixture(fixtureDef);
         mPlayerBody.setFixedRotation(true);
+        mPlayerBody.setUserData(MainScreen.OBJECT_PLAYER);
 
         mPlayerSprite = new Sprite(PLAYER_FRONT);
         mPlayerSprite.setSize(PLAYER_SIZE, ( mPlayerSprite.getHeight() / mPlayerSprite.getWidth() ) * PLAYER_SIZE) ;
@@ -92,5 +94,13 @@ public class Player {
 
         mPlayerBody.setLinearVelocity(newSpeed);
 
+    }
+
+    public float getWidth() {
+        return mPlayerSprite.getWidth();
+    }
+
+    public Vector2 getPosition() {
+        return mPlayerBody.getPosition();
     }
 }

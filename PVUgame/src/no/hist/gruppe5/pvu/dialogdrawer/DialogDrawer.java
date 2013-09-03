@@ -35,13 +35,13 @@ public class DialogDrawer {
     }
 
     public void setVariables() {
-        labelStyle = new LabelStyle(Assets.primaryFont, Color.BLACK);
+        labelStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         tex = new Texture(Gdx.files.internal("data/DialogTexture.png"));
         textfieldstyle = new TextFieldStyle();
         textboxskin = new Skin();
         textboxskin.add("textfieldback", new TextureRegion(tex, 1, 1, 190, 56));
         labelStyle.font.setScale(0.3f);
-        textfieldstyle.font = Assets.primaryFont;
+        textfieldstyle.font = Assets.primaryFont10px;
         textfieldstyle.background = textboxskin.getDrawable("textfieldback");
         textfield = new TextField("", textfieldstyle);
         textfield.setHeight(PVU.GAME_HEIGHT / 3);
@@ -49,7 +49,7 @@ public class DialogDrawer {
         codeOutput = new Label(code, labelStyle);
         codeOutput.setPosition(6, -37);
         codeOutput.setWrap(true);
-        codeOutput.setHeight((PVU.GAME_HEIGHT));
+        codeOutput.setHeight(PVU.GAME_HEIGHT);
         codeOutput.setWidth(PVU.GAME_WIDTH - 10);
     }
 

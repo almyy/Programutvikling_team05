@@ -1,14 +1,11 @@
 package no.hist.gruppe5.pvu.coderacer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
@@ -18,27 +15,30 @@ import no.hist.gruppe5.pvu.PVU;
  */
 public class CoderacerScreen extends GameScreen {
 
+    private Label finishedCode;
     private Label codeOutput;
-    private Label codeInput;
-    private String text = "";
     private InputProcessor inputListener;
     private Code code = new Code();
+    private Stage stage;
 
     public CoderacerScreen(PVU game) {
         super(game);
 
+        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
+
         LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         codeOutput = new Label(code.getCode(), outputStyle);
         codeOutput.setFontScale(0.4f);
-        codeOutput.setPosition((PVU.GAME_WIDTH / 2) - codeOutput.getPrefWidth() / 2, PVU.GAME_HEIGHT * 0.9f);
 
-        LabelStyle inputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        inputStyle.font.scale(0.1f);
-        codeInput = new Label(text, inputStyle);
-        codeInput.setWrap(true);
-        codeInput.setWidth(PVU.GAME_WIDTH);
-        codeInput.setHeight(PVU.GAME_HEIGHT);
-        codeInput.setAlignment(Align.bottom);
+        LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
+        finishedCode = new Label("", finishedStyle);
+        finishedCode.setFontScale(0.4f);
+
+        stage.addActor(codeOutput);
+        stage.addActor(finishedCode);
+
+        codeOutput.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.8f));
+        finishedCode.setPosition(PVU.GAME_WIDTH / 2 - finishedCode.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.2f));
 
         inputListener = new inputListener();
         Gdx.input.setInputProcessor(inputListener);
@@ -48,11 +48,7 @@ public class CoderacerScreen extends GameScreen {
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1); // Important
-
-        batch.begin();
-        codeOutput.draw(batch, 1f);
-        codeInput.draw(batch, 1f);
-        batch.end();
+        stage.draw();
     }
 
     @Override
@@ -67,11 +63,6 @@ public class CoderacerScreen extends GameScreen {
 
         @Override
         public boolean keyDown(int keycode) {
-            if (keycode == Keys.BACKSPACE && text.length() > 0) {
-                text = removeLastChar(text);
-                codeInput.setText(text);
-                return true;
-            }
             return false;
         }
 
@@ -83,17 +74,11 @@ public class CoderacerScreen extends GameScreen {
         @Override
         public boolean keyTyped(char character) {
             if (character > 31) {
-                text += character;
-
-                codeInput.setText(text);
-
+                if (code.equals(character)) {
+                    updateOutput();
+                }
             }
-            if (code.equals(text)) {
-                text = "";
-                codeOutput.setText(code.getCode());
-                codeInput.setText(text);
-                codeOutput.setPosition((PVU.GAME_WIDTH / 2) - codeOutput.getPrefWidth() / 2, codeOutput.getY());
-            }
+
             return true;
         }
 
@@ -123,7 +108,10 @@ public class CoderacerScreen extends GameScreen {
         }
     }
 
-    private static String removeLastChar(String str) {
-        return str.substring(0, str.length() - 1);
+    private void updateOutput() {
+        codeOutput.setText(code.getLeft());
+        finishedCode.setText(code.getCorrect());
+        codeOutput.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.8f));
+        finishedCode.setPosition(PVU.GAME_WIDTH / 2 - finishedCode.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.2f));
     }
 }
