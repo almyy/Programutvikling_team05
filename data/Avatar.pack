@@ -5,120 +5,162 @@ filter: Nearest,Nearest
 repeat: none
 Avatar
   rotate: false
-  xy: 0, 0
+  xy: 0, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 10
 Avatar
   rotate: false
-  xy: 13, 0
+  xy: 13, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 11
 Avatar
   rotate: false
-  xy: 26, 0
+  xy: 26, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 12
 Avatar
   rotate: false
-  xy: 39, 0
+  xy: 39, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 13
 Avatar
   rotate: false
-  xy: 52, 0
+  xy: 52, 12
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 14
+Avatar
+  rotate: false
+  xy: 65, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 15
 Avatar
   rotate: false
-  xy: 65, 0
+  xy: 78, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 16
 Avatar
   rotate: false
-  xy: 78, 4
+  xy: 91, 12
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 17
+Avatar
+  rotate: false
+  xy: 104, 12
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 18
+Avatar
+  rotate: false
+  xy: 117, 12
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 19
+Avatar
+  rotate: false
+  xy: 130, 12
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 20
+Avatar
+  rotate: false
+  xy: 143, 12
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 21
+Avatar
+  rotate: false
+  xy: 156, 12
+  size: 13, 20
+  orig: 13, 20
+  offset: 0, 0
+  index: 22
+Avatar
+  rotate: false
+  xy: 169, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 0
 Avatar
   rotate: false
-  xy: 89, 4
+  xy: 180, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 1
 Avatar
   rotate: false
-  xy: 100, 4
+  xy: 191, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 2
 Avatar
   rotate: false
-  xy: 111, 4
+  xy: 202, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 3
 Avatar
   rotate: false
-  xy: 122, 4
+  xy: 213, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 4
 Avatar
   rotate: false
-  xy: 133, 4
+  xy: 224, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 5
 Avatar
   rotate: false
-  xy: 144, 4
+  xy: 235, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 6
 Avatar
   rotate: false
-  xy: 155, 4
+  xy: 169, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 7
 Avatar
   rotate: false
-  xy: 166, 4
+  xy: 180, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 8
 Avatar
   rotate: false
-  xy: 177, 4
+  xy: 191, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 9
-Avatar
-  rotate: false
-  xy: 188, 4
-  size: 9, 16
-  orig: 9, 16
-  offset: 0, 0
-  index: 14
