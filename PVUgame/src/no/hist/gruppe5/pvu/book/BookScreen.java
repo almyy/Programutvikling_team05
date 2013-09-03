@@ -68,20 +68,18 @@ public class BookScreen extends GameScreen {
         testTexture = new Texture(Gdx.files.internal("data/book.png"));
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
+        stage = new Stage(PVU.GAME_WIDTH*2.5f, PVU.GAME_HEIGHT*2.5f, true);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
         leftPage = new Label(getPageContent(0), labelStyle);
-        leftPage.setFontScale(0.35f);
         leftPage.setWidth(PVU.GAME_WIDTH);
-        leftPage.setPosition(20, PVU.GAME_HEIGHT / 2);
+        leftPage.setPosition(35, stage.getHeight() / 2);
         leftPage.setWrap(true);
 
         rightPage = new Label(getPageContent(1), labelStyle);
         rightPage.setPosition(110, 0);
-        rightPage.setFontScale(0.35f);
         rightPage.setWidth(PVU.GAME_WIDTH);
-        rightPage.setPosition(PVU.GAME_WIDTH * 0.65f - 20, PVU.GAME_HEIGHT / 2);
+        rightPage.setPosition(stage.getWidth()/2+5, stage.getHeight() / 2);
         rightPage.setWrap(true);
 
         stage.addActor(leftPage);
