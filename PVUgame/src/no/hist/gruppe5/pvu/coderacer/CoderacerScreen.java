@@ -61,6 +61,7 @@ public class CoderacerScreen extends GameScreen {
         stage.addActor(codeOutput);
         stage.addActor(finishedCode);
         stage.addActor(time);
+        
 
         codeOutput.setPosition(0, (PVU.GAME_HEIGHT * 0.8f));
         finishedCode.setPosition(PVU.GAME_WIDTH / 2 - finishedCode.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.2f));
@@ -73,6 +74,9 @@ public class CoderacerScreen extends GameScreen {
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1); // Important
         stage.draw();
+        batch.begin();
+        batch.draw(Assets.codeRacerScreenBackground, 0, 0);
+        batch.end();
     }
 
     @Override
