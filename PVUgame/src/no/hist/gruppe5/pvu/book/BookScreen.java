@@ -7,14 +7,9 @@ package no.hist.gruppe5.pvu.book;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,7 +28,6 @@ import org.w3c.dom.NodeList;
 public class BookScreen extends GameScreen {
 
     public static Texture testTexture;
-    //private BitmapFont font;
     private Label leftPage;
     private Label rightPage;
     private Stage stage;
@@ -46,18 +40,10 @@ public class BookScreen extends GameScreen {
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
-
         batch.begin();
-        batch.draw(testTexture, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
+        //DRAW BOOK
         batch.end();
-
-        //stage.
-
         stage.draw();
-        //label.draw(batch, 1f);
-
-        //font.drawWrapped(batch, loadText(), 35, 100, 55);
-
     }
 
     @Override
@@ -85,7 +71,6 @@ public class BookScreen extends GameScreen {
                 }
             }
         } catch (Exception e) {
-        // catch (ParserConfigurationException | SAXException | IOException e) {
         }
         return "";
     }
@@ -98,20 +83,22 @@ public class BookScreen extends GameScreen {
         testTexture = new Texture(Gdx.files.internal("data/book.png"));
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stage = new Stage();
+        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
         File bookContent = new File("data/test.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        leftPage = new Label(loadText("section1",dbFactory,bookContent), labelStyle);
-        labelStyle.font.scale(0.7f);
-        leftPage.setWidth(280);
-        leftPage.setPosition(170, 250);
+        leftPage = new Label(loadText("section1", dbFactory, bookContent).trim(), labelStyle);
+        leftPage.setFontScale(0.35f);
+        leftPage.setWidth(PVU.GAME_WIDTH);
+        leftPage.setPosition(20, PVU.GAME_HEIGHT/2);
         leftPage.setWrap(true);
-
-        rightPage = new Label(loadText("section2",dbFactory,bookContent), labelStyle);
-        rightPage.setWidth(280);
-        rightPage.setPosition(510, 285);
+        
+        rightPage = new Label(loadText("section1",dbFactory,bookContent).trim(), labelStyle);
+        rightPage.setPosition(110, 0);
+        rightPage.setFontScale(0.35f);
+        rightPage.setWidth(PVU.GAME_WIDTH);
+        rightPage.setPosition(PVU.GAME_WIDTH-(PVU.GAME_WIDTH*0.35f)-20, PVU.GAME_HEIGHT/2);
         rightPage.setWrap(true);
 
         stage.addActor(leftPage);
