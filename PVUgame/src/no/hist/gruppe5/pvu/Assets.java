@@ -27,8 +27,8 @@ public class Assets {
     
     public static final int SECONDARY_AVATAR_LEFT_1 = 0;
     public static final int SECONDARY_AVATAR_LEFT_1_FRAME_2 = 1;
-    public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 2;
-    public static final int SECONDARY_AVATAR_LEFT_2 = 3;
+    public static final int SECONDARY_AVATAR_LEFT_2 = 2;
+    public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 3;
     public static final int SECONDARY_AVATAR_RIGHT_1 = 4;
     public static final int SECONDARY_AVATAR_RIGHT_1_FRAME_2 = 5;
     

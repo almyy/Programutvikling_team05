@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.mainroom;
+package no.hist.gruppe5.pvu.mainroom.objects;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -94,7 +94,7 @@ public class RayCastManager {
         return rayCasts;
     }
 
-    class RayCast {
+    public class RayCast {
         public RayCastCallback callBack;
         public Vector2 from;
         public Vector2 to;
