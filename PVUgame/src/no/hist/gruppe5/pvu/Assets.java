@@ -37,13 +37,29 @@ public class Assets {
     public static final int SECONDARY_AVATAR_RIGHT_3 = 8; 
     public static final int SECONDARY_AVATAR_RIGHT_3_FRAME_2 = 9; 
     
-    public static final int MAIN_AVATAR_FRONT = 10;
-    public static final int MAIN_AVATAR_BACK = 11;
-    public static final int MAIN_AVATAR_SIDE_LEFT = 12;
-    public static final int MAIN_AVATAR_SIDE_RIGHT = 13;
-    public static final int MAIN_AVATAR_SITTING = 14;
+    public static final int MAIN_AVATAR_SITTING = 10;   
+    
+    public static final int MAIN_AVATAR_FRONT = 11;
+    public static final int MAIN_AVATAR_FRONT_FRAME_2 = 12;
+    public static final int MAIN_AVATAR_FRONT_FRAME_3 = 13;
+    
+    public static final int MAIN_AVATAR_SIDE_RIGHT = 14;
     public static final int MAIN_AVATAR_STEP_RIGHT = 15;
-    public static final int MAIN_AVATAR_STEP_LEFT = 16; 
+    public static final int MAIN_AVATAR_STEP_RIGHT_FRAME_2 = 16;
+    
+    public static final int MAIN_AVATAR_SIDE_LEFT = 17;
+    public static final int MAIN_AVATAR_STEP_LEFT = 18;
+    public static final int MAIN_AVATAR_STEP_LEFT_FRAME_2 = 19;
+    
+    public static final int MAIN_AVATAR_BACK = 20;
+    public static final int MAIN_AVATAR_BACK_FRAME_2 = 21;
+    public static final int MAIN_AVATAR_BACK_FRAME_3 = 22;
+   
+    
+    
+            
+   
+        
               
     public static BitmapFont primaryFont10px;
 
