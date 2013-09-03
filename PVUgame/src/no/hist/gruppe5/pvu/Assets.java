@@ -60,6 +60,8 @@ public class Assets {
 
     // MAIN SCREEN
     public static TextureRegion msBackground;
+    public static TextureRegion msTable;
+    public static TextureRegion msPcBackground;
     public static TextureRegion[] msBurndownCarts;
 
 
@@ -93,7 +95,8 @@ public class Assets {
         TextureAtlas msAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack")) ;
 
         msBackground = msAtlas.findRegion("main_room");
-
+        msPcBackground = msAtlas.findRegion("pcscreen");
+        msTable = msAtlas.findRegion("table");
         Array carts = msAtlas.findRegions("chart");
         msBurndownCarts = new TextureRegion[carts.size];
         for (int i = 0; i < carts.size; i++) {
