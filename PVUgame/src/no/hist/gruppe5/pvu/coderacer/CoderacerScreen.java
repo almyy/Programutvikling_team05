@@ -43,7 +43,7 @@ public class CoderacerScreen extends GameScreen {
 
         LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         codeOutput = new Label(code.getCode(), outputStyle);
-        codeOutput.setFontScale(0.4f);
+        codeOutput.setFontScale(0.8f);
         codeOutput.setWrap(true);
         codeOutput.setWidth(PVU.GAME_WIDTH);
 
