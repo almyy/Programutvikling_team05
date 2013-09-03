@@ -63,10 +63,14 @@ public class Assets {
     public static TextureRegion msTable;
     public static TextureRegion msPcBackground;
     public static TextureRegion[] msBurndownCarts;
+
     // INTRO SCREEN
     public static TextureRegion introMainLogo;
     public static TextureRegion introTeamLogo;
     public static TextureRegion introPressSpace;
+
+    // BOOK SCREEN
+    public static TextureRegion bookBook;
 
 
 
@@ -111,6 +115,8 @@ public class Assets {
         introMainLogo = msAtlas.findRegion("logo");
         introTeamLogo = msAtlas.findRegion("logo_2_group");
         introPressSpace = msAtlas.findRegion("trykk");
+
+        bookBook = msAtlas.findRegion("book");
     }
 
     public static TextureRegion getAvatarRegion(int region) {
