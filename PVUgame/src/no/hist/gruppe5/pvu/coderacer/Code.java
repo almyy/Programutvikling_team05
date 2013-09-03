@@ -15,8 +15,8 @@ public class Code {
     public Code() {
         this.codes = new ArrayList();
         codes.add("du er idioter");
-        codes.add("public static void main(String[] args) { ");
-        codes.add("Label label = new Label(\"Hei på deg\", new LabelStyle(Assets.primaryFont10px, Color.BLACK");
+        //codes.add("public static void main(String[] args) { ");
+        //codes.add("Label label = new Label(\"Hei på deg\", new LabelStyle(Assets.primaryFont10px, Color.BLACK");
         correct = "";
         left = getCode();
     }

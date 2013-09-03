@@ -63,6 +63,11 @@ public class Assets {
     public static TextureRegion msTable;
     public static TextureRegion msPcBackground;
     public static TextureRegion[] msBurndownCarts;
+    // INTRO SCREEN
+    public static TextureRegion introMainLogo;
+    public static TextureRegion introTeamLogo;
+    public static TextureRegion introPressSpace;
+
 
 
     public static void load() {
@@ -77,14 +82,14 @@ public class Assets {
 
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
-        
-        visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture"); 
+
+        visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture");
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
         visionShooterShipRegion = visionShooterAtlas.findRegion("VisionShooterShip");
-        visionShooterBullet = visionShooterAtlas.findRegion("Bullet"); 
+        visionShooterBullet = visionShooterAtlas.findRegion("Bullet");
         visionShooterFacebookRegion = visionShooterAtlas.findRegion("Facebook");
         visionShooterYoutubeRegion = visionShooterAtlas.findRegion("YouTube");
-        
+
         Array mainAvatarArray = mainAvatarAtlas.findRegions("Avatar");
         mainAvatar = new TextureRegion[mainAvatarArray.size];
         for(int i = 0; i < mainAvatarArray.size;i++){
@@ -102,6 +107,10 @@ public class Assets {
         for (int i = 0; i < carts.size; i++) {
             msBurndownCarts[i] = (TextureRegion) carts.get(i);
         }
+
+        introMainLogo = msAtlas.findRegion("logo");
+        introTeamLogo = msAtlas.findRegion("logo_2_group");
+        introPressSpace = msAtlas.findRegion("trykk");
     }
 
     public static TextureRegion getAvatarRegion(int region) {

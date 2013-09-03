@@ -23,18 +23,26 @@ public class MainScreen extends GameScreen {
 
     private static final float WORLD_TO_BOX = 0.01f;
     private static final float BOX_TO_WORLD = 100f;
+
     public static final int OBJECT_PLAYER = 0;
     public static final int OBJECT_ROOM = 1;
+
     private PopupBox mPopupBox;
     private World mWorld;
+
     private Box2DDebugRenderer mDebugRenderer;
+
     private Player mPlayer;
     private TeamMates mTeammates;
+
     private boolean mInputHandled = false;
     private Sprite mBackground;
+    private Sprite mTables;
     private Sprite[] mBurndownCarts;
+
     private int mCurrentCart;
     private RayCastManager mRayCastManager;
+
     // DEBUG
     private ShapeRenderer mShapeDebugRenderer;
     private boolean mShowingHint = false;
@@ -57,6 +65,7 @@ public class MainScreen extends GameScreen {
         createRoomBody();
 
         mBackground = new Sprite(Assets.msBackground);
+        mTables = new Sprite(Assets.msTable);
         mBurndownCarts = new Sprite[Assets.msBurndownCarts.length];
 
         mBackground.setSize(PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
@@ -113,11 +122,13 @@ public class MainScreen extends GameScreen {
         mBurndownCarts[mCurrentCart].draw(batch);
 
         if (mPlayer.getPosition().y < PVU.GAME_HEIGHT / 2) {
+            mTables.draw(batch);
             mTeammates.draw(batch);
             mPlayer.draw(batch);
         } else {
             mPlayer.draw(batch);
             mTeammates.draw(batch);
+            mTables.draw(batch);
         }
 
         if (mShowingHint && !mPlayer.isSitting()) {

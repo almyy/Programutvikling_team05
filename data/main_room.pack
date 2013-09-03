@@ -24,37 +24,58 @@ pcscreen
   orig: 192, 116
   offset: 0, 0
   index: -1
+logo
+  rotate: false
+  xy: 583, 82
+  size: 80, 35
+  orig: 80, 35
+  offset: 0, 0
+  index: -1
+logo_2_group
+  rotate: false
+  xy: 583, 45
+  size: 80, 35
+  orig: 80, 35
+  offset: 0, 0
+  index: -1
+trykk
+  rotate: false
+  xy: 665, 82
+  size: 80, 35
+  orig: 80, 35
+  offset: 0, 0
+  index: -1
 chart
   rotate: false
-  xy: 583, 98
+  xy: 583, 24
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 1
 chart
   rotate: false
-  xy: 583, 77
+  xy: 665, 61
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 4
 chart
   rotate: false
-  xy: 609, 98
+  xy: 747, 98
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 2
 chart
   rotate: false
-  xy: 583, 56
+  xy: 583, 3
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 3
 chart
   rotate: false
-  xy: 609, 77
+  xy: 609, 24
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
