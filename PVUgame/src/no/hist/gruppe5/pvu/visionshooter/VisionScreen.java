@@ -20,9 +20,13 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
-
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.Random;
 import no.hist.gruppe5.pvu.mainroom.ScoreHandler;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import no.hist.gruppe5.sounds.Sounds;
 
 public class VisionScreen extends GameScreen {
 
@@ -45,11 +49,11 @@ public class VisionScreen extends GameScreen {
     private Texture tex;
     private Skin skin = new Skin();
     private TextField.TextFieldStyle textfieldstyle;
+    private Stage stage;
 
     public VisionScreen(PVU game) {
         super(game);
         makeButton();
-
         mVisionShooterShip = new ShooterShip();
         shipProjectiles = new ArrayList();
         elements = new ArrayList();
@@ -99,9 +103,9 @@ public class VisionScreen extends GameScreen {
         mVisionShooterShip.draw(batch);
         pointTextLabel.draw(batch, 1f);
         pointValueLabel.draw(batch, 1f);
-        button.draw(batch, 1f);
 
         batch.end();
+        stage.draw();
     }
 
     @Override
@@ -116,12 +120,7 @@ public class VisionScreen extends GameScreen {
                 mLastBulletShot = TimeUtils.millis();
             }
         }
-        if(button.isPressed()){
-            System.out.println("ITS WØRKING!!!!!");
-            
-        }
-        
-        
+
         for (int i = 0; i < shipProjectiles.size(); i++) {
             if (shipProjectiles.get(i).getProjectileX() < 196) {
                 shipProjectiles.get(i).update(delta);
@@ -135,6 +134,7 @@ public class VisionScreen extends GameScreen {
                     if (elements.get(i) instanceof ShooterDokument) {
                         points -= 60;
                     }
+
                     shipProjectiles.remove(j);
                     elements.remove(i);
                     i--;
@@ -225,18 +225,28 @@ public class VisionScreen extends GameScreen {
     }
 
     public void makeButton() {
+        stage = new Stage(192f,116f, false);
+        Gdx.input.setInputProcessor(stage);
         tex = new Texture(Gdx.files.internal("data/DialogTexture.png"));
         textboxskin = new Skin();
         textfieldstyle = new TextField.TextFieldStyle();
         textboxskin.add("textfieldback", new TextureRegion(tex, 1, 1, 190, 56));
         Drawable d = textboxskin.getDrawable("textfieldback");
         button = new Button(d);
+        stage.addActor(button);
         button.setHeight(15f);
         button.setWidth(15f);
         button.setPosition(PVU.GAME_WIDTH - 15, PVU.GAME_HEIGHT - 15);
         button.setSkin(skin);
-       
-        
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScoreHandler.updateScore(0, points);
+                Gdx.app.exit();
+            }
+        });
+
+
+
     }
-    
 }

@@ -27,8 +27,8 @@ public class Assets {
     
     public static final int SECONDARY_AVATAR_LEFT_1 = 0;
     public static final int SECONDARY_AVATAR_LEFT_1_FRAME_2 = 1;
-    public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 2;
-    public static final int SECONDARY_AVATAR_LEFT_2 = 3;
+    public static final int SECONDARY_AVATAR_LEFT_2 = 2;
+    public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 3;
     public static final int SECONDARY_AVATAR_RIGHT_1 = 4;
     public static final int SECONDARY_AVATAR_RIGHT_1_FRAME_2 = 5;
     
@@ -37,26 +37,43 @@ public class Assets {
     public static final int SECONDARY_AVATAR_RIGHT_3 = 8; 
     public static final int SECONDARY_AVATAR_RIGHT_3_FRAME_2 = 9; 
     
-    public static final int MAIN_AVATAR_FRONT = 10;
-    public static final int MAIN_AVATAR_BACK = 11;
-    public static final int MAIN_AVATAR_SIDE_LEFT = 12;
-    public static final int MAIN_AVATAR_SIDE_RIGHT = 13;
-    public static final int MAIN_AVATAR_SITTING = 14;
+    public static final int MAIN_AVATAR_SITTING = 10;   
+    
+    public static final int MAIN_AVATAR_FRONT = 11;
+    public static final int MAIN_AVATAR_FRONT_FRAME_2 = 12;
+    public static final int MAIN_AVATAR_FRONT_FRAME_3 = 13;
+    
+    public static final int MAIN_AVATAR_SIDE_RIGHT = 14;
     public static final int MAIN_AVATAR_STEP_RIGHT = 15;
-    public static final int MAIN_AVATAR_STEP_LEFT = 16; 
-              
+    public static final int MAIN_AVATAR_STEP_RIGHT_FRAME_2 = 16;
+    
+    public static final int MAIN_AVATAR_SIDE_LEFT = 17;
+    public static final int MAIN_AVATAR_STEP_LEFT = 18;
+    public static final int MAIN_AVATAR_STEP_LEFT_FRAME_2 = 19;
+    
+    public static final int MAIN_AVATAR_BACK = 20;
+    public static final int MAIN_AVATAR_BACK_FRAME_2 = 21;
+    public static final int MAIN_AVATAR_BACK_FRAME_3 = 22;
+    
+    public static BitmapFont minecraftFont10px;
     public static BitmapFont primaryFont10px;
 
     // MAIN SCREEN
     public static TextureRegion msBackground;
+    public static TextureRegion msTable;
+    public static TextureRegion msPcBackground;
     public static TextureRegion[] msBurndownCarts;
 
 
     public static void load() {
+        minecraftFont10px = new BitmapFont(
+                Gdx.files.internal("data/MinecraftiaBitmap10px.fnt"),
+                Gdx.files.internal("data/MinecraftiaBitmap10px_0.png"), false);
         primaryFont10px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
         primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        minecraftFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
@@ -78,7 +95,8 @@ public class Assets {
         TextureAtlas msAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack")) ;
 
         msBackground = msAtlas.findRegion("main_room");
-
+        msPcBackground = msAtlas.findRegion("pcscreen");
+        msTable = msAtlas.findRegion("table");
         Array carts = msAtlas.findRegions("chart");
         msBurndownCarts = new TextureRegion[carts.size];
         for (int i = 0; i < carts.size; i++) {
