@@ -45,10 +45,7 @@ public class Assets {
     public static final int MAIN_AVATAR_STEP_RIGHT = 15;
     public static final int MAIN_AVATAR_STEP_LEFT = 16; 
               
-    public static BitmapFont primaryFont16px;
     public static BitmapFont primaryFont10px;
-    public static BitmapFont primaryFont5px;
-    public static BitmapFont primaryFont;
 
     // MAIN SCREEN
     public static TextureRegion msBackground;
@@ -56,16 +53,11 @@ public class Assets {
 
 
     public static void load() {
-        Texture testTexture = new Texture(Gdx.files.internal("data/square.png"));
-        testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-    
-        testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         primaryFont10px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
         primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        testRegion = new TextureRegion(testTexture, 0, 0, 100, 100);
-        
+
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
         

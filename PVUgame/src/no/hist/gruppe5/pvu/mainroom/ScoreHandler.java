@@ -7,9 +7,9 @@ package no.hist.gruppe5.pvu.mainroom;
 public class ScoreHandler {
 
     private static int[] totalScore;
-    private static boolean completedAllLevels;
-    private static int total;
-
+    public static boolean completedAllLevels;
+    public static int total;
+    
     /**
      * 
      */
@@ -24,7 +24,7 @@ public class ScoreHandler {
      *
      * @return true/false
      */
-    public static boolean checkScore() {
+    private static boolean checkScore() {
         for (int i = 0; i < totalScore.length; i++) {
             if (totalScore[i] == 0) {
                 return false;

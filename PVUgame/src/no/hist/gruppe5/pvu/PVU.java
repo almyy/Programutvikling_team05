@@ -1,13 +1,17 @@
 package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
+import no.hist.gruppe5.pvu.mainroom.MainScreen;
 import no.hist.gruppe5.pvu.mainroom.ScoreHandler;
 import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class PVU extends Game {
+
+    public static Screen MAIN_SCREEN;
 
     public static float SCREEN_WIDTH = 960f;
     public static float SCREEN_HEIGHT = 580f;
@@ -18,7 +22,8 @@ public class PVU extends Game {
     public void create() {
         ScoreHandler.load();
         Assets.load();
-        setScreen(new CoderacerScreen(this));
+        MAIN_SCREEN = new MainScreen(this);
+        setScreen(MAIN_SCREEN);
     }
 
     @Override
