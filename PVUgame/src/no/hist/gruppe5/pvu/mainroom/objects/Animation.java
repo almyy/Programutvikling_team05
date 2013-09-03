@@ -12,7 +12,7 @@ import no.hist.gruppe5.pvu.Assets;
 
 public class Animation {
     private int currentFrame = 0;
-    private float maxFrameTimeSeconds = 3f;
+    private float maxFrameTimeSeconds = 0.15f;
     private float timeSinceLastFrame = 0;
 
     public TextureRegion[] frames;

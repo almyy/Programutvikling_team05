@@ -29,18 +29,22 @@ public class Player {
     private final Animation PLAYER_FRONT;
     private final Animation PLAYER_SITTING;
 
+    private Animation[] animations;
+
     private boolean mSitting = false;
 
-    private SpriteBatch mBatch;
     private Body mPlayerBody;
     private Sprite mPlayerSprite;
 
     public Player(World world) {
-        PLAYER_BACK = new Animation(Assets.MAIN_AVATAR_BACK, 2);
-        PLAYER_LEFT = new Animation(Assets.MAIN_AVATAR_SIDE_LEFT, 2);
-        PLAYER_RIGHT = new Animation(Assets.MAIN_AVATAR_SIDE_RIGHT, 2);
-        PLAYER_FRONT = new Animation(Assets.MAIN_AVATAR_FRONT, 2);
-        PLAYER_SITTING = new Animation(Assets.MAIN_AVATAR_SITTING, 2);
+
+        PLAYER_BACK = new Animation(Assets.MAIN_AVATAR_BACK, 3);
+        PLAYER_LEFT = new Animation(Assets.MAIN_AVATAR_SIDE_LEFT, 3);
+        PLAYER_RIGHT = new Animation(Assets.MAIN_AVATAR_SIDE_RIGHT, 3);
+        PLAYER_FRONT = new Animation(Assets.MAIN_AVATAR_FRONT, 3);
+        PLAYER_SITTING = new Animation(Assets.MAIN_AVATAR_SITTING, 1);
+
+        animations = new Animation[]{PLAYER_BACK, PLAYER_LEFT, PLAYER_RIGHT, PLAYER_FRONT, PLAYER_SITTING};
 
         mPlayerSprite = new Sprite(PLAYER_FRONT.getFrame());
         PLAYER_SIZE = mPlayerSprite.getWidth();
@@ -76,6 +80,11 @@ public class Player {
             Vector2 pos = mPlayerBody.getPosition();
             mPlayerSprite.setPosition(pos.x - (mPlayerSprite.getWidth() / 2), pos.y - mPlayerSprite.getHeight() / 4.6f);
         }
+
+        float dt = Gdx.graphics.getDeltaTime();
+
+        for (Animation a : animations)
+            a.animate(dt);
     }
 
     private void updatePlayerMovement() {

@@ -54,36 +54,46 @@ public class Assets {
     public static final int MAIN_AVATAR_BACK = 20;
     public static final int MAIN_AVATAR_BACK_FRAME_2 = 21;
     public static final int MAIN_AVATAR_BACK_FRAME_3 = 22;
-   
     
-    
-            
-   
-        
-              
+    public static BitmapFont minecraftFont10px;
     public static BitmapFont primaryFont10px;
 
     // MAIN SCREEN
     public static TextureRegion msBackground;
+    public static TextureRegion msTable;
+    public static TextureRegion msPcBackground;
     public static TextureRegion[] msBurndownCarts;
+
+    // INTRO SCREEN
+    public static TextureRegion introMainLogo;
+    public static TextureRegion introTeamLogo;
+    public static TextureRegion introPressSpace;
+
+    // BOOK SCREEN
+    public static TextureRegion bookBook;
+
 
 
     public static void load() {
+        minecraftFont10px = new BitmapFont(
+                Gdx.files.internal("data/MinecraftiaBitmap10px.fnt"),
+                Gdx.files.internal("data/MinecraftiaBitmap10px_0.png"), false);
         primaryFont10px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
         primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        minecraftFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
-        
-        visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture"); 
+
+        visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture");
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
         visionShooterShipRegion = visionShooterAtlas.findRegion("VisionShooterShip");
-        visionShooterBullet = visionShooterAtlas.findRegion("Bullet"); 
+        visionShooterBullet = visionShooterAtlas.findRegion("Bullet");
         visionShooterFacebookRegion = visionShooterAtlas.findRegion("Facebook");
         visionShooterYoutubeRegion = visionShooterAtlas.findRegion("YouTube");
-        
+
         Array mainAvatarArray = mainAvatarAtlas.findRegions("Avatar");
         mainAvatar = new TextureRegion[mainAvatarArray.size];
         for(int i = 0; i < mainAvatarArray.size;i++){
@@ -94,12 +104,19 @@ public class Assets {
         TextureAtlas msAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack")) ;
 
         msBackground = msAtlas.findRegion("main_room");
-
+        msPcBackground = msAtlas.findRegion("pcscreen");
+        msTable = msAtlas.findRegion("table");
         Array carts = msAtlas.findRegions("chart");
         msBurndownCarts = new TextureRegion[carts.size];
         for (int i = 0; i < carts.size; i++) {
             msBurndownCarts[i] = (TextureRegion) carts.get(i);
         }
+
+        introMainLogo = msAtlas.findRegion("logo");
+        introTeamLogo = msAtlas.findRegion("logo_2_group");
+        introPressSpace = msAtlas.findRegion("trykk");
+
+        bookBook = msAtlas.findRegion("book");
     }
 
     public static TextureRegion getAvatarRegion(int region) {
