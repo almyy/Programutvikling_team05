@@ -17,10 +17,7 @@ import no.hist.gruppe5.pvu.mainroom.objects.RayCastManager;
 import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
 
 /**
- * Created with IntelliJ IDEA.
- * User: karl
- * Date: 8/26/13
- * Time: 10:56 PM
+ * Created with IntelliJ IDEA. User: karl Date: 8/26/13 Time: 10:56 PM
  */
 public class MainScreen extends GameScreen {
 
@@ -31,18 +28,18 @@ public class MainScreen extends GameScreen {
     public static final int OBJECT_ROOM = 1;
 
     private PopupBox mPopupBox;
-
     private World mWorld;
+
     private Box2DDebugRenderer mDebugRenderer;
 
     private Player mPlayer;
     private TeamMates mTeammates;
 
     private boolean mInputHandled = false;
-
     private Sprite mBackground;
     private Sprite mTables;
     private Sprite[] mBurndownCarts;
+
     private int mCurrentCart;
     private RayCastManager mRayCastManager;
 
@@ -106,8 +103,12 @@ public class MainScreen extends GameScreen {
     }
 
     private void setBurnDownCart(int num) {
-        if (num < 0) num = 0;
-        if (num > 4) num = 4;
+        if (num < 0) {
+            num = 0;
+        }
+        if (num > 4) {
+            num = 4;
+        }
         mCurrentCart = num;
     }
 
@@ -120,7 +121,7 @@ public class MainScreen extends GameScreen {
         mBackground.draw(batch);
         mBurndownCarts[mCurrentCart].draw(batch);
 
-        if(mPlayer.getPosition().y < PVU.GAME_HEIGHT / 2) {
+        if (mPlayer.getPosition().y < PVU.GAME_HEIGHT / 2) {
             mTables.draw(batch);
             mTeammates.draw(batch);
             mPlayer.draw(batch);
@@ -130,7 +131,7 @@ public class MainScreen extends GameScreen {
             mTables.draw(batch);
         }
 
-        if(mShowingHint && !mPlayer.isSitting()) {
+        if (mShowingHint && !mPlayer.isSitting()) {
             mPopupBox.draw(delta);
         }
 
@@ -140,8 +141,9 @@ public class MainScreen extends GameScreen {
     }
 
     private void drawDebug(boolean onlyRayCasts) {
-        if(!onlyRayCasts)
+        if (!onlyRayCasts) {
             mDebugRenderer.render(mWorld, camera.combined);
+        }
 
         mShapeDebugRenderer.begin(ShapeRenderer.ShapeType.Line);
         mShapeDebugRenderer.setColor(Color.RED);
@@ -162,7 +164,7 @@ public class MainScreen extends GameScreen {
             mWorld.rayCast(rc.callBack, rc.from, rc.to);
         }
 
-        if(mRayCastManager.getInfront() != -1 && !mShowingHint) {
+        if (mRayCastManager.getInfront() != -1 && !mShowingHint) {
             mShowingHint = true;
             mCurrentHint = mRayCastManager.getInfront();
             switch (mRayCastManager.getInfront()) {
@@ -186,24 +188,26 @@ public class MainScreen extends GameScreen {
         } else if (mRayCastManager.getInfront() == -1 && mShowingHint) {
             mShowingHint = false;
         }
-        
-        if(mShowingHint) {
+
+        if (mShowingHint) {
             recieveHintInput();
         }
 
-        if(!Gdx.input.isKeyPressed(Input.Keys.E))
+        if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             mInputHandled = false;
+        }
 
     }
 
     private void recieveHintInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.E) && !mInputHandled) {
+        if (Gdx.input.isKeyPressed(Input.Keys.E) && !mInputHandled) {
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
                     mInputHandled = true;
                     game.setScreen(new BookScreen(game));
                     break;
                 case RayCastManager.PC:
+                    game.setScreen(new MinigameSelectorScreen(game));
                     mPlayer.sitDown();
                     mShowingHint = false;
                     mInputHandled = true;
@@ -222,7 +226,6 @@ public class MainScreen extends GameScreen {
             System.out.println("Start thingy");
         }
     }
-
 
     @Override
     protected void cleanUp() {
