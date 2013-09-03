@@ -41,21 +41,21 @@ public class CoderacerScreen extends GameScreen {
         
         stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
 
-        LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
+        LabelStyle outputStyle = new LabelStyle(Assets.minecraftFont10px, Color.BLACK);
         codeOutput = new Label(code.getCode(), outputStyle);
         codeOutput.setFontScale(0.8f);
         codeOutput.setWrap(true);
         codeOutput.setWidth(PVU.GAME_WIDTH);
 
-        LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
+        LabelStyle finishedStyle = new LabelStyle(Assets.minecraftFont10px, Color.RED);
         finishedCode = new Label("", finishedStyle);
-        finishedCode.setFontScale(0.4f);
+        finishedCode.setFontScale(0.5f);
 
         grade = new Label("", finishedStyle);
         grade.setFontScale(1f);
         
         time = new Label("" + remainingTime, finishedStyle);
-        time.setFontScale(0.5f);
+        time.setFontScale(0.6f);
 
         stage.addActor(grade);
         stage.addActor(codeOutput);

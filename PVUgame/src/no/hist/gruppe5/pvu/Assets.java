@@ -54,13 +54,8 @@ public class Assets {
     public static final int MAIN_AVATAR_BACK = 20;
     public static final int MAIN_AVATAR_BACK_FRAME_2 = 21;
     public static final int MAIN_AVATAR_BACK_FRAME_3 = 22;
-   
     
-    
-            
-   
-        
-              
+    public static BitmapFont minecraftFont10px;
     public static BitmapFont primaryFont10px;
 
     // MAIN SCREEN
@@ -69,10 +64,14 @@ public class Assets {
 
 
     public static void load() {
+        minecraftFont10px = new BitmapFont(
+                Gdx.files.internal("data/MinecraftiaBitmap10px.fnt"),
+                Gdx.files.internal("data/MinecraftiaBitmap10px_0.png"), false);
         primaryFont10px = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
         primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        minecraftFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
