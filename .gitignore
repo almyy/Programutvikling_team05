@@ -81,8 +81,5 @@ out/
 *.war
 *.ear
 
-#Other
-PVUgame/src/PVU.gwt.xml
-
 ## Temporary ignore
 */PVU.java
