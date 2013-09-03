@@ -3,44 +3,58 @@ main_room.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-main_room
+table
   rotate: false
   xy: 1, 1
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
+main_room
+  rotate: false
+  xy: 195, 1
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1
+pcscreen
+  rotate: false
+  xy: 389, 1
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1
 chart
   rotate: false
-  xy: 195, 98
+  xy: 583, 98
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 1
 chart
   rotate: false
-  xy: 195, 77
+  xy: 583, 77
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 4
 chart
   rotate: false
-  xy: 221, 98
+  xy: 609, 98
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 2
 chart
   rotate: false
-  xy: 195, 56
+  xy: 583, 56
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 3
 chart
   rotate: false
-  xy: 221, 77
+  xy: 609, 77
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
