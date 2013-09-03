@@ -6,147 +6,128 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.coderacer.Code;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
+import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
-    private String text;
+    private String text = "Minigame 1";
     private Label codeOutput;
     private InputProcessor inputListener;
     private Stage stage;
     private Skin textboxskin;
     private Texture tex;
-    private TextField.TextFieldStyle textfieldstyle;
+    private TextButtonStyle textbuttonstyle;
     private TextField textfield;
     private Label.LabelStyle outputStyle;
-    private String text2;
+    private String text2 = "Minigame 2";
     private Label codeOutput2;
     private InputProcessor inputListener2;
     private TextField textfield2;
     private Label.LabelStyle outputStyle2;
-    private String text3;
+    private String text3 = "Minigame 3";
     private Label codeOutput3;
     private InputProcessor inputListener3;
     private TextField textfield3;
     private Label.LabelStyle outputStyle3;
-    private String text4;
+    private String text4 = "Minigame 4";
     private Label codeOutput4;
     private InputProcessor inputListener4;
     private TextField textfield4;
     private Label.LabelStyle outputStyle4;
-    private String text5;
+    private String text5 = "Minigame 5";
     private Label codeOutput5;
     private InputProcessor inputListener5;
     private TextField textfield5;
     private Label.LabelStyle outputStyle5;
+    private TextButton button;
+    private Skin buttonskin;
 
-    public MinigameSelectorScreen(PVU game) {
+    public MinigameSelectorScreen(final PVU game) {
         super(game);
 
         stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
 
-        tex = new Texture(Gdx.files.internal("data/DialogTexture.png"));
-        textfieldstyle = new TextField.TextFieldStyle();
-        textboxskin = new Skin();
-        textboxskin.add("textfieldback", new TextureRegion(tex, 1, 1, 190, 56));
+        Button button1 = makeButton(text);
+        button1.setPosition(68, 88);
+        stage.addActor(button1);
 
-        textfieldstyle.font = Assets.primaryFont10px;
-        textfieldstyle.background = textboxskin.getDrawable("textfieldback");
-        textfield = new TextField("", textfieldstyle);
-        textfield.setHeight(15);
-        textfield.setWidth(PVU.GAME_WIDTH / 3);
+        button1.addListener(new ClickListener() {
 
-        outputStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        codeOutput = new Label(text, outputStyle);
-        codeOutput.setFontScale(0.4f);
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                
+                    game.setScreen(new VisionScreen(game));
+            }
+        });
 
-        textfield.setPosition(PVU.GAME_WIDTH / 3, 90);
-        codeOutput.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.8f));
+        Button button2 = makeButton(text2);
+        button2.setPosition(68, 75);
+        stage.addActor(button2);
 
-        stage.addActor(textfield);
-        stage.addActor(codeOutput);
+        button2.addListener(new ClickListener() {
 
-        codeOutput2 = new Label(text2, outputStyle);
-        codeOutput2.setFontScale(0.4f);
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new CoderacerScreen(game));
+            }
+        });
 
-        textfield2 = new TextField("", textfieldstyle);
-        textfield2.setHeight(15);
-        textfield2.setWidth(PVU.GAME_WIDTH / 3);
+        Button button3 = makeButton(text3);
+        button3.setPosition(68, 62);
+        stage.addActor(button3);
 
-        textfield2.setPosition(PVU.GAME_WIDTH / 3, 70);
-        codeOutput2.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.7f));
+        button3.addListener(new ClickListener() {
 
-        stage.addActor(textfield2);
-        stage.addActor(codeOutput2);
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("LOL3");
+            }
+        });
 
-        codeOutput3 = new Label(text3, outputStyle);
-        codeOutput3.setFontScale(0.4f);
+        Button button4 = makeButton(text4);
+        button4.setPosition(68, 49);
+        stage.addActor(button4);
 
-        textfield3 = new TextField("", textfieldstyle);
-        textfield3.setHeight(15);
-        textfield3.setWidth(PVU.GAME_WIDTH / 3);
+        button4.addListener(new ClickListener() {
 
-        textfield3.setPosition(PVU.GAME_WIDTH / 3, 70);
-        codeOutput3.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.7f));
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("LOL4");
+            }
+        });
 
-        textfield3.setPosition(PVU.GAME_WIDTH / 3, 50);
-        codeOutput3.setPosition(PVU.GAME_WIDTH / 2
-                - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.6f));
+        Button button5 = makeButton(text5);
+        button5.setPosition(68, 36);
+        stage.addActor(button5);
 
-        stage.addActor(textfield3);
-        stage.addActor(codeOutput3);
+        button5.addListener(new ClickListener() {
 
-        codeOutput4 = new Label(text4, outputStyle);
-        codeOutput4.setFontScale(0.4f);
-
-        textfield4 = new TextField("", textfieldstyle);
-        textfield4.setHeight(15);
-        textfield4.setWidth(PVU.GAME_WIDTH / 3);
-
-        textfield4.setPosition(PVU.GAME_WIDTH / 3, 70);
-        codeOutput4.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.7f));
-        
-        textfield4.setPosition(PVU.GAME_WIDTH / 3, 30);
-        codeOutput4.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.5f));
-        
-        stage.addActor(textfield4);
-        stage.addActor(codeOutput4);
-
-        codeOutput5 = new Label(text5, outputStyle);
-        codeOutput5.setFontScale(0.4f);
-
-        textfield5 = new TextField("", textfieldstyle);
-        textfield5.setHeight(15);
-        textfield5.setWidth(PVU.GAME_WIDTH / 3);
-
-        textfield5.setPosition(PVU.GAME_WIDTH / 3, 70);
-        codeOutput5.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.7f));
-
-        textfield5.setPosition(PVU.GAME_WIDTH / 3, 10);
-        codeOutput5.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.4f));
-
-        stage.addActor(textfield5);
-        stage.addActor(codeOutput5);
-
-        //  inputListener = new CoderacerScreen.inputListener();
-        Gdx.input.setInputProcessor(inputListener);
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("LOL5");
+            }
+        });
     }
 
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
-        stage.draw();
+
         batch.begin();
-        textfield.draw(batch, delta);
+        stage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
         batch.end();
+        stage.draw();
     }
 
     @Override
@@ -157,11 +138,17 @@ public class MinigameSelectorScreen extends GameScreen {
     protected void cleanUp() {
     }
 
-    /*
-     * private void updateOutput() { codeOutput.setText(code.getLeft());
-     * finishedCode.setText(code.getCorrect());
-     * codeOutput.setPosition(PVU.GAME_WIDTH / 2 - codeOutput.getPrefWidth() /
-     * 2, (PVU.GAME_HEIGHT * 0.8f)); finishedCode.setPosition(PVU.GAME_WIDTH / 2
-     * - finishedCode.getPrefWidth() / 2, (PVU.GAME_HEIGHT * 0.2f)); }
-     */
+    private TextButton makeButton(String text) {
+        Gdx.input.setInputProcessor(stage);
+        tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
+        buttonskin = new Skin();
+        textbuttonstyle = new TextButton.TextButtonStyle();
+        textbuttonstyle.font = Assets.primaryFont10px;
+        buttonskin.add("textfieldback", new TextureRegion(tex, 10, 10));
+        Drawable d = buttonskin.getDrawable("textfieldback");
+        textbuttonstyle.up = d;
+        textbuttonstyle.down = d;
+        button = new TextButton(text, textbuttonstyle);
+        return button;
+    }
 }
