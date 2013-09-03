@@ -127,8 +127,8 @@ public class MainScreen extends GameScreen {
             mPlayer.draw(batch);
         } else {
             mPlayer.draw(batch);
-            mTeammates.draw(batch);
             mTables.draw(batch);
+            mTeammates.draw(batch);
         }
 
         if (mShowingHint && !mPlayer.isSitting()) {
