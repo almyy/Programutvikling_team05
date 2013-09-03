@@ -1,6 +1,8 @@
 package no.hist.gruppe5.pvu.coderacer;
 
+import com.badlogic.gdx.Game;
 import java.util.ArrayList;
+import no.hist.gruppe5.pvu.PVU;
 
 public class Code {
 
@@ -13,8 +15,8 @@ public class Code {
     public Code() {
         this.codes = new ArrayList();
         codes.add("du er idioter");
-        codes.add("public static void main(String[] args)");
-        codes.add("if(andreas == hipster)");
+        codes.add("public static void main(String[] args) { ");
+        codes.add("Label label = new Label(\"Hei på deg\", new LabelStyle(Assets.primaryFont10px, Color.BLACK");
         correct = "";
         left = getCode();
     }
@@ -32,14 +34,17 @@ public class Code {
                 i++;
                 charCounter = 0;
                 correct = "";
-                left = getCode();
+                if(!isFinished()) left = getCode();
             }
             return true;
         }
 
         return false;
     }
-
+    public boolean isFinished() {
+        if(i >= codes.size()) return true;
+        else return false;
+    }
     public int getCharCounter() {
         return charCounter;
     }
@@ -50,5 +55,32 @@ public class Code {
 
     public String getLeft() {
         return left;
+    }
+    private int getMaxScore() {
+        int counter = 0;
+        for(int i = 0; i < codes.size(); i++) {
+            for(int j = 0; j < codes.get(i).length(); j++) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+    public char getGrade(int score) {
+        if(((double) score/getMaxScore()) >= 0.95) {
+            return 'A';
+        }
+        else if(((double) score/getMaxScore()) < 0.98 && ((double) score/getMaxScore()) >= 0.85) {
+            return 'B';
+        }
+        else if(((double) score/getMaxScore()) < 0.85 && ((double) score/getMaxScore()) >= 0.60) {
+            return 'C';
+        }
+        else if(((double) score/getMaxScore()) < 0.60 && ((double) score/getMaxScore()) >= 0.48) {
+            return 'D';
+        }
+        else if(((double) score/getMaxScore()) < 0.48 && ((double) score/getMaxScore()) >= 0.35) {
+            return 'E';
+        }
+        else return 'F';
     }
 }
