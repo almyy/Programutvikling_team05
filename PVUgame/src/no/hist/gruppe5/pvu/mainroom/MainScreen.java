@@ -12,6 +12,9 @@ import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.dialogdrawer.PopupBox;
+import no.hist.gruppe5.pvu.mainroom.objects.Player;
+import no.hist.gruppe5.pvu.mainroom.objects.RayCastManager;
+import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,16 +30,15 @@ public class MainScreen extends GameScreen {
     public static final int OBJECT_PLAYER = 0;
     public static final int OBJECT_ROOM = 1;
 
-    PopupBox mPopupBox;
+    private PopupBox mPopupBox;
 
     private World mWorld;
     private Box2DDebugRenderer mDebugRenderer;
 
-    Player mPlayer;
-    TeamMates mTeammates;
+    private Player mPlayer;
+    private TeamMates mTeammates;
 
-    private boolean left = true;
-    private boolean up = true;
+    private boolean mInputHandled = false;
 
     private Sprite mBackground;
     private Sprite[] mBurndownCarts;
@@ -116,20 +118,27 @@ public class MainScreen extends GameScreen {
         mBackground.draw(batch);
         mBurndownCarts[mCurrentCart].draw(batch);
 
-        mTeammates.draw(batch);
-        mPlayer.draw(batch);
+        if(mPlayer.getPosition().y < PVU.GAME_HEIGHT / 2) {
+            mTeammates.draw(batch);
+            mPlayer.draw(batch);
+        } else {
+            mPlayer.draw(batch);
+            mTeammates.draw(batch);
+        }
 
-        if(mShowingHint) {
+        if(mShowingHint && !mPlayer.isSitting()) {
             mPopupBox.draw(delta);
         }
 
         batch.end();
 
-        drawDebug();
+        //drawDebug(true);
     }
 
-    private void drawDebug() {
-        mDebugRenderer.render(mWorld, camera.combined);
+    private void drawDebug(boolean onlyRayCasts) {
+        if(!onlyRayCasts)
+            mDebugRenderer.render(mWorld, camera.combined);
+
         mShapeDebugRenderer.begin(ShapeRenderer.ShapeType.Line);
         mShapeDebugRenderer.setColor(Color.RED);
         for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
@@ -170,10 +179,7 @@ public class MainScreen extends GameScreen {
                     mPopupBox.setXY(mPlayer.getPosition());
                     break;
             }
-            System.out.println("Sou");
         } else if (mRayCastManager.getInfront() == -1 && mShowingHint) {
-            //TODO disable all hint showings
-            System.out.println("Disable");
             mShowingHint = false;
         }
         
@@ -181,19 +187,32 @@ public class MainScreen extends GameScreen {
             recieveHintInput();
         }
 
+        if(!Gdx.input.isKeyPressed(Input.Keys.E))
+            mInputHandled = false;
+
     }
 
     private void recieveHintInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.E) && !mInputHandled) {
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
+                    mInputHandled = true;
                     game.setScreen(new BookScreen(game));
                     break;
                 case RayCastManager.PC:
+                    mPlayer.sitDown();
+                    mShowingHint = false;
+                    mInputHandled = true;
+                    //TODO pc screen
                     break;
                 case RayCastManager.CART:
+                    setBurnDownCart(++mCurrentCart % 5);
+                    System.out.println(mCurrentCart);
+                    mInputHandled = true;
                     break;
                 case RayCastManager.TABLE:
+                    mInputHandled = true;
+                    //TODO table screen
                     break;
             }
             System.out.println("Start thingy");
