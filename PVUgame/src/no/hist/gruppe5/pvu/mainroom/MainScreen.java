@@ -196,7 +196,7 @@ public class MainScreen extends GameScreen {
         if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             mInputHandled = false;
         }
-
+        updateMainScreenSoundButton();
     }
 
     private void recieveHintInput() {
