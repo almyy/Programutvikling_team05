@@ -29,7 +29,7 @@ public class CoderacerScreen extends GameScreen {
     private Label time;
     private Code code = new Code();
     private Stage stage;
-    private int remainingTime = 60;
+    private int remainingTime = 30;
     private int score = 0;
     private boolean start;
     private boolean pause;
@@ -73,12 +73,12 @@ public class CoderacerScreen extends GameScreen {
         time.setFontScale(3f);
 
         outputGroup.addActor(codeOutput);
-        outputGroup.setWidth(150);
+        outputGroup.setWidth(120);
         outputGroup.setHeight(40);
         outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() / 2, 450);
 
         inputGroup.addActor(finishedCode);
-        inputGroup.setWidth(150);
+        inputGroup.setWidth(120);
         inputGroup.setHeight(40);
         inputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - inputGroup.getWidth() / 2, 190);
 
