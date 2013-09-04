@@ -12,8 +12,8 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
+import no.hist.gruppe5.pvu.quiz.QuizScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
-import no.hist.gruppe5.quiz.QuizScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 

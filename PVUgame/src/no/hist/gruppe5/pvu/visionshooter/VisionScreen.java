@@ -22,10 +22,10 @@ import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.Random;
-import no.hist.gruppe5.pvu.mainroom.ScoreHandler;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import no.hist.gruppe5.pvu.ScoreHandler;
 import no.hist.gruppe5.sounds.Sounds;
 
 public class VisionScreen extends GameScreen {
