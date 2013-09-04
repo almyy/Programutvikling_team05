@@ -1,4 +1,4 @@
-package no.hist.gruppe5;
+package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
 
