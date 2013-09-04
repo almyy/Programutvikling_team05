@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.mainroom;
+package no.hist.gruppe5.pvu;
 
 /**
  *

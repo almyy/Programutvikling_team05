@@ -10,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
+import no.hist.gruppe5.Settings;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 9:48 AM
@@ -23,9 +22,10 @@ public abstract class GameScreen implements Screen {
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
     private Button soundButton;
-    private Button noSoundButton;
     private Stage stage;
     private long timeSinceLastAction;
+    private Skin skin;
+    private ButtonStyle buttonStyle;
 
     public GameScreen(PVU game) {
         this.game = game;
@@ -35,6 +35,7 @@ public abstract class GameScreen implements Screen {
         batch = new SpriteBatch();
 
         timeSinceLastAction = 0;
+        
         stage = new Stage(PVU.GAME_WIDTH * 2.7f, PVU.GAME_HEIGHT * 2.7f, true);
         initSoundButton();
     }
@@ -62,18 +63,7 @@ public abstract class GameScreen implements Screen {
         float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
         update(deltaUpdate);
         draw(delta);
-
-        if (TimeUtils.millis() - timeSinceLastAction > 400l) {
-            if (soundButton.isPressed()) {
-                soundButton.remove();
-                stage.addActor(noSoundButton);
-                timeSinceLastAction = TimeUtils.millis();
-            }else if(noSoundButton.isPressed()){
-                noSoundButton.remove();
-                stage.addActor(soundButton);
-                timeSinceLastAction = TimeUtils.millis();
-            }
-        }
+        checkSoundButton();
         stage.draw();
     }
 
@@ -99,14 +89,46 @@ public abstract class GameScreen implements Screen {
     public void resume() {
     }
 
-    public void initSoundButton() {
+    /**
+     * Initializes sound button.
+     */
+    private void initSoundButton() {
         TextureAtlas atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
-        Skin skin = new Skin(atlas);
-        noSoundButton = new Button(skin.getDrawable("nosound.up"));
-        soundButton = new Button(skin.getDrawable("sound.up"));
+        skin = new Skin(atlas);
+        buttonStyle = new ButtonStyle();
+        buttonStyle.up = (Settings.GLOBAL_SOUND)?skin.getDrawable("sound.up"):skin.getDrawable("nosound.up");
+        soundButton = new Button(buttonStyle);
         soundButton.setPosition(PVU.GAME_WIDTH * 2.7f - 25, PVU.GAME_HEIGHT * 2.7f - 25);
-        noSoundButton.setPosition(PVU.GAME_WIDTH * 2.7f - 25, PVU.GAME_HEIGHT * 2.7f - 25);
         stage.addActor(soundButton);
         Gdx.input.setInputProcessor(stage);
+    }
+    
+    /**
+     * Checks global sound variable and updates the button style for the sound button.
+     */
+    private void checkSoundButton(){
+        if (TimeUtils.millis() - timeSinceLastAction > 450l) {
+            if (Gdx.input.isTouched()) {
+                int x = Gdx.input.getX();
+                int y = Gdx.input.getY();
+                if(x>915&&x<950 && y>10&&y<45){
+                    if(Settings.GLOBAL_SOUND){
+                        buttonStyle.up = skin.getDrawable("nosound.up");
+                        Settings.setSound(false);
+                    }else{
+                        buttonStyle.up = skin.getDrawable("sound.up");
+                        Settings.setSound(true);
+                    }
+                }
+                timeSinceLastAction = TimeUtils.millis();
+            }
+        }
+    }
+    
+    /**
+     * Method to update soundbutton in (static) main screen room.
+     */
+    public void updateMainScreenSoundButton(){
+        buttonStyle.up = (Settings.GLOBAL_SOUND)?skin.getDrawable("sound.up"):skin.getDrawable("nosound.up");
     }
 }
