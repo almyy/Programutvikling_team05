@@ -23,8 +23,13 @@ public abstract class GameScreen implements Screen {
     private Button soundButton;
     private Stage stage;
     private long timeSinceLastAction;
-    private Skin skin;
-    private ButtonStyle buttonStyle;
+    private Skin skinSoundButton;
+    private ButtonStyle styleSoundButton;
+    private Skin skinPauseButton;
+    private ButtonStyle stylePauseButton;
+    private Button pauseButton;
+    private TextureAtlas atlas;
+    private boolean running;
 
     public GameScreen(PVU game) {
         this.game = game;
@@ -34,9 +39,12 @@ public abstract class GameScreen implements Screen {
         batch = new SpriteBatch();
 
         timeSinceLastAction = 0;
-        
+        running = true;
         stage = new Stage(PVU.GAME_WIDTH * 2.7f, PVU.GAME_HEIGHT * 2.7f, true);
+        atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
         initSoundButton();
+        initPauseButton();
+        Gdx.input.setInputProcessor(stage);
     }
 
     protected abstract void draw(float delta);
@@ -59,10 +67,13 @@ public abstract class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
-        update(deltaUpdate);
-        draw(delta);
-        checkSoundButton();
+        if (running) {
+            float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
+            update(deltaUpdate);
+            draw(delta);
+        } else {
+        }
+        checkButton();
         stage.draw();
     }
 
@@ -92,42 +103,60 @@ public abstract class GameScreen implements Screen {
      * Initializes sound button.
      */
     private void initSoundButton() {
-        TextureAtlas atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
-        skin = new Skin(atlas);
-        buttonStyle = new ButtonStyle();
-        buttonStyle.up = (Settings.GLOBAL_SOUND)?skin.getDrawable("sound.up"):skin.getDrawable("nosound.up");
-        soundButton = new Button(buttonStyle);
+        skinSoundButton = new Skin(atlas);
+        styleSoundButton = new ButtonStyle();
+        styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
+        soundButton = new Button(styleSoundButton);
         soundButton.setPosition(PVU.GAME_WIDTH * 2.7f - 25, PVU.GAME_HEIGHT * 2.7f - 25);
         stage.addActor(soundButton);
-        Gdx.input.setInputProcessor(stage);
     }
-    
+
     /**
-     * Checks global sound variable and updates the button style for the sound button.
+     * Initializes pause button.
      */
-    private void checkSoundButton(){
+    private void initPauseButton() {
+        skinPauseButton = new Skin(atlas);
+        stylePauseButton = new ButtonStyle();
+        stylePauseButton.up = skinPauseButton.getDrawable("pause.up");
+        stylePauseButton.down = skinPauseButton.getDrawable("pause.down");
+        pauseButton = new Button(stylePauseButton);
+        stage.addActor(pauseButton);
+        pauseButton.setPosition(PVU.GAME_WIDTH * 2.7f - 48, PVU.GAME_HEIGHT * 2.7f - 25);
+    }
+
+    /**
+     * Checks global sound variable and updates the button style for the sound
+     * button. This method will also check touch events for the pause button.
+     */
+    private void checkButton() {
         if (TimeUtils.millis() - timeSinceLastAction > 450l) {
             if (Gdx.input.isTouched()) {
                 int x = Gdx.input.getX();
                 int y = Gdx.input.getY();
-                if(x>915&&x<950 && y>10&&y<45){
-                    if(Settings.GLOBAL_SOUND){
-                        buttonStyle.up = skin.getDrawable("nosound.up");
+                if (x > 915 && x < 950 && y > 10 && y < 45) {
+                    if (Settings.GLOBAL_SOUND) {
+                        styleSoundButton.up = skinSoundButton.getDrawable("nosound.up");
                         Settings.setSound(false);
-                    }else{
-                        buttonStyle.up = skin.getDrawable("sound.up");
+                    } else {
+                        styleSoundButton.up = skinSoundButton.getDrawable("sound.up");
                         Settings.setSound(true);
+                    }
+                } else if (x > 875 && x < 910 && y > 10 && y < 45) {
+                    if (running) {
+                        running = false;
+                    } else {
+                        running = true;
                     }
                 }
                 timeSinceLastAction = TimeUtils.millis();
             }
         }
     }
-    
+
     /**
      * Method to update soundbutton in (static) main screen room.
      */
-    public void updateMainScreenSoundButton(){
-        buttonStyle.up = (Settings.GLOBAL_SOUND)?skin.getDrawable("sound.up"):skin.getDrawable("nosound.up");
+    public void updateMainScreenSoundButton() {
+        styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
     }
 }

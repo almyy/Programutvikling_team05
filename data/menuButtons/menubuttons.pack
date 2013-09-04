@@ -17,16 +17,30 @@ nosound.up
   orig: 22, 22
   offset: 0, 0
   index: -1
-sound.down
+pause.down
   rotate: false
   xy: 49, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
-sound.up
+pause.up
   rotate: false
   xy: 73, 1
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+sound.down
+  rotate: false
+  xy: 97, 1
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+sound.up
+  rotate: false
+  xy: 121, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
