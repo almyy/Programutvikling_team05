@@ -134,8 +134,8 @@ public class QuizScreen extends GameScreen {
             questions.addActor(finishLabel);
             if (Gdx.input.isKeyPressed(Keys.SPACE)) {
                 game.setScreen(PVU.MAIN_SCREEN);
-                float score = mNumberOfCorrectAnswers/numberOfQuestions*100;
-                //ScoreHandler.updateScore(3, score);
+                float score = (float)mNumberOfCorrectAnswers/(float)numberOfQuestions;                
+                ScoreHandler.updateScore(ScoreHandler.QUIZ, score);
             }
         }
     }
