@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.intro.SpriteAccessor;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
+import no.hist.gruppe5.pvu.sound.Sounds;
 
 public class PVU extends Game {
 
@@ -23,6 +24,7 @@ public class PVU extends Game {
     public void create() {
         ScoreHandler.load();
         Assets.load();
+        Sounds.playMusic();
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
         MAIN_SCREEN = new MainScreen(this);
         setScreen(new IntroScreen(this));

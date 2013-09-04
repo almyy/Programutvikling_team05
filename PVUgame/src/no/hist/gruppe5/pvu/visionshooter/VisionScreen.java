@@ -17,9 +17,8 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
-import no.hist.gruppe5.pvu.mainroom.MainScreen;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
-import no.hist.gruppe5.sounds.Sounds;
+import no.hist.gruppe5.pvu.sound.Sounds;
 
 public class VisionScreen extends GameScreen {
 
