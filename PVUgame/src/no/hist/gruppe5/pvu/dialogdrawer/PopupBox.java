@@ -47,6 +47,7 @@ public class PopupBox {
 
     public void draw(float delta) {
         mTextBackground.draw(mBatch, 1f);
+        mTextLabel.setFontScale(FONT_SCALE);
         mTextLabel.draw(mBatch, 1f);
     }
 

@@ -1,4 +1,4 @@
-package no.hist.gruppe5.sounds;
+package no.hist.gruppe5.pvu.sound;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -7,8 +7,9 @@ import no.hist.gruppe5.pvu.Settings;
 
 public class Sounds {
 
+    private static Music music = Gdx.audio.newMusic(Gdx.files.internal("data/chiptune-loop-2.mp3"));
     private Sound sound;
-    private Music music = Gdx.audio.newMusic(Gdx.files.internal("data/background_music.mp3"));
+
     private Runnable test = new Runnable() {
 
         @Override
@@ -16,6 +17,21 @@ public class Sounds {
             sound.play(0.1f);
         }
     };
+
+    public static void playMusic() {
+        if (Settings.GLOBAL_SOUND) {
+            music.setVolume(0.6f);
+            music.setLooping(true);
+            music.play();
+            System.out.println("PLAYU");
+        }
+    }
+
+    public static void stopMusic() {
+        if (!Settings.GLOBAL_SOUND) {
+            music.stop();
+        }
+    }
 
     public void playSound(int i) {
         if (Settings.GLOBAL_SOUND) {
