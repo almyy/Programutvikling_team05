@@ -1,13 +1,13 @@
-Hvilket tall er 1?
+Hvilket tall årstall er andreas kalstad født i?
 hvilket tall er 2?
 hvilket tall er 3?
 hvilket tall er 4?
 hvilket tall er 5?
 
-1
-2
-3
-4
+0
+1990
+1991
+1873
 
 1
 2
