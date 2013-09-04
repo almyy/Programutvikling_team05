@@ -151,6 +151,10 @@ public class MinigameSelectorScreen extends GameScreen {
         if (!Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             buttonPressedENTER = false;
         }
+        
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(PVU.MAIN_SCREEN);
+        }
     }
 
     @Override

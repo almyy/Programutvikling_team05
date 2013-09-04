@@ -1,10 +1,10 @@
 package no.hist.gruppe5.pvu.visionshooter;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -12,12 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
+import java.util.Random;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.visionshooter.entity.*;
-import java.util.Random;
 import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.mainroom.MainScreen;
+import no.hist.gruppe5.pvu.visionshooter.entity.*;
 import no.hist.gruppe5.sounds.Sounds;
 
 public class VisionScreen extends GameScreen {
@@ -194,6 +195,10 @@ public class VisionScreen extends GameScreen {
             pointValueLabel.setPosition(pointTextLabel.getX() + pointTextLabel.getPrefWidth(), PVU.GAME_HEIGHT / 2);
             pointTextLabel.setPosition((PVU.GAME_WIDTH / 2) - pointTextLabel.getPrefWidth() / 2, PVU.GAME_HEIGHT / 2);
 
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(PVU.MAIN_SCREEN);
         }
 
     }

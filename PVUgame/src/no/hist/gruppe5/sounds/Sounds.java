@@ -13,7 +13,7 @@ public class Sounds {
 
         @Override
         public void run() {
-            sound.play(0.3f);
+            sound.play(0.1f);
         }
     };
 
@@ -30,6 +30,14 @@ public class Sounds {
             if (i == 2) {
                 music.play();
                 music.isLooping();
+            }
+            if (i == 3) {
+                sound = Gdx.audio.newSound(Gdx.files.internal("data/book_close.mp3"));
+                test.run();
+            }
+            if (i == 4) {
+                sound = Gdx.audio.newSound(Gdx.files.internal("data/book_page_turn.mp3"));
+                test.run();
             }
         }
     }

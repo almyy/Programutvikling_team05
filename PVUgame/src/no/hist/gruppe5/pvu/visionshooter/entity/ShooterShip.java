@@ -30,17 +30,16 @@ public class ShooterShip {
     }
 
     public void draw(SpriteBatch batch) {
-        System.out.println();
         shipSprite.draw(batch);
     }
 
     public void update(float delta) {
-        if(Gdx.input.isKeyPressed(Keys.DPAD_UP)){
+        if(Gdx.input.isKeyPressed(Keys.W)){
             if((shipY+shipHeight)<PVU.GAME_HEIGHT){
                 shipY += shipSpeed*delta;
             }
         }
-        if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)){
+        if(Gdx.input.isKeyPressed(Keys.S)){
             if(shipY>0){
                 shipY -= shipSpeed*delta;
             } 

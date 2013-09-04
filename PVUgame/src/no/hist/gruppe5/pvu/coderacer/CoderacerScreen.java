@@ -1,6 +1,7 @@
 package no.hist.gruppe5.pvu.coderacer;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
@@ -96,6 +97,7 @@ public class CoderacerScreen extends GameScreen {
                 codeOutput.setText(code.getCode());
                 start = true;
                 Timer.schedule(new Timer.Task() {
+
                     @Override
                     public void run() {
                         remainingTime--;
@@ -117,6 +119,10 @@ public class CoderacerScreen extends GameScreen {
             }
         } else {
             time.setText(remainingTime + "");
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(PVU.MAIN_SCREEN);
         }
     }
 
