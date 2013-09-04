@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
 
 public class QuizScreen extends GameScreen {
 
@@ -128,12 +129,13 @@ public class QuizScreen extends GameScreen {
             getNewAnswers = false;
         }
         if (mQuestionCounter == numberOfQuestions) {
-            //make label and exit method 
-            Label finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte",outputStyle);
+            Label finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", outputStyle);
             finishLabel.setScale(3);
             questions.addActor(finishLabel);
-            if(Gdx.input.isKeyPressed(Keys.SPACE)){
+            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
                 game.setScreen(PVU.MAIN_SCREEN);
+                float score = mNumberOfCorrectAnswers/numberOfQuestions*100;
+                //ScoreHandler.updateScore(3, score);
             }
         }
     }
@@ -199,15 +201,19 @@ public class QuizScreen extends GameScreen {
         mQuizSkin.add("default", answerStyle);
 
         for (int i = 0; i < mQuestions.size(); i++) {
-            mQuestions.get(i).setFontScale(5);
+            mQuestions.get(i).setFontScale(4);
+            mQuestions.get(i).setFillParent(true);
+            mQuestions.get(i).setWrap(true);
             mQuestions.get(i).setAlignment(Align.top);
         }
 
         questions.addActor(mQuestions.get(0));
-        questions.setPosition(stage.getWidth() / 2, stage.getHeight() - 20);
+        questions.setWidth(200);
+        questions.setPosition(stage.getWidth() / 2 - questions.getWidth() / 2, stage.getHeight() - 20);
 
     }
-    private void initializeAnswers(){
+
+    private void initializeAnswers() {
         answers.setBounds(200, 200, 300, 100);
         int u = 0;
         for (int i = 0; i < mAnswers.size(); i++) {
