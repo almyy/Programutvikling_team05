@@ -1,5 +1,8 @@
 package no.hist.gruppe5.pvu.visionshooter;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Quint;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -42,6 +45,7 @@ public class VisionScreen extends GameScreen {
     private Skin skin = new Skin();
     private TextField.TextFieldStyle textfieldstyle;
     private Sounds sound;
+    private TweenManager mTweenManager;
 
     public VisionScreen(PVU game) {
         super(game);
@@ -70,6 +74,9 @@ public class VisionScreen extends GameScreen {
         pointValueLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
 
         sound = new Sounds();
+
+        mTweenManager = new TweenManager();
+        Tween.registerAccessor(ShooterElement.class, new ShooterElemementAccessor());
     }
 
     @Override
@@ -153,24 +160,28 @@ public class VisionScreen extends GameScreen {
         if ((TimeUtils.millis() - lastElementSpawned) > 1500L) {
             int index = random.nextInt(3);
             ShooterElement i = allElements[index];
+            ShooterElement help = null;
             if (i instanceof ShooterFacebook && (noElements[1] > 0)) {
-                ShooterFacebook help = new ShooterFacebook(allElements[index].getElementY());
-                help.setElementY(random.nextInt(90));
-                help.setElementX(180f);
+                help = new ShooterFacebook(allElements[index].getElementY());
                 elements.add(help);
                 noElements[1]--;
             } else if (i instanceof ShooterYoutube && (noElements[2] > 0)) {
-                ShooterYoutube help = new ShooterYoutube(allElements[index].getElementY());
-                help.setElementY(random.nextInt(90));
-                help.setElementX(180f);
+                help = new ShooterYoutube(allElements[index].getElementY());
                 elements.add(help);
                 noElements[2]--;
             } else if (noElements[0] > 0) {
-                ShooterDokument help = new ShooterDokument(allElements[index].getElementY());
-                help.setElementY(random.nextInt(90));
-                help.setElementX(180f);
+                help = new ShooterDokument(allElements[index].getElementY());
                 elements.add(help);
                 noElements[0]--;
+            }
+
+            if (help != null) {
+                help.setElementY(random.nextInt(Math.round(PVU.GAME_HEIGHT - help.getElementHeight())));
+                help.setElementX(200f);
+                Tween.to(help, ShooterElemementAccessor.POS_X, 1f)
+                        .target(160f)
+                        .ease(Quint.IN)
+                        .start(mTweenManager);
             }
 
             lastElementSpawned = TimeUtils.millis();
@@ -199,6 +210,8 @@ public class VisionScreen extends GameScreen {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
+
+        mTweenManager.update(delta);
 
     }
 

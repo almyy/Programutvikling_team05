@@ -19,7 +19,7 @@ public class Sounds {
     };
 
     public static void playMusic() {
-        if (Settings.GLOBAL_SOUND) {
+        if (Settings.GLOBAL_SOUND && !music.isPlaying()) {
             music.setVolume(0.6f);
             music.setLooping(true);
             music.play();
@@ -29,7 +29,7 @@ public class Sounds {
 
     public static void stopMusic() {
         if (!Settings.GLOBAL_SOUND) {
-            music.stop();
+            music.pause();
         }
     }
 
