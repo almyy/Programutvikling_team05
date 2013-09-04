@@ -56,7 +56,7 @@ public class BookScreen extends GameScreen {
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
         batch.begin();
-        //DRAW BOOK - MAKE NICE BOOK
+        batch.draw(Assets.bookBook, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
         batch.end();
         leftPage.setText(getPageContent(0));
         rightPage.setText(getPageContent(1));

@@ -34,47 +34,47 @@ public class CoderacerScreen extends GameScreen {
 
         start = false;
 
-        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
+        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
 
         Group outputGroup = new Group();
         Group inputGroup = new Group();
 
         LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         codeOutput = new Label("Du har 1 minutt på å skrive så mye av koden som mulig.\nTrykk space for å begynne.", outputStyle);
-        codeOutput.setFontScale(0.5f);
+        codeOutput.setFontScale(3f);
         codeOutput.setFillParent(true);
         codeOutput.setWrap(true);
         codeOutput.setAlignment(Align.top);
 
         LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
         finishedCode = new Label("", finishedStyle);
-        finishedCode.setFontScale(0.5f);
+        finishedCode.setFontScale(3f);
         finishedCode.setFillParent(true);
         finishedCode.setWrap(true);
         finishedCode.setAlignment(Align.bottom);
 
         grade = new Label("", finishedStyle);
-        grade.setFontScale(0.4f);
+        grade.setFontScale(2.5f);
 
         time = new Label("" + remainingTime, finishedStyle);
-        time.setFontScale(0.4f);
+        time.setFontScale(3f);
 
         outputGroup.addActor(codeOutput);
-        outputGroup.setWidth(160);
+        outputGroup.setWidth(150);
         outputGroup.setHeight(40);
-        outputGroup.setPosition(PVU.GAME_WIDTH / 2 - outputGroup.getWidth() / 2, 58);
+        outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() / 2, 450);
 
         inputGroup.addActor(finishedCode);
-        inputGroup.setWidth(160);
+        inputGroup.setWidth(150);
         inputGroup.setHeight(40);
-        inputGroup.setPosition(PVU.GAME_WIDTH / 2 - inputGroup.getWidth() / 2, 36);
+        inputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - inputGroup.getWidth() / 2, 190);
 
         stage.addActor(grade);
         stage.addActor(outputGroup);
         stage.addActor(inputGroup);
         stage.addActor(time);
 
-        time.setPosition(PVU.GAME_WIDTH * 0.9f, PVU.GAME_HEIGHT * 0.1f);
+        time.setPosition(PVU.SCREEN_WIDTH * 0.9f, PVU.SCREEN_HEIGHT * 0.1f);
 
         Gdx.input.setInputProcessor(new inputListener());
     }
@@ -111,7 +111,7 @@ public class CoderacerScreen extends GameScreen {
             codeOutput.setVisible(false);
             finishedCode.setVisible(false);
             grade.setText("Din score ble " + score + "\nTrykk space for å avslutte.");
-            grade.setPosition(PVU.GAME_WIDTH / 2f - grade.getPrefWidth() / 2f, PVU.GAME_HEIGHT * 0.6f);
+            grade.setPosition(PVU.SCREEN_WIDTH / 2f - grade.getPrefWidth() / 2f, PVU.SCREEN_HEIGHT * 0.6f);
             if (Gdx.input.isKeyPressed(Keys.SPACE)) {
                 game.setScreen(PVU.MAIN_SCREEN);
             }
