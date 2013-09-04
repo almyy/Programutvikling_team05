@@ -29,6 +29,8 @@ public class Player {
     private final Animation PLAYER_FRONT;
     private final Animation PLAYER_SITTING;
 
+    private Animation mCurrentAnimaion;
+
     private Animation[] animations;
 
     private boolean mSitting = false;
@@ -43,6 +45,8 @@ public class Player {
         PLAYER_RIGHT = new Animation(Assets.MAIN_AVATAR_SIDE_RIGHT, 3);
         PLAYER_FRONT = new Animation(Assets.MAIN_AVATAR_FRONT, 3);
         PLAYER_SITTING = new Animation(Assets.MAIN_AVATAR_SITTING, 1);
+
+        mCurrentAnimaion = PLAYER_FRONT;
 
         animations = new Animation[]{PLAYER_BACK, PLAYER_LEFT, PLAYER_RIGHT, PLAYER_FRONT, PLAYER_SITTING};
 
@@ -89,24 +93,37 @@ public class Player {
 
     private void updatePlayerMovement() {
         float PLAYER_SPEED = 40f;
+        boolean keyPressed = false;
 
         Vector2 newSpeed = new Vector2();
 
         if(Gdx.input.isKeyPressed(Input.Keys.W)) {
             newSpeed.y = PLAYER_SPEED;
-            mPlayerSprite.setRegion(PLAYER_BACK.getFrame());
+            mCurrentAnimaion = PLAYER_BACK;
+            keyPressed = true;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             newSpeed.y = -PLAYER_SPEED;
-            mPlayerSprite.setRegion(PLAYER_FRONT.getFrame());
+            mCurrentAnimaion = PLAYER_FRONT;
+            keyPressed = true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             newSpeed.x = PLAYER_SPEED;
-            mPlayerSprite.setRegion(PLAYER_RIGHT.getFrame());
+            mCurrentAnimaion = PLAYER_RIGHT;
+            keyPressed = true;
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             newSpeed.x = -PLAYER_SPEED;
-            mPlayerSprite.setRegion(PLAYER_LEFT.getFrame());
+            mCurrentAnimaion = PLAYER_LEFT;
+            keyPressed = true;
         }
+
+        if(keyPressed) {
+            mPlayerSprite.setRegion(mCurrentAnimaion.getFrame());
+        }
+        if(!keyPressed) {
+            mPlayerSprite.setRegion(mCurrentAnimaion.frames[0]);
+        }
+
 
         mPlayerBody.setLinearVelocity(newSpeed);
 
