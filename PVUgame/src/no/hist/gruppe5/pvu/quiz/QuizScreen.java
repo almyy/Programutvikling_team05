@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hist.gruppe5.quiz;
+package no.hist.gruppe5.pvu.quiz;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
