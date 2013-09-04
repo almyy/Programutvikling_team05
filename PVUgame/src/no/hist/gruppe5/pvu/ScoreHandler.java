@@ -6,17 +6,49 @@ package no.hist.gruppe5.pvu;
  */
 public class ScoreHandler {
 
-    private static int[] totalScore;
-    public static boolean completedAllLevels;
-    public static int total;
+    public static final int VISION = 0;
+    public static final int CODE = 1;
+    public static final int QUIZ = 2;
+    public static final int TODO1 = 3;
+    public static final int TODO2 = 4;
+
+    private static float[] totalScore;
+    private static boolean completedAllLevels;
+    private static int total;
     
     /**
      * 
      */
     public static void load() {
-        totalScore = new int[5];
+        totalScore = new float[5];
         completedAllLevels = false;
         total = 0;
+    }
+
+    /**
+     * Checks if a minigame is completed.
+     *
+     * @param minigame
+     * @return
+     */
+    public static boolean isMinigameCompleted(int minigame) {
+        try {
+            if(totalScore[minigame] > 0f) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+    }
+
+    public static int numberOfGamesCompleted() {
+        for(int i = 0; i < totalScore.length; i++) {
+            if(totalScore[i] == 0f) return i;
+        }
+
+        return totalScore.length;
     }
 
     /**
@@ -36,14 +68,14 @@ public class ScoreHandler {
     /**
      * Updates totalscore based on the result of current minigame.
      *
-     * @param minigame
-     * @param score
+     * @param miniGame
+     * @param percent
      * @return if the total score was modified
      */
-    public static boolean updateScore(int minigame, int score) {
-        if (minigame < totalScore.length) {
-            totalScore[minigame] = score;
-            total+=score;
+    public static boolean updateScore(int miniGame, float percent) {
+        if (miniGame < totalScore.length) {
+            totalScore[miniGame] = percent;
+            total+=percent;
             if (checkScore()) {
                 completedAllLevels = true;
             }
@@ -57,15 +89,15 @@ public class ScoreHandler {
      * @return a grade based on the total score.
      */
     public static Character getGrade() {
-        if(total>90){
+        if(total > 90) {
             return 'A';
-        }else if(total>80){
+        } else if(total > 80) {
             return 'B';
-        }else if(total>70){
+        } else if(total > 70) {
             return 'C';
-        }else if(total>60){
+        } else if(total > 60) {
             return 'D';
-        }else{
+        } else {
             return 'E';
         }
     }

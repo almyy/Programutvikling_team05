@@ -117,7 +117,6 @@ public class Player {
             keyPressed = true;
         }
 
-
         if(mSitting) {
             mPlayerSprite.setRegion(PLAYER_SITTING.getFrame());
         } else if(keyPressed) {

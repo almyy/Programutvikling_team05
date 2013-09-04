@@ -79,7 +79,6 @@ public class RayCastManager {
                 infrontRay[i] = false;
             }
             mWithinRay = false;
-            System.out.println("Timeout");
         }
     }
 
