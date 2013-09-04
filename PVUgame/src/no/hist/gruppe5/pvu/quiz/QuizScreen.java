@@ -5,6 +5,8 @@
 package no.hist.gruppe5.pvu.quiz;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -86,7 +88,6 @@ public class QuizScreen extends GameScreen {
     protected void update(float delta) {
         if ((TimeUtils.millis() - mLastButtonPressed) > 1500L && listener.isOver()) {
             answer = -1;
-            System.out.println("lol");
             if (listener.isOver()) {
                 for (int i = 0; i < 4; i++) {
                     if (mAnswers.get(i).isPressed()) {
@@ -128,7 +129,12 @@ public class QuizScreen extends GameScreen {
         }
         if (mQuestionCounter == numberOfQuestions) {
             //make label and exit method 
-            System.out.println("Din score ble " + mNumberOfCorrectAnswers + "!");
+            Label finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte",outputStyle);
+            finishLabel.setScale(3);
+            questions.addActor(finishLabel);
+            if(Gdx.input.isKeyPressed(Keys.SPACE)){
+                game.setScreen(PVU.MAIN_SCREEN);
+            }
         }
     }
 
