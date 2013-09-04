@@ -22,6 +22,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.esotericsoftware.tablelayout.Value;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
@@ -36,7 +43,8 @@ public class QuizScreen extends GameScreen {
     private Skin mQuizSkin = new Skin();
     private ArrayList<Label> mQuestions = new ArrayList();
     private ArrayList<TextButton> mAnswers = new ArrayList();
-    private int[] answersNumbered = {0, 0, 0, 0, 0};
+    private final int numberOfQuestions = 5;
+    private int[] answersNumbered = new int[numberOfQuestions];
     private LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
     private TextButtonStyle answerStyle = new TextButtonStyle();
     private TextButtonStyle answerStyleAnsweredCorrect;
@@ -47,69 +55,17 @@ public class QuizScreen extends GameScreen {
     private int answer = -1;
     boolean getNewAnswers = false;
 
-    public QuizScreen(PVU game) {
+    public QuizScreen(PVU game) throws FileNotFoundException, IOException {
         super(game);
+
         stage = new Stage();
         questions = new Group();
         answers = new Group();
 
-        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
-        pixmap.setColor(Color.DARK_GRAY);
-        pixmap.fill();
-
-        mQuizSkin.add("Gray", new Texture(pixmap));
-
-        pixmap.setColor(Color.GREEN);
-        pixmap.fill();
-
-        mQuizSkin.add("Green", new Texture(pixmap));
-
-        pixmap.setColor(Color.RED);
-        pixmap.fill();
-
-        mQuizSkin.add("Red", new Texture(pixmap));
-        mQuizSkin.add("default", Assets.primaryFont10px);
-
-        Drawable gray = mQuizSkin.newDrawable("Gray");
-        Drawable green = mQuizSkin.newDrawable("Green");
-        Drawable red = mQuizSkin.newDrawable("Red");
-
-        answerStyle = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
-        answerStyleAnsweredCorrect = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
-        answerStyleAnsweredWrong = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
+        defineStyles();
+        readQuiz("data/Quizes/firstQuiz.txt");
 
         mQuizSkin.add("default", answerStyle);
-
-        mQuestions.add(new Label("Hvilket tall er 1", outputStyle));
-        mQuestions.add(new Label("Hvilket tall er 2", outputStyle));
-        mQuestions.add(new Label("Hvilket tall er 3", outputStyle));
-        mQuestions.add(new Label("Hvilket tall er 4", outputStyle));
-        mQuestions.add(new Label("Hvilket tall er 5", outputStyle));
-
-        mAnswers.add(new TextButton("1", answerStyle));
-        mAnswers.add(new TextButton("2", answerStyle));
-        mAnswers.add(new TextButton("3", answerStyle));
-        mAnswers.add(new TextButton("4", answerStyle));
-
-        mAnswers.add(new TextButton("1", answerStyle));
-        mAnswers.add(new TextButton("2", answerStyle));
-        mAnswers.add(new TextButton("3", answerStyle));
-        mAnswers.add(new TextButton("4", answerStyle));
-
-        mAnswers.add(new TextButton("1", answerStyle));
-        mAnswers.add(new TextButton("2", answerStyle));
-        mAnswers.add(new TextButton("3", answerStyle));
-        mAnswers.add(new TextButton("4", answerStyle));
-
-        mAnswers.add(new TextButton("1", answerStyle));
-        mAnswers.add(new TextButton("2", answerStyle));
-        mAnswers.add(new TextButton("3", answerStyle));
-        mAnswers.add(new TextButton("4", answerStyle));
-
-        mAnswers.add(new TextButton("1", answerStyle));
-        mAnswers.add(new TextButton("2", answerStyle));
-        mAnswers.add(new TextButton("3", answerStyle));
-        mAnswers.add(new TextButton("4", answerStyle));
 
         for (int i = 0; i < mQuestions.size(); i++) {
             mQuestions.get(i).setFontScale(5);
@@ -119,20 +75,22 @@ public class QuizScreen extends GameScreen {
         questions.addActor(mQuestions.get(0));
 
         answers.setBounds(200, 200, 300, 100);
-        int u = 0; 
+        int u = 0;
         for (int i = 0; i < mAnswers.size(); i++) {
-            mAnswers.get(i).setFillParent(true);
             mAnswers.get(i).getLabel().setFontScale(3);
-            if(u%4==0){u=0;}
+            if (u % 4 == 0) {
+                u = 0;
+            }
             if (u == 0) {
                 mAnswers.get(i).setBounds(0, 105, 300, 100);
-            } else if (u==1){
+            } else if (u == 1) {
                 mAnswers.get(i).setBounds(305, 105, 300, 100);
             } else if (u == 2) {
                 mAnswers.get(i).setBounds(0, 0, 300, 100);
             } else if (u == 3) {
                 mAnswers.get(i).setBounds(305, 0, 300, 100);
-            } u++;
+            }
+            u++;
             answers.addActor(mAnswers.get(i));
             if (i > 3) {
                 answers.getChildren().items[i].setVisible(false);
@@ -198,7 +156,8 @@ public class QuizScreen extends GameScreen {
             mLastButtonPressed = TimeUtils.millis();
             getNewAnswers = false;
         }
-        if (mQuestionCounter == 5) {
+        if (mQuestionCounter == numberOfQuestions) {
+            //make label and exit method 
             System.out.println("Din score ble " + mNumberOfCorrectAnswers + "!");
         }
     }
@@ -210,5 +169,53 @@ public class QuizScreen extends GameScreen {
 
     private void changeColor(TextButton button, TextButtonStyle style) {
         button.setStyle(style);
+    }
+
+    private void readQuiz(String fileName) throws FileNotFoundException, IOException {
+        DataInputStream in = new DataInputStream(new FileInputStream(fileName));
+        BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
+        String strLine;
+        int counter = 0;
+        int answerCounter = 0; 
+        while ((strLine = inBR.readLine()) != null) {
+            if (!"".equals(strLine)) {
+                if (counter < numberOfQuestions) {
+                    mQuestions.add(new Label(strLine, outputStyle));
+                } else if (counter < (numberOfQuestions * 4 + 10)) {
+                    mAnswers.add(new TextButton(strLine, answerStyle));
+                } else {
+                    answersNumbered[answerCounter] = Integer.parseInt(strLine);
+                    answerCounter++;
+                }
+            }
+            counter++;
+        }
+    }
+
+    private void defineStyles() {
+        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+        pixmap.setColor(Color.DARK_GRAY);
+        pixmap.fill();
+
+        mQuizSkin.add("Gray", new Texture(pixmap));
+
+        pixmap.setColor(Color.GREEN);
+        pixmap.fill();
+
+        mQuizSkin.add("Green", new Texture(pixmap));
+
+        pixmap.setColor(Color.RED);
+        pixmap.fill();
+
+        mQuizSkin.add("Red", new Texture(pixmap));
+        mQuizSkin.add("default", Assets.primaryFont10px);
+
+        Drawable gray = mQuizSkin.newDrawable("Gray");
+        Drawable green = mQuizSkin.newDrawable("Green");
+        Drawable red = mQuizSkin.newDrawable("Red");
+
+        answerStyle = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
+        answerStyleAnsweredCorrect = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
+        answerStyleAnsweredWrong = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
     }
 }
