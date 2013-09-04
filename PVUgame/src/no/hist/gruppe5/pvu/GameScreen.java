@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 
 /**
@@ -23,9 +21,15 @@ public abstract class GameScreen implements Screen {
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
     private Button soundButton;
-    private Button noSoundButton;
     private Stage stage;
     private long timeSinceLastAction;
+    private Skin skinSoundButton;
+    private ButtonStyle styleSoundButton;
+    private Skin skinPauseButton;
+    private ButtonStyle stylePauseButton;
+    private Button pauseButton;
+    private TextureAtlas atlas;
+    private boolean running;
 
     public GameScreen(PVU game) {
         this.game = game;
@@ -35,8 +39,12 @@ public abstract class GameScreen implements Screen {
         batch = new SpriteBatch();
 
         timeSinceLastAction = 0;
+        running = true;
         stage = new Stage(PVU.GAME_WIDTH * 2.7f, PVU.GAME_HEIGHT * 2.7f, true);
+        atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
         initSoundButton();
+        initPauseButton();
+        Gdx.input.setInputProcessor(stage);
     }
 
     protected abstract void draw(float delta);
@@ -59,21 +67,13 @@ public abstract class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
-        update(deltaUpdate);
-        draw(delta);
-
-        if (TimeUtils.millis() - timeSinceLastAction > 400l) {
-            if (soundButton.isPressed()) {
-                soundButton.remove();
-                stage.addActor(noSoundButton);
-                timeSinceLastAction = TimeUtils.millis();
-            }else if(noSoundButton.isPressed()){
-                noSoundButton.remove();
-                stage.addActor(soundButton);
-                timeSinceLastAction = TimeUtils.millis();
-            }
+        if (running) {
+            float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
+            update(deltaUpdate);
+            draw(delta);
+        } else {
         }
+        checkButton();
         stage.draw();
     }
 
@@ -99,14 +99,64 @@ public abstract class GameScreen implements Screen {
     public void resume() {
     }
 
-    public void initSoundButton() {
-        TextureAtlas atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
-        Skin skin = new Skin(atlas);
-        noSoundButton = new Button(skin.getDrawable("nosound.up"));
-        soundButton = new Button(skin.getDrawable("sound.up"));
+    /**
+     * Initializes sound button.
+     */
+    private void initSoundButton() {
+        skinSoundButton = new Skin(atlas);
+        styleSoundButton = new ButtonStyle();
+        styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
+        soundButton = new Button(styleSoundButton);
         soundButton.setPosition(PVU.GAME_WIDTH * 2.7f - 25, PVU.GAME_HEIGHT * 2.7f - 25);
-        noSoundButton.setPosition(PVU.GAME_WIDTH * 2.7f - 25, PVU.GAME_HEIGHT * 2.7f - 25);
         stage.addActor(soundButton);
-        Gdx.input.setInputProcessor(stage);
+    }
+
+    /**
+     * Initializes pause button.
+     */
+    private void initPauseButton() {
+        skinPauseButton = new Skin(atlas);
+        stylePauseButton = new ButtonStyle();
+        stylePauseButton.up = skinPauseButton.getDrawable("pause.up");
+        stylePauseButton.down = skinPauseButton.getDrawable("pause.down");
+        pauseButton = new Button(stylePauseButton);
+        stage.addActor(pauseButton);
+        pauseButton.setPosition(PVU.GAME_WIDTH * 2.7f - 48, PVU.GAME_HEIGHT * 2.7f - 25);
+    }
+
+    /**
+     * Checks global sound variable and updates the button style for the sound
+     * button. This method will also check touch events for the pause button.
+     */
+    private void checkButton() {
+        if (TimeUtils.millis() - timeSinceLastAction > 450l) {
+            if (Gdx.input.isTouched()) {
+                int x = Gdx.input.getX();
+                int y = Gdx.input.getY();
+                if (x > 915 && x < 950 && y > 10 && y < 45) {
+                    if (Settings.GLOBAL_SOUND) {
+                        styleSoundButton.up = skinSoundButton.getDrawable("nosound.up");
+                        Settings.setSound(false);
+                    } else {
+                        styleSoundButton.up = skinSoundButton.getDrawable("sound.up");
+                        Settings.setSound(true);
+                    }
+                } else if (x > 875 && x < 910 && y > 10 && y < 45) {
+                    if (running) {
+                        running = false;
+                    } else {
+                        running = true;
+                    }
+                }
+                timeSinceLastAction = TimeUtils.millis();
+            }
+        }
+    }
+
+    /**
+     * Method to update soundbutton in (static) main screen room.
+     */
+    public void updateMainScreenSoundButton() {
+        styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
     }
 }

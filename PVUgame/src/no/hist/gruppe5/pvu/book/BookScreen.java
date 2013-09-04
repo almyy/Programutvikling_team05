@@ -80,15 +80,12 @@ public class BookScreen extends GameScreen {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            getNextPage();
-        }
-        if (TimeUtils.millis() - timeSinceLastAction > 800l) {
-            if (nextButton.isPressed()) {
+        if (TimeUtils.millis() - timeSinceLastAction > 700l) {
+            if (nextButton.isPressed() || Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
                 getNextPage();
                 timeSinceLastAction = TimeUtils.millis();
             }
-            if (prevButton.isPressed()) {
+            if (prevButton.isPressed() || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
                 getPreviousPage();
                 timeSinceLastAction = TimeUtils.millis();
             }

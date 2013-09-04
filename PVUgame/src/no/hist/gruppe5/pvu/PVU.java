@@ -6,12 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.intro.SpriteAccessor;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
-import no.hist.gruppe5.pvu.mainroom.ScoreHandler;
-import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class PVU extends Game {
 
