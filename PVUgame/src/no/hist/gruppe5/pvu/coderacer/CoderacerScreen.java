@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
@@ -29,6 +31,7 @@ public class CoderacerScreen extends GameScreen {
     private int remainingTime = 60;
     private int score = 0;
     private boolean start;
+    private boolean pause;
     private Timer.Task task = new Timer.Task() {
 
         @Override
@@ -39,7 +42,8 @@ public class CoderacerScreen extends GameScreen {
 
     public CoderacerScreen(PVU game) {
         super(game);
-
+        
+        pause = false;
         start = false;
 
         stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
@@ -123,6 +127,7 @@ public class CoderacerScreen extends GameScreen {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            pause = true;
             game.setScreen(PVU.MAIN_SCREEN);
         }
     }
