@@ -117,13 +117,13 @@ public class Player {
             keyPressed = true;
         }
 
-        if(keyPressed) {
+        if(mSitting) {
+            mPlayerSprite.setRegion(PLAYER_SITTING.getFrame());
+        } else if(keyPressed) {
             mPlayerSprite.setRegion(mCurrentAnimaion.getFrame());
-        }
-        if(!keyPressed) {
+        } else {
             mPlayerSprite.setRegion(mCurrentAnimaion.frames[0]);
         }
-
 
         mPlayerBody.setLinearVelocity(newSpeed);
 

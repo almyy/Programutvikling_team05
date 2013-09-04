@@ -215,7 +215,6 @@ public class MainScreen extends GameScreen {
                     break;
                 case RayCastManager.CART:
                     setBurnDownCart(++mCurrentCart % 5);
-                    System.out.println(mCurrentCart);
                     mInputHandled = true;
                     break;
                 case RayCastManager.TABLE:
@@ -223,7 +222,6 @@ public class MainScreen extends GameScreen {
                     //TODO table screen
                     break;
             }
-            System.out.println("Start thingy");
         }
     }
 
