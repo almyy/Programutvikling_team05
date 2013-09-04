@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
@@ -141,7 +145,13 @@ public class MinigameSelectorScreen extends GameScreen {
                 game.setScreen(new VisionScreen(game));
             }
             if (counter == 3) {
-                game.setScreen(new QuizScreen(game));
+                try {
+                    game.setScreen(new QuizScreen(game));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (counter == 4) {
             }

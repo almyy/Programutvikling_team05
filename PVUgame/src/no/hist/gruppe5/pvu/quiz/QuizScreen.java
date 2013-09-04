@@ -43,6 +43,7 @@ public class QuizScreen extends GameScreen {
     private Skin mQuizSkin = new Skin();
     private ArrayList<Label> mQuestions = new ArrayList();
     private ArrayList<TextButton> mAnswers = new ArrayList();
+    private String[] quizNames = {"data/Quizes/quiz_00.txt", "data/Quizes/quiz_01.txt", "data/Quizes/quiz_02.txt", "data/Quizes/quiz_03.txt", "data/Quizes/quiz_04.txt"};
     private final int numberOfQuestions = 5;
     private int[] answersNumbered = new int[numberOfQuestions];
     private LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
@@ -63,41 +64,9 @@ public class QuizScreen extends GameScreen {
         answers = new Group();
 
         defineStyles();
-        readQuiz("data/Quizes/firstQuiz.txt");
-
-        mQuizSkin.add("default", answerStyle);
-
-        for (int i = 0; i < mQuestions.size(); i++) {
-            mQuestions.get(i).setFontScale(5);
-            mQuestions.get(i).setAlignment(Align.top);
-        }
-
-        questions.addActor(mQuestions.get(0));
-
-        answers.setBounds(200, 200, 300, 100);
-        int u = 0;
-        for (int i = 0; i < mAnswers.size(); i++) {
-            mAnswers.get(i).getLabel().setFontScale(3);
-            if (u % 4 == 0) {
-                u = 0;
-            }
-            if (u == 0) {
-                mAnswers.get(i).setBounds(0, 105, 300, 100);
-            } else if (u == 1) {
-                mAnswers.get(i).setBounds(305, 105, 300, 100);
-            } else if (u == 2) {
-                mAnswers.get(i).setBounds(0, 0, 300, 100);
-            } else if (u == 3) {
-                mAnswers.get(i).setBounds(305, 0, 300, 100);
-            }
-            u++;
-            answers.addActor(mAnswers.get(i));
-            if (i > 3) {
-                answers.getChildren().items[i].setVisible(false);
-            }
-        }
-
-        questions.setPosition(stage.getWidth() / 2, stage.getHeight() - 20);
+        readQuiz(quizNames[0]);
+        initializeQuestions();
+        initializeAnswers();
 
         stage.addActor(questions);
         stage.addActor(answers);
@@ -117,6 +86,7 @@ public class QuizScreen extends GameScreen {
     protected void update(float delta) {
         if ((TimeUtils.millis() - mLastButtonPressed) > 1500L && listener.isOver()) {
             answer = -1;
+            System.out.println("lol");
             if (listener.isOver()) {
                 for (int i = 0; i < 4; i++) {
                     if (mAnswers.get(i).isPressed()) {
@@ -176,7 +146,7 @@ public class QuizScreen extends GameScreen {
         BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
         String strLine;
         int counter = 0;
-        int answerCounter = 0; 
+        int answerCounter = 0;
         while ((strLine = inBR.readLine()) != null) {
             if (!"".equals(strLine)) {
                 if (counter < numberOfQuestions) {
@@ -217,5 +187,42 @@ public class QuizScreen extends GameScreen {
         answerStyle = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
         answerStyleAnsweredCorrect = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
         answerStyleAnsweredWrong = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
+    }
+
+    private void initializeQuestions() {
+        mQuizSkin.add("default", answerStyle);
+
+        for (int i = 0; i < mQuestions.size(); i++) {
+            mQuestions.get(i).setFontScale(5);
+            mQuestions.get(i).setAlignment(Align.top);
+        }
+
+        questions.addActor(mQuestions.get(0));
+        questions.setPosition(stage.getWidth() / 2, stage.getHeight() - 20);
+
+    }
+    private void initializeAnswers(){
+        answers.setBounds(200, 200, 300, 100);
+        int u = 0;
+        for (int i = 0; i < mAnswers.size(); i++) {
+            mAnswers.get(i).getLabel().setFontScale(3);
+            if (u % 4 == 0) {
+                u = 0;
+            }
+            if (u == 0) {
+                mAnswers.get(i).setBounds(0, 105, 300, 100);
+            } else if (u == 1) {
+                mAnswers.get(i).setBounds(305, 105, 300, 100);
+            } else if (u == 2) {
+                mAnswers.get(i).setBounds(0, 0, 300, 100);
+            } else if (u == 3) {
+                mAnswers.get(i).setBounds(305, 0, 300, 100);
+            }
+            u++;
+            answers.addActor(mAnswers.get(i));
+            if (i > 3) {
+                answers.getChildren().items[i].setVisible(false);
+            }
+        }
     }
 }
