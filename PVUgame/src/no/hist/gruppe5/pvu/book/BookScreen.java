@@ -33,17 +33,14 @@ public class BookScreen extends GameScreen {
     private Stage stage;
     private int pageNumber;
     private final String FILE_NAME = "data/test.xml";
-    
     private TextButton nextButton;
     private TextButton prevButton;
     TextureAtlas atlas;
     Skin skin;
     ClickListener listener;
     private long timeSinceLastAction;
-    
     private final int SHOW_NEXT_BUTTON = 5;
     private final int SHOW_PREV_BUTTON = 1;
-    
 
     public BookScreen(PVU game) {
         super(game);
@@ -62,15 +59,15 @@ public class BookScreen extends GameScreen {
         rightPage.setText(getPageContent(1));
         stage.draw();
         stage.act(delta);
-        
-        if(SHOW_NEXT_BUTTON==pageNumber){
+
+        if (SHOW_NEXT_BUTTON == pageNumber) {
             nextButton.remove();
-        }else{
+        } else {
             stage.addActor(nextButton);
         }
-        if(SHOW_PREV_BUTTON==pageNumber){
+        if (SHOW_PREV_BUTTON == pageNumber) {
             prevButton.remove();
-        }else{
+        } else {
             stage.addActor(prevButton);
         }
     }
@@ -113,7 +110,7 @@ public class BookScreen extends GameScreen {
         leftPage.setWidth(PVU.GAME_WIDTH);
         leftPage.setPosition(35, stage.getHeight() / 2);
         leftPage.setWrap(true);
-        
+
         rightPage = new Label(getPageContent(1), labelStyle);
         rightPage.setPosition(110, 0);
         rightPage.setWidth(PVU.GAME_WIDTH);
@@ -134,11 +131,11 @@ public class BookScreen extends GameScreen {
         styleNext.font = Assets.primaryFont10px;
         styleNext.fontColor = Color.BLACK;
 
-        
+
         nextButton = new TextButton("Next", styleNext);
         nextButton.pad(20);
         nextButton.setPosition(stage.getWidth() / 1.2f, 20);
-        
+
         TextButtonStyle stylePrev = new TextButtonStyle();
         stylePrev.up = skin.getDrawable("buttonprev.up");
         stylePrev.down = skin.getDrawable("buttonprev.down");
@@ -149,13 +146,13 @@ public class BookScreen extends GameScreen {
         prevButton = new TextButton("Prev", stylePrev);
         prevButton.pad(20);
         prevButton.setPosition(35, 20);
-                
+
         Gdx.input.setInputProcessor(stage);
 
-        if(SHOW_NEXT_BUTTON!=pageNumber){
+        if (SHOW_NEXT_BUTTON != pageNumber) {
             stage.addActor(nextButton);
         }
-        if(SHOW_PREV_BUTTON!=pageNumber){
+        if (SHOW_PREV_BUTTON != pageNumber) {
             stage.addActor(prevButton);
         }
 

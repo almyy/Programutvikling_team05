@@ -1,7 +1,10 @@
 package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,8 +12,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
+import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 9:48 AM
@@ -30,9 +36,12 @@ public abstract class GameScreen implements Screen {
     private Button pauseButton;
     private TextureAtlas atlas;
     private boolean running;
+    private LabelStyle labelStyle;
+    private Label pauseLabel;
 
     public GameScreen(PVU game) {
         this.game = game;
+        labelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
@@ -44,6 +53,7 @@ public abstract class GameScreen implements Screen {
         atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
         initSoundButton();
         initPauseButton();
+        initPauseLayout();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -70,11 +80,28 @@ public abstract class GameScreen implements Screen {
         if (running) {
             float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
             update(deltaUpdate);
-            draw(delta);
-        } else {
+            
+            //if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+
+            //}
+        } 
+        draw(delta);
+        if(!running) {
+            clearCamera(1, 1, 1, 1);
+            batch.begin();
+            batch.draw(Assets.introMainLogo, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 2, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 3);
+            batch.end();
+            stage.addActor(pauseLabel);
         }
+        
         checkButton();
         stage.draw();
+    }
+
+    private void initPauseLayout() {
+        pauseLabel = new Label("PAUSE", labelStyle);
+        pauseLabel.setFontScale(1.9f);
+        pauseLabel.setPosition(PVU.GAME_WIDTH * 1.225f, PVU.GAME_HEIGHT);
     }
 
     @Override
@@ -143,8 +170,10 @@ public abstract class GameScreen implements Screen {
                     }
                 } else if (x > 875 && x < 910 && y > 10 && y < 45) {
                     if (running) {
+                        game.setScreen(new PauseScreen(game, this));
                         running = false;
                     } else {
+                        pauseLabel.remove();
                         running = true;
                     }
                 }
