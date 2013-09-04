@@ -28,6 +28,13 @@ public class CoderacerScreen extends GameScreen {
     private int remainingTime = 60;
     private int score = 0;
     private boolean start;
+    private Timer.Task task = new Timer.Task() {
+
+        @Override
+        public void run() {
+            remainingTime--;
+        }
+    };
 
     public CoderacerScreen(PVU game) {
         super(game);
@@ -95,12 +102,8 @@ public class CoderacerScreen extends GameScreen {
             if (Gdx.input.isKeyPressed(Keys.SPACE)) {
                 codeOutput.setText(code.getCode());
                 start = true;
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        remainingTime--;
-                    }
-                }, 1f, 1f);
+                Timer.schedule(task, 1f, 1f);
+                
             }
         }
     }
@@ -182,4 +185,6 @@ public class CoderacerScreen extends GameScreen {
         codeOutput.setText(code.getLeft());
         finishedCode.setText(code.getCorrect());
     }
+    
+    
 }
