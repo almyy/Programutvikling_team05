@@ -1,6 +1,7 @@
 package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
+import no.hist.gruppe5.pvu.sound.Sounds;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,11 +21,22 @@ public class Settings {
 
     public static void toggleSound() {
         GLOBAL_SOUND = (GLOBAL_SOUND) ? false : true;
+        updateSound();
         Gdx.app.log("pvu.Settings" , "Sound set to: " + GLOBAL_SOUND);
     }
 
     public static void setSound(boolean bool) {
         GLOBAL_SOUND = bool;
+        updateSound();
         Gdx.app.log("pvu.Settings" , "Sound set to: " + GLOBAL_SOUND);
+    }
+
+    private static void updateSound() {
+        if(GLOBAL_SOUND) {
+            Sounds.playMusic();
+        } else {
+            Sounds.stopMusic();
+        }
+
     }
 }
