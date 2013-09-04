@@ -1,6 +1,7 @@
 package no.hist.gruppe5.pvu.mainroom;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.coderacer.Code;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
@@ -22,102 +24,54 @@ import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 public class MinigameSelectorScreen extends GameScreen {
 
     private String text = "Minigame 1";
-    private Label codeOutput;
-    private InputProcessor inputListener;
+    private String text2 = "Minigame 2";
+    private String text3 = "Minigame 3";
+    private String text4 = "Minigame 4";
+    private String text5 = "Minigame 5";
     private Stage stage;
-    private Skin textboxskin;
     private Texture tex;
     private TextButtonStyle textbuttonstyle;
-    private TextField textfield;
-    private Label.LabelStyle outputStyle;
-    private String text2 = "Minigame 2";
-    private Label codeOutput2;
-    private InputProcessor inputListener2;
-    private TextField textfield2;
-    private Label.LabelStyle outputStyle2;
-    private String text3 = "Minigame 3";
-    private Label codeOutput3;
-    private InputProcessor inputListener3;
-    private TextField textfield3;
-    private Label.LabelStyle outputStyle3;
-    private String text4 = "Minigame 4";
-    private Label codeOutput4;
-    private InputProcessor inputListener4;
-    private TextField textfield4;
-    private Label.LabelStyle outputStyle4;
-    private String text5 = "Minigame 5";
-    private Label codeOutput5;
-    private InputProcessor inputListener5;
-    private TextField textfield5;
-    private Label.LabelStyle outputStyle5;
     private TextButton button;
     private Skin buttonskin;
+    private int counter = 1;
+    private Button buttonMove;
+    private Button button2;
+    private Button button3;
+    private Button button4;
+    private Button button5;
+    private Button button1;
+    private boolean buttonPressedS;
+    private boolean buttonPressedW;
+    private boolean buttonPressedENTER;
 
     public MinigameSelectorScreen(final PVU game) {
         super(game);
 
         stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
 
-        Button button1 = makeButton(text);
+        button1 = makeButton(text);
         button1.setPosition(68, 88);
         stage.addActor(button1);
 
-        button1.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                
-                    game.setScreen(new VisionScreen(game));
-            }
-        });
-
-        Button button2 = makeButton(text2);
+        button2 = makeButton(text2);
         button2.setPosition(68, 75);
         stage.addActor(button2);
 
-        button2.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CoderacerScreen(game));
-            }
-        });
-
-        Button button3 = makeButton(text3);
+        button3 = makeButton(text3);
         button3.setPosition(68, 62);
         stage.addActor(button3);
 
-        button3.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("LOL3");
-            }
-        });
-
-        Button button4 = makeButton(text4);
+        button4 = makeButton(text4);
         button4.setPosition(68, 49);
         stage.addActor(button4);
 
-        button4.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("LOL4");
-            }
-        });
-
-        Button button5 = makeButton(text5);
+        button5 = makeButton(text5);
         button5.setPosition(68, 36);
         stage.addActor(button5);
 
-        button5.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("LOL5");
-            }
-        });
+        buttonMove = makeButton("");
+        buttonMove.setPosition(68, 88);
+        stage.addActor(buttonMove);
     }
 
     @Override
@@ -132,6 +86,73 @@ public class MinigameSelectorScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && !buttonPressedS) {
+            buttonPressedS = true;
+            if (counter < 5) {
+                counter++;
+            }
+            if (counter == 1) {
+                buttonMove.setPosition(button1.getX(), button1.getY());
+            }
+            if (counter == 2) {
+                buttonMove.setPosition(button2.getX(), button2.getY());
+            }
+            if (counter == 3) {
+                buttonMove.setPosition(button3.getX(), button3.getY());
+            }
+            if (counter == 4) {
+                buttonMove.setPosition(button4.getX(), button4.getY());
+            }
+            if (counter == 5) {
+                buttonMove.setPosition(button5.getX(), button5.getY());
+            }
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !buttonPressedW) {
+            buttonPressedW = true;
+            if (counter > 1) {
+                counter--;
+            }
+            if (counter == 1) {
+                buttonMove.setPosition(button1.getX(), button1.getY());
+            }
+            if (counter == 2) {
+                buttonMove.setPosition(button2.getX(), button2.getY());
+            }
+            if (counter == 3) {
+                buttonMove.setPosition(button3.getX(), button3.getY());
+            }
+            if (counter == 4) {
+                buttonMove.setPosition(button4.getX(), button4.getY());
+            }
+            if (counter == 5) {
+                buttonMove.setPosition(button5.getX(), button5.getY());
+            }
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.S)) {
+            buttonPressedS = false;
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.W)) {
+            buttonPressedW = false;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && !buttonPressedENTER) {
+            buttonPressedENTER = true;
+            if (counter == 1) {
+                game.setScreen(new CoderacerScreen(game));
+            }
+            if (counter == 2) {
+                buttonMove.setPosition(button2.getX(), button2.getY());
+            }
+            if (counter == 3) {
+                buttonMove.setPosition(button3.getX(), button3.getY());
+            }
+            if (counter == 4) {
+                buttonMove.setPosition(button4.getX(), button4.getY());
+            }
+            if (counter == 5) {
+                buttonMove.setPosition(button5.getX(), button5.getY());
+            }
+        }
     }
 
     @Override
@@ -139,7 +160,6 @@ public class MinigameSelectorScreen extends GameScreen {
     }
 
     private TextButton makeButton(String text) {
-        Gdx.input.setInputProcessor(stage);
         tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
         buttonskin = new Skin();
         textbuttonstyle = new TextButton.TextButtonStyle();
