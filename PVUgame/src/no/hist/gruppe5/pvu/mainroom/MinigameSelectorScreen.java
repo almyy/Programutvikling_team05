@@ -2,24 +2,18 @@ package no.hist.gruppe5.pvu.mainroom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.book.BookScreen;
-import no.hist.gruppe5.pvu.coderacer.Code;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
+import no.hist.gruppe5.quiz.QuizScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
@@ -86,6 +80,9 @@ public class MinigameSelectorScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(new MainScreen(game));
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.S) && !buttonPressedS) {
             buttonPressedS = true;
             if (counter < 5) {
@@ -141,17 +138,18 @@ public class MinigameSelectorScreen extends GameScreen {
                 game.setScreen(new CoderacerScreen(game));
             }
             if (counter == 2) {
-                buttonMove.setPosition(button2.getX(), button2.getY());
+                game.setScreen(new VisionScreen(game));
             }
             if (counter == 3) {
-                buttonMove.setPosition(button3.getX(), button3.getY());
+                game.setScreen(new QuizScreen(game));
             }
             if (counter == 4) {
-                buttonMove.setPosition(button4.getX(), button4.getY());
             }
             if (counter == 5) {
-                buttonMove.setPosition(button5.getX(), button5.getY());
             }
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            buttonPressedENTER = false;
         }
     }
 
