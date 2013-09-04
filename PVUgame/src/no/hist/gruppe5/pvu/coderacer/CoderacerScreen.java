@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:49 AM
@@ -118,6 +119,7 @@ public class CoderacerScreen extends GameScreen {
             codeOutput.setVisible(false);
             finishedCode.setVisible(false);
             grade.setText("Din score ble " + score + "\nTrykk space for å avslutte.");
+            ScoreHandler.updateScore(ScoreHandler.CODE, code.getGrade(score));
             grade.setPosition(PVU.SCREEN_WIDTH / 2f - grade.getPrefWidth() / 2f, PVU.SCREEN_HEIGHT * 0.6f);
             if (Gdx.input.isKeyPressed(Keys.SPACE)) {
                 game.setScreen(PVU.MAIN_SCREEN);

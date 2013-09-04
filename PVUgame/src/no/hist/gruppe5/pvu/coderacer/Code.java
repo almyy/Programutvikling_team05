@@ -65,22 +65,7 @@ public class Code {
         }
         return counter;
     }
-    public char getGrade(int score) {
-        if(((double) score/getMaxScore()) >= 0.95) {
-            return 'A';
-        }
-        else if(((double) score/getMaxScore()) < 0.98 && ((double) score/getMaxScore()) >= 0.85) {
-            return 'B';
-        }
-        else if(((double) score/getMaxScore()) < 0.85 && ((double) score/getMaxScore()) >= 0.60) {
-            return 'C';
-        }
-        else if(((double) score/getMaxScore()) < 0.60 && ((double) score/getMaxScore()) >= 0.48) {
-            return 'D';
-        }
-        else if(((double) score/getMaxScore()) < 0.48 && ((double) score/getMaxScore()) >= 0.35) {
-            return 'E';
-        }
-        else return 'F';
+    public float getGrade(int score) {
+        return score/getMaxScore();
     }
 }
