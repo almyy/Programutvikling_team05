@@ -11,6 +11,7 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.book.BookScreen;
+import no.hist.gruppe5.pvu.dialogdrawer.DialogDrawer;
 import no.hist.gruppe5.pvu.dialogdrawer.PopupBox;
 import no.hist.gruppe5.pvu.mainroom.objects.Player;
 import no.hist.gruppe5.pvu.mainroom.objects.RayCastManager;
@@ -47,10 +48,12 @@ public class MainScreen extends GameScreen {
     private ShapeRenderer mShapeDebugRenderer;
     private boolean mShowingHint = false;
     private int mCurrentHint = -1;
+    private DialogDrawer dialog;
 
     public MainScreen(PVU game) {
         super(game);
-
+        
+        dialog = new DialogDrawer(batch);
         mWorld = new World(new Vector2(0, 0), true);
 
         // DEBUG
@@ -134,7 +137,7 @@ public class MainScreen extends GameScreen {
         if (mShowingHint && !mPlayer.isSitting()) {
             mPopupBox.draw(delta);
         }
-
+        dialog.draw(delta);
         batch.end();
 
         //drawDebug(true);
@@ -197,6 +200,8 @@ public class MainScreen extends GameScreen {
             mInputHandled = false;
         }
         updateMainScreenSoundButton();
+        dialog.intro();
+        dialog.introNext();
     }
 
     private void recieveHintInput() {
