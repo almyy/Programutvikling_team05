@@ -74,7 +74,7 @@ public class BookScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && TimeUtils.millis()-timeSinceLastAction>700l && TimeUtils.millis()-getTime()>700l) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
         if (TimeUtils.millis() - timeSinceLastAction > 700l) {
