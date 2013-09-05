@@ -129,7 +129,11 @@ public class VisionScreen extends GameScreen {
             for (int j = 0; j < shipProjectiles.size();) {
                 if (shipProjectiles.get(j).getBulletSprite().getBoundingRectangle().overlaps(elements.get(i).getElementSprite().getBoundingRectangle())) {
                     if (elements.get(i) instanceof ShooterDokument) {
-                        points -= 60;
+                        if ((points - 60) > 0) {
+                            points -= 60;
+                        } else {
+                            points = 0;
+                        }
                     }
                     sound.playSound(1);
                     shipProjectiles.remove(j);
@@ -150,8 +154,15 @@ public class VisionScreen extends GameScreen {
                 }
             } else {
                 if (elements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
-                    points -= 40;
-                    elements.remove(i);
+                    if (points - 40 > 0) {
+                        points -= 40;
+                        elements.remove(i);
+
+                    } else {
+                        points = 0;
+                        elements.remove(i);
+
+                    }
                 }
             }
         }
@@ -190,8 +201,11 @@ public class VisionScreen extends GameScreen {
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).getElementX() > 0) {
                 elements.get(i).update(delta);
-            } else {
+            } else if ((points - 20) > 0) {
                 points -= 20;
+                elements.remove(i);
+            } else {
+                points = 0;
                 elements.remove(i);
             }
         }

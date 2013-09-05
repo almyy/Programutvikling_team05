@@ -228,4 +228,8 @@ public abstract class GameScreen implements Screen {
     public boolean isGamePaused() {
         return !running;
     }
+    
+    public long getTime(){
+        return timeSinceLastAction;
+    }
 }
