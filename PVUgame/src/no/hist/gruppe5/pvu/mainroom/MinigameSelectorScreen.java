@@ -207,5 +207,6 @@ public class MinigameSelectorScreen extends GameScreen {
         
         buttonMove = new Button(buttonStyle);
         buttonMove.setFillParent(true);
+        buttonMove.setPosition(0, 420);
     }
 }
