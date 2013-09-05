@@ -2,7 +2,6 @@ package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.TimeUtils;
-import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 9:48 AM
@@ -80,20 +78,24 @@ public abstract class GameScreen implements Screen {
         if (running) {
             float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
             update(deltaUpdate);
-            
+
             //if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 
             //}
-        } 
+        }
         draw(delta);
-        if(!running) {
+        if (!running) {
             clearCamera(1, 1, 1, 1);
             batch.begin();
             batch.draw(Assets.introMainLogo, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 2, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 3);
             batch.end();
             stage.addActor(pauseLabel);
+            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && (TimeUtils.millis() - timeSinceLastAction > 700l)) {
+                running=true;
+                pauseLabel.remove();
+                timeSinceLastAction = TimeUtils.millis();
+            }
         }
-        
         checkButton();
         stage.draw();
     }
@@ -124,6 +126,8 @@ public abstract class GameScreen implements Screen {
 
     @Override
     public void resume() {
+        clearCamera(1, 1, 1, 1);
+        running = true;
     }
 
     /**
@@ -170,9 +174,9 @@ public abstract class GameScreen implements Screen {
                     }
                 } else if (x > 875 && x < 910 && y > 10 && y < 45) {
                     if (running) {
-                        game.setScreen(new PauseScreen(game, this));
                         running = false;
                     } else {
+                        //stage.addActor(pauseButton);
                         pauseLabel.remove();
                         running = true;
                     }
