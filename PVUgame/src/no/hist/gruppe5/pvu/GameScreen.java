@@ -2,7 +2,6 @@ package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -15,8 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.TimeUtils;
-import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 9:48 AM
@@ -38,6 +39,8 @@ public abstract class GameScreen implements Screen {
     private boolean running;
     private LabelStyle labelStyle;
     private Label pauseLabel;
+    private TextButton resumeButton;
+    private TextButton exitButton;
 
     public GameScreen(PVU game) {
         this.game = game;
@@ -80,25 +83,55 @@ public abstract class GameScreen implements Screen {
         if (running) {
             float deltaUpdate = (delta > 0.1f) ? 0.1f : delta;
             update(deltaUpdate);
-            
-            //if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-
-            //}
-        } 
-        draw(delta);
-        if(!running) {
-            clearCamera(1, 1, 1, 1);
-            batch.begin();
-            batch.draw(Assets.introMainLogo, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 2, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 3);
-            batch.end();
-            stage.addActor(pauseLabel);
         }
-        
+        draw(delta);
+        if (!running) {
+            drawPauseMenu();
+            if (TimeUtils.millis() - timeSinceLastAction > 700l && Gdx.input.isTouched()) {
+                checkMenuInput();
+                timeSinceLastAction = TimeUtils.millis();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && (TimeUtils.millis() - timeSinceLastAction > 700l)) {
+                resumeGame();
+                timeSinceLastAction = TimeUtils.millis();
+            }
+        }
         checkButton();
         stage.draw();
     }
 
+    private void checkMenuInput() {
+        int x = Gdx.input.getX();
+        int y = Gdx.input.getY();
+        if (x > 445 && x < 526) {
+            if (y < 472 && y > 447) {
+                resumeGame();
+            }
+            if (y < 509 && y > 482) {
+                System.exit(0);
+            }
+        }
+    }
+
+    private void drawPauseMenu() {
+        clearCamera(1, 1, 1, 1);
+        batch.begin();
+        batch.draw(Assets.introMainLogo, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 2, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 3);
+        batch.end();
+        stage.addActor(pauseLabel);
+        stage.addActor(resumeButton);
+        stage.addActor(exitButton);
+    }
+
     private void initPauseLayout() {
+        TextButtonStyle buttonStyle = new TextButtonStyle();
+        buttonStyle.up = skinPauseButton.getDrawable("menubutton.up");
+        buttonStyle.down = skinPauseButton.getDrawable("menubutton.down");
+        buttonStyle.font = Assets.primaryFont10px;
+        resumeButton = new TextButton("RESUME", buttonStyle);
+        exitButton = new TextButton("EXIT", buttonStyle);
+        resumeButton.setPosition(PVU.GAME_WIDTH * 1.24f, PVU.GAME_HEIGHT / 2);
+        exitButton.setPosition(PVU.GAME_WIDTH * 1.24f, PVU.GAME_HEIGHT / 3);
         pauseLabel = new Label("PAUSE", labelStyle);
         pauseLabel.setFontScale(1.9f);
         pauseLabel.setPosition(PVU.GAME_WIDTH * 1.225f, PVU.GAME_HEIGHT);
@@ -108,6 +141,13 @@ public abstract class GameScreen implements Screen {
     public void dispose() {
         cleanUp();
         batch.dispose();
+    }
+
+    private void resumeGame() {
+        running = true;
+        pauseLabel.remove();
+        resumeButton.remove();
+        exitButton.remove();
     }
 
     @Override
@@ -170,12 +210,8 @@ public abstract class GameScreen implements Screen {
                     }
                 } else if (x > 875 && x < 910 && y > 10 && y < 45) {
                     if (running) {
-                        game.setScreen(new PauseScreen(game, this));
                         running = false;
-                    } else {
-                        pauseLabel.remove();
-                        running = true;
-                    }
+                    } 
                 }
                 timeSinceLastAction = TimeUtils.millis();
             }
@@ -187,5 +223,9 @@ public abstract class GameScreen implements Screen {
      */
     public void updateMainScreenSoundButton() {
         styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
+    }
+
+    public boolean isGamePaused() {
+        return !running;
     }
 }

@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Assets {
 
+    public static boolean IS_LOADED = false;
+
     public static TextureRegion testRegion;
     public static TextureRegion visionShooterRegion; 
     public static TextureRegion visionShooterDocumentRegion; 
@@ -121,12 +123,18 @@ public class Assets {
         introPressSpace = msAtlas.findRegion("trykk");
 
         bookBook = msAtlas.findRegion("book");
+
         
         borderBorder = borderAtlas.findRegion("BorderChooser");
+
+
+        // Simple "loading" hack, always put last
+        IS_LOADED = true;
+
     }
 
     public static TextureRegion getAvatarRegion(int region) {
-        if (region > mainAvatar.length) return null;
+        if (region > mainAvatar.length || region < 0) return null;
         return mainAvatar[region];
     }
 

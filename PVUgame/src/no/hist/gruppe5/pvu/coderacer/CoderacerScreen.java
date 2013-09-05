@@ -57,7 +57,7 @@ public class CoderacerScreen extends GameScreen {
         codeOutput.setFontScale(3f);
         codeOutput.setFillParent(true);
         codeOutput.setWrap(true);
-        codeOutput.setAlignment(Align.top);
+        codeOutput.setAlignment(Align.top | Align.left);
 
         LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
         finishedCode = new Label("", finishedStyle);
@@ -75,7 +75,7 @@ public class CoderacerScreen extends GameScreen {
         outputGroup.addActor(codeOutput);
         outputGroup.setWidth(120);
         outputGroup.setHeight(40);
-        outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() / 2, 450);
+        outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() * 1.5f, 450);
 
         inputGroup.addActor(finishedCode);
         inputGroup.setWidth(120);
