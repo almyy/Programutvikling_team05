@@ -43,6 +43,20 @@ public class ScoreHandler {
         }
     }
 
+    /**
+     * Returns the score of a certain minigame
+     *
+     * @param minigame Constant, e.g ScoreHandler.VISION
+     * @return The percentage of the minigame, 0-1f
+     */
+    public static float getMiniGameGrade(int minigame) {
+        try {
+            return totalScore[minigame];
+        } catch (IndexOutOfBoundsException e) {
+            return -1;
+        }
+    }
+
     public static int numberOfGamesCompleted() {
         for(int i = 0; i < totalScore.length; i++) {
             if(totalScore[i] == 0f) return i;
