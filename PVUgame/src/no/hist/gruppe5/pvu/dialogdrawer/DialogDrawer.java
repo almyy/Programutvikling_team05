@@ -18,9 +18,8 @@ public class DialogDrawer {
 
     private String code = "Hei, og velkommen til PVU! ";
     private String code2 = "Her kan du lære om programutvikling ved hjelp av SCRUM";
-    private String code3 = "";
-    private String code4 = "";
-    private String code5 = "Hvis du er nybegynner foreslår vi at du leser introduksjonen i Instruksjonsboka!";
+    private String code3 = "Hvis du er nybegynner foreslår vi at du leser introduksjonen i Instruksjonsboka!";
+    private String code4 = "Lykke til på ferden til å bli en programutvikler!";
     private TextField textfield;
     private SpriteBatch batch;
     private Label codeOutput;
@@ -69,24 +68,26 @@ public class DialogDrawer {
     }
 
     public void intro() {
+        codeOutput.setPosition(6, -37);
+        codeOutput.setWrap(true);
+        codeOutput.setHeight(PVU.GAME_HEIGHT);
+        codeOutput.setWidth((PVU.GAME_WIDTH/0.6f) - 10);
+        codeOutput.setFontScale(0.6f);
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && !buttonPressedENTER) {
             buttonPressedENTER = true;
             counter++;
             if (counter == 1) {
-                codeOutput = new Label(code2, labelStyle);
+                codeOutput.setText(code2);
             }
             if (counter == 2) {
-                codeOutput = new Label(code3, labelStyle);
+                codeOutput.setText(code3);
             }
             if (counter == 3) {
-                codeOutput = new Label(code4, labelStyle);
+                codeOutput.setText(code4);
             }
             if (counter == 4) {
-                codeOutput = new Label(code5, labelStyle);
-            }
-            if (counter == 5) {
-                codeOutput.setVisible(false);
-                textfield.setVisible(false);
+                codeOutput.setText("");
+                textfield.setSize(0, 0);
             }
         }
     }

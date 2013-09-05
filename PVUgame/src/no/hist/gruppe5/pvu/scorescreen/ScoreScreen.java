@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 
 public class ScoreScreen extends GameScreen {
@@ -74,17 +75,17 @@ public class ScoreScreen extends GameScreen {
         minigame5.setPosition(10, 26);
         stage.addActor(minigame5);
 
-        score1 = makeLabel("");
-        score1.setPosition(10, 78);
-        stage.addActor(minigame1);
+        score1 = makeLabel(""+ ScoreHandler.getMiniGameGrade(ScoreHandler.CODE));
+        score1.setPosition(120, 78);
+        stage.addActor(score1);
 
-        score2 = makeLabel("");
-        score2.setPosition(10, 65);
-        stage.addActor(minigame2);
+        score2 = makeLabel(""+ ScoreHandler.getMiniGameGrade(ScoreHandler.VISION));
+        score2.setPosition(120, 65);
+        stage.addActor(score2);
 
-        score3 = makeLabel(text3);
-        score3.setPosition(10, 52);
-        stage.addActor(minigame3);
+        score3 = makeLabel(""+ ScoreHandler.getMiniGameGrade(ScoreHandler.QUIZ));
+        score3.setPosition(120, 52);
+        stage.addActor(score3);
 
         score4 = makeLabel(text4);
         score4.setPosition(10, 39);
@@ -108,7 +109,7 @@ public class ScoreScreen extends GameScreen {
     @Override
     protected void update(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new MainScreen(game));
+            game.setScreen(PVU.MAIN_SCREEN);
         }
     }
 
@@ -126,17 +127,6 @@ public class ScoreScreen extends GameScreen {
         Label l = new Label(text, labelstyle);
         return l;
     }
-
-/*    private Label makeScoreLabel() {
-        //tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
-        skin = new Skin();
-        labelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        labelstyle.font = Assets.primaryFont10px;
-        //skin.add("labelback", new TextureRegion(tex, 10, 10));
-        //Drawable d = skin.getDrawable("labelback");
-        Label l = new Label(text, labelstyle);
-        return l;
-    } */
 
     private Label makeHeadLabel(String text) {
         //tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));

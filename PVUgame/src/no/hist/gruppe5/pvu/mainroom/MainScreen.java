@@ -16,6 +16,7 @@ import no.hist.gruppe5.pvu.dialogdrawer.PopupBox;
 import no.hist.gruppe5.pvu.mainroom.objects.Player;
 import no.hist.gruppe5.pvu.mainroom.objects.RayCastManager;
 import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
+import no.hist.gruppe5.pvu.scorescreen.ScoreScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/26/13 Time: 10:56 PM
@@ -224,7 +225,7 @@ public class MainScreen extends GameScreen {
                     break;
                 case RayCastManager.TABLE:
                     mInputHandled = true;
-                    //TODO table screen
+                    game.setScreen(new ScoreScreen(game));
                     break;
             }
         }
