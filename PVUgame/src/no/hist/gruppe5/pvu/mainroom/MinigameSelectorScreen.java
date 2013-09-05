@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import java.io.FileNotFoundException;
@@ -41,35 +43,44 @@ public class MinigameSelectorScreen extends GameScreen {
     private boolean buttonPressedS;
     private boolean buttonPressedW;
     private boolean buttonPressedENTER;
+    private Group menu; 
 
     public MinigameSelectorScreen(final PVU game) {
         super(game);
-
-        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
+        menu = new Group();
+        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
 
         button1 = makeButton(text);
-        button1.setPosition(68, 88);
-        stage.addActor(button1);
+        button1.setPosition(0, 420);
+        button1.setFillParent(true);
+        menu.addActor(button1);
 
         button2 = makeButton(text2);
-        button2.setPosition(68, 75);
-        stage.addActor(button2);
+        button2.setPosition(0, 315);
+        button2.setFillParent(true);
+        menu.addActor(button2);
 
         button3 = makeButton(text3);
-        button3.setPosition(68, 62);
-        stage.addActor(button3);
+        button3.setPosition(0, 210);
+        button3.setFillParent(true);
+        menu.addActor(button3);
 
         button4 = makeButton(text4);
-        button4.setPosition(68, 49);
-        stage.addActor(button4);
+        button4.setPosition(0, 105);
+        button4.setFillParent(true);
+        menu.addActor(button4);
 
         button5 = makeButton(text5);
-        button5.setPosition(68, 36);
-        stage.addActor(button5);
+        button5.setPosition(0, 0);
+        button5.setFillParent(true);
+        menu.addActor(button5);
 
-        buttonMove = makeButton("");
-        buttonMove.setPosition(68, 88);
-        stage.addActor(buttonMove);
+        initMakeButton();        
+        menu.addActor(buttonMove);
+        
+        menu.setBounds(510, 295, 590, 100);
+        
+        stage.addActor(menu);
     }
 
     @Override
@@ -176,11 +187,29 @@ public class MinigameSelectorScreen extends GameScreen {
         buttonskin = new Skin();
         textbuttonstyle = new TextButton.TextButtonStyle();
         textbuttonstyle.font = Assets.primaryFont10px;
+       
         buttonskin.add("textfieldback", new TextureRegion(tex, 10, 10));
         Drawable d = buttonskin.getDrawable("textfieldback");
         textbuttonstyle.up = d;
         textbuttonstyle.down = d;
         button = new TextButton(text, textbuttonstyle);
+        button.getLabel().setFontScale(5);
         return button;
+    }
+    private void initMakeButton(){
+        Skin buttonSkin = new Skin();
+        TextureRegion region = new TextureRegion(Assets.borderBorder);
+        
+        buttonSkin.add("border", region);
+        Drawable standard = buttonSkin.getDrawable("border");
+        
+        ButtonStyle buttonStyle = new ButtonStyle(standard, standard, standard);
+        
+        buttonMove = new Button(buttonStyle);
+        // buttonMove.setWidth(96);
+        buttonMove.setFillParent(true);
+        buttonMove.setHeight(104);
+        buttonMove.setWidth(514);
+        //buttonMove.setBounds(0, 0, 96, 25);  
     }
 }

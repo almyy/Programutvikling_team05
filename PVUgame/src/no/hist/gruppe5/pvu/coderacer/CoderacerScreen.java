@@ -5,11 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,14 +19,18 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
+import sun.nio.cs.US_ASCII;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:49 AM
  */
 public class CoderacerScreen extends GameScreen {
 
+    ShapeRenderer mShape;
+
     private Label finishedCode;
     private Label codeOutput;
+    private Label firstLine;
     private Label grade;
     private Label time;
     private Code code = new Code();
@@ -33,17 +39,22 @@ public class CoderacerScreen extends GameScreen {
     private int score = 0;
     private boolean start;
     private boolean pause;
+    private boolean mDoneHandled;
+    private long mTimeDone;
     private Timer.Task task = new Timer.Task() {
 
         @Override
         public void run() {
+            if(isGamePaused()) return;
             remainingTime--;
         }
     };
 
     public CoderacerScreen(PVU game) {
         super(game);
-        
+
+        mShape = new ShapeRenderer();
+
         pause = false;
         start = false;
 
@@ -52,19 +63,26 @@ public class CoderacerScreen extends GameScreen {
         Group outputGroup = new Group();
         Group inputGroup = new Group();
 
-        LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        codeOutput = new Label("Du har 1 minutt på å skrive så mye av koden som mulig.\nTrykk space for å begynne.", outputStyle);
+        LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.GREEN);
+        codeOutput = new Label("Du har 30 sekunder på å skrive så mye av koden som mulig.\n\nTrykk space for å begynne.", outputStyle);
         codeOutput.setFontScale(3f);
         codeOutput.setFillParent(true);
         codeOutput.setWrap(true);
         codeOutput.setAlignment(Align.top | Align.left);
+
+        firstLine = new Label(" ", outputStyle);
+        firstLine.setFontScale(3f);
+        firstLine.setFillParent(true);
+        firstLine.setWrap(true);
+        firstLine.setAlignment(Align.top | Align.left);
+        firstLine.setY(firstLine.getHeight() * 3);
 
         LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
         finishedCode = new Label("", finishedStyle);
         finishedCode.setFontScale(3f);
         finishedCode.setFillParent(true);
         finishedCode.setWrap(true);
-        finishedCode.setAlignment(Align.bottom);
+        finishedCode.setAlignment(Align.bottom | Align.left);
 
         grade = new Label("", finishedStyle);
         grade.setFontScale(2.5f);
@@ -75,12 +93,14 @@ public class CoderacerScreen extends GameScreen {
         outputGroup.addActor(codeOutput);
         outputGroup.setWidth(120);
         outputGroup.setHeight(40);
-        outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() * 1.5f, 450);
+        outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() * 1.4f, 450 - firstLine.getHeight() * 3);
+
+        outputGroup.addActor(firstLine);
 
         inputGroup.addActor(finishedCode);
         inputGroup.setWidth(120);
         inputGroup.setHeight(40);
-        inputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - inputGroup.getWidth() / 2, 190);
+        inputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - inputGroup.getWidth() * 1.4f, 190);
 
         stage.addActor(grade);
         stage.addActor(outputGroup);
@@ -92,40 +112,61 @@ public class CoderacerScreen extends GameScreen {
         Gdx.input.setInputProcessor(new inputListener());
     }
 
+    private void updateOutput() {
+        StringBuilder codeLeft = new StringBuilder(code.getLeft());
+        int max = (codeLeft.length() >= 18) ? 18 : codeLeft.length();
+        firstLine.setText("" + codeLeft.subSequence(0, max));
+        if (codeLeft.length() > 0 && codeLeft.charAt(0) == " ".charAt(0)) {
+            firstLine.setX(6f * 3f);
+        } else {
+            firstLine.setX(0f);
+        }
+        codeLeft.delete(0, max);
+        codeOutput.setText(codeLeft);
+        finishedCode.setText(code.getCorrect());
+    }
+
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1); // Important
-        if (start) {
-            stage.getSpriteBatch().begin();
-            batch.draw(Assets.msPcBackground, 0, 0);
-            stage.getSpriteBatch().end();
-            stage.draw();
-        } else {
-            stage.getSpriteBatch().begin();
-            batch.draw(Assets.msPcBackground, 0, 0);
-            stage.getSpriteBatch().end();
-            stage.draw();
-            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-                codeOutput.setText(code.getCode());
-                start = true;
-                Timer.schedule(task, 1f, 1f);
-            }
+        batch.begin();
+        batch.draw(Assets.msPcBackground, 0, 0);
+        batch.end();
+        stage.draw();
+        if(start && !mDoneHandled) {
+            mShape.begin(ShapeRenderer.ShapeType.Filled);
+            mShape.rect(310f, 458f, 6 * 3, 2f);
+            mShape.end();
         }
     }
 
     @Override
     protected void update(float delta) {
-        if (code.isFinished() || remainingTime <= 0) {
+        if (Gdx.input.isKeyPressed(Keys.SPACE) && !start) {
+            codeOutput.setText(code.getCode());
+            start = true;
+            updateOutput();
+            Timer.schedule(task, 1f, 1f);
+        }
+
+        if ((code.isFinished() || remainingTime <= 0) && !mDoneHandled) {
             codeOutput.setVisible(false);
             finishedCode.setVisible(false);
-            grade.setText("Din score ble " + score + "\nTrykk space for å avslutte.");
+            firstLine.setVisible(false);
+            mTimeDone = TimeUtils.millis();
+            grade.setText("Din score ble " + score + "\n\nTrykk space for å avslutte.");
+            System.out.println("Wot");
             ScoreHandler.updateScore(ScoreHandler.CODE, code.getGrade(score));
             grade.setPosition(PVU.SCREEN_WIDTH / 2f - grade.getPrefWidth() / 2f, PVU.SCREEN_HEIGHT * 0.6f);
-            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+            mDoneHandled = true;
+        } else if (!mDoneHandled) {
+            time.setText(remainingTime + "");
+        }
+
+        if(mDoneHandled) {
+            if (Gdx.input.isKeyPressed(Keys.SPACE) && (TimeUtils.millis() - mTimeDone) > 2000L) {
                 game.setScreen(PVU.MAIN_SCREEN);
             }
-        } else {
-            time.setText(remainingTime + "");
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -152,7 +193,7 @@ public class CoderacerScreen extends GameScreen {
 
         @Override
         public boolean keyTyped(char character) {
-            if (!code.isFinished()) {
+            if (!code.isFinished() && !isGamePaused()) {
                 if (character > 31) {
                     if (code.equals(character)) {
                         score++;
@@ -185,17 +226,12 @@ public class CoderacerScreen extends GameScreen {
         public boolean scrolled(int amount) {
             return false;
         }
-
         @Override
         public boolean mouseMoved(int screenX, int screenY) {
             return false;
         }
+
     }
 
-    private void updateOutput() {
-        codeOutput.setText(code.getLeft());
-        finishedCode.setText(code.getCorrect());
-    }
-    
     
 }

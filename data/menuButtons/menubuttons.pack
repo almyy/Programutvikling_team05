@@ -3,44 +3,58 @@ menubuttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+menubutton.down
+  rotate: false
+  xy: 1, 7
+  size: 47, 16
+  orig: 47, 16
+  offset: 0, 0
+  index: -1
+menubutton.up
+  rotate: false
+  xy: 50, 7
+  size: 47, 16
+  orig: 47, 16
+  offset: 0, 0
+  index: -1
 nosound.down
   rotate: false
-  xy: 1, 1
+  xy: 99, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 nosound.up
   rotate: false
-  xy: 25, 1
+  xy: 123, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 pause.down
   rotate: false
-  xy: 49, 1
+  xy: 147, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 pause.up
   rotate: false
-  xy: 73, 1
+  xy: 171, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 sound.down
   rotate: false
-  xy: 97, 1
+  xy: 195, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 sound.up
   rotate: false
-  xy: 121, 1
+  xy: 219, 1
   size: 22, 22
   orig: 22, 22
   offset: 0, 0

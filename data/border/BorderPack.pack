@@ -1,0 +1,12 @@
+
+BorderPack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+BorderChooser
+  rotate: false
+  xy: 0, 0
+  size: 594, 104
+  orig: 594, 104
+  offset: 0, 0
+  index: -1
