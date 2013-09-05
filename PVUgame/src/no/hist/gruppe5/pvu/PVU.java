@@ -2,14 +2,18 @@ package no.hist.gruppe5.pvu;
 
 import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.intro.SpriteAccessor;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 import no.hist.gruppe5.pvu.sound.Sounds;
+
+import java.util.concurrent.ExecutorService;
 
 public class PVU extends Game {
 
@@ -22,9 +26,17 @@ public class PVU extends Game {
 
     @Override
     public void create() {
+        long gameStart = TimeUtils.millis();
+
         ScoreHandler.load();
         Assets.load();
         Sounds.playMusic();
+
+        float loadTook = (TimeUtils.millis() - gameStart) / 1000f;
+
+        Gdx.app.log(this.getClass().toString(),
+                "Loading took: " + loadTook + " seconds.");
+
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
         MAIN_SCREEN = new MainScreen(this);
         setScreen(new IntroScreen(this));
