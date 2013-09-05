@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -87,7 +86,7 @@ public abstract class GameScreen implements Screen {
         draw(delta);
         if (!running) {
             drawPauseMenu();
-            if (TimeUtils.millis() - timeSinceLastAction > 700l && Gdx.input.isTouched()) {
+            if (TimeUtils.millis() - timeSinceLastAction > 700l && (Gdx.input.isTouched()||Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S))) {
                 checkMenuInput();
                 timeSinceLastAction = TimeUtils.millis();
             }
@@ -110,6 +109,11 @@ public abstract class GameScreen implements Screen {
             if (y < 509 && y > 482) {
                 System.exit(0);
             }
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            System.out.println("up");
+        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            System.out.println("down");
         }
     }
 
