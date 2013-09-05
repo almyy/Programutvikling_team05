@@ -71,6 +71,9 @@ public class Assets {
 
     // BOOK SCREEN
     public static TextureRegion bookBook;
+    
+    // BORDER
+    public static TextureRegion borderBorder; 
 
 
 
@@ -86,6 +89,7 @@ public class Assets {
 
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
+        TextureAtlas borderAtlas = new TextureAtlas(Gdx.files.internal("data/border/BorderPack.pack"));
 
         visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture");
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
@@ -117,6 +121,8 @@ public class Assets {
         introPressSpace = msAtlas.findRegion("trykk");
 
         bookBook = msAtlas.findRegion("book");
+        
+        borderBorder = borderAtlas.findRegion("BorderChooser");
     }
 
     public static TextureRegion getAvatarRegion(int region) {
