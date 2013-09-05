@@ -16,7 +16,7 @@ public class Code {
         this.codes = new ArrayList();
         codes.add("package no.hist.gruppe5.pvu.coderacer;");
         codes.add("public static void main(String[] args) {");
-        codes.add("Label label = new Label(\"Hei på deg\", new LabelStyle(Assets.primaryFont10px, Color.BLACK));");
+        codes.add("Label label = new Label(\"Hei på deg\", new LabelStyle(DEFAULT_FONT_TYPE, Color.BLACK));");
         codes.add("String left = getCode().substring(charCounter, getCode().length());");
         correct = "";
         left = getCode();
@@ -54,7 +54,7 @@ public class Code {
         return correct;
     }
 
-    public String getLeft() {
+    public CharSequence getLeft() {
         return left;
     }
     private int getMaxScore() {
