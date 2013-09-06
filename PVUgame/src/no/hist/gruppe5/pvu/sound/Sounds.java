@@ -9,12 +9,20 @@ public class Sounds {
 
     private static Music music = Gdx.audio.newMusic(Gdx.files.internal("data/chiptune-loop-2.mp3"));
     private Sound sound;
-
-    private Runnable test = new Runnable() {
+    
+    private Runnable thread = new Runnable() {
 
         @Override
         public void run() {
             sound.play(0.1f);
+        }
+    };
+    
+    private Runnable thread2 = new Runnable() {
+
+        @Override
+        public void run() {
+            sound.play(0.4f);
         }
     };
 
@@ -23,7 +31,6 @@ public class Sounds {
             music.setVolume(0.6f);
             music.setLooping(true);
             music.play();
-            System.out.println("PLAYU");
         }
     }
 
@@ -37,11 +44,11 @@ public class Sounds {
         if (Settings.GLOBAL_SOUND) {
             if (i == 0) {
                 sound = Gdx.audio.newSound(Gdx.files.internal("data/big_shot.mp3"));
-                test.run();
+                thread.run();
             }
             if (i == 1) {
                 sound = Gdx.audio.newSound(Gdx.files.internal("data/explode.mp3"));
-                test.run();
+                thread.run();
             }
             if (i == 2) {
                 music.play();
@@ -49,11 +56,11 @@ public class Sounds {
             }
             if (i == 3) {
                 sound = Gdx.audio.newSound(Gdx.files.internal("data/book_close.mp3"));
-                test.run();
+                thread2.run();
             }
             if (i == 4) {
                 sound = Gdx.audio.newSound(Gdx.files.internal("data/book_page_turn.mp3"));
-                test.run();
+                thread2.run();
             }
         }
     }

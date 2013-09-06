@@ -67,6 +67,6 @@ public class Code {
         return counter;
     }
     public float getGrade(int score) {
-        return score/getMaxScore();
+        return Math.round((float) score/getMaxScore() * 100) / 100f;
     }
 }
