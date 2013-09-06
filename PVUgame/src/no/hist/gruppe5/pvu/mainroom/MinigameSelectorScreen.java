@@ -23,11 +23,11 @@ import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
-    private String text = "Minigame 1";
-    private String text2 = "Minigame 2";
-    private String text3 = "Minigame 3";
-    private String text4 = "Minigame 4";
-    private String text5 = "Minigame 5";
+    private String text = "Programmering";
+    private String text2 = "Visjonsdokument";
+    private String text3 = "Quiz";
+    private String text4 = "// TODO";
+    private String text5 = "// TODO";
     private Stage stage;
     private Texture tex;
     private TextButtonStyle textbuttonstyle;
