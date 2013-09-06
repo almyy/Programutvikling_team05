@@ -28,7 +28,7 @@ public abstract class GameScreen implements Screen {
     protected OrthographicCamera camera;
     private Button soundButton;
     private Stage stage;
-    private long timeSinceLastAction;
+    private long lastAction;
     private Skin skinSoundButton;
     private ButtonStyle styleSoundButton;
     private Skin skinPauseButton;
@@ -49,7 +49,7 @@ public abstract class GameScreen implements Screen {
         camera.setToOrtho(false, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
         batch = new SpriteBatch();
 
-        timeSinceLastAction = 0;
+        lastAction = 0;
         running = true;
         stage = new Stage(PVU.GAME_WIDTH * 2.7f, PVU.GAME_HEIGHT * 2.7f, true);
         atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
@@ -86,13 +86,13 @@ public abstract class GameScreen implements Screen {
         draw(delta);
         if (!running) {
             drawPauseMenu();
-            if (TimeUtils.millis() - timeSinceLastAction > 700l && (Gdx.input.isTouched()||Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S))) {
+            if ((TimeUtils.millis() - lastAction > 700l) && (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY))) {
                 checkMenuInput();
-                timeSinceLastAction = TimeUtils.millis();
+                lastAction = TimeUtils.millis();
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && (TimeUtils.millis() - timeSinceLastAction > 700l)) {
+            if ((TimeUtils.millis() - lastAction > 700l) && Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
                 resumeGame();
-                timeSinceLastAction = TimeUtils.millis();
+                lastAction = TimeUtils.millis();
             }
         }
         checkButton();
@@ -103,7 +103,7 @@ public abstract class GameScreen implements Screen {
         int x = Gdx.input.getX();
         int y = Gdx.input.getY();
         if (x > 445 && x < 526) {
-            if (y < 472 && y > 447) {
+            if ((y < 472 && y > 447) || Gdx.input.isKeyPressed(Input.Keys.F1)) {
                 resumeGame();
             }
             if (y < 509 && y > 482) {
@@ -200,11 +200,11 @@ public abstract class GameScreen implements Screen {
      * button. This method will also check touch events for the pause button.
      */
     private void checkButton() {
-        if (TimeUtils.millis() - timeSinceLastAction > 450l) {
-            if (Gdx.input.isTouched()) {
+        if (TimeUtils.millis() - lastAction > 450l) {
+            if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
                 int x = Gdx.input.getX();
                 int y = Gdx.input.getY();
-                if (x > 915 && x < 950 && y > 10 && y < 45) {
+                if ((x > 915 && x < 950 && y > 10 && y < 45) || Gdx.input.isKeyPressed(Input.Keys.F2)) {
                     if (Settings.GLOBAL_SOUND) {
                         styleSoundButton.up = skinSoundButton.getDrawable("nosound.up");
                         Settings.setSound(false);
@@ -212,12 +212,12 @@ public abstract class GameScreen implements Screen {
                         styleSoundButton.up = skinSoundButton.getDrawable("sound.up");
                         Settings.setSound(true);
                     }
-                } else if (x > 875 && x < 910 && y > 10 && y < 45) {
+                } else if ((x > 875 && x < 910 && y > 10 && y < 45) || Gdx.input.isKeyPressed(Input.Keys.F1)) {
                     if (running) {
                         running = false;
                     } 
                 }
-                timeSinceLastAction = TimeUtils.millis();
+                lastAction = TimeUtils.millis();
             }
         }
     }
@@ -234,6 +234,6 @@ public abstract class GameScreen implements Screen {
     }
     
     public long getTime(){
-        return timeSinceLastAction;
+        return lastAction;
     }
 }
