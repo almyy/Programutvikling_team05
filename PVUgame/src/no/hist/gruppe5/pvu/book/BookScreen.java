@@ -16,6 +16,7 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.XmlReader;
+import no.hist.gruppe5.pvu.sound.Sounds;
 
 /**
  *
@@ -31,15 +32,17 @@ public class BookScreen extends GameScreen {
     private final String FILE_NAME = "data/test.xml";
     private TextButton nextButton;
     private TextButton prevButton;
-    TextureAtlas atlas;
-    Skin skin;
-    ClickListener listener;
+    private TextureAtlas atlas;
+    private Skin skin;
+    private ClickListener listener;
     private long timeSinceLastAction;
     private final int SHOW_NEXT_BUTTON = 5;
     private final int SHOW_PREV_BUTTON = 1;
+    private Sounds sound;
 
     public BookScreen(PVU game) {
         super(game);
+        sound = new Sounds();
         pageNumber = 1;
         initScreen();
         timeSinceLastAction = 0;
@@ -70,7 +73,7 @@ public class BookScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && TimeUtils.millis()-timeSinceLastAction>700l && TimeUtils.millis()-getTime()>700l) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) && TimeUtils.millis() - timeSinceLastAction > 700l && TimeUtils.millis() - getTime() > 700l) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
         if (TimeUtils.millis() - timeSinceLastAction > 700l) {
@@ -96,6 +99,7 @@ public class BookScreen extends GameScreen {
     }
 
     private void initScreen() {
+        sound.playSound(3);
         testTexture = new Texture(Gdx.files.internal("data/book.png"));
         testTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
@@ -155,10 +159,12 @@ public class BookScreen extends GameScreen {
     }
 
     public void getNextPage() {
+        sound.playSound(4);
         pageNumber += 2;
     }
 
     public void getPreviousPage() {
+        sound.playSound(4);
         pageNumber -= 2;
     }
 }
