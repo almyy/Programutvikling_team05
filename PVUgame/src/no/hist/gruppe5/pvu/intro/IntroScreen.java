@@ -93,11 +93,15 @@ public class IntroScreen extends GameScreen {
     private void recieveInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !mHasPressed) {
             mHasPressed = true;
-            mManager.killAll();
             Tween.to(mBackground, SpriteAccessor.OPACITY, 0.5f)
                     .target(1f)
                     .ease(Quint.INOUT)
                     .start(mManager);
+            Tween.to(mLogo, SpriteAccessor.POS_XY, 3f)
+                    .target(90, 300)
+                    .ease(Quint.IN)
+                    .start(mManager);
+
 
             Gdx.input.setInputProcessor(new InputName());
             mCurrentInput = new StringBuilder();

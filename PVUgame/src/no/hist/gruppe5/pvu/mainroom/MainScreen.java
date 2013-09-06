@@ -26,6 +26,13 @@ public class MainScreen extends GameScreen {
     private static final float WORLD_TO_BOX = 0.01f;
     private static final float BOX_TO_WORLD = 100f;
 
+    public static final String TRYKK = "Trykk på E for å ";
+    public static final String PAA_PC = TRYKK + "jobbe på PC-en";
+    public static final String PAA_CART = TRYKK + "se på burndown-cart";
+    public static final String PAA_BORD = TRYKK + "se på fremgangen din";
+    public static final String PAA_BOK = TRYKK + "lese i boken";
+
+
     public static final int OBJECT_PLAYER = 0;
     public static final int OBJECT_ROOM = 1;
 
@@ -173,19 +180,19 @@ public class MainScreen extends GameScreen {
             mCurrentHint = mRayCastManager.getInfront();
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
-                    mPopupBox.setText("Press E to open the book");
+                    mPopupBox.setText(PAA_BOK);
                     mPopupBox.setXY(mPlayer.getPosition());
                     break;
                 case RayCastManager.PC:
-                    mPopupBox.setText("Press E to start working on the PC");
+                    mPopupBox.setText(PAA_PC);
                     mPopupBox.setXY(mPlayer.getPosition());
                     break;
                 case RayCastManager.CART:
-                    mPopupBox.setText("Press E to look at the burndown cart");
+                    mPopupBox.setText(PAA_CART);
                     mPopupBox.setXY(mPlayer.getPosition());
                     break;
                 case RayCastManager.TABLE:
-                    mPopupBox.setText("Press E to look at your progress");
+                    mPopupBox.setText(PAA_BORD);
                     mPopupBox.setXY(mPlayer.getPosition());
                     break;
             }
