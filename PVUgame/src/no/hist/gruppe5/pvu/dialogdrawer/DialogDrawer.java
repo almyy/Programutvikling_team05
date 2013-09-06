@@ -40,13 +40,12 @@ public class DialogDrawer {
         codeOutput.draw(batch, 1f);
     }
 
-    public void setVariables() {
+    private void setVariables() {
         labelStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         tex = new Texture(Gdx.files.internal("data/DialogTexture.png"));
         textfieldstyle = new TextFieldStyle();
         textboxskin = new Skin();
         textboxskin.add("textfieldback", new TextureRegion(tex, 1, 1, 190, 56));
-        labelStyle.font.setScale(0.3f);
         textfieldstyle.font = Assets.primaryFont10px;
         textfieldstyle.background = textboxskin.getDrawable("textfieldback");
         textfield = new TextField("", textfieldstyle);
