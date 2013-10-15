@@ -19,6 +19,7 @@ import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
+import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
@@ -165,6 +166,7 @@ public class MinigameSelectorScreen extends GameScreen {
                 }
             }
             if (counter == 4) {
+                game.setScreen(new BlocksScreen(game));
             }
             if (counter == 5) {
             }
