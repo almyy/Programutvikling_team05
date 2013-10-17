@@ -30,16 +30,16 @@ public class Room {
 
         FixtureDef fd = new FixtureDef();
         fd.density = 1;
-        fd.friction = 0.5f;
-        fd.restitution = 0.3f;
+        fd.friction = 1f;
+        fd.restitution = 0f;
 
         mBody = world.createBody(bd);
         loader.attachFixture(mBody, "uml_room", fd, 3f);
 
         // Creating the floor and walls
-        createWall(new Vector2(0, 0), 3f, world, true); // Floor
-        createWall(new Vector2(0, 0), 2f, world, false); // left wall
-        createWall(new Vector2(3f, 0), 2f, world, false); // right wall
+        //createWall(new Vector2(0, 0), 3f, world, true); // Floor
+        //createWall(new Vector2(0, 0), 2f, world, false); // left wall
+        //createWall(new Vector2(3f, 0), 2f, world, false); // right wall
 
 
     }

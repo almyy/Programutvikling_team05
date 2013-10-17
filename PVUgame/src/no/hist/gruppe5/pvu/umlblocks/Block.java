@@ -15,13 +15,18 @@ import com.badlogic.gdx.physics.box2d.*;
 public class Block {
 
     private boolean mLock = true;
+    private boolean mAlive = true;
     private Vector2 mOverridePosition;
 
     private Body mBody;
     private Sprite mSprite;
 
+    private float mSize = 0.1f;
+
     public Block(World world) {
         mOverridePosition = new Vector2();
+
+        mSize *= Math.random();
 
         //Dynamic Body
         BodyDef bodyDef = new BodyDef();
@@ -30,12 +35,12 @@ public class Block {
         mBody = world.createBody(bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(0.1f, 0.1f);
+        boxShape.setAsBox(mSize, mSize);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 0.3f;
-        fixtureDef.restitution = 0.2f;
+        fixtureDef.density = 0.9f;
+        fixtureDef.friction = 0.9f;
+        fixtureDef.restitution = 0.01f;
         mBody.createFixture(fixtureDef);
 
     }
@@ -55,6 +60,9 @@ public class Block {
             mBody.setTransform(mOverridePosition.x, mOverridePosition.y, 0);
         }
 
+        if(mBody.getTransform().getPosition().y < (0 - mSize))
+            mAlive = false;
+
     }
 
     public void setPosition(Vector2 pos) {
@@ -68,7 +76,8 @@ public class Block {
 
     }
 
-    public void isColliding() {
+    public Body getBody() {
+        return mBody;
     }
 
     public void lock() {
@@ -81,5 +90,9 @@ public class Block {
 
     public boolean isLock() {
         return mLock;
+    }
+
+    public boolean isAlive() {
+        return mAlive;
     }
 }

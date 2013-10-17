@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 
@@ -36,6 +37,7 @@ public class BlocksScreen extends GameScreen {
 
     // Game variables
     private int mCurrentBlock = -1;
+    private long mLastDrop = -1;
     private float mBlockDropLoc = 1.5f;
 
     // Debug
@@ -89,13 +91,31 @@ public class BlocksScreen extends GameScreen {
 
         for(Block b : mBlocks)
             b.update(delta);
+
+        removeDeadBlocks();
+    }
+
+    private void removeDeadBlocks() {
+        for(int i = 0; i < mBlocks.size();) {
+            if(!mBlocks.get(i).isAlive()) {
+                mWorld.destroyBody(mBlocks.get(i).getBody());
+                mBlocks.remove(i);
+            } else {
+                i++;
+            }
+        }
     }
 
     private void checkInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            getLastBlock().release();
+            if(!mBlocks.isEmpty() && readyToDrop()) {
+                getLastBlock().release();
+                mLastDrop = TimeUtils.millis();
+                mBlocks.add(new Block(mWorld));
+            }
+
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             goLeft();
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -104,7 +124,12 @@ public class BlocksScreen extends GameScreen {
         }
     }
 
-    public static final float LOC_SPEED = 0.03f;
+    private boolean readyToDrop() {
+        System.out.println((TimeUtils.millis() - mLastDrop));
+        return (TimeUtils.millis() - mLastDrop) > 800L;
+    }
+
+    public static final float LOC_SPEED = 0.02f;
 
     private void goRight() {
         if(mBlockDropLoc < WORLD_WIDTH)
