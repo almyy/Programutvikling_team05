@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.*;
  */
 public class Block {
 
-    private boolean mLock = false;
+    private boolean mLock = true;
     private Vector2 mOverridePosition;
 
     private Body mBody;
@@ -52,7 +52,7 @@ public class Block {
 
     public void update(float delta) {
         if(mLock) {
-            mBody.getTransform().setPosition(mOverridePosition);
+            mBody.setTransform(mOverridePosition.x, mOverridePosition.y, 0);
         }
 
     }
@@ -64,7 +64,11 @@ public class Block {
     public void setPosition(float x, float y) {
         mOverridePosition.x = x;
         mOverridePosition.y = y;
+        mBody.setLinearVelocity(new Vector2(0, 0));
 
+    }
+
+    public void isColliding() {
     }
 
     public void lock() {
@@ -73,5 +77,9 @@ public class Block {
 
     public void release() {
         mLock = false;
+    }
+
+    public boolean isLock() {
+        return mLock;
     }
 }

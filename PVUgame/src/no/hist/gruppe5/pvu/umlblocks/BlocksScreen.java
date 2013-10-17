@@ -2,13 +2,11 @@ package no.hist.gruppe5.pvu.umlblocks;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.mainroom.BodyEditorLoader;
 
 import java.util.ArrayList;
 
@@ -22,15 +20,25 @@ import java.util.ArrayList;
 
 public class BlocksScreen extends GameScreen {
 
-    private OrthographicCamera mGameCam;
-
     private static final float WORLD_TO_BOX = 0.064f;
     private static final float BOX_TO_WORLD = 64;
 
-    private World mWorld;
+    public static final float WORLD_WIDTH = 3f;
+    public static final float WORLD_HEIGHT = 1.8125f;
 
+    private final float BLOCK_DROP_LOCK = 1.5f;
+
+    private World mWorld;
+    private OrthographicCamera mGameCam;
+
+    private Room mRoom;
     private ArrayList<Block> mBlocks;
 
+    // Game variables
+    private int mCurrentBlock = -1;
+    private float mBlockDropLoc = 1.5f;
+
+    // Debug
     private Box2DDebugRenderer mDebugRenderer;
 
     public BlocksScreen(PVU game) {
@@ -39,46 +47,26 @@ public class BlocksScreen extends GameScreen {
         mBlocks = new ArrayList<Block>(15);
 
         mWorld = new World(new Vector2(0, -10), false);
-        createFixedBody();
-        spawnTestBlock();
+        mRoom = new Room(mWorld);
 
         mGameCam = new OrthographicCamera();
         mGameCam.setToOrtho(false, 3f, (PVU.SCREEN_HEIGHT / PVU.SCREEN_WIDTH) * 3f);
-        System.out.println(mGameCam.viewportHeight);
 
         mDebugRenderer = new Box2DDebugRenderer();
 
-        // TODO create world
+        // Start game
+        spawnFirstBlock();
 
     }
 
-    private void createFixedBody() {
-
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/pvugame.json"));
-
-        //Room Body
-        Body roomBody;
-
-        BodyDef bd = new BodyDef();
-        bd.position.set(0, 0);
-        bd.type = BodyDef.BodyType.StaticBody;
-
-        FixtureDef fd = new FixtureDef();
-        fd.density = 1;
-        fd.friction = 0.5f;
-        fd.restitution = 0.3f;
-
-        roomBody = mWorld.createBody(bd);
-        loader.attachFixture(roomBody, "uml_room", fd, 3f);
-    }
-
-    private void spawnTestBlock() {
-        Block temp = new Block(mWorld);
+    private void spawnFirstBlock() {
+        mBlocks.add(new Block(mWorld));
+        mCurrentBlock = 1;
     }
 
     @Override
     protected void draw(float delta) {
-        clearCamera(1f, 1f, 1f, 1f);
+        clearCamera(0f, 0f, 0f, 1f);
 
         for(Block b : mBlocks)
             b.draw(batch);
@@ -92,6 +80,13 @@ public class BlocksScreen extends GameScreen {
 
         checkInput();
 
+        if(!mBlocks.isEmpty()) {
+            Block block = getLastBlock();
+            if(block.isLock()) {
+                block.setPosition(mBlockDropLoc, BLOCK_DROP_LOCK);
+            }
+        }
+
         for(Block b : mBlocks)
             b.update(delta);
     }
@@ -99,10 +94,33 @@ public class BlocksScreen extends GameScreen {
     private void checkInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            getLastBlock().release();
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            goLeft();
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            goRight();
+
         }
+    }
+
+    public static final float LOC_SPEED = 0.03f;
+
+    private void goRight() {
+        if(mBlockDropLoc < WORLD_WIDTH)
+            mBlockDropLoc += LOC_SPEED;
+    }
+
+    private void goLeft() {
+        if(mBlockDropLoc > 0)
+            mBlockDropLoc -= LOC_SPEED;
     }
 
     @Override
     protected void cleanUp() {
+    }
+
+    public Block getLastBlock() {
+        return mBlocks.get(mBlocks.size() - 1);
     }
 }
