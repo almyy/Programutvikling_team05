@@ -23,10 +23,14 @@ public class Block {
 
     private float mSize = 0.1f;
 
-    public Block(World world) {
+    public Block(World world, Sprite sprite) {
         mOverridePosition = new Vector2();
 
         mSize *= Math.random();
+
+        mSprite = sprite;
+        mSprite.setOrigin(mSprite.getWidth() / 2, mSprite.getHeight() / 2);
+        mSprite.setPosition(-100, -100);
 
         //Dynamic Body
         BodyDef bodyDef = new BodyDef();
@@ -35,7 +39,7 @@ public class Block {
         mBody = world.createBody(bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(mSize, mSize);
+        boxShape.setAsBox(mSprite.getWidth()*BlocksScreen.WORLD_TO_BOX, mSprite.getHeight()*BlocksScreen.WORLD_TO_BOX);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
         fixtureDef.density = 0.9f;
@@ -51,8 +55,7 @@ public class Block {
     }
 
     public void draw(SpriteBatch batch) {
-        // TODO draw sprite
-
+        mSprite.draw(batch);
     }
 
     public void update(float delta) {
@@ -62,6 +65,12 @@ public class Block {
 
         if(mBody.getTransform().getPosition().y < (0 - mSize))
             mAlive = false;
+
+        // Update sprite position based on the Box2d body
+        Vector2 pos = mBody.getTransform().getPosition();
+        mSprite.setPosition((pos.x*BlocksScreen.BOX_TO_WORLD) - mSprite.getWidth() / 2,
+                (pos.y*BlocksScreen.BOX_TO_WORLD) - mSprite.getHeight() / 2);
+        mSprite.setRotation((float) Math.toDegrees(mBody.getAngle()));
 
     }
 
@@ -73,7 +82,7 @@ public class Block {
         mOverridePosition.x = x;
         mOverridePosition.y = y;
         mBody.setLinearVelocity(new Vector2(0, 0));
-
+        mBody.setAngularVelocity(0);
     }
 
     public Body getBody() {
