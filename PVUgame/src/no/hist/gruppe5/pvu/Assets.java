@@ -26,6 +26,12 @@ public class Assets {
     public static TextureRegion visionShooterYoutubeRegion;
     
     public static TextureRegion[] mainAvatar; 
+    public static TextureRegion[] umlBlocks;
+    
+    public static final int UML_BLOCK_1 = 0;
+    public static final int UML_BLOCK_2 = 1;
+    public static final int UML_BLOCK_3 = 2;
+    public static final int UML_BLOCK_4 = 3;
     
     public static final int SECONDARY_AVATAR_LEFT_1 = 0;
     public static final int SECONDARY_AVATAR_LEFT_1_FRAME_2 = 1;
@@ -92,6 +98,7 @@ public class Assets {
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
         TextureAtlas borderAtlas = new TextureAtlas(Gdx.files.internal("data/border/BorderPack.pack"));
+        TextureAtlas umlBlocksAtlas = new TextureAtlas(Gdx.files.internal("data/UMLBlocks/UMLBlocks.pack"));
 
         visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture");
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
@@ -104,6 +111,12 @@ public class Assets {
         mainAvatar = new TextureRegion[mainAvatarArray.size];
         for(int i = 0; i < mainAvatarArray.size;i++){
             mainAvatar[i] = (TextureRegion)mainAvatarArray.get(i);
+        }
+        
+        Array umlBlocksArray = umlBlocksAtlas.findRegions("uml");
+        umlBlocks = new TextureRegion[umlBlocksArray.size];
+        for(int i = 0; i < umlBlocks.length;i++){
+            umlBlocks[i] = (TextureRegion)umlBlocksArray.get(i);
         }
 
         // MAIN SCREEN
