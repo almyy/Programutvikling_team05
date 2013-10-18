@@ -3,27 +3,23 @@ package no.hist.gruppe5.pvu.book;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.XmlReader;
-import no.hist.gruppe5.pvu.sound.Sounds;
+import no.hist.gruppe5.pvu.mainroom.MainScreen;
 
-/**
+/** 
  *
  * @author linnk
  */
 public class BookScreen extends GameScreen {
-
+/**
     public static Texture testTexture;
     private Label leftPage;
     private Label rightPage;
@@ -36,9 +32,12 @@ public class BookScreen extends GameScreen {
     private Skin skin;
     private ClickListener listener;
     private long timeSinceLastAction;
-    private final int SHOW_NEXT_BUTTON = 5;
-    private final int SHOW_PREV_BUTTON = 1;
+    private final int MAX_PAGE = 5;
+    private final int MIN_PAGE = 1;
     private Sounds sound;
+    
+    private String[] sections;
+    private Button[] content;
 
     public BookScreen(PVU game) {
         super(game);
@@ -59,12 +58,12 @@ public class BookScreen extends GameScreen {
         stage.draw();
         stage.act(delta);
 
-        if (SHOW_NEXT_BUTTON == pageNumber) {
+        if (MAX_PAGE == pageNumber) {
             nextButton.remove();
         } else {
             stage.addActor(nextButton);
         }
-        if (SHOW_PREV_BUTTON == pageNumber) {
+        if (MIN_PAGE== pageNumber) {
             prevButton.remove();
         } else {
             stage.addActor(prevButton);
@@ -77,13 +76,17 @@ public class BookScreen extends GameScreen {
             game.setScreen(PVU.MAIN_SCREEN);
         }
         if (TimeUtils.millis() - timeSinceLastAction > 700l) {
-            if (nextButton.isPressed() || Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-                getNextPage();
-                timeSinceLastAction = TimeUtils.millis();
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+                if(pageNumber<MAX_PAGE){
+                    getNextPage();
+                    timeSinceLastAction = TimeUtils.millis();
+                }
             }
-            if (prevButton.isPressed() || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-                getPreviousPage();
-                timeSinceLastAction = TimeUtils.millis();
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+                if(pageNumber>MIN_PAGE){
+                    getPreviousPage();
+                    timeSinceLastAction = TimeUtils.millis();
+                }
             }
         }
     }
@@ -149,10 +152,10 @@ public class BookScreen extends GameScreen {
 
         Gdx.input.setInputProcessor(stage);
 
-        if (SHOW_NEXT_BUTTON != pageNumber) {
+        if (MAX_PAGE != pageNumber) {
             stage.addActor(nextButton);
         }
-        if (SHOW_PREV_BUTTON != pageNumber) {
+        if (MIN_PAGE != pageNumber) {
             stage.addActor(prevButton);
         }
 
@@ -166,5 +169,95 @@ public class BookScreen extends GameScreen {
     public void getPreviousPage() {
         sound.playSound(4);
         pageNumber -= 2;
+    }**/
+    private int MAX_PAGE;
+    private int MIN_PAGE;
+    private int currentPageNumber;
+    private final String[] sections = {"Innledning","Analyse","Design","Implementasjon","Sluttrapport"};
+    
+    private long timeSinceLastAction;
+    
+    private TextButton[] content;
+        
+    private TextButtonStyle buttonStyle;
+    private TextButtonStyle buttonStylePressed;
+    
+    private Stage stage;
+    
+    public BookScreen(PVU game){
+        super(game);
+        timeSinceLastAction=0;
+        currentPageNumber = 0;
+        createContent();
+    }
+    
+    private void createContent() {
+        TextureAtlas atlas = new TextureAtlas("data/bookscreen/button.pack");
+        Skin skin = new Skin(atlas);
+        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true);
+        
+        buttonStyle = new TextButtonStyle();
+        buttonStyle.up = skin.getDrawable("buttonprev.up");
+        buttonStyle.down = skin.getDrawable("buttonprev.down");
+        buttonStyle.pressedOffsetX = -1;
+        buttonStyle.pressedOffsetY = -1;
+        buttonStyle.font = Assets.primaryFont10px;
+        buttonStyle.fontColor = Color.BLACK;
+        
+        buttonStylePressed = new TextButtonStyle();
+        buttonStylePressed.up = skin.getDrawable("buttonprev.down");
+        buttonStylePressed.down = skin.getDrawable("buttonprev.down");
+        buttonStylePressed.pressedOffsetX = -1;
+        buttonStylePressed.pressedOffsetY = -1;
+        buttonStylePressed.font = Assets.primaryFont10px;
+        buttonStylePressed.fontColor = Color.BLACK;
+        
+        content = new TextButton[5];
+        
+        for(int i=0; i<5; i++){
+            TextButton temp = new TextButton(sections[i], buttonStyle);
+            temp.pad(20);
+            temp.setWidth(60f);
+            temp.setPosition(PVU.GAME_WIDTH*3/4-temp.getWidth()/2, PVU.GAME_HEIGHT-23-i*temp.getHeight());
+            temp.getLabel().setFontScale(0.6f);
+            
+            stage.addActor(temp);
+            content[i] = temp;
+        }
+        content[currentPageNumber].setStyle(buttonStylePressed);
+    }
+    @Override
+    protected void draw(float delta) {
+        clearCamera(1, 1, 1, 1);
+        batch.begin();
+        batch.draw(Assets.bookBook, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
+        batch.end();
+        stage.draw();
+    }
+
+    @Override
+    protected void update(float delta) {
+        if (TimeUtils.millis() - timeSinceLastAction > 500l) {
+            if ((Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) && currentPageNumber>0) {
+                content[currentPageNumber].setStyle(buttonStyle);
+                content[--currentPageNumber].setStyle(buttonStylePressed);
+                timeSinceLastAction = TimeUtils.millis();
+            }
+            if ((Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) && currentPageNumber<sections.length-1 ) {
+                content[currentPageNumber].setStyle(buttonStyle);
+                content[++currentPageNumber].setStyle(buttonStylePressed);
+                timeSinceLastAction = TimeUtils.millis();
+            }
+            if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+                // Velg avsnitt.
+            }
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            game.setScreen(PVU.MAIN_SCREEN);
+        }
+    }
+
+    @Override
+    protected void cleanUp() {
     }
 }
