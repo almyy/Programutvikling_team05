@@ -32,7 +32,7 @@ public class VisionScreen extends GameScreen {
     private long mLastElementSpawned = 0;
     private Random mRandom = new Random();
     
-    private int mPoints = 0;
+    public int mPoints = 0;
     private Sounds mSound;
     private TweenManager mTweenManager;
 
@@ -227,7 +227,7 @@ public class VisionScreen extends GameScreen {
     private void checkFinish(){
         if (mElements.isEmpty() && finish()) {
             ScoreHandler.updateScore(0, mPoints);
-            game.setScreen(new VisionEnd(game));
+            game.setScreen(new VisionEnd(game,mPoints));
         }
     }
 }
