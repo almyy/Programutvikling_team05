@@ -1,9 +1,10 @@
-package no.hist.gruppe5.pvu.umlblocks;
+package no.hist.gruppe5.pvu.umlblocks.blocks;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,6 +21,8 @@ public class Block {
 
     private Body mBody;
     private Sprite mSprite;
+
+    private float mInitialRotation;
 
     private float mSize = 0.1f;
 
@@ -39,13 +42,15 @@ public class Block {
         mBody = world.createBody(bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(mSprite.getWidth()*BlocksScreen.WORLD_TO_BOX, mSprite.getHeight()*BlocksScreen.WORLD_TO_BOX);
+        boxShape.setAsBox(mSprite.getWidth() * BlocksScreen.WORLD_TO_BOX, mSprite.getHeight() * BlocksScreen.WORLD_TO_BOX);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
         fixtureDef.density = 0.9f;
         fixtureDef.friction = 0.9f;
-        fixtureDef.restitution = 0.01f;
+        fixtureDef.restitution = 0.02f;
         mBody.createFixture(fixtureDef);
+
+        mInitialRotation = (float) Math.random()*360f;
 
     }
 
@@ -60,7 +65,7 @@ public class Block {
 
     public void update(float delta) {
         if(mLock) {
-            mBody.setTransform(mOverridePosition.x, mOverridePosition.y, 0);
+            mBody.setTransform(mOverridePosition.x, mOverridePosition.y, mInitialRotation);
         }
 
         if(mBody.getTransform().getPosition().y < (0 - mSize))
