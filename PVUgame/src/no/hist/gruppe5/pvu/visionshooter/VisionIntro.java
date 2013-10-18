@@ -153,13 +153,10 @@ public class VisionIntro extends GameScreen {
     }
 
     private Label makeHeadLabel(String text) {
-        //tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
         skin = new Skin();
         labelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
         labelstyle.font = Assets.primaryFont10px;
         labelstyle.fontColor = Color.RED;
-        //skin.add("labelback", new TextureRegion(tex, 10, 10));
-        //Drawable d = skin.getDrawable("labelback");
         Label l = new Label(text, labelstyle);
         return l;
     }
@@ -169,8 +166,6 @@ public class VisionIntro extends GameScreen {
         skin = new Skin();
         labelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
         labelstyle.font = Assets.primaryFont10px;
-        //skin.add("labelback", new TextureRegion(tex, 10, 10));
-        //Drawable d = skin.getDrawable("labelback");
         Label l = new Label(text, labelstyle);
         return l;
     }
