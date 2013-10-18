@@ -21,7 +21,7 @@ import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
-import test.SeqJumpIntroScreen;
+import no.hist.gruppe5.pvu.temp.SeqJumpIntroScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
