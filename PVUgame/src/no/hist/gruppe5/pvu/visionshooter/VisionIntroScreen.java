@@ -27,7 +27,7 @@ import no.hist.gruppe5.pvu.PVU;
  *
  * @author Frode
  */
-public class VisionIntro extends GameScreen {
+public class VisionIntroScreen extends GameScreen {
 
     private String mTitleText = "VisionShooter";
     private String mIntroText;
@@ -50,7 +50,7 @@ public class VisionIntro extends GameScreen {
     private Sprite mSfacebook;
     private Sprite mSdoc;
 
-    public VisionIntro(PVU game) throws FileNotFoundException, IOException {
+    public VisionIntroScreen(PVU game) throws FileNotFoundException, IOException {
         super(game);
         stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mIntroText = readFile("data/visionScreen_intro/Intro.txt");

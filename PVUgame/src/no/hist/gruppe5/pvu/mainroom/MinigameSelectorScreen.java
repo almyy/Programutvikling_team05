@@ -20,7 +20,8 @@ import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
-import no.hist.gruppe5.pvu.visionshooter.VisionIntro;
+import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
+import test.SeqJumpIntroScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
@@ -28,7 +29,7 @@ public class MinigameSelectorScreen extends GameScreen {
     private String text2 = "Visjonsdokument";
     private String text3 = "Quiz";
     private String text4 = "// TODO";
-    private String text5 = "// TODO";
+    private String text5 = "SeqJumper";
     private Stage stage;
     private Texture tex;
     private TextButtonStyle textbuttonstyle;
@@ -156,7 +157,7 @@ public class MinigameSelectorScreen extends GameScreen {
             if (counter == 2) {
                 try {
 
-                    game.setScreen(new VisionIntro(game));
+                    game.setScreen(new VisionIntroScreen(game));
 
                 }catch (FileNotFoundException ex) {
                     Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -178,6 +179,7 @@ public class MinigameSelectorScreen extends GameScreen {
                 game.setScreen(new BlocksScreen(game));
             }
             if (counter == 5) {
+                game.setScreen(new SeqJumpIntroScreen(game));
             }
         }
         if (!Gdx.input.isKeyPressed(Input.Keys.ENTER)) {

@@ -21,10 +21,9 @@ import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
  *
  * @author Frode
  */
-public class VisionEnd extends GameScreen {
+public class VisionEndScreen extends GameScreen {
 
     private String mPointText = "Points: ";
-    private String mPointValue;
     private String mContinue = "Trykk SPACE for aa avslutte";
     private Label mLcontinue;
     private Label mPointTextLabel;
@@ -34,7 +33,7 @@ public class VisionEnd extends GameScreen {
     private Texture tex;
     private Skin skin;
 
-    public VisionEnd(PVU game, int points) {
+    public VisionEndScreen(PVU game, int points) {
         super(game);
         stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mPointTextLabel = makeHeadLabel(mPointText);
@@ -97,7 +96,5 @@ public class VisionEnd extends GameScreen {
         return l;
     }
 
-    public void setmPointValue(String mPointValue) {
-        this.mPointValue = mPointValue;
-    }
+  
 }
