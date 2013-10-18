@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 
 /**
@@ -13,69 +14,48 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  * Time: 9:41 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Block {
+public abstract class Block {
 
-    private boolean mLock = true;
-    private boolean mAlive = true;
-    private Vector2 mOverridePosition;
+    protected boolean lock = true;
+    protected boolean alive = true;
+    protected Vector2 overridePosition;
 
-    private Body mBody;
-    private Sprite mSprite;
+    protected Body body;
+    protected Sprite sprite;
 
-    private float mInitialRotation;
+    protected float initialRotation;
 
-    private float mSize = 0.1f;
+    public Block(World world) {
+        overridePosition = new Vector2();
 
-    public Block(World world, Sprite sprite) {
-        mOverridePosition = new Vector2();
 
-        mSize *= Math.random();
+        createSprite();
+        createBody(world);
 
-        mSprite = sprite;
-        mSprite.setOrigin(mSprite.getWidth() / 2, mSprite.getHeight() / 2);
-        mSprite.setPosition(-100, -100);
-
-        //Dynamic Body
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0.8f, 2f);
-        mBody = world.createBody(bodyDef);
-
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(mSprite.getWidth() * BlocksScreen.WORLD_TO_BOX, mSprite.getHeight() * BlocksScreen.WORLD_TO_BOX);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = boxShape;
-        fixtureDef.density = 0.9f;
-        fixtureDef.friction = 0.9f;
-        fixtureDef.restitution = 0.02f;
-        mBody.createFixture(fixtureDef);
-
-        mInitialRotation = (float) Math.random()*360f;
+        initialRotation = (float) Math.random()*360f;
 
     }
 
-    public Block(Body body, Sprite sprite) {
-        this.mBody = body;
-        this.mSprite = sprite;
-    }
+    protected abstract void createSprite();
+
+    public abstract void createBody(World world);
+
+    protected abstract void updateBlock();
 
     public void draw(SpriteBatch batch) {
-        mSprite.draw(batch);
+        sprite.draw(batch);
     }
 
     public void update(float delta) {
-        if(mLock) {
-            mBody.setTransform(mOverridePosition.x, mOverridePosition.y, mInitialRotation);
+        if(lock) {
+            body.setTransform(overridePosition.x, overridePosition.y, initialRotation);
         }
 
-        if(mBody.getTransform().getPosition().y < (0 - mSize))
-            mAlive = false;
+        if(body.getTransform().getPosition().y < 0) {
+            alive = false;
+        }
 
-        // Update sprite position based on the Box2d body
-        Vector2 pos = mBody.getTransform().getPosition();
-        mSprite.setPosition((pos.x*BlocksScreen.BOX_TO_WORLD) - mSprite.getWidth() / 2,
-                (pos.y*BlocksScreen.BOX_TO_WORLD) - mSprite.getHeight() / 2);
-        mSprite.setRotation((float) Math.toDegrees(mBody.getAngle()));
+        updateBlock();
 
     }
 
@@ -84,29 +64,34 @@ public class Block {
     }
 
     public void setPosition(float x, float y) {
-        mOverridePosition.x = x;
-        mOverridePosition.y = y;
-        mBody.setLinearVelocity(new Vector2(0, 0));
-        mBody.setAngularVelocity(0);
+        overridePosition.x = x;
+        overridePosition.y = y;
+        body.setLinearVelocity(new Vector2(0, 0));
+        body.setAngularVelocity(0);
     }
 
     public Body getBody() {
-        return mBody;
+        return body;
     }
 
     public void lock() {
-        mLock = true;
+        lock = true;
     }
 
     public void release() {
-        mLock = false;
+        lock = false;
     }
 
     public boolean isLock() {
-        return mLock;
+        return lock;
     }
 
     public boolean isAlive() {
-        return mAlive;
+        return alive;
+    }
+
+    public Block activate() {
+        body.setActive(true);
+        return this;
     }
 }
