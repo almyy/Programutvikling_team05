@@ -3,9 +3,11 @@ package no.hist.gruppe5.pvu.umlblocks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.TimeUtils;
+import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 
@@ -21,19 +23,23 @@ import java.util.ArrayList;
 
 public class BlocksScreen extends GameScreen {
 
-    private static final float WORLD_TO_BOX = 0.064f;
-    private static final float BOX_TO_WORLD = 64;
+    public static final float WORLD_TO_BOX = 0.0064f;
+    public static final float BOX_TO_WORLD = 64;
 
     public static final float WORLD_WIDTH = 3f;
     public static final float WORLD_HEIGHT = 1.8125f;
 
     private final float BLOCK_DROP_LOCK = 1.5f;
+    private final int DEFAULT_GAME = 100;
+    private final int HARD_GAME = 200;
+    private final int LOL_GAME = 300;
 
     private World mWorld;
     private OrthographicCamera mGameCam;
 
     private Room mRoom;
-    private ArrayList<Block> mBlocks;
+    private ArrayList<Block> mActiveBlocks;
+    private ArrayList<Sprite> mBlocksLeft;
 
     // Game variables
     private int mCurrentBlock = -1;
@@ -46,7 +52,10 @@ public class BlocksScreen extends GameScreen {
     public BlocksScreen(PVU game) {
         super(game);
 
-        mBlocks = new ArrayList<Block>(15);
+        mActiveBlocks = new ArrayList<Block>(30);
+        mBlocksLeft = new ArrayList<Sprite>(15);
+
+        populateBlocksLeft(DEFAULT_GAME);
 
         mWorld = new World(new Vector2(0, -10), false);
         mRoom = new Room(mWorld);
@@ -61,8 +70,22 @@ public class BlocksScreen extends GameScreen {
 
     }
 
+    private void populateBlocksLeft(int game_type) {
+        switch(game_type) {
+            case DEFAULT_GAME:
+                mBlocksLeft.add(new Sprite(Assets.visionShooterFacebookRegion));
+                mBlocksLeft.add(new Sprite(Assets.visionShooterDocumentRegion));
+                mBlocksLeft.add(new Sprite(Assets.visionShooterShipRegion));
+                mBlocksLeft.add(new Sprite(Assets.mainAvatar[0]));
+                mBlocksLeft.add(new Sprite(Assets.mainAvatar[1]));
+                mBlocksLeft.add(new Sprite(Assets.mainAvatar[2]));
+                mBlocksLeft.add(new Sprite(Assets.mainAvatar[3]));
+                break;
+        }
+    }
+
     private void spawnFirstBlock() {
-        mBlocks.add(new Block(mWorld));
+        mActiveBlocks.add(new Block(mWorld, mBlocksLeft.remove(0)));
         mCurrentBlock = 1;
     }
 
@@ -70,9 +93,16 @@ public class BlocksScreen extends GameScreen {
     protected void draw(float delta) {
         clearCamera(0f, 0f, 0f, 1f);
 
-        for(Block b : mBlocks)
+
+        // Draw all the sprites.
+        batch.begin();
+
+        for(Block b : mActiveBlocks)
             b.draw(batch);
 
+        batch.end();
+
+        // Render debug outlines
         mDebugRenderer.render(mWorld, mGameCam.combined);
     }
 
@@ -82,24 +112,41 @@ public class BlocksScreen extends GameScreen {
 
         checkInput();
 
-        if(!mBlocks.isEmpty()) {
+        if(!mActiveBlocks.isEmpty()) {
             Block block = getLastBlock();
             if(block.isLock()) {
                 block.setPosition(mBlockDropLoc, BLOCK_DROP_LOCK);
             }
         }
 
-        for(Block b : mBlocks)
+        for(Block b : mActiveBlocks)
             b.update(delta);
 
+        // Add new block after a set time
+        if(mBlocksLeft.isEmpty() && readyToDrop())
+            gameIsDone();
+        else if(readyToDrop() && allDropped())
+            mActiveBlocks.add(new Block(mWorld, mBlocksLeft.remove(0)));
+
+
+
+        // Clean up dead blocks from world and array
         removeDeadBlocks();
     }
 
+    private boolean allDropped() {
+        for(Block b : mActiveBlocks)
+            if(b.isLock())
+                return false;
+
+        return true;
+    }
+
     private void removeDeadBlocks() {
-        for(int i = 0; i < mBlocks.size();) {
-            if(!mBlocks.get(i).isAlive()) {
-                mWorld.destroyBody(mBlocks.get(i).getBody());
-                mBlocks.remove(i);
+        for(int i = 0; i < mActiveBlocks.size();) {
+            if(!mActiveBlocks.get(i).isAlive()) {
+                mWorld.destroyBody(mActiveBlocks.get(i).getBody());
+                mActiveBlocks.remove(i);
             } else {
                 i++;
             }
@@ -110,10 +157,9 @@ public class BlocksScreen extends GameScreen {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if(!mBlocks.isEmpty() && readyToDrop()) {
+            if(!mActiveBlocks.isEmpty() && readyToDrop()) {
                 getLastBlock().release();
                 mLastDrop = TimeUtils.millis();
-                mBlocks.add(new Block(mWorld));
             }
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -124,8 +170,11 @@ public class BlocksScreen extends GameScreen {
         }
     }
 
+    private void gameIsDone() {
+        //TODO
+    }
+
     private boolean readyToDrop() {
-        System.out.println((TimeUtils.millis() - mLastDrop));
         return (TimeUtils.millis() - mLastDrop) > 800L;
     }
 
@@ -146,6 +195,6 @@ public class BlocksScreen extends GameScreen {
     }
 
     public Block getLastBlock() {
-        return mBlocks.get(mBlocks.size() - 1);
+        return mActiveBlocks.get(mActiveBlocks.size() - 1);
     }
 }
