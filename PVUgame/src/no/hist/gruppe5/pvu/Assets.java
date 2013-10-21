@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,6 +32,12 @@ public class Assets {
     public static TextureRegion visionShooterYoutubeRegion;
     
     public static TextureRegion[] mainAvatar; 
+    public static TextureRegion[] umlBlocks;
+    
+    public static final int UML_BLOCK_1 = 0;
+    public static final int UML_BLOCK_2 = 1;
+    public static final int UML_BLOCK_3 = 2;
+    public static final int UML_BLOCK_4 = 3;
     
     public static final int SECONDARY_AVATAR_LEFT_1 = 0;
     public static final int SECONDARY_AVATAR_LEFT_1_FRAME_2 = 1;
@@ -70,10 +82,15 @@ public class Assets {
     public static TextureRegion introMainLogo;
     public static TextureRegion introTeamLogo;
     public static TextureRegion introPressSpace;
+    // UML BLOCKS
+    public static TextureRegion ubBackground;
+    public static TextureRegion ubEasy;
+    public static TextureRegion ubMedium;
+    public static TextureRegion ubHard;
 
     // BOOK SCREEN
     public static TextureRegion bookBook;
-    
+
     // BORDER
     public static TextureRegion borderBorder; 
 
@@ -92,6 +109,7 @@ public class Assets {
         TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
         TextureAtlas borderAtlas = new TextureAtlas(Gdx.files.internal("data/border/BorderPack.pack"));
+        TextureAtlas umlBlocksAtlas = new TextureAtlas(Gdx.files.internal("data/UMLBlocks/UMLBlocks.pack"));
 
         visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture");
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
@@ -106,6 +124,12 @@ public class Assets {
             mainAvatar[i] = (TextureRegion)mainAvatarArray.get(i);
         }
 
+        Array umlBlocksArray = umlBlocksAtlas.findRegions("uml");
+        umlBlocks = new TextureRegion[umlBlocksArray.size];
+        for(int i = 0; i < umlBlocks.length;i++){
+            umlBlocks[i] = (TextureRegion)umlBlocksArray.get(i);
+        }
+
         // MAIN SCREEN
         TextureAtlas msAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack")) ;
 
@@ -118,13 +142,22 @@ public class Assets {
             msBurndownCarts[i] = (TextureRegion) carts.get(i);
         }
 
+        // INTRO
         introMainLogo = msAtlas.findRegion("logo");
         introTeamLogo = msAtlas.findRegion("logo_2_group");
         introPressSpace = msAtlas.findRegion("trykk");
 
+        // UML BLOCKS
+        ubBackground = msAtlas.findRegion("umlbackground");
+        ubEasy = msAtlas.findRegion("ub_easy");
+        ubMedium = msAtlas.findRegion("ub_medium");
+        ubHard = msAtlas.findRegion("ub_hard");
+
+
+        // BOOK
         bookBook = msAtlas.findRegion("book");
 
-        
+
         borderBorder = borderAtlas.findRegion("BorderChooser");
 
 
@@ -139,5 +172,17 @@ public class Assets {
     }
 
     public static void dispose() {
+    }
+    public static String readFile(String fileName) throws FileNotFoundException, IOException{
+         String text = "";
+        DataInputStream in = new DataInputStream(new FileInputStream(fileName));
+        BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
+        String strLine;
+        while ((strLine = inBR.readLine()) != null) {
+            if (!"".equals(strLine)) {
+                text += strLine;
+            }
+        }
+        return text;
     }
 }

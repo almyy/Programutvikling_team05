@@ -17,9 +17,13 @@ import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.coderacer.CoderacerEndScreen;
+import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
-import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
+import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
+import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
+import no.hist.gruppe5.pvu.temp.SeqJumpIntroScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
@@ -27,7 +31,7 @@ public class MinigameSelectorScreen extends GameScreen {
     private String text2 = "Visjonsdokument";
     private String text3 = "Quiz";
     private String text4 = "// TODO";
-    private String text5 = "// TODO";
+    private String text5 = "SeqJumper";
     private Stage stage;
     private Texture tex;
     private TextButtonStyle textbuttonstyle;
@@ -43,7 +47,7 @@ public class MinigameSelectorScreen extends GameScreen {
     private boolean buttonPressedS;
     private boolean buttonPressedW;
     private boolean buttonPressedENTER;
-    private Group menu; 
+    private Group menu;
 
     public MinigameSelectorScreen(final PVU game) {
         super(game);
@@ -75,11 +79,11 @@ public class MinigameSelectorScreen extends GameScreen {
         button5.setFillParent(true);
         menu.addActor(button5);
 
-        initMakeButton();        
+        initMakeButton();
         menu.addActor(buttonMove);
-        
+
         menu.setBounds(510, 295, 590, 100);
-        
+
         stage.addActor(menu);
     }
 
@@ -150,10 +154,27 @@ public class MinigameSelectorScreen extends GameScreen {
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && !buttonPressedENTER) {
             buttonPressedENTER = true;
             if (counter == 1) {
-                game.setScreen(new CoderacerScreen(game));
+                
+                 try {
+                    game.setScreen(new CoderacerIntroScreen(game));
+                }catch (FileNotFoundException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                 
             }
             if (counter == 2) {
-                game.setScreen(new VisionScreen(game));
+                try {
+
+                    game.setScreen(new VisionIntroScreen(game));
+
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
             if (counter == 3) {
                 try {
@@ -165,14 +186,16 @@ public class MinigameSelectorScreen extends GameScreen {
                 }
             }
             if (counter == 4) {
+                game.setScreen(new BlocksScreen(game));
             }
             if (counter == 5) {
+                game.setScreen(new SeqJumpIntroScreen(game));
             }
         }
         if (!Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             buttonPressedENTER = false;
         }
-        
+
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
@@ -187,7 +210,7 @@ public class MinigameSelectorScreen extends GameScreen {
         buttonskin = new Skin();
         textbuttonstyle = new TextButton.TextButtonStyle();
         textbuttonstyle.font = Assets.primaryFont10px;
-       
+
         buttonskin.add("textfieldback", new TextureRegion(tex, 10, 10));
         Drawable d = buttonskin.getDrawable("textfieldback");
         textbuttonstyle.up = d;
@@ -196,15 +219,16 @@ public class MinigameSelectorScreen extends GameScreen {
         button.getLabel().setFontScale(5);
         return button;
     }
-    private void initMakeButton(){
+
+    private void initMakeButton() {
         Skin buttonSkin = new Skin();
         TextureRegion region = new TextureRegion(Assets.borderBorder);
-        
+
         buttonSkin.add("border", region);
         Drawable standard = buttonSkin.getDrawable("border");
-        
+
         ButtonStyle buttonStyle = new ButtonStyle(standard, standard, standard);
-        
+
         buttonMove = new Button(buttonStyle);
         buttonMove.setFillParent(true);
         buttonMove.setPosition(0, 420);
