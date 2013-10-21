@@ -49,7 +49,7 @@ public class PVU extends Game {
         MAIN_SCREEN = new MainScreen(this);
           
 
-        setScreen(new BlocksScreen(this));
+        setScreen(new IntroScreen(this));
 
     }
 
