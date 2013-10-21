@@ -226,7 +226,7 @@ public class VisionScreen extends GameScreen {
     }
     private void checkFinish(){
         if (mElements.isEmpty() && finish()) {
-            ScoreHandler.updateScore(0, mPoints);
+            ScoreHandler.updateScore(ScoreHandler.VISION, mPoints);
             game.setScreen(new VisionEndScreen(game,mPoints));
         }
     }

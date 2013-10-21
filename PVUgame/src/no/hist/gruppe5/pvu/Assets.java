@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created with IntelliJ IDEA.
@@ -166,5 +172,17 @@ public class Assets {
     }
 
     public static void dispose() {
+    }
+    public static String readFile(String fileName) throws FileNotFoundException, IOException{
+         String text = "";
+        DataInputStream in = new DataInputStream(new FileInputStream(fileName));
+        BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
+        String strLine;
+        while ((strLine = inBR.readLine()) != null) {
+            if (!"".equals(strLine)) {
+                text += strLine;
+            }
+        }
+        return text;
     }
 }
