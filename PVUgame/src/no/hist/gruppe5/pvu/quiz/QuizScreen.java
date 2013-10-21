@@ -42,7 +42,6 @@ public class QuizScreen extends GameScreen {
     private Group mQuestionGroup;
     private Group mAnswerGroup;
     private Skin mQuizSkin = new Skin();
-    private ClickListener listener = new ClickListener();
     private ArrayList<Label> mQuestions = new ArrayList();
     private ArrayList<TextButton> mAnswers = new ArrayList();
     private String[] mQuizNames = {"data/Quizes/quiz_00.txt", "data/Quizes/quiz_01.txt", "data/Quizes/quiz_02.txt", "data/Quizes/quiz_03.txt", "data/Quizes/quiz_04.txt"};
@@ -79,8 +78,6 @@ public class QuizScreen extends GameScreen {
         mStage.addActor(mQuestionGroup);
         mStage.addActor(mAnswerGroup);
 
-        mAnswerGroup.addListener(listener);
-
         Gdx.input.setInputProcessor(mStage);
     }
 
@@ -92,35 +89,22 @@ public class QuizScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            endQuiz();
+        }
         if (!mQuizDone) {
             if (!mGetNewAnswers) {
                 initiateSelectorBounds();
-                setSelectorBounds(mSelectorX, mSelectorY);
                 registerSelectorAnswer();
             }
             if (enoughTimePassed(1500L) && mGetNewAnswers) {
-                if (mAnswer == mAnswersNumbered[mQuestionCounter]) {
-                    mNumberOfCorrectAnswers++;
-                }
-                mQuestionGroup.removeActor(mQuestions.get(mQuestionCounter));
-                mQuestionCounter++;
                 initNewAnswers();
-                mLastButtonPressed = TimeUtils.millis();
-                mGetNewAnswers = false;
             }
             if (mQuestionCounter == mNumberOfQuestions) {
-                Label finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", mOutputStyle);
-                finishLabel.setScale(3);
-                mQuestionGroup.addActor(finishLabel);
-                mAnswerGroup.clear();
-                mQuizDone = true;
+                presentQuizScore();
             }
-        } else {
-            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-                game.setScreen(PVU.MAIN_SCREEN);
-                float score = (float) mNumberOfCorrectAnswers / (float) mNumberOfQuestions;
-                ScoreHandler.updateScore(ScoreHandler.QUIZ, score);
-            }
+        } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            endQuiz();
         }
     }
 
@@ -260,9 +244,15 @@ public class QuizScreen extends GameScreen {
             mSelectorY = 105;
             mSelectorTop = true;
         }
+        setSelectorBounds(mSelectorX, mSelectorY);
     }
 
     private void initNewAnswers() {
+        if (mAnswer == mAnswersNumbered[mQuestionCounter]) {
+            mNumberOfCorrectAnswers++;
+        }
+        mQuestionGroup.removeActor(mQuestions.get(mQuestionCounter));
+        mQuestionCounter++;
         int u = 0;
         for (int i = 0; i < mAnswers.size(); i++) {
             if (u <= 3) {
@@ -278,6 +268,8 @@ public class QuizScreen extends GameScreen {
         if (mQuestionCounter <= 4) {
             mQuestionGroup.addActor(mQuestions.get(mQuestionCounter));
         }
+        mLastButtonPressed = TimeUtils.millis();
+        mGetNewAnswers = false;
     }
 
     private void registerSelectorAnswer() {
@@ -297,5 +289,19 @@ public class QuizScreen extends GameScreen {
             mLastButtonPressed = TimeUtils.millis();
             mGetNewAnswers = true;
         }
+    }
+
+    private void presentQuizScore() {
+        Label finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", mOutputStyle);
+        finishLabel.setScale(3);
+        mQuestionGroup.addActor(finishLabel);
+        mAnswerGroup.clear();
+        mQuizDone = true;
+        float score = (float) mNumberOfCorrectAnswers / (float) mNumberOfQuestions;
+        ScoreHandler.updateScore(ScoreHandler.QUIZ, score);
+    }
+
+    private void endQuiz() {
+        game.setScreen(PVU.MAIN_SCREEN);
     }
 }
