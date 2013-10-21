@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created with IntelliJ IDEA.
@@ -76,10 +82,15 @@ public class Assets {
     public static TextureRegion introMainLogo;
     public static TextureRegion introTeamLogo;
     public static TextureRegion introPressSpace;
+    // UML BLOCKS
+    public static TextureRegion ubBackground;
+    public static TextureRegion ubEasy;
+    public static TextureRegion ubMedium;
+    public static TextureRegion ubHard;
 
     // BOOK SCREEN
     public static TextureRegion bookBook;
-    
+
     // BORDER
     public static TextureRegion borderBorder; 
 
@@ -112,7 +123,7 @@ public class Assets {
         for(int i = 0; i < mainAvatarArray.size;i++){
             mainAvatar[i] = (TextureRegion)mainAvatarArray.get(i);
         }
-        
+
         Array umlBlocksArray = umlBlocksAtlas.findRegions("uml");
         umlBlocks = new TextureRegion[umlBlocksArray.size];
         for(int i = 0; i < umlBlocks.length;i++){
@@ -131,13 +142,22 @@ public class Assets {
             msBurndownCarts[i] = (TextureRegion) carts.get(i);
         }
 
+        // INTRO
         introMainLogo = msAtlas.findRegion("logo");
         introTeamLogo = msAtlas.findRegion("logo_2_group");
         introPressSpace = msAtlas.findRegion("trykk");
 
+        // UML BLOCKS
+        ubBackground = msAtlas.findRegion("umlbackground");
+        ubEasy = msAtlas.findRegion("ub_easy");
+        ubMedium = msAtlas.findRegion("ub_medium");
+        ubHard = msAtlas.findRegion("ub_hard");
+
+
+        // BOOK
         bookBook = msAtlas.findRegion("book");
 
-        
+
         borderBorder = borderAtlas.findRegion("BorderChooser");
 
 
@@ -152,5 +172,17 @@ public class Assets {
     }
 
     public static void dispose() {
+    }
+    public static String readFile(String fileName) throws FileNotFoundException, IOException{
+         String text = "";
+        DataInputStream in = new DataInputStream(new FileInputStream(fileName));
+        BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
+        String strLine;
+        while ((strLine = inBR.readLine()) != null) {
+            if (!"".equals(strLine)) {
+                text += strLine;
+            }
+        }
+        return text;
     }
 }

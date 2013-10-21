@@ -15,6 +15,7 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
 import no.hist.gruppe5.pvu.sound.Sounds;
 
@@ -31,12 +32,7 @@ public class VisionScreen extends GameScreen {
     private long mLastElementSpawned = 0;
     private Random mRandom = new Random();
     
-    //Point-handling
-    private int mPoints = 0;
-    private Label mPointTextLabel;
-    private Label mPointValueLabel;
-    private String mPointText = "Points: ";
-    private String mPointValue;
+    public int mPoints = 0;
     private Sounds mSound;
     private TweenManager mTweenManager;
 
@@ -44,15 +40,6 @@ public class VisionScreen extends GameScreen {
         super(game);
 
         LabelStyle pointStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        mPointTextLabel = new Label(mPointText, pointStyle);
-        mPointTextLabel.setFontScale(0.8f);
-        mPointTextLabel.setPosition((PVU.GAME_WIDTH * 0.9f) - mPointTextLabel.getPrefWidth(), PVU.GAME_HEIGHT * 0.05f);
-
-        mPointValue = "" + mPoints;
-        mPointValueLabel = new Label(mPointValue, pointStyle);
-        mPointValueLabel.setFontScale(0.8f);
-        mPointValueLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
-
         mSound = new Sounds();
 
         mTweenManager = new TweenManager();
@@ -70,9 +57,6 @@ public class VisionScreen extends GameScreen {
         drawElements();
 
         mVisionShooterShip.draw(batch);
-        mPointTextLabel.draw(batch, 1f);
-        mPointValueLabel.draw(batch, 1f);
-
         batch.end();
     }
 
@@ -91,10 +75,9 @@ public class VisionScreen extends GameScreen {
         if ((TimeUtils.millis() - mLastElementSpawned) > 1500L) {
             addElement();
         }
-        mPointValue = "" + mPoints;
-        mPointValueLabel.setText(mPointValue);
-        setScore();
-        
+
+       
+        checkFinish();
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
@@ -113,18 +96,6 @@ public class VisionScreen extends GameScreen {
         }
         return true;
     }
-
-    private void setScore() {
-        if (mElements.isEmpty() && finish()) {
-            ScoreHandler.updateScore(0, mPoints);
-            mPointValueLabel.setFontScale(2f);
-            mPointTextLabel.setFontScale(2f);
-            mPointValueLabel.setPosition(mPointTextLabel.getX() + mPointTextLabel.getPrefWidth(), PVU.GAME_HEIGHT / 2);
-            mPointTextLabel.setPosition((PVU.GAME_WIDTH / 2) - mPointTextLabel.getPrefWidth() / 2, PVU.GAME_HEIGHT / 2);
-
-        }
-    }
-
     private void shootBullet() {
         if ((TimeUtils.millis() - mLastBulletShot) > 800L) {
             Bullet vB = new Bullet();
@@ -251,6 +222,12 @@ public class VisionScreen extends GameScreen {
                     }
                 }
             }
+        }
+    }
+    private void checkFinish(){
+        if (mElements.isEmpty() && finish()) {
+            ScoreHandler.updateScore(ScoreHandler.VISION, mPoints);
+            game.setScreen(new VisionEndScreen(game,mPoints));
         }
     }
 }
