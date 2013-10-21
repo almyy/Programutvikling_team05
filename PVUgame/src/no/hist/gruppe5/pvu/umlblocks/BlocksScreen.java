@@ -3,13 +3,15 @@ package no.hist.gruppe5.pvu.umlblocks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.TimeUtils;
-import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.umlblocks.blocks.Block;
+import no.hist.gruppe5.pvu.umlblocks.blocks.DiamondBlock;
+import no.hist.gruppe5.pvu.umlblocks.blocks.SignBlock;
+import no.hist.gruppe5.pvu.umlblocks.blocks.SquareBlock;
 
 import java.util.ArrayList;
 
@@ -23,8 +25,8 @@ import java.util.ArrayList;
 
 public class BlocksScreen extends GameScreen {
 
-    public static final float WORLD_TO_BOX = 0.0064f;
-    public static final float BOX_TO_WORLD = 64;
+    public static final float WORLD_TO_BOX = 3f / 192f / 2f;
+    public static final float BOX_TO_WORLD = 192f / 3f;
 
     public static final float WORLD_WIDTH = 3f;
     public static final float WORLD_HEIGHT = 1.8125f;
@@ -39,7 +41,7 @@ public class BlocksScreen extends GameScreen {
 
     private Room mRoom;
     private ArrayList<Block> mActiveBlocks;
-    private ArrayList<Sprite> mBlocksLeft;
+    private ArrayList<Block> mBlocksLeft;
 
     // Game variables
     private int mCurrentBlock = -1;
@@ -53,9 +55,8 @@ public class BlocksScreen extends GameScreen {
         super(game);
 
         mActiveBlocks = new ArrayList<Block>(30);
-        mBlocksLeft = new ArrayList<Sprite>(15);
+        mBlocksLeft = new ArrayList<Block>(15);
 
-        populateBlocksLeft(DEFAULT_GAME);
 
         mWorld = new World(new Vector2(0, -10), false);
         mRoom = new Room(mWorld);
@@ -66,27 +67,24 @@ public class BlocksScreen extends GameScreen {
         mDebugRenderer = new Box2DDebugRenderer();
 
         // Start game
-        spawnFirstBlock();
+        populateBlocksLeft(DEFAULT_GAME);
+        popNewBlock();
 
     }
 
     private void populateBlocksLeft(int game_type) {
         switch(game_type) {
             case DEFAULT_GAME:
-                mBlocksLeft.add(new Sprite(Assets.visionShooterFacebookRegion));
-                mBlocksLeft.add(new Sprite(Assets.visionShooterDocumentRegion));
-                mBlocksLeft.add(new Sprite(Assets.visionShooterShipRegion));
-                mBlocksLeft.add(new Sprite(Assets.mainAvatar[0]));
-                mBlocksLeft.add(new Sprite(Assets.mainAvatar[1]));
-                mBlocksLeft.add(new Sprite(Assets.mainAvatar[2]));
-                mBlocksLeft.add(new Sprite(Assets.mainAvatar[3]));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
                 break;
         }
-    }
-
-    private void spawnFirstBlock() {
-        mActiveBlocks.add(new Block(mWorld, mBlocksLeft.remove(0)));
-        mCurrentBlock = 1;
     }
 
     @Override
@@ -123,18 +121,20 @@ public class BlocksScreen extends GameScreen {
             b.update(delta);
 
         // Add new block after a set time
-        if(mBlocksLeft.isEmpty() && readyToDrop())
+        if(mBlocksLeft.isEmpty() && isReadyToDrop())
             gameIsDone();
-        else if(readyToDrop() && allDropped())
-            mActiveBlocks.add(new Block(mWorld, mBlocksLeft.remove(0)));
-
-
+        else if(isReadyToDrop() && isLastDropped())
+            popNewBlock();
 
         // Clean up dead blocks from world and array
         removeDeadBlocks();
     }
 
-    private boolean allDropped() {
+    private void popNewBlock() {
+        mActiveBlocks.add(mBlocksLeft.remove(0).activate());
+    }
+
+    private boolean isLastDropped() {
         for(Block b : mActiveBlocks)
             if(b.isLock())
                 return false;
@@ -157,7 +157,7 @@ public class BlocksScreen extends GameScreen {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if(!mActiveBlocks.isEmpty() && readyToDrop()) {
+            if(!mActiveBlocks.isEmpty() && isReadyToDrop()) {
                 getLastBlock().release();
                 mLastDrop = TimeUtils.millis();
             }
@@ -174,7 +174,7 @@ public class BlocksScreen extends GameScreen {
         //TODO
     }
 
-    private boolean readyToDrop() {
+    private boolean isReadyToDrop() {
         return (TimeUtils.millis() - mLastDrop) > 800L;
     }
 
