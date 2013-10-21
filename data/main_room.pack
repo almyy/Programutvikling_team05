@@ -3,87 +3,94 @@ main_room.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-table
+umlbackground
   rotate: false
-  xy: 1, 1
+  xy: 1, 119
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 book
   rotate: false
-  xy: 195, 1
+  xy: 1, 1
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 main_room
   rotate: false
-  xy: 389, 1
+  xy: 195, 119
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 pcscreen
   rotate: false
-  xy: 583, 1
+  xy: 195, 1
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1
+table
+  rotate: false
+  xy: 389, 119
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 logo
   rotate: false
-  xy: 777, 82
-  size: 80, 35
-  orig: 80, 35
-  offset: 0, 0
-  index: -1
-logo_2_group
-  rotate: false
-  xy: 777, 45
+  xy: 389, 82
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 trykk
   rotate: false
-  xy: 859, 82
+  xy: 583, 200
+  size: 80, 35
+  orig: 80, 35
+  offset: 0, 0
+  index: -1
+logo_2_group
+  rotate: false
+  xy: 389, 45
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 chart
   rotate: false
-  xy: 777, 24
+  xy: 471, 98
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 1
 chart
   rotate: false
-  xy: 859, 61
+  xy: 583, 179
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
-  index: 4
+  index: 0
 chart
   rotate: false
-  xy: 941, 98
+  xy: 665, 216
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 2
 chart
   rotate: false
-  xy: 777, 3
+  xy: 389, 24
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 3
 chart
   rotate: false
-  xy: 803, 24
+  xy: 471, 77
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
-  index: 0
+  index: 4
