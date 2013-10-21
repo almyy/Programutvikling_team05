@@ -26,20 +26,20 @@ public abstract class GameScreen implements Screen {
     protected PVU game;
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
-    private Button soundButton;
     private Stage stage;
     private long lastAction;
-    private Skin skinSoundButton;
-    private ButtonStyle styleSoundButton;
     private Skin skinPauseButton;
-    private ButtonStyle stylePauseButton;
-    private Button pauseButton;
     private TextureAtlas atlas;
     private boolean running;
     private LabelStyle labelStyle;
     private Label pauseLabel;
-    private TextButton resumeButton;
-    private TextButton exitButton;
+
+    private TextButton[] pauseButtons;
+    private int selectedButton;
+    private TextButtonStyle selectedButtonStyle;
+    private TextButtonStyle buttonStyle;
+
+    private final long WAIT_KEY_PRESSED = 500l;
 
     public GameScreen(PVU game) {
         this.game = game;
@@ -53,8 +53,6 @@ public abstract class GameScreen implements Screen {
         running = true;
         stage = new Stage(PVU.GAME_WIDTH * 2.7f, PVU.GAME_HEIGHT * 2.7f, true);
         atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
-        initSoundButton();
-        initPauseButton();
         initPauseLayout();
         Gdx.input.setInputProcessor(stage);
     }
@@ -86,34 +84,59 @@ public abstract class GameScreen implements Screen {
         draw(delta);
         if (!running) {
             drawPauseMenu();
-            if ((TimeUtils.millis() - lastAction > 700l) && (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY))) {
-                checkMenuInput();
-                lastAction = TimeUtils.millis();
-            }
-            if ((TimeUtils.millis() - lastAction > 700l) && Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                resumeGame();
-                lastAction = TimeUtils.millis();
-            }
+            checkPauseMenu();
         }
-        checkButton();
+        checkEscapeButton();
         stage.draw();
     }
 
-    private void checkMenuInput() {
-        int x = Gdx.input.getX();
-        int y = Gdx.input.getY();
-        if (x > 445 && x < 526) {
-            if ((y < 472 && y > 447) || Gdx.input.isKeyPressed(Input.Keys.F1)) {
-                resumeGame();
+    private void checkEscapeButton() {
+        if (TimeUtils.millis() - lastAction > WAIT_KEY_PRESSED && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+                selectedButton = 0;
+                pauseButtons[selectedButton].setStyle(selectedButtonStyle);
+                running = false;
             }
-            if (y < 509 && y > 482) {
-                System.exit(0);
-            }
+            lastAction = TimeUtils.millis();
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            System.out.println("up");
-        }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            System.out.println("down");
+    }
+
+    private void checkPauseMenu() {
+        if (TimeUtils.millis() - lastAction > WAIT_KEY_PRESSED && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+                running = true;
+                stage.clear();
+            } else if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+                pauseButtons[selectedButton].setStyle(buttonStyle);
+                selectedButton = (selectedButton == 0) ? 0 : selectedButton - 1;
+                pauseButtons[selectedButton].setStyle(selectedButtonStyle);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+                pauseButtons[selectedButton].setStyle(buttonStyle);
+                selectedButton = (selectedButton == pauseButtons.length - 1) ? pauseButtons.length - 1 : selectedButton + 1;
+                pauseButtons[selectedButton].setStyle(selectedButtonStyle);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+                checkSelectedMenuItem();
+            }
+            lastAction = TimeUtils.millis();
+        }
+    }
+
+    private void checkSelectedMenuItem() {
+        if (selectedButton == Button.RESUME.pos) {
+            stage.clear();
+            running = true;
+        } else if (selectedButton == Button.SOUND.pos) {
+            if (Settings.GLOBAL_SOUND) {
+                pauseButtons[selectedButton].setText("Sound off");
+                Settings.setSound(false);
+            } else {
+                pauseButtons[selectedButton].setText("Sound on");
+                Settings.setSound(true);
+            }
+        } else if (selectedButton == Button.BACK.pos) {
+            game.setScreen(PVU.MAIN_SCREEN);
+        } else if (selectedButton == Button.EXIT.pos) {
+            System.exit(0);
         }
     }
 
@@ -122,23 +145,32 @@ public abstract class GameScreen implements Screen {
         batch.begin();
         batch.draw(Assets.introMainLogo, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 2, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 3);
         batch.end();
-        stage.addActor(pauseLabel);
-        stage.addActor(resumeButton);
-        stage.addActor(exitButton);
+        for (TextButton button : pauseButtons) {
+            stage.addActor(button);
+        }
     }
 
     private void initPauseLayout() {
-        TextButtonStyle buttonStyle = new TextButtonStyle();
+        buttonStyle = new TextButtonStyle();
+        selectedButtonStyle = new TextButtonStyle();
+        skinPauseButton = new Skin(atlas);
         buttonStyle.up = skinPauseButton.getDrawable("menubutton.up");
         buttonStyle.down = skinPauseButton.getDrawable("menubutton.down");
         buttonStyle.font = Assets.primaryFont10px;
-        resumeButton = new TextButton("RESUME", buttonStyle);
-        exitButton = new TextButton("EXIT", buttonStyle);
-        resumeButton.setPosition(PVU.GAME_WIDTH * 1.24f, PVU.GAME_HEIGHT / 2);
-        exitButton.setPosition(PVU.GAME_WIDTH * 1.24f, PVU.GAME_HEIGHT / 3);
+        selectedButtonStyle.up = skinPauseButton.getDrawable("menubutton.down");
+        selectedButtonStyle.down = skinPauseButton.getDrawable("menubutton.up");
+        selectedButtonStyle.font = Assets.primaryFont10px;
         pauseLabel = new Label("PAUSE", labelStyle);
         pauseLabel.setFontScale(1.9f);
         pauseLabel.setPosition(PVU.GAME_WIDTH * 1.225f, PVU.GAME_HEIGHT);
+
+        String[] pauseButtonText = {"Resume", "Sound on", "Back", "Exit"};
+        pauseButtons = new TextButton[pauseButtonText.length];
+
+        for (int i = 0; i < pauseButtonText.length; i++) {
+            pauseButtons[i] = new TextButton(pauseButtonText[i], buttonStyle);
+            pauseButtons[i].setPosition(PVU.GAME_WIDTH * 1.24f, stage.getHeight() / 3 - (i * 20));
+        }
     }
 
     @Override
@@ -149,9 +181,6 @@ public abstract class GameScreen implements Screen {
 
     private void resumeGame() {
         running = true;
-        pauseLabel.remove();
-        resumeButton.remove();
-        exitButton.remove();
     }
 
     @Override
@@ -171,69 +200,32 @@ public abstract class GameScreen implements Screen {
     }
 
     /**
-     * Initializes sound button.
-     */
-    private void initSoundButton() {
-        skinSoundButton = new Skin(atlas);
-        styleSoundButton = new ButtonStyle();
-        styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
-        soundButton = new Button(styleSoundButton);
-        soundButton.setPosition(PVU.GAME_WIDTH * 2.7f - 25, PVU.GAME_HEIGHT * 2.7f - 25);
-        stage.addActor(soundButton);
-    }
-
-    /**
-     * Initializes pause button.
-     */
-    private void initPauseButton() {
-        skinPauseButton = new Skin(atlas);
-        stylePauseButton = new ButtonStyle();
-        stylePauseButton.up = skinPauseButton.getDrawable("pause.up");
-        stylePauseButton.down = skinPauseButton.getDrawable("pause.down");
-        pauseButton = new Button(stylePauseButton);
-        stage.addActor(pauseButton);
-        pauseButton.setPosition(PVU.GAME_WIDTH * 2.7f - 48, PVU.GAME_HEIGHT * 2.7f - 25);
-    }
-
-    /**
-     * Checks global sound variable and updates the button style for the sound
-     * button. This method will also check touch events for the pause button.
-     */
-    private void checkButton() {
-        if (TimeUtils.millis() - lastAction > 450l) {
-            if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-                int x = Gdx.input.getX();
-                int y = Gdx.input.getY();
-                if ((x > 915 && x < 950 && y > 10 && y < 45) || Gdx.input.isKeyPressed(Input.Keys.F2)) {
-                    if (Settings.GLOBAL_SOUND) {
-                        styleSoundButton.up = skinSoundButton.getDrawable("nosound.up");
-                        Settings.setSound(false);
-                    } else {
-                        styleSoundButton.up = skinSoundButton.getDrawable("sound.up");
-                        Settings.setSound(true);
-                    }
-                } else if ((x > 875 && x < 910 && y > 10 && y < 45) || Gdx.input.isKeyPressed(Input.Keys.F1)) {
-                    if (running) {
-                        running = false;
-                    } 
-                }
-                lastAction = TimeUtils.millis();
-            }
-        }
-    }
-
-    /**
      * Method to update soundbutton in (static) main screen room.
      */
     public void updateMainScreenSoundButton() {
-        styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
+        //styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
     }
 
     public boolean isGamePaused() {
         return !running;
     }
-    
-    public long getTime(){
+
+    public long getTime() {
         return lastAction;
+    }
+
+    private enum Button {
+
+        RESUME(0), SOUND(1), BACK(2), EXIT(3);
+
+        private int pos;
+
+        private Button(int c) {
+            pos = c;
+        }
+
+        public int pos() {
+            return pos;
+        }
     }
 }

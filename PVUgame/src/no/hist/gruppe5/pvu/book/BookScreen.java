@@ -188,7 +188,7 @@ public class BookScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (TimeUtils.millis() - timeSinceLastAction > KEY_INPUT_DELAY) {
+        if (TimeUtils.millis() - timeSinceLastAction > KEY_INPUT_DELAY && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && !isGamePaused()) {
             if (inContent) {
                 if ((Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) && currentSectionNumber > 0) {
                     changeSelectedSection(-1);
