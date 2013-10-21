@@ -26,6 +26,7 @@ import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
+import no.hist.gruppe5.pvu.reqfinder.ReqFinderScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
 import no.hist.gruppe5.pvu.temp.SeqJumpIntroScreen;
@@ -41,20 +42,21 @@ public class MinigameSelectorScreen extends GameScreen {
     private TextButtonStyle mMiniGameStylePassed;
     private TextButtonStyle mMiniGameStyleLocked;
     private TextButtonStyle mMiniGameStyleQuizNeeded;
-    private String[] mLabels = {"Programmering", "Visjons", "Quiz", "Todo", "todo"};
-    private Stage stage;
+    private String[] mLabels = {"VisionShooter", "ReqFinder", "SeqJumper", "UMLBlocks", "Coderacer"};
+    private Stage mStage;
     private Button mSelector;
     private ArrayList<TextButton> mMiniGames = new ArrayList<>();
     private float mYIncrease = 105f;
     private boolean mSelectorTop = true;
     private boolean mSelectorBottom = false;
-    private Group menu;
+    private Group mMenu;
     private long mLastButtonPressed = 0;
+    private int mMiniGameSelected = -1;
 
     public MinigameSelectorScreen(final PVU game) {
         super(game);
-        menu = new Group();
-        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
+        mMenu = new Group();
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
 
         defineStyles();
 
@@ -66,14 +68,14 @@ public class MinigameSelectorScreen extends GameScreen {
             } else {
                 mMiniGames.add(makeButton(mLabels[i], QuizHandler.LOCKED, i));
             }
-            menu.addActor(mMiniGames.get(i));
+            mMenu.addActor(mMiniGames.get(i));
         }
 
         initMakeButton();
 
-        menu.addActor(mSelector);
-        menu.setBounds(510, 295, 590, 100);
-        stage.addActor(menu);
+        mMenu.addActor(mSelector);
+        mMenu.setBounds(510, 295, 590, 100);
+        mStage.addActor(mMenu);
     }
 
     @Override
@@ -81,9 +83,9 @@ public class MinigameSelectorScreen extends GameScreen {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
-        stage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
+        mStage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
         batch.end();
-        stage.draw();
+        mStage.draw();
     }
 
     private boolean enoughTimePassed(long time) {
@@ -92,148 +94,67 @@ public class MinigameSelectorScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        int miniGameSelected = -1;
+        mMiniGameSelected = -1;
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new MainScreen(game));
         }
         if (enoughTimePassed(75L)) {
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && !mSelectorBottom) {
-                mSelector.setPosition(0, mSelector.getY() - mYIncrease);
-                mSelectorTop = false;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && !mSelectorTop) {
-                mSelector.setPosition(0, mSelector.getY() + mYIncrease);
-                mSelectorBottom = false;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                miniGameSelected = (int) (mSelector.getY() / 105f);
-            }
-
-            if (mSelector.getY() == 420f) {
-                mSelectorTop = true;
-            } else if (mSelector.getY() == 0f) {
-                mSelectorBottom = true;
-            }
-            mLastButtonPressed = TimeUtils.millis();
+            positionSelector();
         }
-        if (miniGameSelected != -1) {
-            switch (miniGameSelected) {
-                case VISIONSHOOTER:
-                    try {
-                        game.setScreen(new VisionIntroScreen(game));
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    break;
-            }
+        if (mMiniGameSelected != -1) {
+            selectMiniGame();
         }
-
-
-
-
-        /* if (Gdx.input.isKeyPressed(Input.Keys.S) && !buttonPressedS) {
-         buttonPressedS = true;
-         if (counter < 5) {
-         counter++;
-         }
-         if (counter == 1) {
-         buttonMove.setPosition(button1.getX(), button1.getY());
-         }
-         if (counter == 2) {
-         buttonMove.setPosition(button2.getX(), button2.getY());
-         }
-         if (counter == 3) {
-         buttonMove.setPosition(button3.getX(), button3.getY());
-         }
-         if (counter == 4) {
-         buttonMove.setPosition(button4.getX(), button4.getY());
-         }
-         if (counter == 5) {
-         buttonMove.setPosition(button5.getX(), button5.getY());
-         }
-         }
-         if (Gdx.input.isKeyPressed(Input.Keys.W) && !buttonPressedW) {
-         buttonPressedW = true;
-         if (counter > 1) {
-         counter--;
-         }
-         if (counter == 1) {
-         buttonMove.setPosition(button1.getX(), button1.getY());
-         }
-         if (counter == 2) {
-         buttonMove.setPosition(button2.getX(), button2.getY());
-         }
-         if (counter == 3) {
-         buttonMove.setPosition(button3.getX(), button3.getY());
-         }
-         if (counter == 4) {
-         buttonMove.setPosition(button4.getX(), button4.getY());
-         }
-         if (counter == 5) {
-         buttonMove.setPosition(button5.getX(), button5.getY());
-         }
-         }
-         if (!Gdx.input.isKeyPressed(Input.Keys.S)) {
-         buttonPressedS = false;
-         }
-         if (!Gdx.input.isKeyPressed(Input.Keys.W)) {
-         buttonPressedW = false;
-         }
-
-         if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && !buttonPressedENTER) {
-         buttonPressedENTER = true;
-         if (counter == 1) {
-         game.setScreen(new CoderacerScreen(game));
-                 try {
-                    game.setScreen(new CoderacerIntroScreen(game));
-                }catch (FileNotFoundException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                 
-         }
-         if (counter == 2) {
-         try {
-
-         game.setScreen(new VisionIntroScreen(game));
-
-         }catch (FileNotFoundException ex) {
-         Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (IOException ex) {
-         Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-         }
-
-         }
-         if (counter == 3) {
-         try {
-         game.setScreen(new QuizScreen(game));
-         } catch (FileNotFoundException ex) {
-         Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (IOException ex) {
-         Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         }
-         if (counter == 4) {
-         game.setScreen(new BlocksScreen(game));
-         }
-         if (counter == 5) {
-         game.setScreen(new SeqJumpIntroScreen(game));
-         }
-         }
-         if (!Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-         buttonPressedENTER = false;
-         }
-
-         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-         game.setScreen(PVU.MAIN_SCREEN);
-         }*/
     }
 
     @Override
     protected void cleanUp() {
+    }
+
+    private void selectMiniGame() {
+        switch (mMiniGameSelected) {
+            case VISIONSHOOTER:
+                try {
+                    game.setScreen(new VisionIntroScreen(game));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case REQFINDER:
+                game.setScreen(new ReqFinderScreen(game));
+                break;
+            case SEQJUMPER:
+                game.setScreen(new SeqJumpIntroScreen(game));
+                break;
+            case UMLBLOCKS:
+                game.setScreen(new BlocksScreen(game));
+                break;
+            case CODERACER:
+                game.setScreen(new CoderacerScreen(game));
+                break;
+        }
+    }
+
+    private void positionSelector() {
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && !mSelectorBottom) {
+            mSelector.setPosition(0, mSelector.getY() - mYIncrease);
+            mSelectorTop = false;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !mSelectorTop) {
+            mSelector.setPosition(0, mSelector.getY() + mYIncrease);
+            mSelectorBottom = false;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            mMiniGameSelected = 4-((int) (mSelector.getY() / 105f));
+        }
+
+        if (mSelector.getY() == 420f) {
+            mSelectorTop = true;
+        } else if (mSelector.getY() == 0f) {
+            mSelectorBottom = true;
+        }
+        mLastButtonPressed = TimeUtils.millis();
     }
 
     private void defineStyles() {
