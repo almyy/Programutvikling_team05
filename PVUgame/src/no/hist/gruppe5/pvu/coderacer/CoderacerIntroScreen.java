@@ -2,57 +2,48 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package no.hist.gruppe5.pvu.visionshooter;
+package no.hist.gruppe5.pvu.coderacer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
 
 /**
  *
  * @author Frode
  */
-public class VisionEndScreen extends GameScreen {
+public class CoderacerIntroScreen extends GameScreen {
 
-    private String mPointText = "Points: ";
-    private String mContinue = "Trykk SPACE for aa avslutte";
-    private Label mLcontinue;
-    private Label mPointTextLabel;
-    private Label mPointValueLabel;
     private Stage mStage;
     private Label.LabelStyle mLabelstyle;
     private Skin mSkin;
+    private String mIntroText;
+    private String mTitleText = "Coderacer";
+    private Label mIntroLabel;
+    private Label mTitleTextLabel;
 
-    public VisionEndScreen(PVU game, int points) {
+    public CoderacerIntroScreen(PVU game) throws FileNotFoundException, IOException {
         super(game);
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
-        mPointTextLabel = makeHeadLabel(mPointText);
-        mPointTextLabel.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT * 0.8f);
-        mPointTextLabel.setFontScale(7f);
-        mPointTextLabel.setWrap(true);
-        mStage.addActor(mPointTextLabel);
+        mTitleTextLabel = makeHeadLabel(mTitleText);
+        mIntroText = Assets.readFile("data/coderacer/intro.txt");
+        mIntroLabel = makeLabel(mIntroText);
+        mIntroLabel.setScale(3f);
+        mIntroLabel.setWrap(true);
 
-        mPointValueLabel = makeLabel(String.valueOf(points));
-        mPointValueLabel.setPosition(PVU.SCREEN_WIDTH / 2, PVU.SCREEN_HEIGHT * 0.8f);
-        mPointValueLabel.setFontScale(7f);
-        mPointValueLabel.setWrap(true);
-        mStage.addActor(mPointValueLabel);
-
-        mLcontinue = makeLabel(mContinue);
-        mLcontinue.setPosition(PVU.SCREEN_WIDTH / 9, PVU.SCREEN_HEIGHT / 2);
-        mLcontinue.setFontScale(5f);
-        mLcontinue.setWrap(true);
-        mStage.addActor(mLcontinue);
-        
 
     }
 
@@ -61,7 +52,7 @@ public class VisionEndScreen extends GameScreen {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
-        mStage.getSpriteBatch().draw(Assets.visionShooterRegion, 0, 0);
+        batch.draw(Assets.msPcBackground, 0, 0);
         batch.end();
         mStage.draw();
     }
@@ -69,7 +60,7 @@ public class VisionEndScreen extends GameScreen {
     @Override
     protected void update(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new MinigameSelectorScreen(game));
+            game.setScreen(new CoderacerScreen(game));
         }
     }
 
@@ -89,11 +80,9 @@ public class VisionEndScreen extends GameScreen {
 
     private Label makeLabel(String text) {
         mSkin = new Skin();
-        mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
+        mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.GREEN);
         mLabelstyle.font = Assets.primaryFont10px;
         Label l = new Label(text, mLabelstyle);
         return l;
     }
-
-  
 }

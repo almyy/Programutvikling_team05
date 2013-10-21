@@ -1,0 +1,3 @@
+Velkommen til coderacer! Nå har du kommet til implementasjonsdelen av utviklingsprosessen, 
+nå er det på tide å kode litt! Du har 30 sekunder til å skrive så mye av koden oppført som mulig.
+Du får poeng for hver riktige kodesnutt, så her gjelder det å være kjapp!
