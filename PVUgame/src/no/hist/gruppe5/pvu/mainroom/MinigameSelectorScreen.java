@@ -99,7 +99,13 @@ public class MinigameSelectorScreen extends GameScreen {
             game.setScreen(new MainScreen(game));
         }
         if (enoughTimePassed(75L)) {
-            positionSelector();
+            try {
+                positionSelector();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (mMiniGameSelected != -1) {
             selectMiniGame();
@@ -136,7 +142,7 @@ public class MinigameSelectorScreen extends GameScreen {
         }
     }
 
-    private void positionSelector() {
+    private void positionSelector() throws FileNotFoundException, IOException {
         if (Gdx.input.isKeyPressed(Input.Keys.S) && !mSelectorBottom) {
             mSelector.setPosition(0, mSelector.getY() - mYIncrease);
             mSelectorTop = false;
@@ -145,8 +151,13 @@ public class MinigameSelectorScreen extends GameScreen {
             mSelector.setPosition(0, mSelector.getY() + mYIncrease);
             mSelectorBottom = false;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            mMiniGameSelected = 4-((int) (mSelector.getY() / 105f));
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            int quizNumber = 4 - ((int) (mSelector.getY() / 105f));
+            if (quizNumber < QuizHandler.quizzesCompleted) {
+                mMiniGameSelected = quizNumber;
+            } else if (quizNumber == QuizHandler.quizzesCompleted){
+                game.setScreen(new QuizScreen(game,quizNumber));
+            }
         }
 
         if (mSelector.getY() == 420f) {

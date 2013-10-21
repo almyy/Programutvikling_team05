@@ -63,7 +63,7 @@ public class QuizScreen extends GameScreen {
     private long mLastButtonPressed = 0;
     boolean mGetNewAnswers = false;
 
-    public QuizScreen(PVU game) throws FileNotFoundException, IOException {
+    public QuizScreen(PVU game, int quizNumber) throws FileNotFoundException, IOException {
         super(game);
 
         mStage = new Stage();
@@ -71,7 +71,7 @@ public class QuizScreen extends GameScreen {
         mAnswerGroup = new Group();
 
         defineStyles();
-        readQuiz(mQuizNames[0]);
+        readQuiz(mQuizNames[quizNumber]);
         initializeQuestions();
         initializeAnswers();
 
