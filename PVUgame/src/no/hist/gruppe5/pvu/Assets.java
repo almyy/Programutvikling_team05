@@ -78,6 +78,9 @@ public class Assets {
     public static TextureRegion introPressSpace;
     // UML BLOCKS
     public static TextureRegion ubBackground;
+    public static TextureRegion ubEasy;
+    public static TextureRegion ubMedium;
+    public static TextureRegion ubHard;
 
     // BOOK SCREEN
     public static TextureRegion bookBook;
@@ -114,7 +117,7 @@ public class Assets {
         for(int i = 0; i < mainAvatarArray.size;i++){
             mainAvatar[i] = (TextureRegion)mainAvatarArray.get(i);
         }
-        
+
         Array umlBlocksArray = umlBlocksAtlas.findRegions("uml");
         umlBlocks = new TextureRegion[umlBlocksArray.size];
         for(int i = 0; i < umlBlocks.length;i++){
@@ -140,11 +143,15 @@ public class Assets {
 
         // UML BLOCKS
         ubBackground = msAtlas.findRegion("umlbackground");
+        ubEasy = msAtlas.findRegion("ub_easy");
+        ubMedium = msAtlas.findRegion("ub_medium");
+        ubHard = msAtlas.findRegion("ub_hard");
+
 
         // BOOK
         bookBook = msAtlas.findRegion("book");
 
-        
+
         borderBorder = borderAtlas.findRegion("BorderChooser");
 
 

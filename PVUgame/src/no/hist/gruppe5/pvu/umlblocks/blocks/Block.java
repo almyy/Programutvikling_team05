@@ -28,7 +28,6 @@ public abstract class Block {
     public Block(World world) {
         overridePosition = new Vector2();
 
-
         createSprite();
         createBody(world);
 
@@ -42,13 +41,17 @@ public abstract class Block {
 
     protected abstract void updateBlock();
 
+    protected void overridePosition() {
+        body.setTransform(overridePosition.x, overridePosition.y, initialRotation);
+    }
+
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }
 
     public void update(float delta) {
         if(lock) {
-            body.setTransform(overridePosition.x, overridePosition.y, initialRotation);
+            overridePosition();
         }
 
         if(body.getTransform().getPosition().y < 0) {
@@ -92,6 +95,11 @@ public abstract class Block {
 
     public Block activate() {
         body.setActive(true);
+        subActivate();
         return this;
+    }
+
+    // User for more advanced bodies
+    protected void subActivate() {
     }
 }
