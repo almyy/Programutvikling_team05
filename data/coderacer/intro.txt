@@ -1,3 +1,3 @@
-Velkommen til coderacer! Nå har du kommet til implementasjonsdelen av utviklingsprosessen, 
-nå er det på tide å kode litt! Du har 30 sekunder til å skrive så mye av koden oppført som mulig.
-Du får poeng for hver riktige kodesnutt, så her gjelder det å være kjapp!
+Velkommen til coderacer! Naa har du kommet til implementasjonsdelen av utviklingsprosessen, 
+naa er det paa tide aa kode litt! Du har 30 sekunder til aa skrive saa mye av koden oppfoert som mulig.
+Du faar poeng for hver riktige kodesnutt, saa her gjelder det å vaere kjapp!

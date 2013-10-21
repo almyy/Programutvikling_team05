@@ -8,9 +8,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -31,7 +33,9 @@ public class CoderacerIntroScreen extends GameScreen {
     private Label.LabelStyle mLabelstyle;
     private Skin mSkin;
     private String mIntroText;
-    private String mTitleText = "Coderacer";
+    private String mTitleText = "Coderacer \n";
+    private String mContinueText = "Trykk SPACE for aa fortsette";
+    private Label mContinueLabel;
     private Label mIntroLabel;
     private Label mTitleTextLabel;
 
@@ -39,11 +43,36 @@ public class CoderacerIntroScreen extends GameScreen {
         super(game);
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mTitleTextLabel = makeHeadLabel(mTitleText);
-        mIntroText = Assets.readFile("data/coderacer/intro.txt");
-        mIntroLabel = makeLabel(mIntroText);
-        mIntroLabel.setScale(3f);
-        mIntroLabel.setWrap(true);
+        mTitleTextLabel.setFontScale(6f);
+        mTitleTextLabel.setWrap(true);
+        mTitleTextLabel.setFillParent(true);
+        mTitleTextLabel.setAlignment(Align.top | Align.left);
+        mTitleTextLabel.setY(230);
 
+        mIntroText = Assets.readFile("data/coderacer/intro.txt");
+        Group inputGroup = new Group();
+        mIntroLabel = makeLabel(mIntroText);
+        mIntroLabel.setFontScale(2f);
+        mIntroLabel.setFillParent(true);
+        mIntroLabel.setWrap(true);
+        mIntroLabel.setAlignment(Align.top | Align.left);
+        mIntroLabel.setY(160);
+
+        mContinueLabel = makeLabel(mContinueText);
+        mContinueLabel.setFontScale(2f);
+        mContinueLabel.setFillParent(true);
+        mContinueLabel.setWrap(true);
+        mContinueLabel.setAlignment(Align.top | Align.left);
+        mContinueLabel.setY(-50);
+
+        inputGroup.addActor(mIntroLabel);
+        inputGroup.addActor(mTitleTextLabel);
+        inputGroup.addActor(mContinueLabel);
+        inputGroup.setWidth(200);
+        inputGroup.setHeight(40);
+        inputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - inputGroup.getWidth(), 240);
+
+        mStage.addActor(inputGroup);
 
     }
 

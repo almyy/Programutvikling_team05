@@ -31,7 +31,6 @@ public class CoderacerScreen extends GameScreen {
     private Label finishedCode;
     private Label codeOutput;
     private Label firstLine;
-    private Label grade;
     private Label time;
     private Code code = new Code();
     private Stage stage;
@@ -84,8 +83,7 @@ public class CoderacerScreen extends GameScreen {
         finishedCode.setWrap(true);
         finishedCode.setAlignment(Align.bottom | Align.left);
 
-        grade = new Label("", finishedStyle);
-        grade.setFontScale(2.5f);
+     
 
         time = new Label("" + remainingTime, finishedStyle);
         time.setFontScale(3f);
@@ -102,7 +100,7 @@ public class CoderacerScreen extends GameScreen {
         inputGroup.setHeight(40);
         inputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - inputGroup.getWidth() * 1.4f, 190);
 
-        stage.addActor(grade);
+
         stage.addActor(outputGroup);
         stage.addActor(inputGroup);
         stage.addActor(time);
@@ -150,24 +148,14 @@ public class CoderacerScreen extends GameScreen {
         }
 
         if ((code.isFinished() || remainingTime <= 0) && !mDoneHandled) {
-            codeOutput.setVisible(false);
-            finishedCode.setVisible(false);
-            firstLine.setVisible(false);
             mTimeDone = TimeUtils.millis();
-            grade.setText("Din score ble " + score + "\n\nTrykk space for å avslutte.");
-            System.out.println("Wot");
             ScoreHandler.updateScore(ScoreHandler.CODE, code.getGrade(score));
-            grade.setPosition(PVU.SCREEN_WIDTH / 2f - grade.getPrefWidth() / 2f, PVU.SCREEN_HEIGHT * 0.6f);
+            game.setScreen(new CoderacerEndScreen(game,score));
             mDoneHandled = true;
         } else if (!mDoneHandled) {
             time.setText(remainingTime + "");
         }
 
-        if(mDoneHandled) {
-            if (Gdx.input.isKeyPressed(Keys.SPACE) && (TimeUtils.millis() - mTimeDone) > 2000L) {
-                game.setScreen(PVU.MAIN_SCREEN);
-            }
-        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             pause = true;
