@@ -78,7 +78,7 @@ Når du velger Coderacer ved din personlige datamaskin, vil dataskjermen bli fylt
 
 	</implementasjon>
 	<scrum>
-	Scrum 
+	<header>Scrum</header> 
 Scrum er metode for prosjektstyring og prosjektkontroll. Teorien er basert på empirisk prosjektkontroll og er en inkrementell og iterativ prosess. Man prøver først å realisere de mest problematiske og kritiske kravene og få på plass en overordnet arkitektur. Det vil være mindre behov for oppfølging og styring, og dette gjør Scrum mer effektiv enn tradisjonelle metoder. 
 Roller i Scrum; produkteieren er kundekontakten, scrummaster er fasilitatoren. Han har ansvaret for at teamet fungerer sammen. Scrumteamet er et team
 på fem til ni personer som er tverrfaglige og selvstyrte.  
