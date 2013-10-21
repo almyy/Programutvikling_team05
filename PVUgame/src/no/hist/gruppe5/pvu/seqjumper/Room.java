@@ -17,21 +17,15 @@ public class Room {
 
     private Body mBody;
     private Sprite mSprite;
+    private Body wall;
 
     public Room(World world) {
-        createWall(new Vector2(0.5f, 0.2f), 0.1f, world, true);
-        createWall(new Vector2(1f, 0.2f), 0.1f, world, true);
-        createWall(new Vector2(1.5f, 0.2f), 0.1f, world, true);
-        createWall(new Vector2(2f, 0.2f), 0.1f, world, true);
-
-        // Creating the floor and walls
+        // Creating the walls
         createWall(new Vector2(0, 0), 2f, world, false); // left wall
         createWall(new Vector2(3f, 0), 2f, world, false); // right wall
-
-
     }
 
-    public void createWall(Vector2 from, float size, World world, boolean flat) {
+    private Body createWall(Vector2 from, float size, World world, boolean flat) {
         BodyDef groundBodyDef =new BodyDef();
         groundBodyDef.position.set(from);
         Body groundBody = world.createBody(groundBodyDef);
@@ -44,7 +38,7 @@ public class Room {
 
         groundBody.createFixture(groundBox, 0.0f);
         groundBox.dispose();
-
+        return groundBody;
     }
 }
 
