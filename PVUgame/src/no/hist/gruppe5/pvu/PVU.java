@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
+import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.visionshooter.VisionEndScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
 
@@ -37,6 +38,7 @@ public class PVU extends Game {
         long gameStart = TimeUtils.millis();
 
         ScoreHandler.load();
+        QuizHandler.load();
         Assets.load();
         Sounds.playMusic();
 

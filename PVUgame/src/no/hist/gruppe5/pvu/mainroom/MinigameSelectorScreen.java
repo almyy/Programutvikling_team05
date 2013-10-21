@@ -63,7 +63,7 @@ public class MinigameSelectorScreen extends GameScreen {
         for (int i = 0; i < 5; i++) {
             if (i < QuizHandler.quizzesCompleted) {
                 mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_PASSED, i));
-            } else if (i == QuizHandler.quizzesCompleted) {
+            } else if (i == QuizHandler.completedMiniGames) {
                 mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_NEEDED, i));
             } else {
                 mMiniGames.add(makeButton(mLabels[i], QuizHandler.LOCKED, i));
@@ -153,10 +153,14 @@ public class MinigameSelectorScreen extends GameScreen {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             int quizNumber = 4 - ((int) (mSelector.getY() / 105f));
-            if (quizNumber < QuizHandler.quizzesCompleted) {
+            if (quizNumber < QuizHandler.completedMiniGames) {
                 mMiniGameSelected = quizNumber;
-            } else if (quizNumber == QuizHandler.quizzesCompleted){
-                game.setScreen(new QuizScreen(game,quizNumber));
+            } else if (quizNumber == QuizHandler.completedMiniGames) {
+                if (quizNumber < QuizHandler.quizzesCompleted) {
+                    mMiniGameSelected = quizNumber;
+                } else {
+                    game.setScreen(new QuizScreen(game, quizNumber));
+                }
             }
         }
 

@@ -62,16 +62,17 @@ public class QuizScreen extends GameScreen {
     private int mAnswer = -1;
     private long mLastButtonPressed = 0;
     boolean mGetNewAnswers = false;
+    int mQuizNumber;
 
-    public QuizScreen(PVU game, int quizNumber) throws FileNotFoundException, IOException {
+    public QuizScreen(PVU game, int mQuizNumber) throws FileNotFoundException, IOException {
         super(game);
-
+        this.mQuizNumber = mQuizNumber;
         mStage = new Stage();
         mQuestionGroup = new Group();
         mAnswerGroup = new Group();
 
         defineStyles();
-        readQuiz(mQuizNames[quizNumber]);
+        readQuiz(mQuizNames[mQuizNumber]);
         initializeQuestions();
         initializeAnswers();
 
@@ -299,6 +300,7 @@ public class QuizScreen extends GameScreen {
         mQuizDone = true;
         float score = (float) mNumberOfCorrectAnswers / (float) mNumberOfQuestions;
         ScoreHandler.updateScore(ScoreHandler.QUIZ, score);
+        QuizHandler.updateQuizScore(mNumberOfCorrectAnswers, mQuizNumber);
     }
 
     private void endQuiz() {
