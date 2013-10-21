@@ -2,6 +2,7 @@ package no.hist.gruppe5.pvu.mainroom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -25,6 +27,12 @@ import no.hist.gruppe5.pvu.temp.SeqJumpIntroScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
+    private Skin mQuizSkin = new Skin();
+    private TextButtonStyle mMiniGameStyle;
+    private TextButtonStyle mMiniGameStyleLocked;
+    private TextButtonStyle mMiniGameStyleQuizNeeded;
+    
+    
     private String text = "Programmering";
     private String text2 = "Visjonsdokument";
     private String text3 = "Quiz";
@@ -78,10 +86,9 @@ public class MinigameSelectorScreen extends GameScreen {
         menu.addActor(button5);
 
         initMakeButton();
+        
         menu.addActor(buttonMove);
-
         menu.setBounds(510, 295, 590, 100);
-
         stage.addActor(menu);
     }
 
@@ -196,6 +203,36 @@ public class MinigameSelectorScreen extends GameScreen {
     }
 
     private TextButton makeButton(String text) {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(com.badlogic.gdx.graphics.Color.DARK_GRAY);
+        pixmap.fill();
+
+        mQuizSkin.add("Gray", new Texture(pixmap));
+
+        pixmap.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+        pixmap.fill();
+
+        mQuizSkin.add("Green", new Texture(pixmap));
+
+        pixmap.setColor(com.badlogic.gdx.graphics.Color.RED);
+        pixmap.fill();
+
+        mQuizSkin.add("Red", new Texture(pixmap));
+        mQuizSkin.add("default", Assets.primaryFont10px);
+
+        Drawable gray = mQuizSkin.newDrawable("Gray");
+        Drawable green = mQuizSkin.newDrawable("Green");
+        Drawable red = mQuizSkin.newDrawable("Red");
+
+        mMiniGameStyle = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
+        mMiniGameStyleQuizNeeded = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
+        mMiniGameStyleLocked = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
+        
+        TextButton returnedButton = new TextButton(text,mMiniGameStyleQuizNeeded);
+        returnedButton.getLabel().setFontScale(5);
+        return returnedButton;
+        
+        /*
         tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
         buttonskin = new Skin();
         textbuttonstyle = new TextButton.TextButtonStyle();
@@ -208,6 +245,7 @@ public class MinigameSelectorScreen extends GameScreen {
         button = new TextButton(text, textbuttonstyle);
         button.getLabel().setFontScale(5);
         return button;
+        */
     }
 
     private void initMakeButton() {
