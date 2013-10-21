@@ -82,10 +82,12 @@ public class Assets {
     public static TextureRegion introMainLogo;
     public static TextureRegion introTeamLogo;
     public static TextureRegion introPressSpace;
+    // UML BLOCKS
+    public static TextureRegion ubBackground;
 
     // BOOK SCREEN
     public static TextureRegion bookBook;
-    
+
     // BORDER
     public static TextureRegion borderBorder; 
 
@@ -137,10 +139,15 @@ public class Assets {
             msBurndownCarts[i] = (TextureRegion) carts.get(i);
         }
 
+        // INTRO
         introMainLogo = msAtlas.findRegion("logo");
         introTeamLogo = msAtlas.findRegion("logo_2_group");
         introPressSpace = msAtlas.findRegion("trykk");
 
+        // UML BLOCKS
+        ubBackground = msAtlas.findRegion("umlbackground");
+
+        // BOOK
         bookBook = msAtlas.findRegion("book");
 
         
