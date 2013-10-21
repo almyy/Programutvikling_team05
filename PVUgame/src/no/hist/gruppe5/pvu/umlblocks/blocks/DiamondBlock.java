@@ -21,6 +21,9 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  */
 public class DiamondBlock extends Block {
 
+    private static final float FRICTION = 0.7f;
+    private static final float RESTITUTION = 0.01f;
+
     public DiamondBlock(World world) {
         super(world);
     }
@@ -45,8 +48,8 @@ public class DiamondBlock extends Block {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
         fixtureDef.density = 0.9f;
-        fixtureDef.friction = 0.9f;
-        fixtureDef.restitution = 0.02f;
+        fixtureDef.friction = FRICTION;
+        fixtureDef.restitution = RESTITUTION;
         body.createFixture(fixtureDef);
         body.setActive(false);
 

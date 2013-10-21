@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.coderacer.CoderacerEndScreen;
+import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
@@ -184,6 +186,14 @@ public class MinigameSelectorScreen extends GameScreen {
          buttonPressedENTER = true;
          if (counter == 1) {
          game.setScreen(new CoderacerScreen(game));
+                 try {
+                    game.setScreen(new CoderacerIntroScreen(game));
+                }catch (FileNotFoundException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                 
          }
          if (counter == 2) {
          try {

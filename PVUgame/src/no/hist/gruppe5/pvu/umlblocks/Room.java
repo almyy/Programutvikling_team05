@@ -2,8 +2,10 @@ package no.hist.gruppe5.pvu.umlblocks;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.mainroom.BodyEditorLoader;
 
 /**
@@ -15,10 +17,14 @@ import no.hist.gruppe5.pvu.mainroom.BodyEditorLoader;
  */
 public class Room {
 
-    private Body mBody;
-    private Sprite mSprite;
+    public static final int EASY = 100;
+    public static final int MEDIUM = 200;
+    public static final int HARD = 300;
 
-    public Room(World world) {
+    private Body mBody;
+    private Sprite mBackground;
+
+    public Room(World world, int difficulty) {
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/pvugame.json"));
 
         //Room Body
@@ -34,7 +40,25 @@ public class Room {
         fd.restitution = 0f;
 
         mBody = world.createBody(bd);
-        loader.attachFixture(mBody, "uml_room", fd, 3f);
+        String stringDiff;
+        switch (difficulty) {
+            case EASY:
+                stringDiff = "easy";
+                mBackground = new Sprite(Assets.ubEasy);
+                break;
+            case MEDIUM:
+                stringDiff = "medium";
+                mBackground = new Sprite(Assets.ubMedium);
+                break;
+            case HARD:
+                stringDiff = "hard";
+                mBackground = new Sprite(Assets.ubHard);
+                break;
+            default:
+                stringDiff = "easy";
+        }
+
+        loader.attachFixture(mBody, stringDiff, fd, 3f);
 
         // Creating the floor and walls
         //createWall(new Vector2(0, 0), 3f, world, true); // Floor
@@ -42,6 +66,14 @@ public class Room {
         //createWall(new Vector2(3f, 0), 2f, world, false); // right wall
 
 
+    }
+
+    public void draw(SpriteBatch batch) {
+        mBackground.draw(batch);
+    }
+
+    public void update(float delta) {
+        // TODO
     }
 
     public void createWall(Vector2 from, float size, World world, boolean flat) {

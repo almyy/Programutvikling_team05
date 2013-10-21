@@ -1,0 +1,7 @@
+Brubyggern AS søker etter et utviklingsfirma som kan lage en web-løsning som vi kan bruke for å forenkle vår interaksjon mot kunder i tillegg til vår interne kommunikasjon. Vi vil ha en nettside med oversikt over våre tidligere prosjekter, bestillingsskjema, informasjon om oss og hvor vi befinner oss. Et internt system skal også være inkludert.
+
+Det viktigste for oss er bestillingsskjemaet. Her må kunden kunne bestemme hvilken type bru han vil ha. Her ser vi for oss et interaktivt skjema, hvor kunden stadig vil få tilbakemeldinger på sin input. Man må for eksempel ikke lage en hengebru som er 2 mil lang. Her må man også lage en kundeprofil hvor oppfølging og videreutvikling av potensielle bruer skal foregå. Det er veldig viktig at dette skjemaet fungerer optimalt, for å ikke miste kunder og for at brua blir konstruert rett.
+
+Vi vil ha en egen profilside med informasjon av våre ansatte og noen av våre viktigste konstruerte bruer. Her skal det også stå hvordan vi kan kontaktes.
+
+Vårt interne system skal være inkludert i denne web-løsningen. Her vil vi ha en intern Instant Messaging-tjeneste (IM-tjeneste). Vi skal også ha en oversikt over alle prosjektbestillinger og godkjente prosjekt. I tillegg vil vi ha en fysikksimulator som skal avgjøre om brua vil rase eller ikke. Her skal man få en tommel opp eller tommel ned.
