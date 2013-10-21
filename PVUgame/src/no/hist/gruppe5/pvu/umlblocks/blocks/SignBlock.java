@@ -3,7 +3,6 @@ package no.hist.gruppe5.pvu.umlblocks.blocks;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
@@ -17,6 +16,13 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  */
 public class SignBlock extends Block {
 
+    private static final float FRICTION = 0.7f;
+    private static final float RESTITUTION = 0.01f;
+
+    private Body mStick;
+
+    private float mRotationOffset;
+    private Vector2 mStickOffset;
 
     public SignBlock(World world) {
         super(world);
@@ -24,14 +30,18 @@ public class SignBlock extends Block {
 
     @Override
     protected void createSprite() {
+        mRotationOffset = 7f;
+
         sprite = new Sprite(Assets.umlBlocks[Assets.UML_BLOCK_4]);
-        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+        sprite.setOrigin(sprite.getWidth() / 2, (sprite.getHeight() / 2) + mRotationOffset);
         sprite.setPosition(-100, -100);
     }
 
     @Override
     public void createBody(World world) {
-        //Dynamic Body
+        mStickOffset = new Vector2(0f, -0.15f);
+
+        //Main square body
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(0, 0);
@@ -42,30 +52,32 @@ public class SignBlock extends Block {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
         fixtureDef.density = 0.9f;
-        fixtureDef.friction = 0.9f;
-        fixtureDef.restitution = 0.02f;
+        fixtureDef.friction = FRICTION;
+        fixtureDef.restitution = RESTITUTION;
         body.createFixture(fixtureDef);
         body.setActive(false);
 
-        // TEST
-        BodyDef bodyDef2 = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        Body body2 = world.createBody(bodyDef);
-        body2.setTransform(new Vector2(0f, -0.15f), 0);
+        // Stick body
+        BodyDef stickDef = new BodyDef();
+        stickDef.type = BodyDef.BodyType.DynamicBody;
+        mStick = world.createBody(bodyDef);
+        mStick.setTransform(mStickOffset, 0);
+        mStick.setActive(false);
 
-        PolygonShape boxShape2 = new PolygonShape();
-        boxShape2.setAsBox(0.01f, (sprite.getHeight() / 2) * BlocksScreen.WORLD_TO_BOX);
-        FixtureDef fixtureDef2 = new FixtureDef();
-        fixtureDef2.shape = boxShape2;
-        fixtureDef2.density = 0.9f;
-        fixtureDef2.friction = 0.9f;
-        fixtureDef2.restitution = 0.02f;
-        body2.createFixture(fixtureDef2);
+        PolygonShape stickShape = new PolygonShape();
+        stickShape.setAsBox(0.015f, (sprite.getHeight() / 1.3f) * BlocksScreen.WORLD_TO_BOX);
+        FixtureDef stickFixture = new FixtureDef();
+        stickFixture.shape = stickShape;
+        stickFixture.density = 0.9f;
+        stickFixture.friction = FRICTION;
+        stickFixture.restitution = RESTITUTION;
+        mStick.createFixture(stickFixture);
 
         WeldJointDef def = new WeldJointDef();
-        def.initialize(body, body2, new Vector2(0, 0));
+        def.initialize(body, mStick, new Vector2(0, 0));
 
         Joint weld = world.createJoint(def);
+
 
     }
 
@@ -74,11 +86,23 @@ public class SignBlock extends Block {
         // Update sprite position based on the Box2d body
         Vector2 pos = body.getTransform().getPosition();
         sprite.setPosition(
-                ((pos.x * BlocksScreen.BOX_TO_WORLD) - sprite.getWidth() / 2),
-                ((pos.y * BlocksScreen.BOX_TO_WORLD) - sprite.getHeight() / 3)
+                ((pos.x * BlocksScreen.BOX_TO_WORLD) - (sprite.getWidth() / 2)),
+                ((pos.y * BlocksScreen.BOX_TO_WORLD) - (sprite.getHeight() / 2) - mRotationOffset)
         );
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         sprite.setScale(1f);
     }
 
+    @Override
+    protected void overridePosition() {
+        body.setTransform(overridePosition.x, overridePosition.y, initialRotation);
+        mStick.setTransform(overridePosition.x + mStickOffset.x,
+                overridePosition.y + mStickOffset.y, initialRotation);
+    }
+
+    @Override
+    protected void subActivate() {
+        super.subActivate();
+        mStick.setActive(true);
+    }
 }

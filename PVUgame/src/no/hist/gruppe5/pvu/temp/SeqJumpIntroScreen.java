@@ -21,14 +21,13 @@ import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
  */
 public class SeqJumpIntroScreen extends GameScreen {
 
-    private Stage stage;
-    private Label.LabelStyle labelstyle;
-    private Texture tex;
-    private Skin skin;
+    private Stage mStage;
+    private Label.LabelStyle mLabelstyle;
+    private Skin mSkin;
 
     public SeqJumpIntroScreen(PVU game) {
         super(game);
-        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class SeqJumpIntroScreen extends GameScreen {
 
         batch.begin();
         batch.end();
-        stage.draw();    }
+        mStage.draw();    }
 
     @Override
     protected void update(float delta) {

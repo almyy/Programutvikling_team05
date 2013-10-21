@@ -42,6 +42,7 @@ public class BlocksScreen extends GameScreen {
     private Room mRoom;
     private ArrayList<Block> mActiveBlocks;
     private ArrayList<Block> mBlocksLeft;
+    private ScrollingBackground mBackground;
 
     // Game variables
     private int mCurrentBlock = -1;
@@ -59,7 +60,8 @@ public class BlocksScreen extends GameScreen {
 
 
         mWorld = new World(new Vector2(0, -10), false);
-        mRoom = new Room(mWorld);
+        mRoom = new Room(mWorld, Room.EASY);
+        mBackground = new ScrollingBackground();
 
         mGameCam = new OrthographicCamera();
         mGameCam.setToOrtho(false, 3f, (PVU.SCREEN_HEIGHT / PVU.SCREEN_WIDTH) * 3f);
@@ -76,10 +78,11 @@ public class BlocksScreen extends GameScreen {
         switch(game_type) {
             case DEFAULT_GAME:
                 mBlocksLeft.add(new SignBlock(mWorld));
-                mBlocksLeft.add(new SquareBlock(mWorld));
-                mBlocksLeft.add(new DiamondBlock(mWorld));
-                mBlocksLeft.add(new SquareBlock(mWorld));
-                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
                 mBlocksLeft.add(new SquareBlock(mWorld));
                 mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new SquareBlock(mWorld));
@@ -95,6 +98,9 @@ public class BlocksScreen extends GameScreen {
         // Draw all the sprites.
         batch.begin();
 
+        mBackground.draw(batch);
+        mRoom.draw(batch);
+
         for(Block b : mActiveBlocks)
             b.draw(batch);
 
@@ -109,6 +115,9 @@ public class BlocksScreen extends GameScreen {
         mWorld.step(1 / 60f, 6, 2);
 
         checkInput();
+
+        mBackground.update(delta);
+        mRoom.update(delta);
 
         if(!mActiveBlocks.isEmpty()) {
             Block block = getLastBlock();
