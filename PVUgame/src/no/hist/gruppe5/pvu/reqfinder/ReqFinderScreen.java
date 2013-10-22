@@ -1,6 +1,10 @@
 package no.hist.gruppe5.pvu.reqfinder;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,13 +25,11 @@ import no.hist.gruppe5.pvu.PVU;
 public class ReqFinderScreen extends GameScreen {
 
     private String mCaseText;
-    
     private Group mTextGroup;
     private Stage mStage;
-    
     private Label mLabel;
     private LabelStyle mLabelStyle;
-    
+
     public ReqFinderScreen(PVU pvu) {
         super(pvu);
         try {
@@ -37,31 +39,30 @@ public class ReqFinderScreen extends GameScreen {
         } catch (IOException ex) {
             Logger.getLogger(ReqFinderScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage.setViewport(mStage.getWidth(), mStage.getHeight(), true, 0, 0, mStage.getWidth(), mStage.getHeight());
+
         
-        mLabelStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        
-        
-        
-        
-        
+        BitmapFont kopiert = new BitmapFont(
+                Gdx.files.internal("data/LucidaBitmap10px.fnt"),
+                Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
+        mLabelStyle = new LabelStyle(kopiert, Color.BLACK);
         mLabel = new Label("jalla", mLabelStyle);
-        mLabel.setFontScale(2f);
         mLabel.setFillParent(true);
         mLabel.setWrap(true);
+        mLabel.setWidth(PVU.SCREEN_WIDTH);
+        mLabelStyle.font.setScale(2f);
         mLabel.setAlignment(Align.top | Align.left);
-        
-        
-        mTextGroup = new Group();
-        mTextGroup.setWidth(PVU.SCREEN_WIDTH);
-        mTextGroup.setHeight(PVU.SCREEN_HEIGHT);
-        mTextGroup.setPosition(0, 0);
-        mTextGroup.addActor(mLabel);
-        mStage.addActor(mTextGroup);
-        
+        mLabel.setText(mCaseText);
+
+        mStage.addActor(mLabel);
+        System.out.println(mStage.getHeight() + " " + mStage.getWidth());
+        System.out.println(mLabel.getHeight() + " " + mStage.getWidth());
+        System.out.println(mLabelStyle.font + " " + Assets.primaryFont10px);
+
     }
+
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1); // Important
@@ -70,7 +71,9 @@ public class ReqFinderScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        mLabel.setText(mCaseText);
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+            game.setScreen(PVU.MAIN_SCREEN);
+        }
     }
 
     @Override
