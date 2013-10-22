@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="ANSI"?>
 	<bok>
-	<innledning>
-	<header>Innledning</header>
-Vi skal i dette spillet basere oss på den objektorienterte tankegang og fremgangsmåten er modellbasert. Det betyr at man i alle trinnene lager modeller fremfor omfattende tekstlige dokumenter. Modellene kan evalueres og trinnene fra ett trinn danner grunnlaget for aktivitetene og modellene i neste trinn. Det er disse modellene du vil få en innføring i ved hjelp av dette spillet. Trinnene i “tråden” er:
+	<Innledning size = "3">
+	<page1>Vi skal i dette spillet basere oss på den objektorienterte tankegang og fremgangsmåten er modellbasert. Det betyr at man i alle trinnene lager modeller fremfor omfattende tekstlige dokumenter. Modellene kan evalueres og trinnene fra ett trinn danner grunnlaget for aktivitetene og modellene i neste trinn. Det er disse modellene du vil få en innføring i ved hjelp av dette spillet. Trinnene i “tråden” er:</page1>
 
-1. Objektorientert analyse hvor resultatet er analysemodellen. De viktigste modellene er:
+	<page2>1. Objektorientert analyse hvor resultatet er analysemodellen. De viktigste modellene er:
 	a. Use-case modellen
 	b. Domenemodellen
 	c. Systemsekvensdiagram
-2. Objektorientert design. Sentrale modeller:
+	2. Objektorientert design. Sentrale modeller:
 	a. Arkitekturmodellen sett fra flere perspektiver.
 	b. Designmodellen; med sekvensdiagram og detaljert klassediagram.
-3. Objektorientert programmering (implementasjon) med hovedresultat en kjørbar fil. 
+	3. Objektorientert programmering (implementasjon) med hovedresultat en kjørbar fil. </page2>
 
-Spillet er delt inn i fem nivåer, basert på viktige dokumenter og handlinger i utviklingsprosessen. Du vil i vært nivå få en innføring i sentrale modeller og innhold. Spillet vil etter de fem nivåene avsluttes med en sluttrapport i form av en quiz basert på all informasjonen du tilegner deg gjennom spillets gang.
+	<page3>Spillet er delt inn i fem nivåer, basert på viktige dokumenter og handlinger i utviklingsprosessen. Du vil i vært nivå få en innføring i sentrale modeller og innhold. Spillet vil etter de fem nivåene avsluttes med en sluttrapport i form av en quiz basert på all informasjonen du tilegner deg gjennom spillets gang.</page3>
 	
-	</innledning>
+	</Innledning>
 	<analyse>
-	<header>Analyse</header>
-Under analysedelen av spillet vil du støte på det som er relevant i programvareutviklingsprosessen. Dette vil i spillet bestå av å utforme visjonsdokument og kravdokument, samt å svare på to forskjellige quizzer som omhandler analysedelen av utviklingsprosessen. I analysen er de tre viktigste modellene visjonsdokument, use case-modellen og systemsekvensdiagram.
+	Under analysedelen av spillet vil du støte på det som er relevant i programvareutviklingsprosessen. Dette vil i spillet bestå av å utforme visjonsdokument og kravdokument, samt å svare på to forskjellige quizzer som omhandler analysedelen av utviklingsprosessen. I analysen er de tre viktigste modellene visjonsdokument, use case-modellen og systemsekvensdiagram.
 
 Visjonsdokumentet skal gjøre klart for utviklingsteamet og oppdragsgiver hva som skal lages, for å forsikre at det er enighet mellom begge parter. Visjonsdokumentets blir da beslutningsgrunnlaget for gjennomføringen av et prosjekt. I visjonsdokumentet skal det fokuseres på interessentenes behov, men samtidig også noe informasjon om hvordan disse behovene skal utføres.  
 
