@@ -1,36 +1,36 @@
-﻿coderacerquiz
-hvilket tall er 2?
-hvilket tall er 3?
-hvilket tall er 4?
-hvilket tall er 5?
+﻿Hvilke roller er det i SCRUM?
+Hva representerer et burndown chart?
+Hvilke av disse er ikke en artefakt i SCRUM?
+Hvilke av disse er ikke en seremoni i SCRUM?
+Hvilke av disse egenskapene beskriver ikke SCRUM?
 
+scrummaster, produkteier og Erna Solberg
+Produkteier, Scrum-master
+Produkteier, Scrum-master, utviklingsteam.
+Utviklingsteam og produkteier.
+
+Arbeidsfordeling
+Arbeidsprogressjon
+Timelister
+Utviklerenes moral
+
+Sprint planlegging
+Burndown chart
+Product Backlog
+Sprint Backlog
+
+Sprint planlegging
+Sprint evaluering
+Daglig stand up
+Dokumentering
+
+Iterativ
+Inkrementell
+Smidig
+Uiterativ
+
+2
 1
-2
-3
-4
-
-1
-2
-3
-4
-
-1
-2
-3
-4
-
-1
-2
-3
-4
-
-2
-3
-4
-5
-
 0
-1
-2
 3
 3
