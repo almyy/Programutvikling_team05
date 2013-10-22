@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import no.hist.gruppe5.pvu.Assets;
+import no.hist.gruppe5.pvu.umlblocks.entities.Block;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,20 +18,28 @@ public class Gui {
 
     private Label.LabelStyle mLabelStyle;
 
+    // Game
     public Label mBlocksLeft;
     public Label mSuccess;
 
+    // Intermediate
+    public Label mGameFeedback;
+
+    // Stages
     private Stage mScoreStage;
     private Stage mIntermediateStage;
+    private boolean mGame;
 
-    public Gui(Stage stage) {
-        this.mScoreStage = stage;
-        this.mIntermediateStage = new Stage(stage.getWidth(), stage.getHeight(), true);
+    public Gui(float width, float height, boolean keepAspectRation) {
+        this.mScoreStage =  new Stage(width, height, keepAspectRation);
+        this.mIntermediateStage = new Stage(width, height, keepAspectRation);
 
         mLabelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
 
         initScoreStage();
         initIntermediateStage();
+
+        mGame = false;
     }
 
     private void initScoreStage() {
@@ -49,15 +58,27 @@ public class Gui {
     }
 
     private void initIntermediateStage() {
-        // TODO
+        mGameFeedback = new Label("Gratuleren, du er best", mLabelStyle);
+        mGameFeedback.setFontScale(3f);
+        mGameFeedback.setAlignment(Align.center);
+        mGameFeedback.setFillParent(true);
+
+        mIntermediateStage.addActor(mGameFeedback);
+
     }
 
     public void draw() {
-        mScoreStage.draw();
+        if(mGame)
+            mScoreStage.draw();
+        else
+            mIntermediateStage.draw();
     }
 
     public void update(float delta) {
-        mScoreStage.act(delta);
+        if(mGame)
+            mScoreStage.act();
+        else
+            mIntermediateStage.act();
     }
     
     public void setBlocksLeft(int blocks) {
@@ -67,6 +88,18 @@ public class Gui {
     public void setSuccess(int dead, int total) {
         int percent = 100 - Math.round((float) dead / (float) total * 100f);
         mSuccess.setText("Success: " + percent + "% ");
+    }
+
+    public void setIntermediateText() {
+           // TODO
+    }
+
+    public void enableIntermediateDisplay() {
+        mGame = false;
+    }
+
+    public void enableGameDisplay() {
+        mGame = true;
     }
 
 }

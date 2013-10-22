@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.umlblocks.blocks;
+package no.hist.gruppe5.pvu.umlblocks.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -6,9 +6,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.GearJoint;
-import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 
@@ -21,7 +18,8 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  */
 public class DiamondBlock extends Block {
 
-    private static final float FRICTION = 0.7f;
+    private static final float DENSITY = 0.3f;
+    private static final float FRICTION = 0.3f;
     private static final float RESTITUTION = 0.01f;
 
     public DiamondBlock(World world) {
@@ -44,10 +42,10 @@ public class DiamondBlock extends Block {
         body = world.createBody(bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(sprite.getWidth() * BlocksScreen.WORLD_TO_BOX, sprite.getHeight() * BlocksScreen.WORLD_TO_BOX);
+        boxShape.setAsBox(sprite.getWidth() * BlocksScreen.WORLD_TO_BOX - ANTIPADDING, sprite.getHeight() * BlocksScreen.WORLD_TO_BOX - ANTIPADDING);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
-        fixtureDef.density = 0.9f;
+        fixtureDef.density = DENSITY;
         fixtureDef.friction = FRICTION;
         fixtureDef.restitution = RESTITUTION;
         body.createFixture(fixtureDef);
@@ -59,7 +57,7 @@ public class DiamondBlock extends Block {
     protected void updateBlock() {
         // Update sprite position based on the Box2d body
         Vector2 pos = body.getTransform().getPosition();
-        sprite.setPosition((pos.x*BlocksScreen.BOX_TO_WORLD) - sprite.getWidth() / 2,
+        sprite.setPosition((pos.x * BlocksScreen.BOX_TO_WORLD) - sprite.getWidth() / 2,
                 (pos.y*BlocksScreen.BOX_TO_WORLD) - sprite.getHeight() / 2);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()) + 45);
         sprite.setScale(1.4f);

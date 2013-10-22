@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.umlblocks.blocks;
+package no.hist.gruppe5.pvu.umlblocks.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +18,8 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  */
 public class SquareBlock extends Block {
 
-    private static final float FRICTION = 0.7f;
+    private static final float DENSITY = 0.3f;
+    private static final float FRICTION = 0.1f;
     private static final float RESTITUTION = 0.01f;
 
     public SquareBlock(World world) {
@@ -41,10 +42,11 @@ public class SquareBlock extends Block {
         body = world.createBody(bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(sprite.getWidth() * BlocksScreen.WORLD_TO_BOX, sprite.getHeight() * BlocksScreen.WORLD_TO_BOX);
+        boxShape.setAsBox((sprite.getWidth() * BlocksScreen.WORLD_TO_BOX) - ANTIPADDING,
+                (sprite.getHeight() * BlocksScreen.WORLD_TO_BOX) - ANTIPADDING);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
-        fixtureDef.density = 0.9f;
+        fixtureDef.density = DENSITY;
         fixtureDef.friction = FRICTION;
         fixtureDef.restitution = RESTITUTION;
         body.createFixture(fixtureDef);
@@ -55,8 +57,8 @@ public class SquareBlock extends Block {
     protected void updateBlock() {
         // Update sprite position based on the Box2d body
         Vector2 pos = body.getTransform().getPosition();
-        sprite.setPosition((pos.x*BlocksScreen.BOX_TO_WORLD) - sprite.getWidth() / 2,
-                (pos.y*BlocksScreen.BOX_TO_WORLD) - sprite.getHeight() / 2);
+        sprite.setPosition((pos.x * BlocksScreen.BOX_TO_WORLD) - sprite.getWidth() / 2,
+                (pos.y * BlocksScreen.BOX_TO_WORLD) - sprite.getHeight() / 2);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
     }
 
