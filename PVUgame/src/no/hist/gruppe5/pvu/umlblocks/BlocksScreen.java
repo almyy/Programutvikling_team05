@@ -136,6 +136,8 @@ public class BlocksScreen extends GameScreen {
                 mBlocksLeft.add(new SignBlock(mWorld));
                 break;
             case Room.HARD:
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
                 mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new SquareBlock(mWorld));
@@ -174,7 +176,7 @@ public class BlocksScreen extends GameScreen {
         mGui.draw();
 
         // Render debug outlines, this should be disabled for release (duh)
-        mDebugRenderer.render(mWorld, mGameCam.combined);
+        // mDebugRenderer.render(mWorld, mGameCam.combined);
     }
 
     @Override
@@ -227,7 +229,7 @@ public class BlocksScreen extends GameScreen {
     }
 
     private void popNewBlock() {
-        mActiveBlocks.add(mBlocksLeft.remove(0).activate());
+        mActiveBlocks.add(mBlocksLeft.remove(0));
         mBlocksLeftCount--;
     }
 
@@ -287,7 +289,7 @@ public class BlocksScreen extends GameScreen {
                 mGui.enableGameDisplay();
                 mLastDrop = TimeUtils.millis();
             } else if(!mActiveBlocks.isEmpty() && isReadyToDrop()) {
-                getLastBlock().release();
+                getLastBlock().release().activate();
                 mLastDrop = TimeUtils.millis();
             }
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {

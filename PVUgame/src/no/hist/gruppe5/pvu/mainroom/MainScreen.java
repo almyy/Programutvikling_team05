@@ -10,14 +10,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
 import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.dialogdrawer.DialogDrawer;
 import no.hist.gruppe5.pvu.dialogdrawer.PopupBox;
 import no.hist.gruppe5.pvu.mainroom.objects.Player;
 import no.hist.gruppe5.pvu.mainroom.objects.RayCastManager;
 import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
-import no.hist.gruppe5.pvu.mainroom_screens.BurndownScreen;
-import no.hist.gruppe5.pvu.mainroom_screens.ScoreScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/26/13 Time: 10:56 PM
@@ -42,18 +41,21 @@ public class MainScreen extends GameScreen {
     private Sprite mBackground;
     private Sprite mTables;
     private Sprite[] mBurndownCarts;
+    private int mCurrentCart = 0;
+    private boolean burndownChecked = true;
     private RayCastManager mRayCastManager;
     // DEBUG
     private ShapeRenderer mShapeDebugRenderer;
     private boolean mShowingHint = false;
     private int mCurrentHint = -1;
-    private DialogDrawer dialog;
+    private DialogDrawer mDialog;
 
     public MainScreen(PVU game) {
         super(game);
 
-        dialog = new DialogDrawer(batch);
         mWorld = new World(new Vector2(0, 0), true);
+        mDialog = new DialogDrawer();
+        mDialog.setShow(true);
 
         // DEBUG
         mDebugRenderer = new Box2DDebugRenderer();
@@ -80,6 +82,10 @@ public class MainScreen extends GameScreen {
 
         mPlayer = new Player(mWorld);
         mTeammates = new TeamMates();
+        for (int i = 0; i < Assets.msBurndownCarts.length; i++) {
+            mBurndownCarts[i] = new Sprite(Assets.msBurndownCarts[i]);
+            mBurndownCarts[i].setPosition(15f, PVU.GAME_HEIGHT - 23f);
+        }
 
     }
 
@@ -111,8 +117,7 @@ public class MainScreen extends GameScreen {
         batch.begin();
 
         mBackground.draw(batch);
-        mBurndownCarts[0].draw(batch);
-
+        mBurndownCarts[mCurrentCart].draw(batch);
 
         if (mPlayer.getPosition().y < PVU.GAME_HEIGHT / 2) {
             mTables.draw(batch);
@@ -127,29 +132,21 @@ public class MainScreen extends GameScreen {
         if (mShowingHint && !mPlayer.isSitting()) {
             mPopupBox.draw(delta);
         }
-        dialog.draw(delta);
+
         batch.end();
-        //drawDebug(true);
-    }
 
-    private void drawDebug(boolean onlyRayCasts) {
-        if (!onlyRayCasts) {
-            mDebugRenderer.render(mWorld, camera.combined);
-        }
-
-        mShapeDebugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        mShapeDebugRenderer.setColor(Color.RED);
-        for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
-            mShapeDebugRenderer.line(rc.from, rc.to);
-        }
-        mShapeDebugRenderer.end();
+        if(mDialog.isShow())
+            mDialog.draw();
     }
 
     @Override
     protected void update(float delta) {
+        checkCompletion();
+
         mWorld.step(1 / 60f, 6, 2);
         mTeammates.update();
         mPlayer.update();
+        mPlayer.setMoveable(!mDialog.isShow());
         mRayCastManager.update(delta);
 
         for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
@@ -182,18 +179,31 @@ public class MainScreen extends GameScreen {
         }
 
         if (mShowingHint) {
-            recieveHintInput();
+            checkWithinRayCastInput();
         }
 
         if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             mInputHandled = false;
         }
         updateMainScreenSoundButton();
-        dialog.intro();
-        dialog.introNext();
+        mDialog.intro();
+        mDialog.introNext();
     }
 
-    private void recieveHintInput() {
+    private void drawDebug(boolean onlyRayCasts) {
+        if (!onlyRayCasts) {
+            mDebugRenderer.render(mWorld, camera.combined);
+        }
+
+        mShapeDebugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        mShapeDebugRenderer.setColor(Color.RED);
+        for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
+            mShapeDebugRenderer.line(rc.from, rc.to);
+        }
+        mShapeDebugRenderer.end();
+    }
+
+    private void checkWithinRayCastInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.E) && !mInputHandled) {
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
@@ -205,7 +215,7 @@ public class MainScreen extends GameScreen {
                     mPlayer.sitDown();
                     mShowingHint = false;
                     mInputHandled = true;
-                    //TODO pc screen
+                    burndownChecked = false;
                     break;
                 case RayCastManager.CART:
                     game.setScreen(new BurndownScreen(game));
@@ -221,5 +231,27 @@ public class MainScreen extends GameScreen {
 
     @Override
     protected void cleanUp() {
+    }
+
+    private void checkCompletion() {
+        if (!burndownChecked) {
+            for (int i = 0; i < 5; i++) {
+                if (ScoreHandler.isMinigameCompleted(i)) {
+                    setBurnDownCart(++mCurrentCart % 5);
+                }
+            }
+            burndownChecked = true;
+        }
+
+    }
+
+    private void setBurnDownCart(int num) {
+        if (num < 0) {
+            num = 0;
+        }
+        if (num > 4) {
+            num = 4;
+        }
+        mCurrentCart = num;
     }
 }

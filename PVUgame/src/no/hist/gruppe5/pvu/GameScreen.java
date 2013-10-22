@@ -16,8 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.book.BookScreen;
+import no.hist.gruppe5.pvu.mainroom.BurndownScreen;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
+import no.hist.gruppe5.pvu.mainroom.ScoreScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 9:48 AM
@@ -94,7 +96,10 @@ public abstract class GameScreen implements Screen {
     private void checkEscapeButton() {
         if (TimeUtils.millis() - lastAction > WAIT_KEY_PRESSED && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                if (this instanceof BookScreen || this instanceof MinigameSelectorScreen) {
+                if (this instanceof BookScreen
+                        || this instanceof MinigameSelectorScreen
+                        || this instanceof BurndownScreen
+                        || this instanceof ScoreScreen) {
                     game.setScreen(PVU.MAIN_SCREEN);
                 } else {
                     pauseButtons[selectedButton].setStyle(buttonStyle);
