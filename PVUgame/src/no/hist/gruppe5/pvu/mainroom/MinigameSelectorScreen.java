@@ -2,6 +2,7 @@ package no.hist.gruppe5.pvu.mainroom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -10,8 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.TimeUtils;
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
@@ -20,71 +24,58 @@ import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.coderacer.CoderacerEndScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
+import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
+import no.hist.gruppe5.pvu.reqfinder.ReqFinderScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
 import no.hist.gruppe5.pvu.temp.SeqJumpIntroScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
-    private String text = "Programmering";
-    private String text2 = "Visjonsdokument";
-    private String text3 = "Quiz";
-    private String text4 = "// TODO";
-    private String text5 = "SeqJumper";
-    private Stage stage;
-    private Texture tex;
-    private TextButtonStyle textbuttonstyle;
-    private TextButton button;
-    private Skin buttonskin;
-    private int counter = 1;
-    private Button buttonMove;
-    private Button button2;
-    private Button button3;
-    private Button button4;
-    private Button button5;
-    private Button button1;
-    private boolean buttonPressedS;
-    private boolean buttonPressedW;
-    private boolean buttonPressedENTER;
-    private Group menu;
+    public static final int VISIONSHOOTER = 0;
+    public static final int REQFINDER = 1;
+    public static final int SEQJUMPER = 2;
+    public static final int UMLBLOCKS = 3;
+    public static final int CODERACER = 4;
+    private Skin mQuizSkin = new Skin();
+    private TextButtonStyle mMiniGameStylePassed;
+    private TextButtonStyle mMiniGameStyleLocked;
+    private TextButtonStyle mMiniGameStyleQuizNeeded;
+    private String[] mLabels = {"VisionShooter", "ReqFinder", "SeqJumper", "UMLBlocks", "Coderacer"};
+    private Stage mStage;
+    private Button mSelector;
+    private ArrayList<TextButton> mMiniGames = new ArrayList<>();
+    private float mYIncrease = 105f;
+    private boolean mSelectorTop = true;
+    private boolean mSelectorBottom = false;
+    private Group mMenu;
+    private long mLastButtonPressed = 0;
+    private int mMiniGameSelected = -1;
 
     public MinigameSelectorScreen(final PVU game) {
         super(game);
-        menu = new Group();
-        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
+        mMenu = new Group();
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
 
-        button1 = makeButton(text);
-        button1.setPosition(0, 420);
-        button1.setFillParent(true);
-        menu.addActor(button1);
+        defineStyles();
 
-        button2 = makeButton(text2);
-        button2.setPosition(0, 315);
-        button2.setFillParent(true);
-        menu.addActor(button2);
-
-        button3 = makeButton(text3);
-        button3.setPosition(0, 210);
-        button3.setFillParent(true);
-        menu.addActor(button3);
-
-        button4 = makeButton(text4);
-        button4.setPosition(0, 105);
-        button4.setFillParent(true);
-        menu.addActor(button4);
-
-        button5 = makeButton(text5);
-        button5.setPosition(0, 0);
-        button5.setFillParent(true);
-        menu.addActor(button5);
+        for (int i = 0; i < 5; i++) {
+            if (i < QuizHandler.quizzesCompleted) {
+                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_PASSED, i));
+            } else if (i == QuizHandler.completedMiniGames) {
+                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_NEEDED, i));
+            } else {
+                mMiniGames.add(makeButton(mLabels[i], QuizHandler.LOCKED, i));
+            }
+            mMenu.addActor(mMiniGames.get(i));
+        }
 
         initMakeButton();
-        menu.addActor(buttonMove);
 
-        menu.setBounds(510, 295, 590, 100);
-
-        stage.addActor(menu);
+        mMenu.addActor(mSelector);
+        mMenu.setBounds(510, 295, 590, 100);
+        mStage.addActor(mMenu);
     }
 
     @Override
@@ -92,112 +83,35 @@ public class MinigameSelectorScreen extends GameScreen {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
-        stage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
+        mStage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
         batch.end();
-        stage.draw();
+        mStage.draw();
+    }
+
+    private boolean enoughTimePassed(long time) {
+        return (TimeUtils.millis() - mLastButtonPressed) > time;
     }
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new MainScreen(game));
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) && !buttonPressedS) {
-            buttonPressedS = true;
-            if (counter < 5) {
-                counter++;
-            }
-            if (counter == 1) {
-                buttonMove.setPosition(button1.getX(), button1.getY());
-            }
-            if (counter == 2) {
-                buttonMove.setPosition(button2.getX(), button2.getY());
-            }
-            if (counter == 3) {
-                buttonMove.setPosition(button3.getX(), button3.getY());
-            }
-            if (counter == 4) {
-                buttonMove.setPosition(button4.getX(), button4.getY());
-            }
-            if (counter == 5) {
-                buttonMove.setPosition(button5.getX(), button5.getY());
+        mMiniGameSelected = -1;
+        if (enoughTimePassed(100L)) {
+            try {
+                positionSelector();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && !buttonPressedW) {
-            buttonPressedW = true;
-            if (counter > 1) {
-                counter--;
+        if (mMiniGameSelected != -1) {
+            try {
+                selectMiniGame();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (counter == 1) {
-                buttonMove.setPosition(button1.getX(), button1.getY());
-            }
-            if (counter == 2) {
-                buttonMove.setPosition(button2.getX(), button2.getY());
-            }
-            if (counter == 3) {
-                buttonMove.setPosition(button3.getX(), button3.getY());
-            }
-            if (counter == 4) {
-                buttonMove.setPosition(button4.getX(), button4.getY());
-            }
-            if (counter == 5) {
-                buttonMove.setPosition(button5.getX(), button5.getY());
-            }
-        }
-        if (!Gdx.input.isKeyPressed(Input.Keys.S)) {
-            buttonPressedS = false;
-        }
-        if (!Gdx.input.isKeyPressed(Input.Keys.W)) {
-            buttonPressedW = false;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && !buttonPressedENTER) {
-            buttonPressedENTER = true;
-            if (counter == 1) {
-                
-                 try {
-                    game.setScreen(new CoderacerIntroScreen(game));
-                }catch (FileNotFoundException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                 
-            }
-            if (counter == 2) {
-                try {
-
-                    game.setScreen(new VisionIntroScreen(game));
-
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            if (counter == 3) {
-                try {
-                    game.setScreen(new QuizScreen(game));
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (counter == 4) {
-                game.setScreen(new BlocksScreen(game));
-            }
-            if (counter == 5) {
-                game.setScreen(new SeqJumpIntroScreen(game));
-            }
-        }
-        if (!Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            buttonPressedENTER = false;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(PVU.MAIN_SCREEN);
         }
     }
 
@@ -205,19 +119,101 @@ public class MinigameSelectorScreen extends GameScreen {
     protected void cleanUp() {
     }
 
-    private TextButton makeButton(String text) {
-        tex = new Texture(Gdx.files.internal("data/DialogTextureWithoutFrame.png"));
-        buttonskin = new Skin();
-        textbuttonstyle = new TextButton.TextButtonStyle();
-        textbuttonstyle.font = Assets.primaryFont10px;
+    private void selectMiniGame() throws FileNotFoundException, IOException {
+        switch (mMiniGameSelected) {
+            case VISIONSHOOTER:
+                game.setScreen(new VisionIntroScreen(game));
+                break;
+            case REQFINDER:
+                game.setScreen(new ReqFinderScreen(game));
+                break;
+            case SEQJUMPER:
+                game.setScreen(new SeqJumpIntroScreen(game));
+                break;
+            case UMLBLOCKS:
+                game.setScreen(new BlocksScreen(game));
+                break;
+            case CODERACER:
+                game.setScreen(new CoderacerScreen(game));
+                break;
+        }
+    }
 
-        buttonskin.add("textfieldback", new TextureRegion(tex, 10, 10));
-        Drawable d = buttonskin.getDrawable("textfieldback");
-        textbuttonstyle.up = d;
-        textbuttonstyle.down = d;
-        button = new TextButton(text, textbuttonstyle);
-        button.getLabel().setFontScale(5);
-        return button;
+    private void positionSelector() throws FileNotFoundException, IOException {
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && !mSelectorBottom) {
+            mSelector.setPosition(0, mSelector.getY() - mYIncrease);
+            mSelectorTop = false;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !mSelectorTop) {
+            mSelector.setPosition(0, mSelector.getY() + mYIncrease);
+            mSelectorBottom = false;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            int quizNumber = 4 - ((int) (mSelector.getY() / 105f));
+            if (quizNumber < QuizHandler.completedMiniGames) {
+                mMiniGameSelected = quizNumber;
+            } else if (quizNumber == QuizHandler.completedMiniGames) {
+                if (quizNumber < QuizHandler.quizzesCompleted) {
+                    mMiniGameSelected = quizNumber;
+                } else {
+                    game.setScreen(new QuizScreen(game, quizNumber));
+                }
+            }
+        }
+
+        if (mSelector.getY() == 420f) {
+            mSelectorTop = true;
+        } else if (mSelector.getY() == 0f) {
+            mSelectorBottom = true;
+        }
+        mLastButtonPressed = TimeUtils.millis();
+    }
+
+    private void defineStyles() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(com.badlogic.gdx.graphics.Color.DARK_GRAY);
+        pixmap.fill();
+
+        mQuizSkin.add("Gray", new Texture(pixmap));
+
+        pixmap.setColor(com.badlogic.gdx.graphics.Color.GREEN);
+        pixmap.fill();
+
+        mQuizSkin.add("Green", new Texture(pixmap));
+
+        pixmap.setColor(com.badlogic.gdx.graphics.Color.RED);
+        pixmap.fill();
+
+        mQuizSkin.add("Red", new Texture(pixmap));
+        mQuizSkin.add("default", Assets.primaryFont10px);
+
+        Drawable gray = mQuizSkin.newDrawable("Gray");
+        Drawable green = mQuizSkin.newDrawable("Green");
+        Drawable red = mQuizSkin.newDrawable("Red");
+
+        mMiniGameStylePassed = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
+        mMiniGameStyleQuizNeeded = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
+        mMiniGameStyleLocked = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
+    }
+
+    private TextButton makeButton(String text, int status, int counter) {
+        TextButtonStyle miniGameStatus = null;
+        switch (status) {
+            case QuizHandler.LOCKED:
+                miniGameStatus = mMiniGameStyleLocked;
+                break;
+            case QuizHandler.QUIZ_NEEDED:
+                miniGameStatus = mMiniGameStyleQuizNeeded;
+                break;
+            case QuizHandler.QUIZ_PASSED:
+                miniGameStatus = mMiniGameStylePassed;
+                break;
+        }
+        TextButton returnedButton = new TextButton(text, miniGameStatus);
+        returnedButton.getLabel().setFontScale(5);
+        returnedButton.setPosition(0, (4 - counter) * mYIncrease);
+        returnedButton.setFillParent(true);
+        return returnedButton;
     }
 
     private void initMakeButton() {
@@ -229,8 +225,8 @@ public class MinigameSelectorScreen extends GameScreen {
 
         ButtonStyle buttonStyle = new ButtonStyle(standard, standard, standard);
 
-        buttonMove = new Button(buttonStyle);
-        buttonMove.setFillParent(true);
-        buttonMove.setPosition(0, 420);
+        mSelector = new Button(buttonStyle);
+        mSelector.setFillParent(true);
+        mSelector.setPosition(0, 420);
     }
 }

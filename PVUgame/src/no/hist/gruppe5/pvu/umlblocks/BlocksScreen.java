@@ -9,10 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.umlblocks.blocks.Block;
-import no.hist.gruppe5.pvu.umlblocks.blocks.DiamondBlock;
-import no.hist.gruppe5.pvu.umlblocks.blocks.SignBlock;
-import no.hist.gruppe5.pvu.umlblocks.blocks.SquareBlock;
+import no.hist.gruppe5.pvu.umlblocks.entities.*;
 
 import java.util.ArrayList;
 
@@ -36,7 +33,6 @@ public class BlocksScreen extends GameScreen {
 
     private World mWorld;
     private OrthographicCamera mGameCam;
-    private Stage mStage;
     private Gui mGui;
 
     private Room mRoom;
@@ -65,8 +61,8 @@ public class BlocksScreen extends GameScreen {
         mBlocksLeft = new ArrayList<>(15);
 
         mWorld = new World(new Vector2(0, -10), false);
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
-        mGui = new Gui(mStage);
+        mGui = new Gui(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
+
 
         mBackground = new ScrollingBackground();
 
@@ -91,16 +87,21 @@ public class BlocksScreen extends GameScreen {
         mBlocksLeftCount = -1;
         mBlocksDead = 0;
         mIdleBeforeNextGame = false;
+
+        // Destroy all active bodies
         mWorld.destroyBody(mRoom.getBody());
         for(Block b : mActiveBlocks) {
             b.destroy(mWorld);
         }
+
+        // And finally clear the ArrayList
         mActiveBlocks.clear();
     }
 
     private void populateBlocksLeft(int game_type) {
         switch(game_type) {
             case Room.EASY:
+                mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new SignBlock(mWorld));
                 mBlocksLeft.add(new SignBlock(mWorld));
                 mBlocksLeft.add(new SignBlock(mWorld));
@@ -135,34 +136,31 @@ public class BlocksScreen extends GameScreen {
 
         batch.end();
 
-        // Draw GUI ontop of the rest
+        // Draw GUI on top of the rest
         mGui.draw();
 
-        // Render debug outlines
+        // Render debug outlines, this should be disabled for release (duh)
         mDebugRenderer.render(mWorld, mGameCam.combined);
     }
 
     @Override
     protected void update(float delta) {
-        mWorld.step(1 / 60f, 6, 2);
-
+        // Chek all user input
         checkInput();
 
-        mBackground.update(delta);
+        // Update everything physics related
+        mWorld.step(1 / 60f, 6, 2);
         mRoom.update(delta);
-        mGui.update(delta);
-        mGui.setBlocksLeft(mBlocksLeftCount);
-        mGui.setSuccess(mBlocksDead, mInitialBlockCount);
+        for(Block b : mActiveBlocks)
+            b.update(delta);
 
+        // Update block drop positioning
         if(!mActiveBlocks.isEmpty()) {
             Block block = getLastBlock();
             if(block.isLock()) {
                 block.setPosition(mBlockDropLoc, BLOCK_DROP_LOCK);
             }
         }
-
-        for(Block b : mActiveBlocks)
-            b.update(delta);
 
         // Check whether or not to end game or add a new block
         if(mBlocksLeft.isEmpty() && isReadyToDrop()&& isPreviousDropped()) {
@@ -171,6 +169,12 @@ public class BlocksScreen extends GameScreen {
         } else if(isReadyToDrop() && isPreviousDropped()) {
             popNewBlock();
         }
+
+        // Update everything background and bg related
+        mBackground.update(delta);
+        mGui.update(delta);
+        mGui.setBlocksLeft(mBlocksLeftCount);
+        mGui.setSuccess(mBlocksDead, mInitialBlockCount);
 
         // Clean up dead blocks from world and array
         removeDeadBlocks();
@@ -207,9 +211,6 @@ public class BlocksScreen extends GameScreen {
         }
 
         mIdleBeforeNextGame = true;
-
-        System.out.println("Yolo");
-
     }
 
     private boolean isPreviousDropped() {
@@ -233,14 +234,11 @@ public class BlocksScreen extends GameScreen {
     }
 
     private void checkInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(PVU.MAIN_SCREEN);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if(!mActiveBlocks.isEmpty() && isReadyToDrop()) {
                 getLastBlock().release();
                 mLastDrop = TimeUtils.millis();
             }
-
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             goLeft();
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {

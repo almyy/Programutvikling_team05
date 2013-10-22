@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <book>
 	<title>Book</title>
-	<Innledning>
-		Vi skal i dette spillet basere oss på den objektorienterte tankegang og fremgangsmåten er modellbasert. Det betyr at man i alle trinnene lager modeller fremfor omfattende tekstlige dokumenter. Modellene kan evalueres og trinnene fra ett trinn danner grunnlaget for aktivitetene og modellene i neste trinn. Det er disse modellene du vil få en innføring i ved hjelp av dette spillet. Trinnene i “tråden” er:
-		#
+	<Innledning size="3">
+		<page1>Vi skal i dette spillet basere oss på den objektorienterte tankegang og fremgangsmåten er modellbasert. Det betyr at man i alle trinnene lager modeller fremfor omfattende tekstlige dokumenter. Modellene kan evalueres og trinnene fra ett trinn danner grunnlaget for aktivitetene og modellene i neste trinn. Det er disse modellene du vil få en innføring i ved hjelp av dette spillet. Trinnene i “tråden” er:
+		</page1>
+		<page2>
 		1. Objektorientert analyse hvor resultatet er analysemodellen. De viktigste modellene er:
 			a. Use-case modellen
 			b. Domenemodellen
@@ -12,14 +13,35 @@
 			a. Arkitekturmodellen sett fra flere perspektiver.
 			b. Designmodellen; med sekvensdiagram og detaljert klassediagram.
 		3. Objektorientert programmering (implementasjon) med hovedresultat en kjørbar fil. 
-		#
+		</page2>
+		<page3>
 		Spillet er delt inn i fem nivåer, basert på viktige dokumenter og handlinger i utviklingsprosessen. Du vil i vært nivå få en innføring i sentrale modeller og innhold. Spillet vil etter de fem nivåene avsluttes med en sluttrapport i form av en quiz basert på all informasjonen du tilegner deg gjennom spillets gang. 
-
+		</page3>
 	</Innledning>
 
-	<section2>
-		Section2 I motsetning til hva mange tror, er ikke Lorem Ipsum bare tilfeldig tekst. Dets røtter \n springer helt tilbake til et stykke klassisk latinsk litteratur fra 45 år f.kr., hvilket \n gjør det over 2000 år gammelt.
-	</section2>
+	<Analyse size="12">
+<page1>Under analysedelen av spillet vil du støte på det som er relevant i programvareutviklingsprosessen. Dette vil i spillet bestå av å utforme visjonsdokument og kravdokument, samt å svare på to forskjellige quizzer som omhandler analysedelen av utviklingsprosessen. I analysen er de tre viktigste modellene visjonsdokument, use case-modellen og systemsekvensdiagram.</page1>
+
+<page2>Visjonsdokumentet skal gjøre klart for utviklingsteamet og oppdragsgiver hva som skal lages, for å forsikre at det er enighet mellom begge parter. Visjonsdokumentets blir da beslutningsgrunnlaget for gjennomføringen av et prosjekt. I visjonsdokumentet skal det fokuseres på interessentenes behov, men samtidig også noe informasjon om hvordan disse behovene skal utføres.  </page2>
+
+	<page3>Use case-modellen skal presentere detaljert informasjon om de funksjonelle kravene systemet du utvikler innehar. Det skal utformes et use case diagram som forklarer sammenhengen mellom de forskjellige kravene, og hvilke forskjellige aktører som utnytter seg av hvilke krav. Use case-beskrivelser brukes til å forklare i detalj hvordan aktører faktisk benytter seg av de forskjellige kravene. </page3>
+
+	<page4>Use caser beskriver hovedoppførselen til systemet, og ved hjelp av systemsekvensdiagram, hvilke verdier systemet gir tilbake til aktøren. De skal ikke beskrive hvordan systemet fungerer internt. Systemsekvensdiagramene utformes ved hjelp av UML. Use case modellen utformes ved hjelp av UML, og en detaljert, tekstlig beskrivelse. </page4>
+
+<page5>Domenemodellens hensikt er å identifisere aktuelle objektklasser i problemdomenet. Modellen skal vise en modell av problemdomenet, og ikke være et første design av systemet. Den vil imidlertid være et viktig utganspunkt til design av systemet. Domenemodellen utformes med UML.</page5>
+
+<page6>Både use case-modellen, systemsekvensdiagrammet og domenemodellen er modeller som utformes i kravdokumentet. I tillegg til disse skal kravdokumentet også inneholde en beskrivelse av ikke-funksjonelle krav. Forutsetningene for å utforme disse modellene basererer seg på et godt og konsists utformet visjonsdokument, hvor klarhet i funksjonalitet er synlig. </page6>
+
+<page7 header="Utforming av visjonsdokument">I spillet vil utforming av visjonsdokument representeres av det første minispillet, VisionShooter ved din personlige datamaskin. For å kunne gå videre i spillet, må du først låse opp VisionShooter ved å svare på en quiz som omhandler analyseprosessen. Når du har fullført VisionShooter, vil du få muligheten til å låse opp neste minispill, ReqFinder. Men pass på! Resultatet av VisionShooter vil være bestemmende for hvor godt du kan gjøre det i neste minispill!</page7>
+
+<page8 header="Hvordan spille VisionShooter:">Når du klikker på VisionShooter ved din personlige datamaskin, vil du bli sendt til en ny skjerm. Her skal du styre et skip som ligger på venstre side av skjermen. Du styrer skipet oppover (W) eller nedover (S) og skyter (SPACE). Fra skjermens høyre side, vil det dukke opp forskjellige objekter.</page8> 
+
+	<page9>Ditt oppdrag er å plukke opp dokumentene  som kommer, ved å kjøre på de. Jo flere dokumenter du plukker opp, jo mer poeng vil du samle opp. I tillegg til dette, må du skyte ned distraksjoner  , dette vil gi plusspoeng. Hvor mange poeng du klarer å oppsamle under VisionShooter, vil bestemme hvor mange poeng du maksimalt kan opptjene under neste minispill. </page9>
+
+<page10 header="Utforming av kravdokument">I spillet vil utforming av kravdokumentet representeres av det andre og tredje minispillet, ReqFinder og SeqJumper. For å kunne utføre dette minispillet, må alle tidligere minispill være bestått, og en quiz må beståes. </page10>
+
+<page11 header="Hvordan spille ReqFinder:">Når du klikker på ReqFinder ved din personlige datamaskin, vil du bli sendt til en ny skjerm. Her vil du bli presentert for en tekst. Dette er en fiktiv case, gitt av et firma. Oppdraget ditt her, vil være å plukke ut ord som vil kunne gjøres om til realiserbare krav i prosessen. I teksten vil første ord være markert av en markør. For å flytte markøren til andre ord, kan den beveges til høyre (D), venstre (A), opp (W) eller ned (S).</page11> 	
+	<page12>Når markøren ligger på et ord du mener kan gjøres til et realiserbart krav, velger du ordet dette ordet (SPACE). Dersom dette ordet er et realiserbart krav, vil ordet skifte farge til grønn, og poengsummen din øker. Dersom dette ordet ikke er et realiserbart krav, vil ordet bli rødt, og poengsummen din minker. Du har et visst antall trykk, og når disse er brukt opp, er spillet ferdig. Hvor mange poeng du klarer å samle opp i ReqFinder vil bestemme hvor mange poeng du maksimalt kan opptjene under neste minispill.</page12></Analyse>
 
 	<section3>
 		Dette er section3
