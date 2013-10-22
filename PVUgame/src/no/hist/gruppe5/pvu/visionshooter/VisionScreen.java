@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.equations.Quint;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -22,7 +23,6 @@ import no.hist.gruppe5.pvu.sound.Sounds;
 public class VisionScreen extends GameScreen {
 
     private ShooterShip mVisionShooterShip = new ShooterShip();
-    
     //Spawning of elements
     private ArrayList<Bullet> mShipProjectiles = new ArrayList<Bullet>();
     private long mLastBulletShot = 0;
@@ -31,16 +31,26 @@ public class VisionScreen extends GameScreen {
     private ShooterElement[] mAllElements = {new ShooterFacebook(0), new ShooterYoutube(0), new ShooterDokument(0)};//Used for adding mRandom elements to mElements
     private long mLastElementSpawned = 0;
     private Random mRandom = new Random();
-    
     public int mPoints = 0;
+    private Label mPointTextLabel;
+    private Label mPointValueLabel;
+    private String mPointText = "Points: ";
     private Sounds mSound;
     private TweenManager mTweenManager;
 
     public VisionScreen(PVU game) {
         super(game);
-
         LabelStyle pointStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
         mSound = new Sounds();
+
+        mPointTextLabel = new Label(mPointText, pointStyle);
+        mPointTextLabel.setPosition((PVU.GAME_WIDTH * 0.9f) - mPointTextLabel.getPrefWidth(), PVU.GAME_HEIGHT * 0.05f);
+        mPointTextLabel.setFontScale(0.8f);
+
+        mPointValueLabel = new Label(String.valueOf(mPoints), pointStyle);
+        mPointValueLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
+        mPointValueLabel.setFontScale(0.8f);
+
 
         mTweenManager = new TweenManager();
         Tween.registerAccessor(ShooterElement.class, new ShooterElemementAccessor());
@@ -52,12 +62,13 @@ public class VisionScreen extends GameScreen {
 
         batch.begin();
         batch.draw(Assets.visionShooterRegion, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
-
         drawBullets();
         drawElements();
-
         mVisionShooterShip.draw(batch);
+        mPointTextLabel.draw(batch, 1f);
+        mPointValueLabel.draw(batch, 1f);
         batch.end();
+
     }
 
     @Override
@@ -71,12 +82,12 @@ public class VisionScreen extends GameScreen {
 
         checkBulletHit();
         checkShipHit();
-        
+
         if ((TimeUtils.millis() - mLastElementSpawned) > 1500L) {
             addElement();
         }
 
-       
+
         checkFinish();
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
@@ -96,6 +107,7 @@ public class VisionScreen extends GameScreen {
         }
         return true;
     }
+
     private void shootBullet() {
         if ((TimeUtils.millis() - mLastBulletShot) > 800L) {
             Bullet vB = new Bullet();
@@ -200,6 +212,8 @@ public class VisionScreen extends GameScreen {
 
             }
         }
+        mPointValueLabel.setText(String.valueOf(mPoints));
+
     }
 
     private void checkShipHit() {
@@ -223,11 +237,13 @@ public class VisionScreen extends GameScreen {
                 }
             }
         }
+        mPointValueLabel.setText(String.valueOf(mPoints));
     }
-    private void checkFinish(){
+
+    private void checkFinish() {
         if (mElements.isEmpty() && finish()) {
             ScoreHandler.updateScore(ScoreHandler.VISION, mPoints);
-            game.setScreen(new VisionEndScreen(game,mPoints));
+            game.setScreen(new VisionEndScreen(game, mPoints));
         }
     }
 }
