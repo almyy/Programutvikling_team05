@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import java.io.BufferedReader;
@@ -14,70 +15,54 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created with IntelliJ IDEA.
- * User: karl
- * Date: 8/28/13
- * Time: 10:06 AM
+ * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:06 AM
  */
 public class Assets {
 
     public static boolean IS_LOADED = false;
-
     public static TextureRegion testRegion;
-    public static TextureRegion visionShooterRegion; 
-    public static TextureRegion visionShooterDocumentRegion; 
+    public static TextureRegion visionShooterRegion;
+    public static TextureRegion visionShooterDocumentRegion;
     public static TextureRegion visionShooterShipRegion;
-    public static TextureRegion visionShooterBullet; 
+    public static TextureRegion visionShooterBullet;
     public static TextureRegion visionShooterFacebookRegion;
     public static TextureRegion visionShooterYoutubeRegion;
-    
-    public static TextureRegion[] mainAvatar; 
+    public static TextureRegion[] mainAvatar;
     public static TextureRegion[] umlBlocks;
-    
     public static final int UML_BLOCK_1 = 0;
     public static final int UML_BLOCK_2 = 1;
     public static final int UML_BLOCK_3 = 2;
     public static final int UML_BLOCK_4 = 3;
-    
     public static final int SECONDARY_AVATAR_LEFT_1 = 0;
     public static final int SECONDARY_AVATAR_LEFT_1_FRAME_2 = 1;
     public static final int SECONDARY_AVATAR_LEFT_2 = 2;
     public static final int SECONDARY_AVATAR_LEFT_2_FRAME_2 = 3;
     public static final int SECONDARY_AVATAR_RIGHT_1 = 4;
     public static final int SECONDARY_AVATAR_RIGHT_1_FRAME_2 = 5;
-    
     public static final int SECONDARY_AVATAR_RIGHT_2 = 6;
     public static final int SECONDARY_AVATAR_RIGHT_2_FRAME_2 = 7;
-    public static final int SECONDARY_AVATAR_RIGHT_3 = 8; 
-    public static final int SECONDARY_AVATAR_RIGHT_3_FRAME_2 = 9; 
-    
-    public static final int MAIN_AVATAR_SITTING = 10;   
-    
+    public static final int SECONDARY_AVATAR_RIGHT_3 = 8;
+    public static final int SECONDARY_AVATAR_RIGHT_3_FRAME_2 = 9;
+    public static final int MAIN_AVATAR_SITTING = 10;
     public static final int MAIN_AVATAR_FRONT = 11;
     public static final int MAIN_AVATAR_FRONT_FRAME_2 = 12;
     public static final int MAIN_AVATAR_FRONT_FRAME_3 = 13;
-    
     public static final int MAIN_AVATAR_SIDE_RIGHT = 14;
     public static final int MAIN_AVATAR_STEP_RIGHT = 15;
     public static final int MAIN_AVATAR_STEP_RIGHT_FRAME_2 = 16;
-    
     public static final int MAIN_AVATAR_SIDE_LEFT = 17;
     public static final int MAIN_AVATAR_STEP_LEFT = 18;
     public static final int MAIN_AVATAR_STEP_LEFT_FRAME_2 = 19;
-    
     public static final int MAIN_AVATAR_BACK = 20;
     public static final int MAIN_AVATAR_BACK_FRAME_2 = 21;
     public static final int MAIN_AVATAR_BACK_FRAME_3 = 22;
-    
     public static BitmapFont minecraftFont10px;
     public static BitmapFont primaryFont10px;
-
     // MAIN SCREEN
     public static TextureRegion msBackground;
     public static TextureRegion msTable;
     public static TextureRegion msPcBackground;
     public static TextureRegion[] msBurndownCarts;
-
     // INTRO SCREEN
     public static TextureRegion introMainLogo;
     public static TextureRegion introTeamLogo;
@@ -87,14 +72,14 @@ public class Assets {
     public static TextureRegion ubEasy;
     public static TextureRegion ubMedium;
     public static TextureRegion ubHard;
-
     // BOOK SCREEN
     public static TextureRegion bookBook;
-
     // BORDER
-    public static TextureRegion borderBorder; 
-
-
+    public static TextureRegion borderBorder;
+    public static TextureRegion seqHead;
+    public static TextureRegion seqBackground;
+    public static TextureRegion seqBall;
+    public static TextureRegion seqLine;
 
     public static void load() {
         minecraftFont10px = new BitmapFont(
@@ -120,18 +105,18 @@ public class Assets {
 
         Array mainAvatarArray = mainAvatarAtlas.findRegions("Avatar");
         mainAvatar = new TextureRegion[mainAvatarArray.size];
-        for(int i = 0; i < mainAvatarArray.size;i++){
-            mainAvatar[i] = (TextureRegion)mainAvatarArray.get(i);
+        for (int i = 0; i < mainAvatarArray.size; i++) {
+            mainAvatar[i] = (TextureRegion) mainAvatarArray.get(i);
         }
 
         Array umlBlocksArray = umlBlocksAtlas.findRegions("uml");
         umlBlocks = new TextureRegion[umlBlocksArray.size];
-        for(int i = 0; i < umlBlocks.length;i++){
-            umlBlocks[i] = (TextureRegion)umlBlocksArray.get(i);
+        for (int i = 0; i < umlBlocks.length; i++) {
+            umlBlocks[i] = (TextureRegion) umlBlocksArray.get(i);
         }
 
         // MAIN SCREEN
-        TextureAtlas msAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack")) ;
+        TextureAtlas msAtlas = new TextureAtlas(Gdx.files.internal("data/main_room.pack"));
 
         msBackground = msAtlas.findRegion("main_room");
         msPcBackground = msAtlas.findRegion("pcscreen");
@@ -164,17 +149,25 @@ public class Assets {
         // Simple "loading" hack, always put last
         IS_LOADED = true;
 
+        TextureAtlas seqAtlas = new TextureAtlas(Gdx.files.internal("data/seqjumper.atlas"));
+        seqHead = seqAtlas.findRegion("head");
+        seqLine = seqAtlas.findRegion("line");
+        seqBackground = msAtlas.findRegion("white");
+        seqBall = msAtlas.findRegion("ball");
     }
 
     public static TextureRegion getAvatarRegion(int region) {
-        if (region > mainAvatar.length || region < 0) return null;
+        if (region > mainAvatar.length || region < 0) {
+            return null;
+        }
         return mainAvatar[region];
     }
 
     public static void dispose() {
     }
-    public static String readFile(String fileName) throws FileNotFoundException, IOException{
-         String text = "";
+
+    public static String readFile(String fileName) throws FileNotFoundException, IOException {
+        String text = "";
         DataInputStream in = new DataInputStream(new FileInputStream(fileName));
         BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
         String strLine;

@@ -9,37 +9,23 @@ import no.hist.gruppe5.pvu.XmlReader;
  */
 public class Section {
 
-    private ArrayList<String> pages;
     private int size;
+    private Page[] pages;
     
     public Section(String name) {
-        String content = XmlReader.loadText(name, "data/test.xml");
-        pages = new ArrayList<>();
-        int index = content.indexOf("#");
-        size = 1;
-        if(index>0) {
-            int index2;
-            pages.add(content.substring(0,index));
-            while (index!=content.length()) {
-                index2 = index;
-                index=content.indexOf("#", index+1);
-                if(index<0){
-                    index = content.length();
-                }
-                size++;
-                pages.add(content.substring(index2+1, index));
-            }
-        }else {
-            pages.add(content);
+        size = XmlReader.getSizeSection(name);
+        pages = new Page[size];
+        String[] temp = XmlReader.getPages(size, name);
+        for(int i = 0; i<size; i++){
+            pages[i] = new Page(temp[i+size], temp[i]);
         }
-        System.out.print(size);
     }
     
-    public String getPage(int pagenumber) {
-        if (pagenumber >= size) {
-            return "";
+    public Page getPage(int pagenumber) {
+        if (pagenumber >= size || pagenumber<0) {
+            return new Page("","");
         }
-        return pages.get(pagenumber);
+        return pages[pagenumber];
     }
     
     public int getSize() {
@@ -47,7 +33,7 @@ public class Section {
     }
     
     public static void main(String[] args) {
-        String content = XmlReader.loadText("Innledning", "data/test.xml");
-        System.out.println(content.substring(409,content.indexOf("#",835)));
+        Section s = new Section("Innledning");
+        System.out.println(s.getPage(2).getHeader());
     }
 }
