@@ -95,9 +95,6 @@ public class MinigameSelectorScreen extends GameScreen {
     @Override
     protected void update(float delta) {
         mMiniGameSelected = -1;
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new MainScreen(game));
-        }
         if (enoughTimePassed(100L)) {
             try {
                 positionSelector();

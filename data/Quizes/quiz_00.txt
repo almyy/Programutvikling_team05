@@ -4,7 +4,7 @@ Hvordan utformes et systemsekvensdiagram syntaktisk?
 Hvordan utformes en enkelt use case syntaktisk? 
 Hvem skal visjonsdokumentet i hovedsak kommunisere til?
 
-Beslutningsgrunnlag for gjennomføring av prosjekt aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Beslutningsgrunnlag for gjennomføring av prosjekt aaaaaaaaaaaaaaaa a a a aaaaaaaaaaa a a aa a a a  a
 Utforming av krav
 Beskrive design
 Godt lesestoff

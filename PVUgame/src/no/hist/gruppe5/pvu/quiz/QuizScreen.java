@@ -90,9 +90,6 @@ public class QuizScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            endQuiz();
-        }
         if (!mQuizDone) {
             if (!mGetNewAnswers) {
                 initiateSelectorBounds();
@@ -150,10 +147,12 @@ public class QuizScreen extends GameScreen {
         pixmap.fill();
 
         mQuizSkin.add("Green", new Texture(pixmap));
-
+        
         pixmap.setColor(Color.RED);
         pixmap.fill();
-
+        
+        
+        
         mQuizSkin.add("Red", new Texture(pixmap));
         mQuizSkin.add("default", Assets.primaryFont10px);
 
@@ -190,18 +189,17 @@ public class QuizScreen extends GameScreen {
                 u = 0;
             }
             if (u == 0) {
-                mAnswers.get(i).setBounds(0, 105, 300, 100);
+                mAnswers.get(i).setBounds(0, 105, 300, 200);
             } else if (u == 1) {
-                mAnswers.get(i).setBounds(305, 105, 300, 100);
+                mAnswers.get(i).setBounds(305, 105, 300, 200);
             } else if (u == 2) {
-                mAnswers.get(i).setBounds(0, 0, 300, 100);
+                mAnswers.get(i).setBounds(0, 0, 300, 200);
             } else if (u == 3) {
-                mAnswers.get(i).setBounds(305, 0, 300, 100);
+                mAnswers.get(i).setBounds(305, 0, 300, 200);
             }
+            mAnswers.get(i).setFillParent(true);
             mAnswers.get(i).getLabel().setWrap(true);
-            mAnswers.get(i).getLabel().setWidth(1);
             mAnswers.get(i).getLabel().setColor(Color.BLACK);
-            mAnswers.get(i).getLabel().setFontScale(2);
             u++;
             mAnswerGroup.addActor(mAnswers.get(i));
             if (i > 3) {
