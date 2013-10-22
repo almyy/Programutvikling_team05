@@ -38,6 +38,7 @@ public class VisionScreen extends GameScreen {
     private String mPointText = "Points: ";
     private Sounds mSound;
     private TweenManager mTweenManager;
+    private static int MAX_POINTS = 200;
 
     public VisionScreen(PVU game) {
         super(game);
@@ -243,7 +244,7 @@ public class VisionScreen extends GameScreen {
 
     private void checkFinish() {
         if (mElements.isEmpty() && finish()) {
-            ScoreHandler.updateScore(ScoreHandler.VISION, mPoints);
+            ScoreHandler.updateScore(ScoreHandler.VISION, (float)mPoints/(float)MAX_POINTS);
             QuizHandler.updateFinishedMiniGame();
             game.setScreen(new VisionEndScreen(game,mPoints));
 

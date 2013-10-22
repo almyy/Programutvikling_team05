@@ -1,0 +1,1 @@
+﻿Burndown chart er en grafisk representasjon over arbeidet som gjenstår mot tiden. Her gjenspeiler utviklingen på grafen fremgangen i spillene!
