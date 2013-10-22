@@ -98,7 +98,7 @@ public class MinigameSelectorScreen extends GameScreen {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new MainScreen(game));
         }
-        if (enoughTimePassed(75L)) {
+        if (enoughTimePassed(100L)) {
             try {
                 positionSelector();
             } catch (FileNotFoundException ex) {
@@ -108,7 +108,13 @@ public class MinigameSelectorScreen extends GameScreen {
             }
         }
         if (mMiniGameSelected != -1) {
-            selectMiniGame();
+            try {
+                selectMiniGame();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -116,16 +122,10 @@ public class MinigameSelectorScreen extends GameScreen {
     protected void cleanUp() {
     }
 
-    private void selectMiniGame() {
+    private void selectMiniGame() throws FileNotFoundException, IOException {
         switch (mMiniGameSelected) {
             case VISIONSHOOTER:
-                try {
-                    game.setScreen(new VisionIntroScreen(game));
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                game.setScreen(new VisionIntroScreen(game));
                 break;
             case REQFINDER:
                 game.setScreen(new ReqFinderScreen(game));
