@@ -18,9 +18,9 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  */
 public class DiamondBlock extends Block {
 
-    private static final float DENSITY = 0.3f;
-    private static final float FRICTION = 0.3f;
-    private static final float RESTITUTION = 0.01f;
+    private static final float DENSITY = 1f;
+    private static final float FRICTION = 1f;
+    private static final float RESTITUTION = 0f;
 
     public DiamondBlock(World world) {
         super(world);

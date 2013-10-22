@@ -56,7 +56,7 @@ public abstract class Block {
             overridePosition();
         }
 
-        if(body.getTransform().getPosition().y < 0) {
+        if(body.getTransform().getPosition().y < -1) {
             alive = false;
         }
 
@@ -79,12 +79,14 @@ public abstract class Block {
         return body;
     }
 
-    public void lock() {
+    public Block lock() {
         lock = true;
+        return this;
     }
 
-    public void release() {
+    public Block release() {
         lock = false;
+        return this;
     }
 
     public boolean isLock() {
@@ -99,6 +101,10 @@ public abstract class Block {
         body.setActive(true);
         subActivate();
         return this;
+    }
+
+    public boolean isMoving() {
+        return (body.getLinearVelocity().x == 0 && body.getLinearVelocity().y == 0);
     }
 
     // User for more advanced bodies

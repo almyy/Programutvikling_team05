@@ -16,7 +16,8 @@ import no.hist.gruppe5.pvu.dialogdrawer.PopupBox;
 import no.hist.gruppe5.pvu.mainroom.objects.Player;
 import no.hist.gruppe5.pvu.mainroom.objects.RayCastManager;
 import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
-import no.hist.gruppe5.pvu.scorescreen.ScoreScreen;
+import no.hist.gruppe5.pvu.mainroom_screens.BurndownScreen;
+import no.hist.gruppe5.pvu.mainroom_screens.ScoreScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/26/13 Time: 10:56 PM
@@ -25,33 +26,23 @@ public class MainScreen extends GameScreen {
 
     private static final float WORLD_TO_BOX = 0.01f;
     private static final float BOX_TO_WORLD = 100f;
-
     public static final String TRYKK = "Trykk på E for å ";
     public static final String PAA_PC = TRYKK + "jobbe på PC-en";
     public static final String PAA_CART = TRYKK + "se på burndown-cart";
     public static final String PAA_BORD = TRYKK + "se på fremgangen din";
     public static final String PAA_BOK = TRYKK + "lese i boken";
-
-
     public static final int OBJECT_PLAYER = 0;
     public static final int OBJECT_ROOM = 1;
-
     private PopupBox mPopupBox;
     private World mWorld;
-
     private Box2DDebugRenderer mDebugRenderer;
-
     private Player mPlayer;
     private TeamMates mTeammates;
-
     private boolean mInputHandled = false;
     private Sprite mBackground;
     private Sprite mTables;
     private Sprite[] mBurndownCarts;
-
-    private int mCurrentCart;
     private RayCastManager mRayCastManager;
-
     // DEBUG
     private ShapeRenderer mShapeDebugRenderer;
     private boolean mShowingHint = false;
@@ -60,7 +51,7 @@ public class MainScreen extends GameScreen {
 
     public MainScreen(PVU game) {
         super(game);
-        
+
         dialog = new DialogDrawer(batch);
         mWorld = new World(new Vector2(0, 0), true);
 
@@ -78,17 +69,17 @@ public class MainScreen extends GameScreen {
         mBackground = new Sprite(Assets.msBackground);
         mTables = new Sprite(Assets.msTable);
         mBurndownCarts = new Sprite[Assets.msBurndownCarts.length];
-
-        mBackground.setSize(PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
-        mBackground.setPosition(0, 0);
         for (int i = 0; i < Assets.msBurndownCarts.length; i++) {
             mBurndownCarts[i] = new Sprite(Assets.msBurndownCarts[i]);
             mBurndownCarts[i].setPosition(15f, PVU.GAME_HEIGHT - 23f);
         }
 
+        mBackground.setSize(PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
+        mBackground.setPosition(0, 0);
+
+
         mPlayer = new Player(mWorld);
         mTeammates = new TeamMates();
-        mCurrentCart = 0;
 
     }
 
@@ -113,16 +104,6 @@ public class MainScreen extends GameScreen {
         loader.attachFixture(roomBody, "main_room", fd, 192f);
     }
 
-    private void setBurnDownCart(int num) {
-        if (num < 0) {
-            num = 0;
-        }
-        if (num > 4) {
-            num = 4;
-        }
-        mCurrentCart = num;
-    }
-
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
@@ -130,7 +111,8 @@ public class MainScreen extends GameScreen {
         batch.begin();
 
         mBackground.draw(batch);
-        mBurndownCarts[mCurrentCart].draw(batch);
+        mBurndownCarts[0].draw(batch);
+
 
         if (mPlayer.getPosition().y < PVU.GAME_HEIGHT / 2) {
             mTables.draw(batch);
@@ -147,7 +129,6 @@ public class MainScreen extends GameScreen {
         }
         dialog.draw(delta);
         batch.end();
-
         //drawDebug(true);
     }
 
@@ -227,7 +208,7 @@ public class MainScreen extends GameScreen {
                     //TODO pc screen
                     break;
                 case RayCastManager.CART:
-                    setBurnDownCart(++mCurrentCart % 5);
+                    game.setScreen(new BurndownScreen(game));
                     mInputHandled = true;
                     break;
                 case RayCastManager.TABLE:
