@@ -79,12 +79,14 @@ public abstract class Block {
         return body;
     }
 
-    public void lock() {
+    public Block lock() {
         lock = true;
+        return this;
     }
 
-    public void release() {
+    public Block release() {
         lock = false;
+        return this;
     }
 
     public boolean isLock() {

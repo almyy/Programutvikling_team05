@@ -133,12 +133,12 @@ public class Gui {
     }
     
     public void setBlocksLeft(int blocks) {
-        mBlocksLeft.setText(" Remaining: " + blocks);
+        mBlocksLeft.setText(" Gjennstående: " + blocks);
     }
 
     public int setSuccess(int dead, int total) {
         int percent = 100 - Math.round((float) dead / (float) total * 100f);
-        mSuccess.setText("Success: " + percent + "% ");
+        mSuccess.setText("Suksess: " + percent + "% ");
         return percent;
     }
 
