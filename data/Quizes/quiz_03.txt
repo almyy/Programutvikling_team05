@@ -1,36 +1,36 @@
-﻿umlBLocksquiz
-hvilket tall er 2?
-hvilket tall er 3?
-hvilket tall er 4?
-hvilket tall er 5?
+﻿Hva er design?
+Hva er hensikten med designdokumentet?
+Hva er en kvalitetsplan?
+Hva er hensikten med arkitekturdokumentet
+Hvilke av disse er ikke en fordel med iterativ implementasjon?
+
+Grafisk utforming
+Realisering av use case
+Planlegging
+Utforme et produkt
+
+Utganspunkt for implementasjon
+Dokumentere grafikk
+Beskrive systemets estetikk
+Beskrive fargevalg
+
+En kalender
+En progessjonsplan
+En oversikt over krav
+Styringsdokument for kvaliteten
+
+Lage flere dokumenter
+Dokumentere koden
+Dokumentere ressursbruk
+Beskrive systemets arkitektur
+
+Det er mer effektivt
+Enklere å håndtere kompleksitet
+Enklere å tilpasse seg endringer
+Det gir lengre dokumenter
 
 1
-2
-3
-4
-
-1
-2
-3
-4
-
-1
-2
-3
-4
-
-1
-2
-3
-4
-
-2
-3
-4
-5
-
 0
-1
-2
+3
 3
 3

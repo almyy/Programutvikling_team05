@@ -1,8 +1,8 @@
-ï»¿reqjumperquiz?
-hvilket tall er 2?
-hvilket tall er 3?
-hvilket tall er 4?
-hvilket tall er 5?
+Hvilken modell presenterer informasjon om et systems funskjonelle krav?
+Hva er forutsetningene for å utforme klare krav?
+Hva beskriver use case-modellen?
+Hvordan beskrives problemdomenemodellen?
+Hvor spesifiseres ikke-funksjonelle krav?
 
 1
 2

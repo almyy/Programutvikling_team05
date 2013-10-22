@@ -9,15 +9,14 @@ public class ScoreHandler {
     public static final int VISION = 0;
     public static final int CODE = 1;
     public static final int QUIZ = 2;
-    public static final int TODO1 = 3;
+    public static final int UMLBLOCKS = 3;
     public static final int TODO2 = 4;
-
     private static float[] totalScore;
     private static boolean completedAllLevels;
     private static int total;
-    
+
     /**
-     * 
+     *
      */
     public static void load() {
         totalScore = new float[5];
@@ -33,7 +32,7 @@ public class ScoreHandler {
      */
     public static boolean isMinigameCompleted(int minigame) {
         try {
-            if(totalScore[minigame] > 0f) {
+            if (totalScore[minigame] > 0f) {
                 return true;
             } else {
                 return false;
@@ -58,8 +57,10 @@ public class ScoreHandler {
     }
 
     public static int numberOfGamesCompleted() {
-        for(int i = 0; i < totalScore.length; i++) {
-            if(totalScore[i] == 0f) return i;
+        for (int i = 0; i < totalScore.length; i++) {
+            if (totalScore[i] == 0f) {
+                return i;
+            }
         }
 
         return totalScore.length;
@@ -89,7 +90,7 @@ public class ScoreHandler {
     public static boolean updateScore(int miniGame, float percent) {
         if (miniGame < totalScore.length) {
             totalScore[miniGame] = percent;
-            total+=percent;
+            total += percent;
             if (checkScore()) {
                 completedAllLevels = true;
             }
@@ -103,13 +104,15 @@ public class ScoreHandler {
      * @return a grade based on the total score.
      */
     public static Character getGrade() {
-        if(total > 90) {
+      float average = total /(float)numberOfGamesCompleted();
+        
+        if (average > 0.9) {
             return 'A';
-        } else if(total > 80) {
+        } else if (total > 0.8) {
             return 'B';
-        } else if(total > 70) {
+        } else if (total > 0.7) {
             return 'C';
-        } else if(total > 60) {
+        } else if (total > 0.6) {
             return 'D';
         } else {
             return 'E';

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -90,9 +91,6 @@ public class QuizScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            endQuiz();
-        }
         if (!mQuizDone) {
             if (!mGetNewAnswers) {
                 initiateSelectorBounds();
@@ -150,20 +148,27 @@ public class QuizScreen extends GameScreen {
         pixmap.fill();
 
         mQuizSkin.add("Green", new Texture(pixmap));
-
+        
         pixmap.setColor(Color.RED);
         pixmap.fill();
-
+        
+        BitmapFont myFont = new BitmapFont(
+                Gdx.files.internal("data/LucidaBitmap10px.fnt"),
+                Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
+        
         mQuizSkin.add("Red", new Texture(pixmap));
-        mQuizSkin.add("default", Assets.primaryFont10px);
-
+        mQuizSkin.add("default", myFont);
+        
         Drawable gray = mQuizSkin.newDrawable("Gray");
         Drawable green = mQuizSkin.newDrawable("Green");
         Drawable red = mQuizSkin.newDrawable("Red");
 
+        mQuizSkin.getFont("default").scale(1.3f);
+        
         mAnswerStyle = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
         mAnswerStyleCorrect = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
         mAnswerStyleWrong = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
+        
     }
 
     private void initializeQuestions() {
@@ -186,19 +191,20 @@ public class QuizScreen extends GameScreen {
         mAnswerGroup.setBounds(200, 200, 300, 100);
         int u = 0;
         for (int i = 0; i < mAnswers.size(); i++) {
-            mAnswers.get(i).getLabel().setFontScale(3);
             if (u % 4 == 0) {
                 u = 0;
             }
             if (u == 0) {
-                mAnswers.get(i).setBounds(0, 105, 300, 100);
+                mAnswers.get(i).setBounds(0, 105, 300, 200);
             } else if (u == 1) {
-                mAnswers.get(i).setBounds(305, 105, 300, 100);
+                mAnswers.get(i).setBounds(305, 105, 300, 200);
             } else if (u == 2) {
-                mAnswers.get(i).setBounds(0, 0, 300, 100);
+                mAnswers.get(i).setBounds(0, 0, 300, 200);
             } else if (u == 3) {
-                mAnswers.get(i).setBounds(305, 0, 300, 100);
+                mAnswers.get(i).setBounds(305, 0, 300, 200);
             }
+            mAnswers.get(i).setFillParent(true);
+            mAnswers.get(i).getLabel().setWrap(true);
             u++;
             mAnswerGroup.addActor(mAnswers.get(i));
             if (i > 3) {
@@ -294,8 +300,11 @@ public class QuizScreen extends GameScreen {
 
     private void presentQuizScore() {
         Label finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", mOutputStyle);
-        finishLabel.setScale(3);
-        mQuestionGroup.addActor(finishLabel);
+        finishLabel.setFontScale(5);
+        finishLabel.setWrap(true);
+        finishLabel.setWidth(400);
+        finishLabel.setPosition(PVU.SCREEN_WIDTH/2 - finishLabel.getWidth(), PVU.SCREEN_HEIGHT/2);
+        mStage.addActor(finishLabel);
         mAnswerGroup.clear();
         mQuizDone = true;
         float score = (float) mNumberOfCorrectAnswers / (float) mNumberOfQuestions;

@@ -9,14 +9,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.TimeUtils;
+import no.hist.gruppe5.pvu.book.BookScreen;
+import no.hist.gruppe5.pvu.mainroom.BurndownScreen;
+import no.hist.gruppe5.pvu.mainroom.MainScreen;
+import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
+import no.hist.gruppe5.pvu.mainroom.ScoreScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 9:48 AM
@@ -27,7 +30,7 @@ public abstract class GameScreen implements Screen {
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
     private Stage stage;
-    private long lastAction;
+    private static long lastAction;
     private Skin skinPauseButton;
     private TextureAtlas atlas;
     private boolean running;
@@ -93,9 +96,17 @@ public abstract class GameScreen implements Screen {
     private void checkEscapeButton() {
         if (TimeUtils.millis() - lastAction > WAIT_KEY_PRESSED && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                selectedButton = 0;
-                pauseButtons[selectedButton].setStyle(selectedButtonStyle);
-                running = false;
+                if (this instanceof BookScreen
+                        || this instanceof MinigameSelectorScreen
+                        || this instanceof BurndownScreen
+                        || this instanceof ScoreScreen) {
+                    game.setScreen(PVU.MAIN_SCREEN);
+                } else {
+                    pauseButtons[selectedButton].setStyle(buttonStyle);
+                    selectedButton = 0;
+                    pauseButtons[selectedButton].setStyle(selectedButtonStyle);
+                    running = false;
+                }
             }
             lastAction = TimeUtils.millis();
         }
@@ -134,7 +145,12 @@ public abstract class GameScreen implements Screen {
                 Settings.setSound(true);
             }
         } else if (selectedButton == Button.BACK.pos) {
-            game.setScreen(PVU.MAIN_SCREEN);
+            if (this instanceof MainScreen) {
+                stage.clear();
+                running = true;
+            } else {
+                game.setScreen(PVU.MAIN_SCREEN);
+            }
         } else if (selectedButton == Button.EXIT.pos) {
             System.exit(0);
         }

@@ -1,8 +1,8 @@
-ï»¿seqjumperquiz
-hvilket tall er 2?
-hvilket tall er 3?
-hvilket tall er 4?
-hvilket tall er 5?
+Hvilken av disse modellene er en del av designtrinnet?
+Hva er forutsetningen for god design?
+Hva illustrerer sekvensdiagrammene?
+Hvilken av disse er ikke et perspektiv til arkitekturmodellen?
+Hvilke av disse diagrammene hører til designmodellen?
 
 1
 2

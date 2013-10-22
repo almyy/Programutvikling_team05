@@ -5,10 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.Settings;
+import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.umlblocks.entities.*;
 
 import java.util.ArrayList;
@@ -46,11 +48,10 @@ public class BlocksScreen extends GameScreen {
     private int mInitialBlockCount = -1;
     private int mBlocksLeftCount = -1;
     private int mBlocksDead = 0;
-    private boolean mEasyDone, mMediumDone, mHardDone;
+    private int mCurrentScore = 0;
     private float mEasyScore, mMediumScore, mHardScore;
     private int mCurrentGame;
     private boolean mIdleBeforeNextGame = false;
-
     // Debug
     private Box2DDebugRenderer mDebugRenderer;
 
@@ -72,12 +73,18 @@ public class BlocksScreen extends GameScreen {
         mDebugRenderer = new Box2DDebugRenderer();
 
         mCurrentGame = Room.EASY;
-        startNewGame();
+        startNewGame(true);
+
+        Settings.setSound(false);
+        Settings.setSound(false);
+        Settings.setSound(false);
 
     }
 
-    private void startNewGame() {
+    private void startNewGame(boolean tutorial) {
         // Start game
+        if(!tutorial)
+            mGui.enableGameDisplay();
         mRoom = new Room(mWorld, mCurrentGame);
         populateBlocksLeft(mCurrentGame);
         popNewBlock();
@@ -87,6 +94,7 @@ public class BlocksScreen extends GameScreen {
         mBlocksLeftCount = -1;
         mBlocksDead = 0;
         mIdleBeforeNextGame = false;
+        mCurrentScore = 0;
 
         // Destroy all active bodies
         mWorld.destroyBody(mRoom.getBody());
@@ -101,19 +109,46 @@ public class BlocksScreen extends GameScreen {
     private void populateBlocksLeft(int game_type) {
         switch(game_type) {
             case Room.EASY:
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new SignBlock(mWorld));
-                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new SignBlock(mWorld));
                 break;
             case Room.MEDIUM:
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
                 mBlocksLeft.add(new SquareBlock(mWorld));
                 mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
                 break;
             case Room.HARD:
                 mBlocksLeft.add(new SignBlock(mWorld));
-                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
                 mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
                 break;
         }
 
@@ -131,8 +166,9 @@ public class BlocksScreen extends GameScreen {
         mBackground.draw(batch);
         mRoom.draw(batch);
 
-        for(Block b : mActiveBlocks)
-            b.draw(batch);
+        if(!mGui.isTutorial())
+            for(Block b : mActiveBlocks)
+                b.draw(batch);
 
         batch.end();
 
@@ -140,7 +176,7 @@ public class BlocksScreen extends GameScreen {
         mGui.draw();
 
         // Render debug outlines, this should be disabled for release (duh)
-        mDebugRenderer.render(mWorld, mGameCam.combined);
+        // mDebugRenderer.render(mWorld, mGameCam.combined);
     }
 
     @Override
@@ -163,10 +199,10 @@ public class BlocksScreen extends GameScreen {
         }
 
         // Check whether or not to end game or add a new block
-        if(mBlocksLeft.isEmpty() && isReadyToDrop()&& isPreviousDropped()) {
+        if(mBlocksLeft.isEmpty() && isReadyToDrop() && isPreviousDropped() && hasBodiesHitTheFloor()) {
             if(!mIdleBeforeNextGame)
                 gameIsDone();
-        } else if(isReadyToDrop() && isPreviousDropped()) {
+        } else if(isReadyToDrop() && isPreviousDropped() && hasBodiesHitTheFloor()) {
             popNewBlock();
         }
 
@@ -174,39 +210,53 @@ public class BlocksScreen extends GameScreen {
         mBackground.update(delta);
         mGui.update(delta);
         mGui.setBlocksLeft(mBlocksLeftCount);
-        mGui.setSuccess(mBlocksDead, mInitialBlockCount);
+        mCurrentScore = mGui.setSuccess(mBlocksDead, mInitialBlockCount);
 
         // Clean up dead blocks from world and array
         removeDeadBlocks();
     }
 
+    private boolean hasBodiesHitTheFloor() {
+        if(mActiveBlocks.isEmpty()) return true;
+
+        for(Block b : mActiveBlocks) {
+            if(b.isMoving())
+                return false;
+        }
+
+        return true;
+
+    }
+
     private void popNewBlock() {
-        mActiveBlocks.add(mBlocksLeft.remove(0).activate());
+        mActiveBlocks.add(mBlocksLeft.remove(0));
         mBlocksLeftCount--;
     }
 
     private void gameIsDone() {
         mBlocksLeftCount = 0;
 
-        float score = (float) mInitialBlockCount / (float) mBlocksDead;
+        int score = mCurrentScore;
+
+        mGui.enableIntermediateDisplay();
+        mGui.setIntermediateText(score, mCurrentGame / 100);
+
         switch (mCurrentGame) {
             case Room.EASY:
-                mEasyDone = true;
                 mEasyScore = score;
                 mCurrentGame = Room.MEDIUM;
                 break;
             case Room.MEDIUM:
-                mMediumDone = true;
                 mMediumScore = score;
                 mCurrentGame = Room.HARD;
                 break;
             case Room.HARD:
-                mHardDone = true;
                 mHardScore = score;
                 mCurrentGame = Room.DONE;
+                mGui.enableSummarizeText(Math.round(getTotalScore()));
                 break;
             case Room.DONE:
-                // TODO show end screen
+                // TODO?
                 break;
         }
 
@@ -235,8 +285,11 @@ public class BlocksScreen extends GameScreen {
 
     private void checkInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if(!mActiveBlocks.isEmpty() && isReadyToDrop()) {
-                getLastBlock().release();
+            if(mGui.isTutorial()) {
+                mGui.enableGameDisplay();
+                mLastDrop = TimeUtils.millis();
+            } else if(!mActiveBlocks.isEmpty() && isReadyToDrop()) {
+                getLastBlock().release().activate();
                 mLastDrop = TimeUtils.millis();
             }
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -246,8 +299,22 @@ public class BlocksScreen extends GameScreen {
         }
 
         if(mIdleBeforeNextGame && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            resetVariables();
-            startNewGame();
+            if(mCurrentGame != Room.DONE) {
+                resetVariables();
+                startNewGame(false);
+                mLastDrop = TimeUtils.millis();
+            } else {
+                // Report the final score
+                float totalScore = getTotalScore();
+                QuizHandler.updateQuizScore(Math.round(totalScore), ScoreHandler.UMLBLOCKS);
+                ScoreHandler.updateScore(ScoreHandler.UMLBLOCKS, totalScore / 100);
+                ScoreHandler.getMiniGameGrade(ScoreHandler.UMLBLOCKS);
+
+                System.out.println(ScoreHandler.getMiniGameGrade(ScoreHandler.UMLBLOCKS));
+
+                // Let's go back.
+                game.setScreen(PVU.MAIN_SCREEN);
+            }
         }
 
     }
@@ -274,5 +341,9 @@ public class BlocksScreen extends GameScreen {
 
     public Block getLastBlock() {
         return mActiveBlocks.get(mActiveBlocks.size() - 1);
+    }
+
+    private float getTotalScore() {
+        return ((mEasyScore + mMediumScore + mHardScore) / 3);
     }
 }
