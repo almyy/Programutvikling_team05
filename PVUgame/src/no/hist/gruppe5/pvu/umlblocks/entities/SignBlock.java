@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.umlblocks.blocks;
+package no.hist.gruppe5.pvu.umlblocks.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -16,7 +16,8 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  */
 public class SignBlock extends Block {
 
-    private static final float FRICTION = 0.7f;
+    private static final float DENSITY = 0.3f;
+    private static final float FRICTION = 0.1f;
     private static final float RESTITUTION = 0.01f;
 
     private Body mStick;
@@ -30,7 +31,7 @@ public class SignBlock extends Block {
 
     @Override
     protected void createSprite() {
-        mRotationOffset = 7f;
+        mRotationOffset = 7.5f;
 
         sprite = new Sprite(Assets.umlBlocks[Assets.UML_BLOCK_4]);
         sprite.setOrigin(sprite.getWidth() / 2, (sprite.getHeight() / 2) + mRotationOffset);
@@ -48,10 +49,11 @@ public class SignBlock extends Block {
         body = world.createBody(bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(sprite.getWidth() * BlocksScreen.WORLD_TO_BOX, (sprite.getHeight() / 3) * BlocksScreen.WORLD_TO_BOX);
+        boxShape.setAsBox((sprite.getWidth() * BlocksScreen.WORLD_TO_BOX) - ANTIPADDING,
+                ((sprite.getHeight() / 3) * BlocksScreen.WORLD_TO_BOX) - ANTIPADDING);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
-        fixtureDef.density = 0.9f;
+        fixtureDef.density = DENSITY;
         fixtureDef.friction = FRICTION;
         fixtureDef.restitution = RESTITUTION;
         body.createFixture(fixtureDef);
@@ -65,10 +67,10 @@ public class SignBlock extends Block {
         mStick.setActive(false);
 
         PolygonShape stickShape = new PolygonShape();
-        stickShape.setAsBox(0.015f, (sprite.getHeight() / 1.3f) * BlocksScreen.WORLD_TO_BOX);
+        stickShape.setAsBox(0.015f, ((sprite.getHeight() / 1.3f) * BlocksScreen.WORLD_TO_BOX) - ANTIPADDING);
         FixtureDef stickFixture = new FixtureDef();
         stickFixture.shape = stickShape;
-        stickFixture.density = 0.9f;
+        stickFixture.density = DENSITY;
         stickFixture.friction = FRICTION;
         stickFixture.restitution = RESTITUTION;
         mStick.createFixture(stickFixture);
@@ -91,6 +93,12 @@ public class SignBlock extends Block {
         );
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         sprite.setScale(1f);
+    }
+
+    @Override
+    public void destroy(World world) {
+        world.destroyBody(body);
+        world.destroyBody(mStick);
     }
 
     @Override

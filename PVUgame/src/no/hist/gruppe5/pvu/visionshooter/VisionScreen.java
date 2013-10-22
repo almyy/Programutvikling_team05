@@ -16,6 +16,7 @@ import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
 import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
+import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
 import no.hist.gruppe5.pvu.sound.Sounds;
 
@@ -227,6 +228,7 @@ public class VisionScreen extends GameScreen {
     private void checkFinish(){
         if (mElements.isEmpty() && finish()) {
             ScoreHandler.updateScore(ScoreHandler.VISION, mPoints);
+            QuizHandler.updateFinishedMiniGame();
             game.setScreen(new VisionEndScreen(game,mPoints));
         }
     }
