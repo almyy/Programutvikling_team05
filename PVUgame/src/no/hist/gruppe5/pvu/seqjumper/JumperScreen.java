@@ -44,15 +44,26 @@ public class JumperScreen extends GameScreen {
     private float powerRight = 0;
     private float startPositionX;
     private float startPositionY;
-//    private Sprite mSeq;
     private Texture mTex;
-    private Sprite mSprite;
+    // private Sprite mHead;
     private Platform mPlatform;
     private ArrayList<Body> mPlatforms;
     private int playerMove;
+    private int level = 0;
+    // Background
+    private JumperScreenBackground background;
+    private Sprite mHead;
+    private Sprite mLine;
+    private int losangle;
+    int move = 0;
+    int move2 = 0;
+    boolean movem = true;
+    private boolean[] same;
 
     public JumperScreen(PVU game) {
         super(game);
+
+        background = new JumperScreenBackground();
 
         mWorld = new World(new Vector2(0, -10), false);
         mRoom = new Room(mWorld);
@@ -71,17 +82,19 @@ public class JumperScreen extends GameScreen {
         mGameCam = new OrthographicCamera();
         mGameCam.setToOrtho(false, 3f, (PVU.SCREEN_HEIGHT / PVU.SCREEN_WIDTH) * 3f);
 
+        same = new boolean[11];
+
         mDebugRenderer = new Box2DDebugRenderer();
 
         startPositionX = mBall.getBody().getPosition().x;
         startPositionY = mBall.getBody().getPosition().y;
 
-        mSprite = new Sprite(Assets.seq);
-
-        mSprite.setOrigin(mSprite.getWidth() / 2, mSprite.getHeight() / 2);
-        mSprite.setPosition(0, 5);
-        mSprite.setScale(0.20f);
-        mSprite.setRotation(180);
+        mHead = new Sprite(Assets.seqHead);
+        mLine = new Sprite(Assets.seqLine);
+        mLine.setOrigin(mLine.getWidth() / 2, mLine.getHeight() / 2);
+        mLine.setScale(0.1f, 0.2f);
+        mHead.setOrigin(38, 36);
+        mHead.setScale(0.20f);
     }
 
     @Override
@@ -89,45 +102,95 @@ public class JumperScreen extends GameScreen {
         clearCamera(0f, 0f, 0f, 1f);
 
         batch.begin();
+        background.draw(batch);
         mBall.draw(batch);
         switch (checkCollision()) {
+            case 1:
+                if (level == 1) {
+                    mLine.setScale(0.1f, 0.2f);
+                    mHead.setRotation(180f);
+                    mHead.setPosition(19f, -12.8f);
+                    mLine.setPosition(-82f, -9.5f);
+                }
+                if (level == 6) {
+                    mHead.setRotation(180f);
+                    mHead.setPosition(83f, -12.8f);
+                    mLine.setScale(0.5f, 0.2f);
+                    mLine.setPosition(-60f, -9.5f);
+                }
+                if (level == 8) {
+                    mHead.setRotation(180f);
+                    mHead.setPosition(115f, -12.8f);
+                    mLine.setScale(0.7f, 0.2f);
+                    mLine.setPosition(-50f, -9.5f);
+                }
+                if (level != 11) {
+                    mHead.draw(batch);
+                    mLine.draw(batch);
+                }
+                break;
             case 2:
-                mSprite.setScale(0.20f);
-                mSprite.setRotation(180);
-                mSprite.setPosition(30, 5);
-                mSprite.draw(batch);
+                mHead.setRotation(180f);
+                mHead.setPosition(51f, -12.8f);
+                mLine.setPosition(-50f, -9.5f);
+                mHead.draw(batch);
+                mLine.draw(batch);
                 break;
             case 3:
-                mSprite.setScale(0.5f, 0.2f);
-                mSprite.setPosition(25, 5);
-                mSprite.setRotation(0);
-                mSprite.draw(batch);
+                if (level == 3) {
+                    mHead.setRotation(180f);
+                    mHead.setPosition(83f, -12.8f);
+                    mLine.setPosition(-18f, -9.5f);
+                }
+                if (level == 5) {
+                    mHead.setRotation(0f);
+                    mHead.setPosition(1, -12.8f);
+                    mLine.setScale(0.3f, 0.2f);
+                    mLine.setPosition(-71f, -9.5f);
+                }
+                mHead.draw(batch);
+                mLine.draw(batch);
                 break;
             case 4:
-                mSprite.setScale(0.5f, 0.2f);
-                mSprite.setPosition(25, 5);
-                mSprite.setRotation(0);
-                mSprite.draw(batch);
+                if (level == 4) {
+                    mHead.setRotation(0f);
+                    mHead.setPosition(66f, -12.8f);
+                    mLine.setPosition(-18f, -9.5f);
+                }
+                if (level == 7) {
+                    mHead.setRotation(0f);
+                    mHead.setPosition(1, -12.8f);
+                    mLine.setScale(0.5f, 0.2f);
+                    mLine.setPosition(-60f, -9.5f);
+                }
+                if (level == 10) {
+                    mHead.setRotation(0f);
+                    mHead.setPosition(1, -12.8f);
+                    mLine.setScale(0.5f, 0.2f);
+                    mLine.setPosition(-60f, -9.5f);
+                }
+                mHead.draw(batch);
+                mLine.draw(batch);
                 break;
             case 5:
-                mSprite.setScale(0.5f, 0.2f);
-                mSprite.setPosition(25, 5);
-                mSprite.setRotation(0);
-                mSprite.draw(batch);
+                mHead.setRotation(0);
+                mHead.setPosition(97f, -12.8f);
+                mLine.setScale(0.1f, 0.2f);
+                mLine.setPosition(13f, -9.5f);
+                mHead.draw(batch);
+                mLine.draw(batch);
                 break;
             case 6:
-                mSprite.setPosition(0, 5);
-                mSprite.setScale(0.20f);
-                mSprite.setRotation(180);
-                mSprite.draw(batch);
+                mHead.setRotation(180f);
+                mHead.setPosition(19f, -12.8f);
+                mLine.setPosition(-82f, -9.5f);
+                mHead.draw(batch);
                 break;
         }
-        if(playerMove == 1){
-                mSprite.setPosition(0, 5);
-                mSprite.setScale(0.20f);
-                mSprite.setRotation(180);
-                mSprite.draw(batch);
-        }
+        /*
+         * if (playerMove == 1) { mHead.setPosition(0, 5);
+         * mHead.setScale(0.20f); mHead.setRotation(180); mHead.draw(batch); }
+         */
         batch.end();
 
         mDebugRenderer.render(mWorld, mGameCam.combined);
@@ -138,53 +201,153 @@ public class JumperScreen extends GameScreen {
         mWorld.step(1 / 60f, 6, 2);
         checkCollision();
         checkInput();
-        checkIfFail();
         mBall.update(delta);
 
-        //mSprite.setRotation(losangle);
-        //losangle++;
+        //  mHead.setRotation(losangle);
+        //  losangle++;
     }
 
     private int checkCollision() {
         if (mBall.getBody().getPosition().x < mPlatforms.get(0).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(0).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(0).getPosition().y + 0.1) {
+                && mBall.getBody().getPosition().y > mPlatforms.get(0).getPosition().y + 0.1
+                && mBall.getBody().getPosition().y < mPlatforms.get(0).getPosition().y + 0.2) {
+            if (level == 0 || level == 1 || level == 5 || level == 6 || level == 7 || level == 8 || level == 10 || level == 11) {
+                if (level == 0 && same[0] == false) {
+                    level++;
+                } else if (level == 5 && same[5] == false) {
+                    level++;
+                    same[4] = true;
+                    same[0] = false;
+                } else if (level == 7 && same[7] == false) {
+                    level++;
+                    same[6] = true;
+                    same[5] = false;
+                } else if (level == 10 && same[10] == false) {
+                    level++;
+                    failJump();
+                } else if (same[0] == true || same[5] == true || same[7] == true || same[10] == true) {
+                    failJump();
+                    level = 0;
+                }
+            } else {
+                failJump();
+            }
             return 1;
         }
+
         if (mBall.getBody().getPosition().x < mPlatforms.get(1).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(1).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(1).getPosition().y + 0.1) {
+                && mBall.getBody().getPosition().y > mPlatforms.get(1).getPosition().y + 0.1
+                && mBall.getBody().getPosition().y < mPlatforms.get(1).getPosition().y + 0.2) {
+            if (level == 1 || level == 2) {
+                if (level == 1 && same[1] == false) {
+                    level++;
+                    same[0] = true;
+                } else if (same[1] == true) {
+                    failJump();
+                    level = 0;
+                }
+            } else {
+                failJump();
+            }
             return 2;
         }
+
         if (mBall.getBody().getPosition().x < mPlatforms.get(2).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(2).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(2).getPosition().y + 0.1) {
+                && mBall.getBody().getPosition().y > mPlatforms.get(2).getPosition().y + 0.1
+                && mBall.getBody().getPosition().y < mPlatforms.get(2).getPosition().y + 0.2) {
+            if (level == 2 || level == 3 || level == 4 || level == 5) {
+                if (level == 2 && same[2] == false) {
+                    level++;
+                    same[1] = true;
+                } else if (level == 4 && same[4] == false) {
+                    level++;
+                    same[3] = true;
+                    same[2] = false;
+                } else if (same[4] == true || same[2] == true) {
+                    failJump();
+                }
+            } else {
+                failJump();
+            }
             return 3;
         }
+
         if (mBall.getBody().getPosition().x < mPlatforms.get(3).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(3).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(3).getPosition().y + 0.1) {
+                && mBall.getBody().getPosition().y > mPlatforms.get(3).getPosition().y + 0.1
+                && mBall.getBody().getPosition().y < mPlatforms.get(3).getPosition().y + 0.2) {
+            if (level == 3 || level == 4 || level == 6 || level == 7 || level == 9 || level == 10) {
+                if (level == 3 && same[3] == false) {
+                    level++;
+                    same[2] = true;
+                } else if (level == 6 && same[6] == false) {
+                    level++;
+                    same[5] = true;
+                    same[3] = false;
+                } else if (level == 9 && same[9] == false) {
+                    level++;
+                    same[8] = true;
+                    same[6] = false;
+                } else if (same[6] == true || same[9] == true) {
+                    failJump();
+                    level = 0;
+                }
+            } else {
+                failJump();
+            }
             return 4;
         }
+
         if (mBall.getBody().getPosition().x < mPlatforms.get(4).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(4).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(4).getPosition().y + 0.1) {
+                && mBall.getBody().getPosition().y > mPlatforms.get(4).getPosition().y + 0.1
+                && mBall.getBody().getPosition().y < mPlatforms.get(4).getPosition().y + 0.2) {
+            if (level == 8 || level == 9) {
+                if (level == 8 && same[8] == false) {
+                    level++;
+                    same[7] = true;
+                } else if (same[8] == true) {
+                    failJump();
+                    level = 0;
+                }
+            } else {
+                failJump();
+            }
             return 5;
         }
+
         if (mBall.getBody().getPosition().y < 0) {
-            return 6;
+            failJump();
+            return 1;
         }
         return 0;
     }
 
-    private void checkIfFail() {
-        if (mBall.getBody().getPosition().y < 0) {
-            mWorld.destroyBody(mBall.getBody());
-            mBall = new Ball(mWorld);
+    private void failJump() {
+        mWorld.destroyBody(mBall.getBody());
+        mBall = new Ball(mWorld);
+        for (int i = 0; i <= level; i++) {
+            same[i] = false;
         }
+        level = 0;
     }
 
     private void checkInput() {
+        /*
+         * if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+         * mBall.getBody().applyForceToCenter(0.01f, 0f, true); movem = true; }
+         * if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+         * mBall.getBody().applyForceToCenter(-0.01f, 0f, true); movem = true; }
+         * if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+         * mBall.getBody().applyForceToCenter(0, -0.01f, true); movem = true; }
+         * if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+         * mBall.getBody().applyForceToCenter(0f, 0.01f, true); movem = true; }
+         * if (movem == true) { movem = false; } move = 0; move2 = 0;
+         */
+
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
@@ -212,8 +375,12 @@ public class JumperScreen extends GameScreen {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) && !hasPressedA) {
-            powerLeft -= 0.005;
-            powerHeight += 0.05;
+            if (powerLeft > -0.85) {
+                powerLeft -= 0.008;
+            }
+            if (powerHeight < 2.55) {
+                powerHeight += 0.03;
+            }
             loadedA = true;
         }
 
@@ -228,6 +395,8 @@ public class JumperScreen extends GameScreen {
             powerHeight = 0;
             loadedA = false;
         }
+
+
     }
 
     @Override

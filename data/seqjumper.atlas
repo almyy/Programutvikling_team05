@@ -1,0 +1,33 @@
+
+seqjumper.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+white
+  rotate: false
+  xy: 1, 1
+  size: 512, 254
+  orig: 512, 254
+  offset: 0, 0
+  index: -1
+line
+  rotate: false
+  xy: 515, 191
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
+  index: -1
+ball
+  rotate: false
+  xy: 515, 61
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 773, 191
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
