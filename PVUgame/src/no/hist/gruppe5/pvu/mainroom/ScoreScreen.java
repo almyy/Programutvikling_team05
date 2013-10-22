@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.mainroom_screens;
+package no.hist.gruppe5.pvu.mainroom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -41,14 +41,18 @@ public class ScoreScreen extends GameScreen {
     private Texture tex;
     private Skin skin;
     private Label.LabelStyle labelstyle;
+    private String mFinalGrade;
+    private Label mFinalGradeLabel;
+    private Label mGradeTextLabel;
 
     public ScoreScreen(PVU game) {
         super(game);
-
-        stage = new Stage(PVU.GAME_WIDTH, PVU.GAME_HEIGHT, true, batch);
-
+        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        
+        
         headMinigames = makeHeadLabel(titleTextMinigame);
         headMinigames.setPosition(10, 96);
+       
         stage.addActor(headMinigames);
 
         headScore = makeHeadLabel(titleTextScore);
@@ -75,15 +79,15 @@ public class ScoreScreen extends GameScreen {
         minigame5.setPosition(10, 26);
         stage.addActor(minigame5);
 
-        score1 = makeLabel(""+ ScoreHandler.getMiniGameGrade(ScoreHandler.CODE));
+        score1 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.CODE));
         score1.setPosition(120, 78);
         stage.addActor(score1);
 
-        score2 = makeLabel(""+ ScoreHandler.getMiniGameGrade(ScoreHandler.VISION));
+        score2 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.VISION));
         score2.setPosition(120, 65);
         stage.addActor(score2);
 
-        score3 = makeLabel(""+ ScoreHandler.getMiniGameGrade(ScoreHandler.QUIZ));
+        score3 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.QUIZ));
         score3.setPosition(120, 52);
         stage.addActor(score3);
 
@@ -94,6 +98,16 @@ public class ScoreScreen extends GameScreen {
         score4 = makeLabel(text5);
         score4.setPosition(10, 26);
         stage.addActor(minigame5);
+        
+        mFinalGrade = String.valueOf(ScoreHandler.getGrade());
+        mFinalGradeLabel = makeHeadLabel(mFinalGrade);
+        mFinalGradeLabel.setPosition(130, 10);
+        mFinalGradeLabel.setFontScale(2f);
+        stage.addActor(mFinalGradeLabel);
+        
+        
+        mGradeTextLabel = makeLabel("Grade: ");
+        //mGradeTextLabel.setPosition(x, y);
     }
 
     @Override
