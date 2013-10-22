@@ -56,7 +56,7 @@ public abstract class Block {
             overridePosition();
         }
 
-        if(body.getTransform().getPosition().y < 0) {
+        if(body.getTransform().getPosition().y < -1) {
             alive = false;
         }
 

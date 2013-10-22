@@ -42,7 +42,7 @@ public class MinigameSelectorScreen extends GameScreen {
     private TextButtonStyle mMiniGameStylePassed;
     private TextButtonStyle mMiniGameStyleLocked;
     private TextButtonStyle mMiniGameStyleQuizNeeded;
-    private String[] mLabels = {"VisionShooter", "ReqFinder", "SeqJumper", "UMLBlocks", "Coderacer"};
+    private String[] mLabels = {"Visjonsdokument", "Kravdokument", "Sekvensdiagrammer", "Arkitektur", "Programmering"};
     private Stage mStage;
     private Button mSelector;
     private ArrayList<TextButton> mMiniGames = new ArrayList<>();
