@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.scorescreen;
+package no.hist.gruppe5.pvu.mainroom_screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
