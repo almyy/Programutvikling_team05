@@ -2,10 +2,8 @@ package no.hist.gruppe5.pvu.mainroom.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import no.hist.gruppe5.pvu.Assets;
@@ -33,11 +31,12 @@ public class Player {
 
     private Animation[] animations;
 
+    private boolean mMoveable;
+
     private boolean mSitting = false;
-
     private Body mPlayerBody;
-    private Sprite mPlayerSprite;
 
+    private Sprite mPlayerSprite;
     public Player(World world) {
 
         PLAYER_BACK = new Animation(Assets.MAIN_AVATAR_BACK, 3);
@@ -56,7 +55,7 @@ public class Player {
         //Dynamic Body
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(30f, 30f);
+        bodyDef.position.set(30f, 60f);
         mPlayerBody = world.createBody(bodyDef);
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(PLAYER_SIZE / 3, PLAYER_SIZE / 3);
@@ -97,24 +96,26 @@ public class Player {
 
         Vector2 newSpeed = new Vector2();
 
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-            newSpeed.y = PLAYER_SPEED;
-            mCurrentAnimaion = PLAYER_BACK;
-            keyPressed = true;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            newSpeed.y = -PLAYER_SPEED;
-            mCurrentAnimaion = PLAYER_FRONT;
-            keyPressed = true;
-        }
+        if(mMoveable) {
+            if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+                newSpeed.y = PLAYER_SPEED;
+                mCurrentAnimaion = PLAYER_BACK;
+                keyPressed = true;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                newSpeed.y = -PLAYER_SPEED;
+                mCurrentAnimaion = PLAYER_FRONT;
+                keyPressed = true;
+            }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            newSpeed.x = PLAYER_SPEED;
-            mCurrentAnimaion = PLAYER_RIGHT;
-            keyPressed = true;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            newSpeed.x = -PLAYER_SPEED;
-            mCurrentAnimaion = PLAYER_LEFT;
-            keyPressed = true;
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                newSpeed.x = PLAYER_SPEED;
+                mCurrentAnimaion = PLAYER_RIGHT;
+                keyPressed = true;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                newSpeed.x = -PLAYER_SPEED;
+                mCurrentAnimaion = PLAYER_LEFT;
+                keyPressed = true;
+            }
         }
 
         if(mSitting) {
@@ -149,5 +150,9 @@ public class Player {
 
     public boolean isSitting() {
         return mSitting;
+    }
+
+    public void setMoveable(boolean moveable) {
+        this.mMoveable = moveable;
     }
 }
