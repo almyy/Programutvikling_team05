@@ -1,36 +1,36 @@
-ï»¿Hvilket tall Ã¥rstall er andreas kalstad fÃ¸dt i?
-hvilket tall er 2?
-hvilket tall er 3?
-hvilket tall er 4?
-hvilket tall er 5?
+Hva er visjonsdokumentets hovedhensikt?
+Hva kommuniserer systemsekvensdiagrammene?
+Hvordan utformes et systemsekvensdiagram syntaktisk?
+Hvordan utformes en enkelt use case syntaktisk? 
+Hvem skal visjonsdokumentet i hovedsak kommunisere til?
+
+Beslutningsgrunnlag for gjennomføring av prosjekt aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Utforming av krav
+Beskrive design
+Godt lesestoff
+
+Systemets ikke-funksjonelle krav
+Systemets interne funksjonalitet
+Systemets returverdier
+Utviklerenes arbeidsmengde
+
+Tekstlig beskrivelse
+UML-diagrammer
+Søylediagrammer
+Burndown chart
+
+Use case-diagram
+Detaljert tekstlig beskrivelse
+Muntlig beskrivelse
+Ved hjelp av visjonsdokumentet
+
+Erna Solberg
+Sensor
+Utviklerene
+Systemets oppdragsgivere
 
 0
-1990
-1991
-1873
-
+2
 1
-2
-3
-4
-
 1
-2
-3
-4
-
-1
-2
-3
-4
-
-2
-3
-4
-5
-
-0
-1
-2
-3
 3

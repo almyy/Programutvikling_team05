@@ -186,7 +186,6 @@ public class QuizScreen extends GameScreen {
         mAnswerGroup.setBounds(200, 200, 300, 100);
         int u = 0;
         for (int i = 0; i < mAnswers.size(); i++) {
-            mAnswers.get(i).getLabel().setFontScale(3);
             if (u % 4 == 0) {
                 u = 0;
             }
@@ -199,6 +198,10 @@ public class QuizScreen extends GameScreen {
             } else if (u == 3) {
                 mAnswers.get(i).setBounds(305, 0, 300, 100);
             }
+            mAnswers.get(i).getLabel().setWrap(true);
+            mAnswers.get(i).getLabel().setWidth(1);
+            mAnswers.get(i).getLabel().setColor(Color.BLACK);
+            mAnswers.get(i).getLabel().setFontScale(2);
             u++;
             mAnswerGroup.addActor(mAnswers.get(i));
             if (i > 3) {
