@@ -169,7 +169,7 @@ public class IntroScreen extends GameScreen {
 
         @Override
         public boolean keyDown(int keycode) {
-            if ((keycode == Input.Keys.SPACE || keycode == Input.Keys.ENTER) && mCurrentInput.length() > 0)
+            if ((keycode == Input.Keys.SPACE) && mCurrentInput.length() > 0)
                 startGame();
             return false;
         }

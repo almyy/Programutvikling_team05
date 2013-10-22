@@ -20,7 +20,7 @@ public class DialogDrawer {
     Stage mStage;
 
     // Text
-    private final String LINE_1 = "Hei, og velkommen til PVU! ";
+    private final String LINE_1 = "Hei, og velkommen til PVU!";
     private final String LINE_2 = "Her kan du lære om programutvikling ved hjelp av SCRUMHer kan du lære om programutvikling ved hjelp av SCRUMHer kan du lære om programutvikling ved hjelp av SCRUM";
     private final String LINE_3 = "Hvis du er nybegynner foreslår vi at du leser introduksjonen i Instruksjonsboka!";
     private final String LINE_4 = "Lykke til på ferden til å bli en programutvikler!";

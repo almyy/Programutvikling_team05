@@ -53,8 +53,6 @@ public class MainScreen extends GameScreen {
     public MainScreen(PVU game) {
         super(game);
 
-        System.out.println("LOOOOOOOOOOOOOOOOOL");
-
         mWorld = new World(new Vector2(0, 0), true);
         mDialog = new DialogDrawer();
         mDialog.setShow(true);
