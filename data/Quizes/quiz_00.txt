@@ -1,5 +1,5 @@
 Hva er visjonsdokumentets hovedhensikt?
-Hva kommuniserer systemsekvensdiagrammene?
+Hva formidler systemsekvensdiagrammene?
 Hvordan utformes et systemsekvensdiagram syntaktisk?
 Hvordan utformes en enkelt use case syntaktisk? 
 Hvem skal visjonsdokumentet i hovedsak kommunisere til?
