@@ -101,6 +101,10 @@ public abstract class Block {
         return this;
     }
 
+    public boolean isMoving() {
+        return (body.getLinearVelocity().x == 0 && body.getLinearVelocity().y == 0);
+    }
+
     // User for more advanced bodies
     protected void subActivate() {
     }
