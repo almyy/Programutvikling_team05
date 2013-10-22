@@ -48,13 +48,16 @@ public class MainScreen extends GameScreen {
     private ShapeRenderer mShapeDebugRenderer;
     private boolean mShowingHint = false;
     private int mCurrentHint = -1;
-    private DialogDrawer dialog;
+    private DialogDrawer mDialog;
 
     public MainScreen(PVU game) {
         super(game);
 
-        dialog = new DialogDrawer(batch);
+        System.out.println("LOOOOOOOOOOOOOOOOOL");
+
         mWorld = new World(new Vector2(0, 0), true);
+        mDialog = new DialogDrawer();
+        mDialog.setShow(true);
 
         // DEBUG
         mDebugRenderer = new Box2DDebugRenderer();
@@ -118,8 +121,6 @@ public class MainScreen extends GameScreen {
         mBackground.draw(batch);
         mBurndownCarts[mCurrentCart].draw(batch);
 
-
-
         if (mPlayer.getPosition().y < PVU.GAME_HEIGHT / 2) {
             mTables.draw(batch);
             mTeammates.draw(batch);
@@ -133,22 +134,11 @@ public class MainScreen extends GameScreen {
         if (mShowingHint && !mPlayer.isSitting()) {
             mPopupBox.draw(delta);
         }
-        dialog.draw(delta);
+
         batch.end();
-        //drawDebug(true);
-    }
 
-    private void drawDebug(boolean onlyRayCasts) {
-        if (!onlyRayCasts) {
-            mDebugRenderer.render(mWorld, camera.combined);
-        }
-
-        mShapeDebugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        mShapeDebugRenderer.setColor(Color.RED);
-        for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
-            mShapeDebugRenderer.line(rc.from, rc.to);
-        }
-        mShapeDebugRenderer.end();
+        if(mDialog.isShow())
+            mDialog.draw();
     }
 
     @Override
@@ -158,6 +148,7 @@ public class MainScreen extends GameScreen {
         mWorld.step(1 / 60f, 6, 2);
         mTeammates.update();
         mPlayer.update();
+        mPlayer.setMoveable(!mDialog.isShow());
         mRayCastManager.update(delta);
 
         for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
@@ -190,18 +181,31 @@ public class MainScreen extends GameScreen {
         }
 
         if (mShowingHint) {
-            recieveHintInput();
+            checkWithinRayCastInput();
         }
 
         if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             mInputHandled = false;
         }
         updateMainScreenSoundButton();
-        dialog.intro();
-        dialog.introNext();
+        mDialog.intro();
+        mDialog.introNext();
     }
 
-    private void recieveHintInput() {
+    private void drawDebug(boolean onlyRayCasts) {
+        if (!onlyRayCasts) {
+            mDebugRenderer.render(mWorld, camera.combined);
+        }
+
+        mShapeDebugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        mShapeDebugRenderer.setColor(Color.RED);
+        for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
+            mShapeDebugRenderer.line(rc.from, rc.to);
+        }
+        mShapeDebugRenderer.end();
+    }
+
+    private void checkWithinRayCastInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.E) && !mInputHandled) {
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
@@ -214,8 +218,6 @@ public class MainScreen extends GameScreen {
                     mShowingHint = false;
                     mInputHandled = true;
                     burndownChecked = false;
-
-                    //TODO pc screen
                     break;
                 case RayCastManager.CART:
                     game.setScreen(new BurndownScreen(game));
