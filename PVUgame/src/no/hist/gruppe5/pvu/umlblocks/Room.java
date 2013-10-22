@@ -17,6 +17,8 @@ import no.hist.gruppe5.pvu.mainroom.BodyEditorLoader;
  */
 public class Room {
 
+    public static final int DONE = -1000;
+
     public static final int EASY = 100;
     public static final int MEDIUM = 200;
     public static final int HARD = 300;
@@ -26,9 +28,6 @@ public class Room {
 
     public Room(World world, int difficulty) {
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/pvugame.json"));
-
-        //Room Body
-        Body mBody;
 
         BodyDef bd = new BodyDef();
         bd.position.set(0, 0);
@@ -90,5 +89,9 @@ public class Room {
         groundBody.createFixture(groundBox, 0.0f);
         groundBox.dispose();
 
+    }
+
+    public Body getBody() {
+        return mBody;
     }
 }

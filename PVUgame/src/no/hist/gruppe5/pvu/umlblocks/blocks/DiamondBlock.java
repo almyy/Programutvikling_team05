@@ -64,4 +64,9 @@ public class DiamondBlock extends Block {
         sprite.setRotation((float) Math.toDegrees(body.getAngle()) + 45);
         sprite.setScale(1.4f);
     }
+
+    @Override
+    public void destroy(World world) {
+        world.destroyBody(body);
+    }
 }
