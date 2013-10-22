@@ -109,12 +109,43 @@ public class BlocksScreen extends GameScreen {
     private void populateBlocksLeft(int game_type) {
         switch(game_type) {
             case Room.EASY:
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new SignBlock(mWorld));
                 break;
             case Room.MEDIUM:
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
                 mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
                 break;
             case Room.HARD:
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SquareBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new SignBlock(mWorld));
+                mBlocksLeft.add(new DiamondBlock(mWorld));
                 mBlocksLeft.add(new SquareBlock(mWorld));
                 break;
         }
@@ -208,8 +239,6 @@ public class BlocksScreen extends GameScreen {
         mGui.enableIntermediateDisplay();
         mGui.setIntermediateText(score, mCurrentGame / 100);
 
-        System.out.println("LOL" + mCurrentGame);
-
         switch (mCurrentGame) {
             case Room.EASY:
                 mEasyScore = score;
@@ -222,6 +251,7 @@ public class BlocksScreen extends GameScreen {
             case Room.HARD:
                 mHardScore = score;
                 mCurrentGame = Room.DONE;
+                mGui.enableSummarizeText(Math.round(getTotalScore()));
                 break;
             case Room.DONE:
                 // TODO?
@@ -270,9 +300,10 @@ public class BlocksScreen extends GameScreen {
             if(mCurrentGame != Room.DONE) {
                 resetVariables();
                 startNewGame(false);
+                mLastDrop = TimeUtils.millis();
             } else {
                 // Report the final score
-                float totalScore = ((mEasyScore + mMediumScore + mHardScore) / 3);
+                float totalScore = getTotalScore();
                 QuizHandler.updateQuizScore(Math.round(totalScore), ScoreHandler.UMLBLOCKS);
                 ScoreHandler.updateScore(ScoreHandler.UMLBLOCKS, totalScore / 100);
                 ScoreHandler.getMiniGameGrade(ScoreHandler.UMLBLOCKS);
@@ -308,5 +339,9 @@ public class BlocksScreen extends GameScreen {
 
     public Block getLastBlock() {
         return mActiveBlocks.get(mActiveBlocks.size() - 1);
+    }
+
+    private float getTotalScore() {
+        return ((mEasyScore + mMediumScore + mHardScore) / 3);
     }
 }

@@ -32,6 +32,9 @@ public class Gui {
     public Label mGameFeedback;
     public Label mSpaceToContinue;
 
+    // Summairze
+    private Label mSummarizedScore;
+
     // Stages
     private Stage mTutorialStage;
     private Stage mScoreStage;
@@ -99,8 +102,16 @@ public class Gui {
         mSpaceToContinue.setWidth(PVU.SCREEN_WIDTH);
         mSpaceToContinue.setY(PVU.SCREEN_HEIGHT - 200f);
 
+        mSummarizedScore = new Label("HURRA", mLabelStyle);
+        mSummarizedScore.setFontScale(3f);
+        mSummarizedScore.setAlignment(Align.center);
+        mSummarizedScore.setWidth(PVU.SCREEN_WIDTH);
+        mSummarizedScore.setY(PVU.SCREEN_HEIGHT - 150f);
+        mSummarizedScore.setLayoutEnabled(false);
+
         mIntermediateStage.addActor(mGameFeedback);
         mIntermediateStage.addActor(mSpaceToContinue);
+        mIntermediateStage.addActor(mSummarizedScore);
 
     }
 
@@ -146,5 +157,10 @@ public class Gui {
 
     public boolean isTutorial() {
         return mTutorial;
+    }
+
+    public void enableSummarizeText(int totalScore) {
+        mSummarizedScore.setText("Du fikk totalt " + totalScore + " poeng, " + ((totalScore > 70) ? "bra!" : "ikke bra.."));
+        mSummarizedScore.setLayoutEnabled(true);
     }
 }
