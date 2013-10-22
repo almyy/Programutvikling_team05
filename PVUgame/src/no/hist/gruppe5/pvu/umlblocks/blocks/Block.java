@@ -41,6 +41,8 @@ public abstract class Block {
 
     protected abstract void updateBlock();
 
+    public abstract void destroy(World world);
+
     protected void overridePosition() {
         body.setTransform(overridePosition.x, overridePosition.y, initialRotation);
     }

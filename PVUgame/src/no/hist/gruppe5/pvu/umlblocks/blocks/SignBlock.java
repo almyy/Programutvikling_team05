@@ -94,6 +94,12 @@ public class SignBlock extends Block {
     }
 
     @Override
+    public void destroy(World world) {
+        world.destroyBody(body);
+        world.destroyBody(mStick);
+    }
+
+    @Override
     protected void overridePosition() {
         body.setTransform(overridePosition.x, overridePosition.y, initialRotation);
         mStick.setTransform(overridePosition.x + mStickOffset.x,

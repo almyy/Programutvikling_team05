@@ -59,4 +59,9 @@ public class SquareBlock extends Block {
                 (pos.y*BlocksScreen.BOX_TO_WORLD) - sprite.getHeight() / 2);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
     }
+
+    @Override
+    public void destroy(World world) {
+        world.destroyBody(body);
+    }
 }
