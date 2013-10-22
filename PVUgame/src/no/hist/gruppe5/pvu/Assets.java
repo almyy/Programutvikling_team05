@@ -152,8 +152,8 @@ public class Assets {
         TextureAtlas seqAtlas = new TextureAtlas(Gdx.files.internal("data/seqjumper.atlas"));
         seqHead = seqAtlas.findRegion("head");
         seqLine = seqAtlas.findRegion("line");
-        seqBackground = msAtlas.findRegion("white");
-        seqBall = msAtlas.findRegion("ball");
+        seqBackground = seqAtlas.findRegion("white");
+        seqBall = seqAtlas.findRegion("ball");
     }
 
     public static TextureRegion getAvatarRegion(int region) {

@@ -2,6 +2,7 @@ package no.hist.gruppe5.pvu.seqjumper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,6 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
@@ -16,24 +22,19 @@ import no.hist.gruppe5.pvu.PVU;
 
 public class JumperScreen extends GameScreen {
 
-    private static final float WORLD_TO_BOX = 0.064f;
-    private static final float BOX_TO_WORLD = 64;
     public static final float WORLD_WIDTH = 3f;
     public static final float WORLD_HEIGHT = 1.8125f;
-    private final float BLOCK_DROP_LOCK = 1.5f;
     private final float PLATFORM_SIZE = 0.1f;
     private final float BALL_MARGIN = 0.02f;
     private World mWorld;
     private OrthographicCamera mGameCam;
     private Room mRoom;
     private Ball mBall;
-    // Game variables
-    private int mCurrentBlock = -1;
-    private float mBlockDropLoc = 1.5f;
     // Debug
     private Box2DDebugRenderer mDebugRenderer;
     //Ball movement Y
     private float powerHeight = 0;
+    private float startPositionY;
     //Ball movement -X
     private boolean hasPressedA = false;
     private float powerLeft = 0;
@@ -43,36 +44,36 @@ public class JumperScreen extends GameScreen {
     private boolean loadedD = false;
     private float powerRight = 0;
     private float startPositionX;
-    private float startPositionY;
-    private Texture mTex;
     // private Sprite mHead;
     private Platform mPlatform;
     private ArrayList<Body> mPlatforms;
-    private int playerMove;
     private int level = 0;
     // Background
     private JumperScreenBackground background;
+    // GUI
+    private GUI mGui;
     private Sprite mHead;
     private Sprite mLine;
-    private int losangle;
-    int move = 0;
-    int move2 = 0;
-    boolean movem = true;
+    private boolean movem = true;
     private boolean[] same;
+    private int mLife;
+    private int mHighscore;
 
     public JumperScreen(PVU game) {
         super(game);
 
+        mGui = new GUI(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
+
         background = new JumperScreenBackground();
 
-        mWorld = new World(new Vector2(0, -10), false);
+        mWorld = new World(new Vector2(0, 0), false);
         mRoom = new Room(mWorld);
 
         mBall = new Ball(mWorld);
         mBall.getBody().setTransform(0.5f, 0.3f, 0);
 
         mPlatform = new Platform();
-        mPlatforms = new ArrayList<Body>(5);
+        mPlatforms = new ArrayList<>(5);
         mPlatforms.add(mPlatform.createPlatform(new Vector2(0.5f, 0.2f), PLATFORM_SIZE, mWorld, true));
         mPlatforms.add(mPlatform.createPlatform(new Vector2(1f, 0.2f), PLATFORM_SIZE, mWorld, true));
         mPlatforms.add(mPlatform.createPlatform(new Vector2(1.5f, 0.2f), PLATFORM_SIZE, mWorld, true));
@@ -89,12 +90,17 @@ public class JumperScreen extends GameScreen {
         startPositionX = mBall.getBody().getPosition().x;
         startPositionY = mBall.getBody().getPosition().y;
 
+        // GUI
         mHead = new Sprite(Assets.seqHead);
         mLine = new Sprite(Assets.seqLine);
         mLine.setOrigin(mLine.getWidth() / 2, mLine.getHeight() / 2);
         mLine.setScale(0.1f, 0.2f);
         mHead.setOrigin(38, 36);
         mHead.setScale(0.20f);
+        
+        // Gameplay
+        mLife = 5;
+        mHighscore = 0;
     }
 
     @Override
@@ -187,27 +193,35 @@ public class JumperScreen extends GameScreen {
                 mHead.draw(batch);
                 break;
         }
-        /*
-         * if (playerMove == 1) { mHead.setPosition(0, 5);
-         * mHead.setScale(0.20f); mHead.setRotation(180); mHead.draw(batch); }
-         */
         batch.end();
-
+        mGui.draw();
         mDebugRenderer.render(mWorld, mGameCam.combined);
     }
 
     @Override
     protected void update(float delta) {
         mWorld.step(1 / 60f, 6, 2);
+        
         checkCollision();
+        
         checkInput();
+        
+        // Ball update
         mBall.update(delta);
-
-        //  mHead.setRotation(losangle);
-        //  losangle++;
+        
+        // GUI update
+        mGui.update(delta);
+        mGui.setJumps(level);
+        mGui.setSuccess(level);
+        mGui.setLife(mLife);
+        if (level == 11) {
+            mGui.setGameFeedback();
+            mGui.enableIntermediateDisplay();
+        }
     }
 
     private int checkCollision() {
+        //Platform 1
         if (mBall.getBody().getPosition().x < mPlatforms.get(0).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(0).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
                 && mBall.getBody().getPosition().y > mPlatforms.get(0).getPosition().y + 0.1
@@ -225,7 +239,6 @@ public class JumperScreen extends GameScreen {
                     same[5] = false;
                 } else if (level == 10 && same[10] == false) {
                     level++;
-                    failJump();
                 } else if (same[0] == true || same[5] == true || same[7] == true || same[10] == true) {
                     failJump();
                     level = 0;
@@ -235,7 +248,7 @@ public class JumperScreen extends GameScreen {
             }
             return 1;
         }
-
+        //Platform 2
         if (mBall.getBody().getPosition().x < mPlatforms.get(1).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(1).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
                 && mBall.getBody().getPosition().y > mPlatforms.get(1).getPosition().y + 0.1
@@ -253,7 +266,7 @@ public class JumperScreen extends GameScreen {
             }
             return 2;
         }
-
+        //Platform 3
         if (mBall.getBody().getPosition().x < mPlatforms.get(2).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(2).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
                 && mBall.getBody().getPosition().y > mPlatforms.get(2).getPosition().y + 0.1
@@ -274,7 +287,7 @@ public class JumperScreen extends GameScreen {
             }
             return 3;
         }
-
+        //Platform 4
         if (mBall.getBody().getPosition().x < mPlatforms.get(3).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(3).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
                 && mBall.getBody().getPosition().y > mPlatforms.get(3).getPosition().y + 0.1
@@ -300,7 +313,7 @@ public class JumperScreen extends GameScreen {
             }
             return 4;
         }
-
+        //Platform 5
         if (mBall.getBody().getPosition().x < mPlatforms.get(4).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
                 && mBall.getBody().getPosition().x > mPlatforms.get(4).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
                 && mBall.getBody().getPosition().y > mPlatforms.get(4).getPosition().y + 0.1
@@ -318,7 +331,7 @@ public class JumperScreen extends GameScreen {
             }
             return 5;
         }
-
+        // Ball out of screen
         if (mBall.getBody().getPosition().y < 0) {
             failJump();
             return 1;
@@ -329,74 +342,81 @@ public class JumperScreen extends GameScreen {
     private void failJump() {
         mWorld.destroyBody(mBall.getBody());
         mBall = new Ball(mWorld);
-        for (int i = 0; i <= level; i++) {
+        for (int i = 0; i < level; i++) {
             same[i] = false;
         }
+        mLife--;
+        mHighscore = level;
         level = 0;
     }
 
     private void checkInput() {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            mBall.getBody().applyForceToCenter(0.01f, 0f, true);
+            movem = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            mBall.getBody().applyForceToCenter(-0.01f, 0f, true);
+            movem = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            mBall.getBody().applyForceToCenter(0, -0.01f, true);
+            movem = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            mBall.getBody().applyForceToCenter(0f, 0.01f, true);
+            movem = true;
+        }
+        if (movem == true) {
+            movem = false;
+        }
+
         /*
-         * if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-         * mBall.getBody().applyForceToCenter(0.01f, 0f, true); movem = true; }
-         * if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-         * mBall.getBody().applyForceToCenter(-0.01f, 0f, true); movem = true; }
-         * if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-         * mBall.getBody().applyForceToCenter(0, -0.01f, true); movem = true; }
-         * if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-         * mBall.getBody().applyForceToCenter(0f, 0.01f, true); movem = true; }
-         * if (movem == true) { movem = false; } move = 0; move2 = 0;
-         */
+        // Ball movement right
+         if (Gdx.input.isKeyPressed(Input.Keys.D) && !hasPressedD) {
+         if (powerRight < 0.85) {
+         powerRight += 0.008;
+         }
+         if (powerHeight < 2.55) {
+         powerHeight += 0.03;
+         }
+         loadedD = true;
+         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(PVU.MAIN_SCREEN);
-        }
+         if (!Gdx.input.isKeyPressed(Input.Keys.D) && loadedD) {
+         hasPressedD = true;
+         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && !hasPressedD) {
-            if (powerRight < 0.85) {
-                powerRight += 0.008;
-            }
-            if (powerHeight < 2.55) {
-                powerHeight += 0.03;
-            }
-            loadedD = true;
-        }
+         if (!Gdx.input.isKeyPressed(Input.Keys.D) && hasPressedD) {
+         mBall.getBody().applyForceToCenter(powerRight, powerHeight, true);
+         hasPressedD = false;
+         powerRight = 0;
+         powerHeight = 0;
+         loadedD = false;
+         }
+        // Ball movement left
+         if (Gdx.input.isKeyPressed(Input.Keys.A) && !hasPressedA) {
+         if (powerLeft > -0.85) {
+         powerLeft -= 0.008;
+         }
+         if (powerHeight < 2.55) {
+         powerHeight += 0.03;
+         }
+         loadedA = true;
+         }
 
-        if (!Gdx.input.isKeyPressed(Input.Keys.D) && loadedD) {
-            hasPressedD = true;
-        }
+         if (!Gdx.input.isKeyPressed(Input.Keys.A) && loadedA) {
+         hasPressedA = true;
+         }
 
-        if (!Gdx.input.isKeyPressed(Input.Keys.D) && hasPressedD) {
-            mBall.getBody().applyForceToCenter(powerRight, powerHeight, true);
-            hasPressedD = false;
-            powerRight = 0;
-            powerHeight = 0;
-            loadedD = false;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && !hasPressedA) {
-            if (powerLeft > -0.85) {
-                powerLeft -= 0.008;
-            }
-            if (powerHeight < 2.55) {
-                powerHeight += 0.03;
-            }
-            loadedA = true;
-        }
-
-        if (!Gdx.input.isKeyPressed(Input.Keys.A) && loadedA) {
-            hasPressedA = true;
-        }
-
-        if (!Gdx.input.isKeyPressed(Input.Keys.A) && hasPressedA) {
-            mBall.getBody().applyForceToCenter(powerLeft, powerHeight, true);
-            hasPressedA = false;
-            powerLeft = 0;
-            powerHeight = 0;
-            loadedA = false;
-        }
-
-
+         if (!Gdx.input.isKeyPressed(Input.Keys.A) && hasPressedA) {
+         mBall.getBody().applyForceToCenter(powerLeft, powerHeight, true);
+         hasPressedA = false;
+         powerLeft = 0;
+         powerHeight = 0;
+         loadedA = false;
+         } */
     }
 
     @Override

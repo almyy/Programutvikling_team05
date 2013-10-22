@@ -12,8 +12,8 @@ public class JumperScreenBackground {
     private Sprite mBack2;
 
     public JumperScreenBackground() {
-        mBack1 = new Sprite(Assets.ubBackground);
-        mBack2 = new Sprite(Assets.ubBackground);
+        mBack1 = new Sprite(Assets.seqBackground);
+        mBack2 = new Sprite(Assets.seqBackground);
 
         mBack1.setPosition(0, 0);
         mBack2.setPosition(PVU.GAME_WIDTH, 0);
