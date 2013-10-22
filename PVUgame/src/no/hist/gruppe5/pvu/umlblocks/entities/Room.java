@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.umlblocks;
+package no.hist.gruppe5.pvu.umlblocks.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -35,7 +35,7 @@ public class Room {
 
         FixtureDef fd = new FixtureDef();
         fd.density = 1;
-        fd.friction = 1f;
+        fd.friction = 0.5f;
         fd.restitution = 0f;
 
         mBody = world.createBody(bd);
@@ -59,12 +59,6 @@ public class Room {
 
         loader.attachFixture(mBody, stringDiff, fd, 3f);
 
-        // Creating the floor and walls
-        //createWall(new Vector2(0, 0), 3f, world, true); // Floor
-        //createWall(new Vector2(0, 0), 2f, world, false); // left wall
-        //createWall(new Vector2(3f, 0), 2f, world, false); // right wall
-
-
     }
 
     public void draw(SpriteBatch batch) {
@@ -73,22 +67,6 @@ public class Room {
 
     public void update(float delta) {
         // TODO
-    }
-
-    public void createWall(Vector2 from, float size, World world, boolean flat) {
-        BodyDef groundBodyDef =new BodyDef();
-        groundBodyDef.position.set(from);
-        Body groundBody = world.createBody(groundBodyDef);
-
-        PolygonShape groundBox = new PolygonShape();
-        if(flat)
-            groundBox.setAsBox(size, 0.05f);
-        else
-            groundBox.setAsBox(0.05f, size);
-
-        groundBody.createFixture(groundBox, 0.0f);
-        groundBox.dispose();
-
     }
 
     public Body getBody() {

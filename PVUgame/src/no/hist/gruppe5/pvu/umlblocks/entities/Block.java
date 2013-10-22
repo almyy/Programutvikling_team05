@@ -1,11 +1,9 @@
-package no.hist.gruppe5.pvu.umlblocks.blocks;
+package no.hist.gruppe5.pvu.umlblocks.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +13,8 @@ import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Block {
+
+    protected final float ANTIPADDING = 0.011f;
 
     protected boolean lock = true;
     protected boolean alive = true;
