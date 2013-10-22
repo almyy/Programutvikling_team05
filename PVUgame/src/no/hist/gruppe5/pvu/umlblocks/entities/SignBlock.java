@@ -74,6 +74,7 @@ public class SignBlock extends Block {
         stickFixture.friction = FRICTION;
         stickFixture.restitution = RESTITUTION;
         mStick.createFixture(stickFixture);
+        mStick.setActive(false);
 
         WeldJointDef def = new WeldJointDef();
         def.initialize(body, mStick, new Vector2(0, 0));
