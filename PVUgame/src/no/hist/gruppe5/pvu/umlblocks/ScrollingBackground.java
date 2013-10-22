@@ -2,6 +2,7 @@ package no.hist.gruppe5.pvu.umlblocks;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.PVU;
@@ -21,8 +22,16 @@ public class ScrollingBackground {
     private Sprite mBack2;
 
     public ScrollingBackground() {
-        mBack1 = new Sprite(Assets.ubBackground);
-        mBack2 = new Sprite(Assets.ubBackground);
+        init(Assets.ubBackground);
+    }
+
+    public ScrollingBackground(TextureRegion background) {
+        init(background) ;
+    }
+
+    private void init(TextureRegion background) {
+        mBack1 = new Sprite(background);
+        mBack2 = new Sprite(background);
 
         mBack1.setPosition(0, 0);
         mBack2.setPosition(PVU.GAME_WIDTH, 0);
