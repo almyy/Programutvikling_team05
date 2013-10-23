@@ -59,7 +59,7 @@ public class BurndownScreen extends GameScreen {
 
     @Override
     protected void draw(float delta) {
-        clearCamera(1, 1, 1, 1);
+        clearCamera(1f, 0.961f, 0.769f, 1);
         batch.begin();
         mBurndownCarts[mCurrentCart].draw(batch);
         batch.end();
@@ -92,12 +92,12 @@ public class BurndownScreen extends GameScreen {
     private void checkCompletion() {
         if (ScoreHandler.isMinigameCompleted(ScoreHandler.VISION)) {
             setBurnDownCart(++mCurrentCart % 5);
-        } else if (ScoreHandler.isMinigameCompleted(ScoreHandler.REQ)) {
+        } if (ScoreHandler.isMinigameCompleted(ScoreHandler.REQ)) {
             setBurnDownCart(++mCurrentCart % 5);
-        } else if (ScoreHandler.isMinigameCompleted(ScoreHandler.UMLBLOCKS)) {
+        }  if (ScoreHandler.isMinigameCompleted(ScoreHandler.UMLBLOCKS)) {
              setBurnDownCart(++mCurrentCart % 5);
            
-        }else if (ScoreHandler.isMinigameCompleted(ScoreHandler.CODE)) {
+        } if (ScoreHandler.isMinigameCompleted(ScoreHandler.CODE)) {
              setBurnDownCart(++mCurrentCart % 5);
            
         }

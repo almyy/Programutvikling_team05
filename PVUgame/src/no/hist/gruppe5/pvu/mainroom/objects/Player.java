@@ -19,6 +19,9 @@ import no.hist.gruppe5.pvu.mainroom.MainScreen;
 
 public class Player {
 
+    private static boolean mLol = false;
+    private static boolean mSpeedLol = false;
+
     private final float PLAYER_SIZE;
 
     private final Animation PLAYER_BACK;
@@ -73,7 +76,6 @@ public class Player {
         mPlayerBody.setFixedRotation(true);
         mPlayerBody.setUserData(MainScreen.OBJECT_PLAYER);
 
-        //mPlayerSprite.setSize(PLAYER_SIZE, ( mPlayerSprite.getHeight() / mPlayerSprite.getWidth() ) * PLAYER_SIZE) ;
     }
 
     public void draw(SpriteBatch batch) {
@@ -86,16 +88,27 @@ public class Player {
         if(!mSitting) {
             Vector2 pos = mPlayerBody.getPosition();
             mPlayerSprite.setPosition(pos.x - (mPlayerSprite.getWidth() / 2), pos.y - mPlayerSprite.getHeight() / 4.6f);
+            if(mLol)
+                mPlayerSprite.rotate(10f);
         }
 
         float dt = Gdx.graphics.getDeltaTime();
+
+        if(mSpeedLol)
+            dt *= 10;
 
         for (Animation a : animations)
             a.animate(dt);
     }
 
     private void updatePlayerMovement() {
-        float PLAYER_SPEED = 40f;
+        float PLAYER_SPEED;
+        if(!mSpeedLol) {
+            PLAYER_SPEED = 40f;
+        }
+        else {
+            PLAYER_SPEED = 200f;
+        }
         boolean keyPressed = false;
 
         Vector2 newSpeed = new Vector2();
@@ -158,5 +171,13 @@ public class Player {
 
     public void setMoveable(boolean moveable) {
         this.mMoveable = moveable;
+    }
+
+    public static void lol() {
+        mLol = true;
+    }
+
+    public static void speedLol() {
+        mSpeedLol = true;
     }
 }

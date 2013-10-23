@@ -1,6 +1,7 @@
 package no.hist.gruppe5.pvu.quiz;
 
 import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.Settings;
 
 /**
  *
@@ -8,7 +9,7 @@ import no.hist.gruppe5.pvu.ScoreHandler;
  */
 public class QuizHandler {
 
-    public static int[] totalCorrect;
+    public static int[] mTotalCorrect;
     public static int quizzesCompleted;
     public static int completedMiniGames;
     
@@ -21,13 +22,17 @@ public class QuizHandler {
     
 
     public static void load() {
-        totalCorrect = new int[5];
+        mTotalCorrect = new int[5];
         completedMiniGames = 0;
         quizzesCompleted = 0;
     }
 
+    public static void setNoQuiz() {
+        quizzesCompleted = 5;
+    }
+
     public static boolean miniGameUnlocked(int miniGame) {
-        return totalCorrect[miniGame] >= PASS_GRADE;
+        return mTotalCorrect[miniGame] >= PASS_GRADE;
     }
 
     public static boolean miniGameQuizAvailable(int miniGame) {
@@ -41,13 +46,13 @@ public class QuizHandler {
     public static void updateQuizScore(int score, int miniGame) {
         if (score > 0) {
             int previousScore = 0; 
-            totalCorrect[miniGame] = score;
-            for (int i = 0; i < totalCorrect.length; i++) {
-                if (totalCorrect[i] == 0 && previousScore>=PASS_GRADE) {
+            mTotalCorrect[miniGame] = score;
+            for (int i = quizzesCompleted; i < mTotalCorrect.length; i++) {
+                if (mTotalCorrect[i] == 0 && previousScore>=PASS_GRADE) {
                     quizzesCompleted = i;
                     break;
                 }
-                previousScore = totalCorrect[i];
+                previousScore = mTotalCorrect[i];
             }
         }
     }

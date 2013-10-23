@@ -23,6 +23,7 @@ import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
+import no.hist.gruppe5.pvu.reqfinder.ReqFinderIntroScreen;
 import no.hist.gruppe5.pvu.reqfinder.ReqFinderScreen;
 import no.hist.gruppe5.pvu.seqjumper.JumperScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;

@@ -130,4 +130,8 @@ public class GUI {
     public void setLifeLoss(){
         mPercent = 0;
     }
+    
+    public void boostPowerBar(float power){
+        
+    }
 }

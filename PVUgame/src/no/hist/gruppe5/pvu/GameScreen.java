@@ -19,6 +19,7 @@ import no.hist.gruppe5.pvu.mainroom.BurndownScreen;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
 import no.hist.gruppe5.pvu.mainroom.ScoreScreen;
+import no.hist.gruppe5.pvu.visionshooter.VisionEndScreen;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 9:48 AM
@@ -98,7 +99,8 @@ public abstract class GameScreen implements Screen {
             if (this instanceof BookScreen
                     || this instanceof MinigameSelectorScreen
                     || this instanceof BurndownScreen
-                    || this instanceof ScoreScreen) {
+                    || this instanceof ScoreScreen
+                    || this instanceof VisionEndScreen) {
                 game.setScreen(PVU.MAIN_SCREEN);
             } else if (this instanceof IntroScreen) {
                 return;
