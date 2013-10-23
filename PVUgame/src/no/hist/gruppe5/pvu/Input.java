@@ -39,7 +39,7 @@ public class Input {
     public static boolean action() {
         if(continuousAction()) {
             if(isActionReady()) {
-                mLastPressBack = TimeUtils.millis();
+                mLastPressAction = TimeUtils.millis();
                 return true;
             }
         }

@@ -187,7 +187,6 @@ public class MainScreen extends GameScreen {
         }
         updateMainScreenSoundButton();
         mDialog.intro();
-        mDialog.introNext();
     }
 
     private void drawDebug(boolean onlyRayCasts) {

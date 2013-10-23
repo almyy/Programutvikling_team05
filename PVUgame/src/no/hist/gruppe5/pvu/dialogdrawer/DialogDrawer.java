@@ -1,7 +1,6 @@
 package no.hist.gruppe5.pvu.dialogdrawer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import no.hist.gruppe5.pvu.Assets;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 
 public class DialogDrawer {
@@ -65,7 +65,7 @@ public class DialogDrawer {
         mMainText.setSize(280, 100);
         mMainText.setPosition(50, 70);
 
-        mPressEnter = new Label(">Enter", labelStyle);
+        mPressEnter = new Label(">Space", labelStyle);
         mPressEnter.setFontScale(2f);
         mPressEnter.setSize(280, 100);
         mPressEnter.setPosition(840, 5);
@@ -81,8 +81,7 @@ public class DialogDrawer {
     }
 
     public void intro() {
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && !mButtonPressed) {
-            mButtonPressed = true;
+        if (Input.action()) {
             mTextCounter++;
             if (mTextCounter == 1) {
                 mMainText.setText(LINE_2);
@@ -97,12 +96,6 @@ public class DialogDrawer {
                 mMainText.setText("");
                 setShow(false);
             }
-        }
-    }
-
-    public void introNext() {
-        if (!Gdx.input.isKeyPressed(Input.Keys.ENTER) && mButtonPressed) {
-            mButtonPressed = false;
         }
     }
 
