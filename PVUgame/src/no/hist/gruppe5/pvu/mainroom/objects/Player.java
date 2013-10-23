@@ -37,7 +37,11 @@ public class Player {
     private Body mPlayerBody;
 
     private Sprite mPlayerSprite;
+    private Input mInput;
+
     public Player(World world) {
+
+        mInput = new Input();
 
         PLAYER_BACK = new Animation(Assets.MAIN_AVATAR_BACK, 3);
         PLAYER_LEFT = new Animation(Assets.MAIN_AVATAR_SIDE_LEFT, 3);
@@ -97,21 +101,21 @@ public class Player {
         Vector2 newSpeed = new Vector2();
 
         if(mMoveable) {
-            if(Input.continuousUp()) {
+            if(mInput.continuousUp()) {
                 newSpeed.y = PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_BACK;
                 keyPressed = true;
-            } else if (Input.continuousDown()) {
+            } else if (mInput.continuousDown()) {
                 newSpeed.y = -PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_FRONT;
                 keyPressed = true;
             }
 
-            if (Input.continuousRight()) {
+            if (mInput.continuousRight()) {
                 newSpeed.x = PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_RIGHT;
                 keyPressed = true;
-            } else if (Input.continuousLeft()) {
+            } else if (mInput.continuousLeft()) {
                 newSpeed.x = -PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_LEFT;
                 keyPressed = true;

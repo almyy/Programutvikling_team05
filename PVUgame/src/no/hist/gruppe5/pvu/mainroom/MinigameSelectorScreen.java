@@ -49,9 +49,12 @@ public class MinigameSelectorScreen extends GameScreen {
     private Group mMenu;
     private long mLastButtonPressed = 0;
     private int mMiniGameSelected = -1;
+    private Input mInput;
 
     public MinigameSelectorScreen(final PVU game) {
         super(game);
+
+        mInput = new Input();
         mMenu = new Group();
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
 
@@ -135,15 +138,15 @@ public class MinigameSelectorScreen extends GameScreen {
     }
 
     private void positionSelector() throws IOException {
-        if (Input.down() && !mSelectorBottom) {
+        if (mInput.down() && !mSelectorBottom) {
             mSelector.setPosition(0, mSelector.getY() - mYIncrease);
             mSelectorTop = false;
         }
-        if (Input.up() && !mSelectorTop) {
+        if (mInput.up() && !mSelectorTop) {
             mSelector.setPosition(0, mSelector.getY() + mYIncrease);
             mSelectorBottom = false;
         }
-        if (Input.action()) {
+        if (mInput.action()) {
             int quizNumber = 4 - ((int) (mSelector.getY() / 105f));
             if (quizNumber < QuizHandler.completedMiniGames) {
                 mMiniGameSelected = quizNumber;

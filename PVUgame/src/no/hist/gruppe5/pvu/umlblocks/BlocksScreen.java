@@ -50,9 +50,12 @@ public class BlocksScreen extends GameScreen {
     private boolean mIdleBeforeNextGame = false;
     // Debug
     private Box2DDebugRenderer mDebugRenderer;
+    private Input mInput;
 
     public BlocksScreen(PVU game) {
         super(game);
+
+        mInput = new Input();
 
         mActiveBlocks = new ArrayList<>(30);
         mBlocksLeft = new ArrayList<>(15);
@@ -280,7 +283,7 @@ public class BlocksScreen extends GameScreen {
     }
 
     private void checkInput() {
-        if (Input.continuousAction()) {
+        if (mInput.continuousAction()) {
             if(mGui.isTutorial()) {
                 mGui.enableGameDisplay();
                 mLastDrop = TimeUtils.millis();
@@ -288,13 +291,13 @@ public class BlocksScreen extends GameScreen {
                 getLastBlock().release().activate();
                 mLastDrop = TimeUtils.millis();
             }
-        } else if (Input.continuousLeft()) {
+        } else if (mInput.continuousLeft()) {
             goLeft();
-        } else if (Input.continuousRight()) {
+        } else if (mInput.continuousRight()) {
             goRight();
         }
 
-        if(mIdleBeforeNextGame && Input.continuousAction()) {
+        if(mIdleBeforeNextGame && mInput.continuousAction()) {
             if(mCurrentGame != Room.DONE) {
                 resetVariables();
                 startNewGame(false);

@@ -4,19 +4,14 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.Quint;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
 import java.util.Random;
-import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.GameScreen;
-import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.ScoreHandler;
-import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
+
+import no.hist.gruppe5.pvu.*;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
 import no.hist.gruppe5.pvu.sound.Sounds;
@@ -76,7 +71,7 @@ public class VisionScreen extends GameScreen {
     @Override
     protected void update(float delta) {
         mVisionShooterShip.update(delta);
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Input.continuousAction()) {
             shootBullet();
         }
         updateBulletPos(delta);
@@ -91,9 +86,6 @@ public class VisionScreen extends GameScreen {
 
 
         checkFinish();
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(PVU.MAIN_SCREEN);
-        }
         mTweenManager.update(delta);
     }
 

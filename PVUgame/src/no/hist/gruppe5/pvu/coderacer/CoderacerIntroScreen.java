@@ -32,9 +32,12 @@ public class CoderacerIntroScreen extends GameScreen {
     private Label mContinueLabel;
     private Label mIntroLabel;
     private Label mTitleTextLabel;
+    private Input mInput;
 
     public CoderacerIntroScreen(PVU game) throws FileNotFoundException, IOException {
         super(game);
+
+        mInput = new Input();
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mTitleTextLabel = makeHeadLabel(mTitleText);
         mTitleTextLabel.setFontScale(6f);
@@ -82,7 +85,7 @@ public class CoderacerIntroScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Input.action()) {
+        if (mInput.action()) {
             game.setScreen(new CoderacerScreen(game));
         }
     }

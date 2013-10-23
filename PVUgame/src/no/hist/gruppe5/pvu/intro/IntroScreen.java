@@ -34,9 +34,12 @@ public class IntroScreen extends GameScreen {
 
     private boolean mHasPressed = false;
     private boolean mInputName = false;
+    private Input mInput;
 
     public IntroScreen(PVU game) {
         super(game);
+
+        mInput = new Input();
 
         mFont = Assets.primaryFont10px;
 
@@ -84,7 +87,7 @@ public class IntroScreen extends GameScreen {
 
     }
     private void checkInputFirst() {
-        if(Input.action()) {
+        if(mInput.action()) {
             mHasPressed = true;
             Tween.to(mBackground, SpriteAccessor.OPACITY, 0.5f)
                     .target(1f)
@@ -160,7 +163,7 @@ public class IntroScreen extends GameScreen {
 
         @Override
         public boolean keyDown(int keycode) {
-            if (Input.action() && mCurrentInput.length() > 0)
+            if (mInput.action() && mCurrentInput.length() > 0)
                 startGame();
             return false;
         }

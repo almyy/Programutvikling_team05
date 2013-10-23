@@ -12,17 +12,47 @@ import com.badlogic.gdx.utils.TimeUtils;
  */
 public class Input {
 
-    private static final long REPEAT_DELAY = 200L;
-    private static final long ACTION_REPEAT_DELAY = 200L;
+    private long REPEAT_DELAY = 200L;
+    private long ACTION_REPEAT_DELAY = 200L;
 
-    private static long mLastPress = 0L;
-    private static long mLastPressBack = 0L;
-    private static long mLastPressAction = 0L;
+    private long mLastPress = 0L;
+    private long mLastPressBack = 0L;
+    private long mLastPressAction = 0L;
+
+    /**
+     * Default delay is 200ms.
+     */
+    public Input() {
+
+    }
+
+    /**
+     * Use only if you want a custom delay on key input (does not apply to
+     * continuous methods).
+     * @param navigationDelay Used for up, down, left, right
+     * @param actionDelay Used for action
+     */
+    public Input(long navigationDelay, long actionDelay) {
+        this.REPEAT_DELAY = navigationDelay;
+        this.ACTION_REPEAT_DELAY = actionDelay;
+
+    }
+
+    /**
+     * This is required to stop the game from accepting input a few ms after the screen
+     * is started.
+     */
+    private void initLastPressed() {
+        long now = TimeUtils.millis();
+        mLastPress = now;
+        mLastPressBack = now;
+        mLastPressAction = now;
+    }
 
     /**
      * Returns true once every 200ms if ESCAPE is pressed. Use for navigating back.
      */
-    public static boolean back() {
+    public boolean back() {
         if(isKey(ESCAPE)) {
             if(isBackReady()) {
                 mLastPressBack = TimeUtils.millis();
@@ -36,7 +66,7 @@ public class Input {
      * Returns true once every 200ms if SPACE. Use for MENU action. Use
      * continuousAction() if you require continuous input.
      */
-    public static boolean action() {
+    public boolean action() {
         if(continuousAction()) {
             if(isActionReady()) {
                 mLastPressAction = TimeUtils.millis();
@@ -57,7 +87,7 @@ public class Input {
      * Returns true once every 200ms if E. Use for MENU action. Has no continuous
      * counterpart.
      */
-    public static boolean alternateAction() {
+    public boolean alternateAction() {
         if(isKey(E)) {
             if(isActionReady()) {
                 mLastPressBack = TimeUtils.millis();
@@ -70,7 +100,7 @@ public class Input {
     /**
      * Returns true every 200ms for UP. Use continuousUp() for continuous input.
      */
-    public static boolean up() {
+    public boolean up() {
         if(continuousUp()) {
             return keyAndTime();
         }
@@ -80,7 +110,7 @@ public class Input {
     /**
      * Returns true every 200ms for DOWN. Use continuousDown() for continuous input.
      */
-    public static boolean down() {
+    public boolean down() {
         if(continuousDown()) {
             return keyAndTime();
         }
@@ -90,7 +120,7 @@ public class Input {
     /**
      * Returns true every 200ms for LEFT. Use continuousLeft() for continuous input.
      */
-    public static boolean left() {
+    public boolean left() {
         if(continuousLeft()) {
             return keyAndTime();
         }
@@ -100,7 +130,7 @@ public class Input {
     /**
      * Returns true every 200ms for RIGHT. Use continuousRight() for continuous input.
      */
-    public static boolean right() {
+    public boolean right() {
         if(continuousRight()) {
             return keyAndTime();
         }
@@ -135,7 +165,7 @@ public class Input {
         return isKey(D) || isKey(RIGHT) || isKey(DPAD_RIGHT);
     }
 
-    private static boolean keyAndTime() {
+    private boolean keyAndTime() {
         if(isKeyReady()) {
             mLastPress = TimeUtils.millis();
             return true;
@@ -147,15 +177,15 @@ public class Input {
         return Gdx.input.isKeyPressed(key);
     }
 
-    private static boolean isBackReady() {
+    private boolean isBackReady() {
         return ((TimeUtils.millis() - mLastPressBack) > ACTION_REPEAT_DELAY);
     }
 
-    private static boolean isKeyReady() {
+    private boolean isKeyReady() {
         return ((TimeUtils.millis() - mLastPress) > REPEAT_DELAY);
     }
 
-    public static boolean isActionReady() {
+    public boolean isActionReady() {
         return ((TimeUtils.millis() - mLastPressAction) > REPEAT_DELAY);
     }
 }

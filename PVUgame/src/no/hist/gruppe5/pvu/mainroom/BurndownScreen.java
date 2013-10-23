@@ -25,10 +25,12 @@ public class BurndownScreen extends GameScreen {
     private Label mTextLabel;
     private Label.LabelStyle mLabelstyle;
     private Stage mStage;
+    private Input mInput;
 
     public BurndownScreen(PVU game) {
         super(game);
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mInput = new Input();
 
         try {
             mText = Assets.readFile("data/burndownScreen/text.txt");
@@ -67,7 +69,7 @@ public class BurndownScreen extends GameScreen {
     @Override
     protected void update(float delta) {
 
-        if (Input.action()) {
+        if (mInput.action()) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
     }
