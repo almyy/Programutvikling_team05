@@ -1,15 +1,11 @@
 package no.hist.gruppe5.pvu.umlblocks;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.TimeUtils;
-import no.hist.gruppe5.pvu.GameScreen;
-import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.ScoreHandler;
-import no.hist.gruppe5.pvu.Settings;
+import no.hist.gruppe5.pvu.*;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.umlblocks.entities.*;
 
@@ -284,7 +280,7 @@ public class BlocksScreen extends GameScreen {
     }
 
     private void checkInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Input.continuousAction()) {
             if(mGui.isTutorial()) {
                 mGui.enableGameDisplay();
                 mLastDrop = TimeUtils.millis();
@@ -292,13 +288,13 @@ public class BlocksScreen extends GameScreen {
                 getLastBlock().release().activate();
                 mLastDrop = TimeUtils.millis();
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        } else if (Input.continuousLeft()) {
             goLeft();
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        } else if (Input.continuousRight()) {
             goRight();
         }
 
-        if(mIdleBeforeNextGame && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if(mIdleBeforeNextGame && Input.continuousAction()) {
             if(mCurrentGame != Room.DONE) {
                 resetVariables();
                 startNewGame(false);
