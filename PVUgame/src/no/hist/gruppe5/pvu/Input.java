@@ -11,19 +11,21 @@ import com.badlogic.gdx.utils.TimeUtils;
  * Time: 09:16
  */
 public class Input {
+    
+    private static long BACK_REPEAT_DELAY = 400L;
+    private static long mLastPressBack = 0L;
 
     private long REPEAT_DELAY = 200L;
     private long ACTION_REPEAT_DELAY = 200L;
 
     private long mLastPress = 0L;
-    private long mLastPressBack = 0L;
     private long mLastPressAction = 0L;
 
     /**
      * Default delay is 200ms.
      */
     public Input() {
-
+        initLastPressed();
     }
 
     /**
@@ -35,6 +37,7 @@ public class Input {
     public Input(long navigationDelay, long actionDelay) {
         this.REPEAT_DELAY = navigationDelay;
         this.ACTION_REPEAT_DELAY = actionDelay;
+        initLastPressed();
 
     }
 
@@ -52,7 +55,7 @@ public class Input {
     /**
      * Returns true once every 200ms if ESCAPE is pressed. Use for navigating back.
      */
-    public boolean back() {
+    public static boolean back() {
         if(isKey(ESCAPE)) {
             if(isBackReady()) {
                 mLastPressBack = TimeUtils.millis();
@@ -177,8 +180,8 @@ public class Input {
         return Gdx.input.isKeyPressed(key);
     }
 
-    private boolean isBackReady() {
-        return ((TimeUtils.millis() - mLastPressBack) > ACTION_REPEAT_DELAY);
+    private static boolean isBackReady() {
+        return ((TimeUtils.millis() - mLastPressBack) > BACK_REPEAT_DELAY);
     }
 
     private boolean isKeyReady() {
@@ -186,6 +189,6 @@ public class Input {
     }
 
     public boolean isActionReady() {
-        return ((TimeUtils.millis() - mLastPressAction) > REPEAT_DELAY);
+        return ((TimeUtils.millis() - mLastPressAction) > ACTION_REPEAT_DELAY);
     }
 }

@@ -31,9 +31,4 @@ public class Section {
     public int getSize() {
         return size;
     }
-    
-    public static void main(String[] args) {
-        Section s = new Section("Innledning");
-        System.out.println(s.getPage(2).getHeader());
-    }
 }

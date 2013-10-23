@@ -1,7 +1,5 @@
 package no.hist.gruppe5.pvu.book;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 
 /**
@@ -20,13 +18,9 @@ import no.hist.gruppe5.pvu.PVU;
  */
 public class BookScreen extends GameScreen {
 
-    private int MAX_PAGE;
-    private int MIN_PAGE;
     private int currentSectionNumber;
     private boolean inContent;
     private final String[] sections = {"Innledning", "Analyse", "Design", "Implementasjon", "Sluttrapport"};
-    private long timeSinceLastAction;
-    private final long KEY_INPUT_DELAY = 700;
 
     private int currentPageNumber;
 
@@ -43,10 +37,12 @@ public class BookScreen extends GameScreen {
     private Label sectionText;
 
     private Section section;
+    
+    private Input input;
 
     public BookScreen(PVU game) {
         super(game);
-        timeSinceLastAction = 0;
+        input = new Input();
         currentSectionNumber = 0;
         inContent = true;
         currentPageNumber = 0;
@@ -98,28 +94,30 @@ public class BookScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (TimeUtils.millis() - timeSinceLastAction > KEY_INPUT_DELAY && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && !isGamePaused()) {
+        if (!isGamePaused()) {
             if (inContent) {
                 checkActionsInContent();
             } else {
                 checkActions();
             }
-            timeSinceLastAction = TimeUtils.millis();
         }
     }
 
     private void checkActionsInContent() {
-        if ((Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) && currentSectionNumber > 0) {
+        if (input.up() && currentSectionNumber > 0) {
             changeSelectedSection(-1);
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) && currentSectionNumber < sections.length - 1) {
+        } else if (input.down() && currentSectionNumber < sections.length - 1) {
             changeSelectedSection(1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+        } else if (input.action()) {
             section = new Section(sections[currentSectionNumber]);
             addPagesToStage();
             flipPage(0);
             sectionText.setText(sections[currentSectionNumber]);
+            content[currentSectionNumber].setStyle(buttonStyle);
             inContent = false;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+        } else if (input.right()) {
+            content[currentSectionNumber].setStyle(buttonStyle);
+            currentSectionNumber = 0;
             section = new Section(sections[currentSectionNumber]);
             currentPageNumber = 0;
             addPagesToStage();
@@ -130,7 +128,7 @@ public class BookScreen extends GameScreen {
     }
 
     public void checkActions() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (input.right()) {
             if (currentPageNumber < section.getSize() - 1) {
                 flipPage(2);
             } else {
@@ -142,7 +140,7 @@ public class BookScreen extends GameScreen {
                     sectionText.setText(sections[currentSectionNumber]);
                 }
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+        } else if (input.left()) {
             if (currentPageNumber == 0 && currentSectionNumber == 0) {
                 addContentToStage();
                 inContent = true;
@@ -154,7 +152,6 @@ public class BookScreen extends GameScreen {
                         currentSectionNumber--;
                         section = new Section(sections[currentSectionNumber]);
                         currentPageNumber = (section.getSize() % 2 == 0) ? section.getSize() - 2 : section.getSize() - 1;
-                        System.out.println(section.getSize() % 2 == 0);
                         flipPage(0);
                         sectionText.setText(sections[currentSectionNumber]);
                     }
@@ -185,7 +182,7 @@ public class BookScreen extends GameScreen {
         stage.clear();
         for (TextButton button : content) {
             stage.addActor(button);
-        }
+        }content[currentSectionNumber].setStyle(buttonStylePressed);
     }
 
     private void changeSelectedSection(int down) {
