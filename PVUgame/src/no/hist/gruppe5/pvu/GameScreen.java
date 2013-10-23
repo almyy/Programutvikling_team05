@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.book.BookScreen;
+import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.mainroom.BurndownScreen;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
@@ -42,7 +43,7 @@ public abstract class GameScreen implements Screen {
     private TextButtonStyle selectedButtonStyle;
     private TextButtonStyle buttonStyle;
 
-    private final long WAIT_KEY_PRESSED = 500l;
+    private final long WAIT_KEY_PRESSED = 400l;
 
     public GameScreen(PVU game) {
         this.game = game;
@@ -54,7 +55,7 @@ public abstract class GameScreen implements Screen {
 
         lastAction = 0;
         running = true;
-        stage = new Stage(PVU.GAME_WIDTH * 2.7f, PVU.GAME_HEIGHT * 2.7f, true);
+        stage = new Stage(PVU. SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
         initPauseLayout();
         Gdx.input.setInputProcessor(stage);
@@ -101,7 +102,9 @@ public abstract class GameScreen implements Screen {
                         || this instanceof BurndownScreen
                         || this instanceof ScoreScreen) {
                     game.setScreen(PVU.MAIN_SCREEN);
-                } else {
+                }else if(this instanceof IntroScreen){
+                    return;
+                }else {
                     pauseButtons[selectedButton].setStyle(buttonStyle);
                     selectedButton = 0;
                     pauseButtons[selectedButton].setStyle(selectedButtonStyle);
@@ -138,10 +141,10 @@ public abstract class GameScreen implements Screen {
             running = true;
         } else if (selectedButton == Button.SOUND.pos) {
             if (Settings.GLOBAL_SOUND) {
-                pauseButtons[selectedButton].setText("Sound off");
+                pauseButtons[selectedButton].setText("Lyd av");
                 Settings.setSound(false);
             } else {
-                pauseButtons[selectedButton].setText("Sound on");
+                pauseButtons[selectedButton].setText("Lyd på");
                 Settings.setSound(true);
             }
         } else if (selectedButton == Button.BACK.pos) {
@@ -159,11 +162,12 @@ public abstract class GameScreen implements Screen {
     private void drawPauseMenu() {
         clearCamera(1, 1, 1, 1);
         batch.begin();
-        batch.draw(Assets.introMainLogo, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 2, PVU.GAME_WIDTH / 3, PVU.GAME_HEIGHT / 3);
+        batch.draw(Assets.introMainLogo, 55, 70);
+        
         batch.end();
         for (TextButton button : pauseButtons) {
             stage.addActor(button);
-        }
+        }stage.addActor(pauseLabel);
     }
 
     private void initPauseLayout() {
@@ -173,19 +177,25 @@ public abstract class GameScreen implements Screen {
         buttonStyle.up = skinPauseButton.getDrawable("menubutton.up");
         buttonStyle.down = skinPauseButton.getDrawable("menubutton.down");
         buttonStyle.font = Assets.primaryFont10px;
+        buttonStyle.fontColor = Color.BLACK;
         selectedButtonStyle.up = skinPauseButton.getDrawable("menubutton.down");
         selectedButtonStyle.down = skinPauseButton.getDrawable("menubutton.up");
         selectedButtonStyle.font = Assets.primaryFont10px;
         pauseLabel = new Label("PAUSE", labelStyle);
-        pauseLabel.setFontScale(1.9f);
-        pauseLabel.setPosition(PVU.GAME_WIDTH * 1.225f, PVU.GAME_HEIGHT);
+        pauseLabel.setPosition(PVU.SCREEN_WIDTH/2-55, PVU.SCREEN_HEIGHT/2);
+        pauseLabel.setFontScale(3.9f);
+        
 
-        String[] pauseButtonText = {"Resume", "Sound on", "Back", "Exit"};
+        String[] pauseButtonText = {"Fortsett", "Til rommet", "Lyd på", "Exit"};
         pauseButtons = new TextButton[pauseButtonText.length];
+        
 
         for (int i = 0; i < pauseButtonText.length; i++) {
             pauseButtons[i] = new TextButton(pauseButtonText[i], buttonStyle);
-            pauseButtons[i].setPosition(PVU.GAME_WIDTH * 1.24f, stage.getHeight() / 3 - (i * 20));
+            pauseButtons[i].setWidth(190);
+            pauseButtons[i].setHeight(40);
+            pauseButtons[i].getLabel().setFontScale(2.5f);
+            pauseButtons[i].setPosition(PVU.SCREEN_WIDTH/2-pauseButtons[i].getWidth()/2, stage.getHeight()/3-i*pauseButtons[i].getHeight());
         }
     }
 
@@ -232,7 +242,7 @@ public abstract class GameScreen implements Screen {
 
     private enum Button {
 
-        RESUME(0), SOUND(1), BACK(2), EXIT(3);
+        RESUME(0), BACK(1), SOUND(2), EXIT(3);
 
         private int pos;
 
