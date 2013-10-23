@@ -15,6 +15,7 @@ import no.hist.gruppe5.pvu.Assets;
  */
 public class TeamMates {
 
+    private static boolean mLol = false;
     private Sprite[] mSprites;
     private Animation[] mAnimations;
 
@@ -50,8 +51,16 @@ public class TeamMates {
 
     public void update() {
         for(int i = 0; i < mSprites.length; i++) {
-            mAnimations[i].animate(Gdx.graphics.getDeltaTime());
+            if(!mLol)
+                mAnimations[i].animate(Gdx.graphics.getDeltaTime());
+            else
+                mAnimations[i].animate(Gdx.graphics.getDeltaTime() * 10);
+
             mSprites[i].setRegion(mAnimations[i].getFrame());
         }
+    }
+
+    public static void lol() {
+        mLol = true;
     }
 }

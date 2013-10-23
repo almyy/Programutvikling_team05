@@ -305,11 +305,8 @@ public class BlocksScreen extends GameScreen {
             } else {
                 // Report the final score
                 float totalScore = getTotalScore();
-                QuizHandler.updateQuizScore(Math.round(totalScore), ScoreHandler.UMLBLOCKS);
+                QuizHandler.updateFinishedMiniGame();
                 ScoreHandler.updateScore(ScoreHandler.UMLBLOCKS, totalScore / 100);
-                ScoreHandler.getMiniGameGrade(ScoreHandler.UMLBLOCKS);
-
-                System.out.println(ScoreHandler.getMiniGameGrade(ScoreHandler.UMLBLOCKS));
 
                 // Let's go back.
                 game.setScreen(PVU.MAIN_SCREEN);

@@ -3,12 +3,9 @@ package no.hist.gruppe5.pvu.reqfinder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.utils.TimeUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,11 +35,11 @@ public class ReqFinderScreen extends GameScreen {
     private ArrayList<Label> mLabels = new ArrayList<>();
     private Label mHighlightedLabel;
     private int mHighlightedIndex;
-    private long mLastButtonPressed;
     private String[] mCorrectWords= {"interaktivt", "skjema,", "kundeprofil", "profilside", "instant", "messaging-tjeneste", "(IM-tjeneste).", "prosjektbestillinger", "fysikksimulator"};
     private Input mInput = new Input();
     private int mLives = mCorrectWords.length;
     private Label mLivesLabel;
+    private int mCorrectCounter = 0;
             
     public ReqFinderScreen(PVU pvu) {
         super(pvu);
@@ -63,7 +60,7 @@ public class ReqFinderScreen extends GameScreen {
         mLivesStyle = new LabelStyle(kopiert, Color.RED);
         
 
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mStage.setViewport(mStage.getWidth(), mStage.getHeight(), true, 0, 0, mStage.getWidth(), mStage.getHeight());
         StringTokenizer st = new StringTokenizer(mCaseText);
         mLabelStyle.font.scale(1.5f);
@@ -100,10 +97,16 @@ public class ReqFinderScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (mInput.back()) {
-            game.setScreen(PVU.MAIN_SCREEN);
+        if (mCorrectCounter == mCorrectWords.length) {
+            //won
+            reportScore();
+            game.setScreen(new ReqFinderEndScreen(game, mLives, mCorrectWords.length));
         }
-        else if (mInput.right() && !isRightmost()) {
+        if (mLives <= 0) {
+            reportScore();
+            game.setScreen(new ReqFinderEndScreen(game, mLives, mCorrectWords.length));
+        }
+        if (mInput.right() && !isRightmost()) {
             mHighlightedIndex++;
             if(mHighlightedLabel.getStyle().equals(mHighlightedLabelStyle)) {
                 mHighlightedLabel.setStyle(mLabelStyle);
@@ -144,9 +147,10 @@ public class ReqFinderScreen extends GameScreen {
                 mHighlightedLabel.setStyle(mHighlightedLabelStyle);
             }
         }
-        else if (mInput.action()) {
+        else if (mLives != 0 && mInput.action()) {
             if(isCorrect()) {
                 mHighlightedLabel.setStyle(mCorrectLabelStyle);
+                mCorrectCounter++;
                 
             } else {
                 mHighlightedLabel.setStyle(mWrongLabelStyle);
@@ -158,6 +162,7 @@ public class ReqFinderScreen extends GameScreen {
             QuizHandler.updateFinishedMiniGame();
             ScoreHandler.updateScore(ScoreHandler.REQ, 10);
             game.setScreen(PVU.MAIN_SCREEN);
+            reportScore();
         }
     }
 
@@ -267,5 +272,11 @@ public class ReqFinderScreen extends GameScreen {
             }
         }
         return false;
+    }
+    private void reportScore() {
+        float score = (float) (1.0-((float)mCorrectWords.length-(float)mLives)/(float)mCorrectWords.length);
+        System.out.println((int)(score*100));
+        QuizHandler.updateQuizScore((int)(score*100), ScoreHandler.REQ);
+        ScoreHandler.updateScore(ScoreHandler.REQ, score);
     }
 }

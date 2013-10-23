@@ -59,7 +59,7 @@ public class BurndownScreen extends GameScreen {
 
     @Override
     protected void draw(float delta) {
-        clearCamera(1, 1, 1, 1);
+        clearCamera(1f, 0.961f, 0.769f, 1);
         batch.begin();
         mBurndownCarts[mCurrentCart].draw(batch);
         batch.end();

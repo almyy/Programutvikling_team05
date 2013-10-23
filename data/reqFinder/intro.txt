@@ -1,0 +1,1 @@
+﻿Velkommen til RequirementFinder! Her skal du finne de viktigste ordene i casen som er presentert. Disse ordene skal du kunne bruke til å formulere krav og senere use-cases. Du har 9 forsøk på å finne de 9 ordene. Bommer du, mister du altså et ord. 
