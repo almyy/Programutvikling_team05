@@ -23,7 +23,7 @@ public class Input {
      * Default delay is 200ms.
      */
     public Input() {
-
+        initLastPressed();
     }
 
     /**
@@ -35,6 +35,7 @@ public class Input {
     public Input(long navigationDelay, long actionDelay) {
         this.REPEAT_DELAY = navigationDelay;
         this.ACTION_REPEAT_DELAY = actionDelay;
+        initLastPressed();
 
     }
 
@@ -186,6 +187,6 @@ public class Input {
     }
 
     public boolean isActionReady() {
-        return ((TimeUtils.millis() - mLastPressAction) > REPEAT_DELAY);
+        return ((TimeUtils.millis() - mLastPressAction) > ACTION_REPEAT_DELAY);
     }
 }
