@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import no.hist.gruppe5.pvu.*;
+import no.hist.gruppe5.pvu.quiz.QuizHandler;
 
 /**
  * Created with IntelliJ IDEA.
@@ -106,7 +107,12 @@ public class IntroScreen extends GameScreen {
 
 
     private void startGame() {
+        Gdx.input.setInputProcessor(null);
         Settings.setPlayerName(mCurrentInput.toString());
+        if(Settings.PLAYER_NAME.toLowerCase().equals("noquiz")){
+            System.out.println("Setting no quiz, hooraay!");
+            QuizHandler.setNoQuiz();
+        }
         game.setScreen(PVU.MAIN_SCREEN);
     }
 

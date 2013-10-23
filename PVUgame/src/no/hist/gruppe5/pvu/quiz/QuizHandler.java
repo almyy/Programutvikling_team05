@@ -25,11 +25,10 @@ public class QuizHandler {
         mTotalCorrect = new int[5];
         completedMiniGames = 0;
         quizzesCompleted = 0;
-        if(Settings.PLAYER_NAME.toLowerCase().equals("noquiz")){
-            for(int i = 0; i < 5; i++){
-                mTotalCorrect[i]=5;
-            }
-        }
+    }
+
+    public static void setNoQuiz() {
+        quizzesCompleted = 5;
     }
 
     public static boolean miniGameUnlocked(int miniGame) {
