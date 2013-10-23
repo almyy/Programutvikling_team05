@@ -22,10 +22,15 @@ import no.hist.gruppe5.pvu.PVU;
 
 public class JumperScreen extends GameScreen {
 
+    public static final float WORLD_TO_BOX = 3f / 192f / 2f;
+    public static final float BOX_TO_WORLD = 192f / 3f;
     public static final float WORLD_WIDTH = 3f;
     public static final float WORLD_HEIGHT = 1.8125f;
-    private final float PLATFORM_SIZE = 0.1f;
-    private final float BALL_MARGIN = 0.02f;
+    private final float PLATFORM_SIZE = 0.15f;
+    private final float BALL_MARGIN_X = 0.02f;
+    private final float BALL_MARGIN_Y_BOT = 0.1f;
+    private final float BALL_MARGIN_Y_TOP = 0.2f;
+    
     private World mWorld;
     private OrthographicCamera mGameCam;
     private Room mRoom;
@@ -66,13 +71,13 @@ public class JumperScreen extends GameScreen {
 
         background = new JumperScreenBackground();
 
-        mWorld = new World(new Vector2(0, 0), false);
+        mWorld = new World(new Vector2(0, -10), false);
         mRoom = new Room(mWorld);
 
         mBall = new Ball(mWorld);
         mBall.getBody().setTransform(0.5f, 0.3f, 0);
 
-        mPlatform = new Platform();
+        mPlatform = new Platform(mWorld);
         mPlatforms = new ArrayList<>(5);
         mPlatforms.add(mPlatform.createPlatform(new Vector2(0.5f, 0.2f), PLATFORM_SIZE, mWorld, true));
         mPlatforms.add(mPlatform.createPlatform(new Vector2(1f, 0.2f), PLATFORM_SIZE, mWorld, true));
@@ -97,7 +102,7 @@ public class JumperScreen extends GameScreen {
         mLine.setScale(0.1f, 0.2f);
         mHead.setOrigin(38, 36);
         mHead.setScale(0.20f);
-        
+
         // Gameplay
         mLife = 5;
         mHighscore = 0;
@@ -109,6 +114,7 @@ public class JumperScreen extends GameScreen {
 
         batch.begin();
         background.draw(batch);
+        mPlatform.draw(batch);
         mBall.draw(batch);
         switch (checkCollision()) {
             case 1:
@@ -195,25 +201,35 @@ public class JumperScreen extends GameScreen {
         }
         batch.end();
         mGui.draw();
-        mDebugRenderer.render(mWorld, mGameCam.combined);
+        //mDebugRenderer.render(mWorld, mGameCam.combined);
     }
 
     @Override
     protected void update(float delta) {
         mWorld.step(1 / 60f, 6, 2);
-        
+
         checkCollision();
-        
+
         checkInput();
-        
+
         // Ball update
         mBall.update(delta);
         
+        // Platform update
+        mPlatform.update(delta);
+
         // GUI update
         mGui.update(delta);
         mGui.setJumps(level);
         mGui.setSuccess(level);
-        mGui.setLife(mLife);
+
+        // End of game
+        if (mLife > 0) {
+            mGui.setLife(mLife);
+        } else {
+            mGui.setGameFeedback();
+            mGui.enableIntermediateDisplay();
+        }
         if (level == 11) {
             mGui.setGameFeedback();
             mGui.enableIntermediateDisplay();
@@ -222,10 +238,10 @@ public class JumperScreen extends GameScreen {
 
     private int checkCollision() {
         //Platform 1
-        if (mBall.getBody().getPosition().x < mPlatforms.get(0).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
-                && mBall.getBody().getPosition().x > mPlatforms.get(0).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(0).getPosition().y + 0.1
-                && mBall.getBody().getPosition().y < mPlatforms.get(0).getPosition().y + 0.2) {
+        if (mBall.getBody().getPosition().x < mPlatforms.get(0).getPosition().x + PLATFORM_SIZE + BALL_MARGIN_X
+                && mBall.getBody().getPosition().x > mPlatforms.get(0).getPosition().x - PLATFORM_SIZE - BALL_MARGIN_X
+                && mBall.getBody().getPosition().y > mPlatforms.get(0).getPosition().y + BALL_MARGIN_Y_BOT
+                && mBall.getBody().getPosition().y < mPlatforms.get(0).getPosition().y + BALL_MARGIN_Y_TOP) {
             if (level == 0 || level == 1 || level == 5 || level == 6 || level == 7 || level == 8 || level == 10 || level == 11) {
                 if (level == 0 && same[0] == false) {
                     level++;
@@ -249,10 +265,10 @@ public class JumperScreen extends GameScreen {
             return 1;
         }
         //Platform 2
-        if (mBall.getBody().getPosition().x < mPlatforms.get(1).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
-                && mBall.getBody().getPosition().x > mPlatforms.get(1).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(1).getPosition().y + 0.1
-                && mBall.getBody().getPosition().y < mPlatforms.get(1).getPosition().y + 0.2) {
+        if (mBall.getBody().getPosition().x < mPlatforms.get(1).getPosition().x + PLATFORM_SIZE + BALL_MARGIN_X
+                && mBall.getBody().getPosition().x > mPlatforms.get(1).getPosition().x - PLATFORM_SIZE - BALL_MARGIN_X
+                && mBall.getBody().getPosition().y > mPlatforms.get(1).getPosition().y + BALL_MARGIN_Y_BOT
+                && mBall.getBody().getPosition().y < mPlatforms.get(1).getPosition().y + BALL_MARGIN_Y_TOP) {
             if (level == 1 || level == 2) {
                 if (level == 1 && same[1] == false) {
                     level++;
@@ -267,10 +283,10 @@ public class JumperScreen extends GameScreen {
             return 2;
         }
         //Platform 3
-        if (mBall.getBody().getPosition().x < mPlatforms.get(2).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
-                && mBall.getBody().getPosition().x > mPlatforms.get(2).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(2).getPosition().y + 0.1
-                && mBall.getBody().getPosition().y < mPlatforms.get(2).getPosition().y + 0.2) {
+        if (mBall.getBody().getPosition().x < mPlatforms.get(2).getPosition().x + PLATFORM_SIZE + BALL_MARGIN_X
+                && mBall.getBody().getPosition().x > mPlatforms.get(2).getPosition().x - PLATFORM_SIZE - BALL_MARGIN_X
+                && mBall.getBody().getPosition().y > mPlatforms.get(2).getPosition().y + BALL_MARGIN_Y_BOT
+                && mBall.getBody().getPosition().y < mPlatforms.get(2).getPosition().y + BALL_MARGIN_Y_TOP) {
             if (level == 2 || level == 3 || level == 4 || level == 5) {
                 if (level == 2 && same[2] == false) {
                     level++;
@@ -288,10 +304,10 @@ public class JumperScreen extends GameScreen {
             return 3;
         }
         //Platform 4
-        if (mBall.getBody().getPosition().x < mPlatforms.get(3).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
-                && mBall.getBody().getPosition().x > mPlatforms.get(3).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(3).getPosition().y + 0.1
-                && mBall.getBody().getPosition().y < mPlatforms.get(3).getPosition().y + 0.2) {
+        if (mBall.getBody().getPosition().x < mPlatforms.get(3).getPosition().x + PLATFORM_SIZE + BALL_MARGIN_X
+                && mBall.getBody().getPosition().x > mPlatforms.get(3).getPosition().x - PLATFORM_SIZE - BALL_MARGIN_X
+                && mBall.getBody().getPosition().y > mPlatforms.get(3).getPosition().y + BALL_MARGIN_Y_BOT
+                && mBall.getBody().getPosition().y < mPlatforms.get(3).getPosition().y + BALL_MARGIN_Y_TOP) {
             if (level == 3 || level == 4 || level == 6 || level == 7 || level == 9 || level == 10) {
                 if (level == 3 && same[3] == false) {
                     level++;
@@ -314,10 +330,10 @@ public class JumperScreen extends GameScreen {
             return 4;
         }
         //Platform 5
-        if (mBall.getBody().getPosition().x < mPlatforms.get(4).getPosition().x + PLATFORM_SIZE + BALL_MARGIN
-                && mBall.getBody().getPosition().x > mPlatforms.get(4).getPosition().x - PLATFORM_SIZE - BALL_MARGIN
-                && mBall.getBody().getPosition().y > mPlatforms.get(4).getPosition().y + 0.1
-                && mBall.getBody().getPosition().y < mPlatforms.get(4).getPosition().y + 0.2) {
+        if (mBall.getBody().getPosition().x < mPlatforms.get(4).getPosition().x + PLATFORM_SIZE + BALL_MARGIN_X
+                && mBall.getBody().getPosition().x > mPlatforms.get(4).getPosition().x - PLATFORM_SIZE - BALL_MARGIN_X
+                && mBall.getBody().getPosition().y > mPlatforms.get(4).getPosition().y + BALL_MARGIN_Y_BOT
+                && mBall.getBody().getPosition().y < mPlatforms.get(4).getPosition().y + BALL_MARGIN_Y_TOP) {
             if (level == 8 || level == 9) {
                 if (level == 8 && same[8] == false) {
                     level++;
@@ -345,14 +361,15 @@ public class JumperScreen extends GameScreen {
         for (int i = 0; i < level; i++) {
             same[i] = false;
         }
+        // GUI updates
+        mGui.setLifeLoss();
         mLife--;
         mHighscore = level;
         level = 0;
     }
 
     private void checkInput() {
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+     /*   if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             mBall.getBody().applyForceToCenter(0.01f, 0f, true);
             movem = true;
         }
@@ -372,8 +389,8 @@ public class JumperScreen extends GameScreen {
             movem = false;
         }
 
-        /*
-        // Ball movement right
+        */
+         // Ball movement right
          if (Gdx.input.isKeyPressed(Input.Keys.D) && !hasPressedD) {
          if (powerRight < 0.85) {
          powerRight += 0.008;
@@ -395,7 +412,7 @@ public class JumperScreen extends GameScreen {
          powerHeight = 0;
          loadedD = false;
          }
-        // Ball movement left
+         // Ball movement left
          if (Gdx.input.isKeyPressed(Input.Keys.A) && !hasPressedA) {
          if (powerLeft > -0.85) {
          powerLeft -= 0.008;
@@ -416,7 +433,7 @@ public class JumperScreen extends GameScreen {
          powerLeft = 0;
          powerHeight = 0;
          loadedA = false;
-         } */
+         } 
     }
 
     @Override

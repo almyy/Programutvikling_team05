@@ -80,6 +80,7 @@ public class Assets {
     public static TextureRegion seqBackground;
     public static TextureRegion seqBall;
     public static TextureRegion seqLine;
+    public static TextureRegion seqBox;
 
     public static void load() {
         minecraftFont10px = new BitmapFont(
@@ -154,6 +155,7 @@ public class Assets {
         seqLine = seqAtlas.findRegion("line");
         seqBackground = seqAtlas.findRegion("white");
         seqBall = seqAtlas.findRegion("ball");
+        seqBox = seqAtlas.findRegion("box");
     }
 
     public static TextureRegion getAvatarRegion(int region) {

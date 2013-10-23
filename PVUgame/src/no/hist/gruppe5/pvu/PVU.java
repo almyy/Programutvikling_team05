@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
+import no.hist.gruppe5.pvu.seqjumper.JumperScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionEndScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
 
@@ -50,7 +51,7 @@ public class PVU extends Game {
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
         MAIN_SCREEN = new MainScreen(this);
 
-        setScreen(new IntroScreen(this));
+        setScreen(new JumperScreen(this));
 
     }
 
