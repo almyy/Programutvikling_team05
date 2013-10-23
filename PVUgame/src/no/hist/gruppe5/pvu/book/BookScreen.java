@@ -152,7 +152,6 @@ public class BookScreen extends GameScreen {
                         currentSectionNumber--;
                         section = new Section(sections[currentSectionNumber]);
                         currentPageNumber = (section.getSize() % 2 == 0) ? section.getSize() - 2 : section.getSize() - 1;
-                        System.out.println(section.getSize() % 2 == 0);
                         flipPage(0);
                         sectionText.setText(sections[currentSectionNumber]);
                     }

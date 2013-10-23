@@ -88,9 +88,4 @@ public class XmlReader {
         }
         return null;
     }
-
-    public static void main(String[] args) {
-        System.out.println(getSizeSection("Analyse"));
-        //System.out.println(getPages(3, "Innledning")[5]);
-    }
 }
