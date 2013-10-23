@@ -42,9 +42,9 @@ public class BurndownScreen extends GameScreen {
         }
         mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
         mTextLabel = new Label(mText, mLabelstyle);
-        mTextLabel.setPosition(PVU.SCREEN_WIDTH/4, PVU.SCREEN_HEIGHT/5.3f);
+        mTextLabel.setPosition(PVU.SCREEN_WIDTH / 4, PVU.SCREEN_HEIGHT / 5.3f);
         mTextLabel.setWrap(true);
-        mTextLabel.setWidth(PVU.SCREEN_WIDTH/5);
+        mTextLabel.setWidth(PVU.SCREEN_WIDTH / 5);
         mTextLabel.setFontScale(3f);
 
         mStage.addActor(mTextLabel);
@@ -90,10 +90,16 @@ public class BurndownScreen extends GameScreen {
     }
 
     private void checkCompletion() {
-        for (int i = 0; i < 5; i++) {
-            if (ScoreHandler.isMinigameCompleted(i)) {
-                setBurnDownCart(++mCurrentCart % 5);
-            }
+        if (ScoreHandler.isMinigameCompleted(ScoreHandler.VISION)) {
+            setBurnDownCart(++mCurrentCart % 5);
+        } else if (ScoreHandler.isMinigameCompleted(ScoreHandler.TODO2)) {
+            setBurnDownCart(++mCurrentCart % 5);
+        } else if (ScoreHandler.isMinigameCompleted(ScoreHandler.UMLBLOCKS)) {
+             setBurnDownCart(++mCurrentCart % 5);
+           
+        }else if (ScoreHandler.isMinigameCompleted(ScoreHandler.CODE)) {
+             setBurnDownCart(++mCurrentCart % 5);
+           
         }
     }
 }

@@ -37,6 +37,10 @@ public class MainScreen extends GameScreen {
     private Sprite[] mBurndownCarts;
     private int mCurrentCart = 0;
     private boolean burndownChecked = true;
+    private boolean game1Checked = false;
+    private boolean game2Checked = false;
+    private boolean game3Checked = false;
+    private boolean game4Checked = false;
     private RayCastManager mRayCastManager;
     // DEBUG
     private ShapeRenderer mShapeDebugRenderer;
@@ -131,8 +135,9 @@ public class MainScreen extends GameScreen {
 
         batch.end();
 
-        if(mDialog.isShow())
+        if (mDialog.isShow()) {
             mDialog.draw();
+        }
     }
 
     @Override
@@ -145,8 +150,9 @@ public class MainScreen extends GameScreen {
         mPlayer.setMoveable(!mDialog.isShow());
         mRayCastManager.update(delta);
 
-        if(mDialog.isShow())
+        if (mDialog.isShow()) {
             mDialog.update();
+        }
 
         for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
             mWorld.rayCast(rc.callBack, rc.from, rc.to);
@@ -227,15 +233,22 @@ public class MainScreen extends GameScreen {
     }
 
     private void checkCompletion() {
-        if (!burndownChecked) {
-            for (int i = 0; i < 5; i++) {
-                if (ScoreHandler.isMinigameCompleted(i)) {
-                    setBurnDownCart(++mCurrentCart % 5);
-                }
-            }
-            burndownChecked = true;
+        if (!game1Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.VISION)) {
+            setBurnDownCart(++mCurrentCart % 5);
+            game1Checked = true;
         }
-
+        if (!game2Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.TODO2)) {
+            setBurnDownCart(++mCurrentCart % 5);
+            game2Checked = true;
+        }
+        if (!game3Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.UMLBLOCKS)) {
+            setBurnDownCart(++mCurrentCart % 5);
+            game3Checked = true;
+        }
+        if (!game4Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.CODE)) {
+            setBurnDownCart(++mCurrentCart % 5);
+            game4Checked = true;
+        }
     }
 
     private void setBurnDownCart(int num) {
