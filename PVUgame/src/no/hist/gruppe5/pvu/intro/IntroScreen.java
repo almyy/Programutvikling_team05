@@ -5,18 +5,11 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.*;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.GameScreen;
-import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.Settings;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import no.hist.gruppe5.pvu.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -90,8 +83,8 @@ public class IntroScreen extends GameScreen {
             .start(mManager);
 
     }
-    private void recieveInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !mHasPressed) {
+    private void checkInputFirst() {
+        if(Input.action()) {
             mHasPressed = true;
             Tween.to(mBackground, SpriteAccessor.OPACITY, 0.5f)
                     .target(1f)
@@ -102,11 +95,9 @@ public class IntroScreen extends GameScreen {
                     .ease(Quint.IN)
                     .start(mManager);
 
-
             Gdx.input.setInputProcessor(new InputName());
             mCurrentInput = new StringBuilder();
             mInputName = true;
-            System.out.println("Input mode!");
         }
     }
 
@@ -147,7 +138,7 @@ public class IntroScreen extends GameScreen {
     protected void update(float delta) {
         mManager.update(delta);
 
-        recieveInput();
+        checkInputFirst();
     }
 
     @Override
@@ -169,7 +160,7 @@ public class IntroScreen extends GameScreen {
 
         @Override
         public boolean keyDown(int keycode) {
-            if ((keycode == Input.Keys.SPACE) && mCurrentInput.length() > 0)
+            if (Input.action() && mCurrentInput.length() > 0)
                 startGame();
             return false;
         }
