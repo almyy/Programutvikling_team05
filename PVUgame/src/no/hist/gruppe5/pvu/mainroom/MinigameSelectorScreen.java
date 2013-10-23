@@ -1,7 +1,6 @@
 package no.hist.gruppe5.pvu.mainroom;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.TimeUtils;
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,9 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.coderacer.CoderacerEndScreen;
-import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
@@ -95,15 +92,13 @@ public class MinigameSelectorScreen extends GameScreen {
     @Override
     protected void update(float delta) {
         mMiniGameSelected = -1;
-        if (enoughTimePassed(100L)) {
-            try {
-                positionSelector();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(MinigameSelectorScreen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+        try {
+            positionSelector();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+
         if (mMiniGameSelected != -1) {
             try {
                 selectMiniGame();
@@ -119,7 +114,7 @@ public class MinigameSelectorScreen extends GameScreen {
     protected void cleanUp() {
     }
 
-    private void selectMiniGame() throws FileNotFoundException, IOException {
+    private void selectMiniGame() throws IOException {
         switch (mMiniGameSelected) {
             case VISIONSHOOTER:
                 game.setScreen(new VisionIntroScreen(game));
@@ -139,16 +134,16 @@ public class MinigameSelectorScreen extends GameScreen {
         }
     }
 
-    private void positionSelector() throws FileNotFoundException, IOException {
-        if (Gdx.input.isKeyPressed(Input.Keys.S) && !mSelectorBottom) {
+    private void positionSelector() throws IOException {
+        if (Input.down() && !mSelectorBottom) {
             mSelector.setPosition(0, mSelector.getY() - mYIncrease);
             mSelectorTop = false;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && !mSelectorTop) {
+        if (Input.up() && !mSelectorTop) {
             mSelector.setPosition(0, mSelector.getY() + mYIncrease);
             mSelectorBottom = false;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+        if (Input.action()) {
             int quizNumber = 4 - ((int) (mSelector.getY() / 105f));
             if (quizNumber < QuizHandler.completedMiniGames) {
                 mMiniGameSelected = quizNumber;
