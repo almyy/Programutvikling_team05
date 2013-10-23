@@ -79,7 +79,7 @@ public class Input {
     /**
      * Returns true once if SPACE is pressed, no delay. Use action() if you want slower input.
      */
-    public boolean continuousAction() {
+    public static boolean continuousAction() {
         return isKey(SPACE);
     }
 
@@ -140,28 +140,28 @@ public class Input {
     /**
      * Returns if UP is being pressed, no delay.
      */
-    public boolean continuousUp() {
+    public static boolean continuousUp() {
         return isKey(W) || isKey(UP) || isKey(DPAD_UP);
     }
 
     /**
      * Returns if DOWN is being pressed, no delay.
      */
-    public boolean continuousDown() {
+    public static boolean continuousDown() {
         return isKey(S) || isKey(DOWN) || isKey(DPAD_DOWN);
     }
 
     /**
      * Returns if LEFT is being pressed, no delay.
      */
-    public boolean continuousLeft() {
+    public static boolean continuousLeft() {
         return isKey(A) || isKey(LEFT) || isKey(DPAD_LEFT);
     }
 
     /**
      * Returns if RIGHT is being pressed, no delay.
      */
-    public boolean continuousRight() {
+    public static boolean continuousRight() {
         return isKey(D) || isKey(RIGHT) || isKey(DPAD_RIGHT);
     }
 
@@ -173,7 +173,7 @@ public class Input {
         return false;
     }
 
-    private boolean isKey(int key) {
+    private static boolean isKey(int key) {
         return Gdx.input.isKeyPressed(key);
     }
 
