@@ -1,9 +1,10 @@
 package no.hist.gruppe5.pvu.seqjumper;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+//import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
-//import no.hist.gruppe5.pvu.Input;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.umlblocks.ScrollingBackground;
@@ -65,7 +66,7 @@ public class JumperScreen extends GameScreen {
 
         mGui = new GUI(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
 
-        mWorld = new World(new Vector2(0, 0), false);
+        mWorld = new World(new Vector2(0, -10), false);
         mRoom = new Room(mWorld);
 
         mBall = new Ball(mWorld);
@@ -83,7 +84,7 @@ public class JumperScreen extends GameScreen {
         // Game camera
         mGameCam = new OrthographicCamera();
         mGameCam.setToOrtho(false, 3f, (PVU.SCREEN_HEIGHT / PVU.SCREEN_WIDTH) * 3f);
-        
+
         // Powerbar
         mPowerBar = mPlatform.createPowerBar();
 
@@ -190,6 +191,8 @@ public class JumperScreen extends GameScreen {
                 break;
         }
         batch.end();
+
+        mPlatform.drawRedBar();
 
         //Drawing GUI
         mGui.draw();
@@ -367,72 +370,76 @@ public class JumperScreen extends GameScreen {
     }
 
     private void checkInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            mBall.getBody().applyForceToCenter(0.01f, 0f, true);
-            movem = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            mBall.getBody().applyForceToCenter(-0.01f, 0f, true);
-            movem = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            mBall.getBody().applyForceToCenter(0, -0.01f, true);
-            movem = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            mBall.getBody().applyForceToCenter(0f, 0.01f, true);
-            movem = true;
-        }
-        if (movem == true) {
-            movem = false;
+//        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+//            mBall.getBody().applyForceToCenter(0.01f, 0f, true);
+//            movem = true;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+//            mBall.getBody().applyForceToCenter(-0.01f, 0f, true);
+//            movem = true;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+//            mBall.getBody().applyForceToCenter(0, -0.01f, true);
+//            movem = true;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+//            mBall.getBody().applyForceToCenter(0f, 0.01f, true);
+//            movem = true;
+//        }
+//        if (movem == true) {
+//            movem = false;
+//        }
+
+        // Ball movement right
+        if (Input.continuousRight() && !hasPressedD) {
+            if (powerRight < 0.85) {
+                powerRight += 0.008;
+            }
+            if (powerHeight < 2.55) {
+                powerHeight += 0.03;
+            }
+            mPlatform.setRedBar(powerRight);
+            loadedD = true;
         }
 
-//         
-//        // Ball movement right
-//        if (Input.continuousRight() && !hasPressedD) {
-//            if (powerRight < 0.85) {
-//                powerRight += 0.008;
-//            }
-//            if (powerHeight < 2.55) {
-//                powerHeight += 0.03;
-//            }
-//            loadedD = true;
-//        }
-//
-//        if (!Input.continuousRight() && loadedD) {
-//            hasPressedD = true;
-//        }
-//
-//        if (!Input.continuousRight() && hasPressedD) {
-//            mBall.getBody().applyForceToCenter(powerRight, powerHeight, true);
-//            hasPressedD = false;
-//            powerRight = 0;
-//            powerHeight = 0;
-//            loadedD = false;
-//        }
-//        // Ball movement left
-//        if (Input.continuousLeft() && !hasPressedA) {
-//            if (powerLeft > -0.85) {
-//                powerLeft -= 0.008;
-//            }
-//            if (powerHeight < 2.55) {
-//                powerHeight += 0.03;
-//            }
-//            loadedA = true;
-//        }
-//
-//        if (!Input.continuousLeft() && loadedA) {
-//            hasPressedA = true;
-//        }
-//
-//        if (!Input.continuousLeft() && hasPressedA) {
-//            mBall.getBody().applyForceToCenter(powerLeft, powerHeight, true);
-//            hasPressedA = false;
-//            powerLeft = 0;
-//            powerHeight = 0;
-//            loadedA = false;
-//        } 
-//        
+        if (!Input.continuousRight() && loadedD) {
+            hasPressedD = true;
+        }
+
+        if (!Input.continuousRight() && hasPressedD) {
+            mPlatform.setRedBar(0);
+            mBall.getBody().applyForceToCenter(powerRight, powerHeight, true);
+            hasPressedD = false;
+            powerRight = 0;
+            powerHeight = 0;
+            loadedD = false;
+        }
+        // Ball movement left
+        if (Input.continuousLeft() && !hasPressedA) {
+            if (powerLeft > -0.85) {
+                powerLeft -= 0.008;
+            }
+            if (powerHeight < 2.55) {
+                powerHeight += 0.03;
+            }
+            // Setting power to the bar
+            mPlatform.setRedBar(-powerLeft);
+            loadedA = true;
+        }
+
+        if (!Input.continuousLeft() && loadedA) {
+            hasPressedA = true;
+        }
+
+        if (!Input.continuousLeft() && hasPressedA) {
+            mPlatform.setRedBar(0);
+            mBall.getBody().applyForceToCenter(powerLeft, powerHeight, true);
+            hasPressedA = false;
+            powerLeft = 0;
+            powerHeight = 0;
+            loadedA = false;
+        }
+
     }
 
     @Override

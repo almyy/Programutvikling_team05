@@ -1,7 +1,9 @@
 package no.hist.gruppe5.pvu.seqjumper;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -22,8 +24,11 @@ public class Platform {
     private ArrayList<Sprite> mPlatformSprite;
     private ArrayList<Vector2> mPlatformPositions;
     private ArrayList<Sprite> mPlatformNames;
-    //
+    // Bar
     private Sprite mPowerBar;
+    private Sprite mRedBar;
+    private ShapeRenderer mShape;
+    private float mShapeSize;
 
     public Platform(World world) {
         mPlatformSprite = new ArrayList<>();
@@ -32,6 +37,8 @@ public class Platform {
         }
         this.mPlatformPositions = new ArrayList<>(5);
         this.mPowerBar = new Sprite(Assets.seqBox);
+        this.mRedBar = new Sprite(Assets.redBar);
+        this.mShape = new ShapeRenderer();
     }
 
     public void draw(SpriteBatch batch) {
@@ -93,11 +100,23 @@ public class Platform {
             mPlatformSprite.get(i).setScale(0.185f, 0.15f);
         }
     }
-    
-    public Sprite createPowerBar(){
+
+    public Sprite createPowerBar() {
         mPowerBar.setPosition(-50f, 3f);
         mPowerBar.setScale(0.5f, 0.3f);
         mPowerBar.rotate(90f);
         return mPowerBar;
+    }
+
+    public ShapeRenderer drawRedBar() {
+        mShape.setColor(Color.RED);
+        mShape.begin(ShapeRenderer.ShapeType.Filled);
+        mShape.rect(46, 222, 54, mShapeSize * 280);
+        mShape.end();
+        return mShape;
+    }
+
+    public void setRedBar(float y) {
+        mShapeSize = y;
     }
 }

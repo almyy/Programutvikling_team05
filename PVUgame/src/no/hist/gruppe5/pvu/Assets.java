@@ -81,6 +81,7 @@ public class Assets {
     public static TextureRegion seqBall;
     public static TextureRegion seqLine;
     public static TextureRegion seqBox;
+    public static TextureRegion redBar;
 
     public static void load() {
         minecraftFont10px = new BitmapFont(
@@ -150,6 +151,7 @@ public class Assets {
         seqLine = seqAtlas.findRegion("line");
         seqBall = seqAtlas.findRegion("ball");
         seqBox = seqAtlas.findRegion("box");
+        redBar = seqAtlas.findRegion("redbar");
 
         borderBorder = borderAtlas.findRegion("BorderChooser");
 
