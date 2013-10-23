@@ -1,7 +1,6 @@
 package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.mainroom.BurndownScreen;
@@ -31,7 +29,6 @@ public abstract class GameScreen implements Screen {
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
     private Stage stage;
-    private static long lastAction;
     private Skin skinPauseButton;
     private TextureAtlas atlas;
     private boolean running;
@@ -43,19 +40,19 @@ public abstract class GameScreen implements Screen {
     private TextButtonStyle selectedButtonStyle;
     private TextButtonStyle buttonStyle;
 
-    private final long WAIT_KEY_PRESSED = 400l;
+    private Input input;
 
     public GameScreen(PVU game) {
         this.game = game;
+        input = new Input();
         labelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
         batch = new SpriteBatch();
 
-        lastAction = 0;
         running = true;
-        stage = new Stage(PVU. SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
+        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
         initPauseLayout();
         Gdx.input.setInputProcessor(stage);
@@ -95,43 +92,37 @@ public abstract class GameScreen implements Screen {
     }
 
     private void checkEscapeButton() {
-        if (TimeUtils.millis() - lastAction > WAIT_KEY_PRESSED && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                if (this instanceof BookScreen
-                        || this instanceof MinigameSelectorScreen
-                        || this instanceof BurndownScreen
-                        || this instanceof ScoreScreen) {
-                    game.setScreen(PVU.MAIN_SCREEN);
-                }else if(this instanceof IntroScreen){
-                    return;
-                }else {
-                    pauseButtons[selectedButton].setStyle(buttonStyle);
-                    selectedButton = 0;
-                    pauseButtons[selectedButton].setStyle(selectedButtonStyle);
-                    running = false;
-                }
+        if (input.back()) {
+            if (this instanceof BookScreen
+                    || this instanceof MinigameSelectorScreen
+                    || this instanceof BurndownScreen
+                    || this instanceof ScoreScreen) {
+                game.setScreen(PVU.MAIN_SCREEN);
+            } else if (this instanceof IntroScreen) {
+                return;
+            } else {
+                pauseButtons[selectedButton].setStyle(buttonStyle);
+                selectedButton = 0;
+                pauseButtons[selectedButton].setStyle(selectedButtonStyle);
+                running = false;
             }
-            lastAction = TimeUtils.millis();
         }
     }
 
     private void checkPauseMenu() {
-        if (TimeUtils.millis() - lastAction > WAIT_KEY_PRESSED && Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                running = true;
-                stage.clear();
-            } else if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-                pauseButtons[selectedButton].setStyle(buttonStyle);
-                selectedButton = (selectedButton == 0) ? 0 : selectedButton - 1;
-                pauseButtons[selectedButton].setStyle(selectedButtonStyle);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-                pauseButtons[selectedButton].setStyle(buttonStyle);
-                selectedButton = (selectedButton == pauseButtons.length - 1) ? pauseButtons.length - 1 : selectedButton + 1;
-                pauseButtons[selectedButton].setStyle(selectedButtonStyle);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-                checkSelectedMenuItem();
-            }
-            lastAction = TimeUtils.millis();
+        if (input.back()) {
+            running = true;
+            stage.clear();
+        } else if (input.up()) {
+            pauseButtons[selectedButton].setStyle(buttonStyle);
+            selectedButton = (selectedButton == 0) ? 0 : selectedButton - 1;
+            pauseButtons[selectedButton].setStyle(selectedButtonStyle);
+        } else if (input.down()) {
+            pauseButtons[selectedButton].setStyle(buttonStyle);
+            selectedButton = (selectedButton == pauseButtons.length - 1) ? pauseButtons.length - 1 : selectedButton + 1;
+            pauseButtons[selectedButton].setStyle(selectedButtonStyle);
+        } else if (input.action()) {
+            checkSelectedMenuItem();
         }
     }
 
@@ -163,11 +154,12 @@ public abstract class GameScreen implements Screen {
         clearCamera(1, 1, 1, 1);
         batch.begin();
         batch.draw(Assets.introMainLogo, 55, 70);
-        
+
         batch.end();
         for (TextButton button : pauseButtons) {
             stage.addActor(button);
-        }stage.addActor(pauseLabel);
+        }
+        stage.addActor(pauseLabel);
     }
 
     private void initPauseLayout() {
@@ -182,20 +174,18 @@ public abstract class GameScreen implements Screen {
         selectedButtonStyle.down = skinPauseButton.getDrawable("menubutton.up");
         selectedButtonStyle.font = Assets.primaryFont10px;
         pauseLabel = new Label("PAUSE", labelStyle);
-        pauseLabel.setPosition(PVU.SCREEN_WIDTH/2-55, PVU.SCREEN_HEIGHT/2);
+        pauseLabel.setPosition(PVU.SCREEN_WIDTH / 2 - 55, PVU.SCREEN_HEIGHT / 2);
         pauseLabel.setFontScale(3.9f);
-        
 
         String[] pauseButtonText = {"Fortsett", "Til rommet", "Lyd på", "Exit"};
         pauseButtons = new TextButton[pauseButtonText.length];
-        
 
         for (int i = 0; i < pauseButtonText.length; i++) {
             pauseButtons[i] = new TextButton(pauseButtonText[i], buttonStyle);
             pauseButtons[i].setWidth(190);
             pauseButtons[i].setHeight(40);
             pauseButtons[i].getLabel().setFontScale(2.5f);
-            pauseButtons[i].setPosition(PVU.SCREEN_WIDTH/2-pauseButtons[i].getWidth()/2, stage.getHeight()/3-i*pauseButtons[i].getHeight());
+            pauseButtons[i].setPosition(PVU.SCREEN_WIDTH / 2 - pauseButtons[i].getWidth() / 2, stage.getHeight() / 3 - i * pauseButtons[i].getHeight());
         }
     }
 
@@ -227,10 +217,6 @@ public abstract class GameScreen implements Screen {
 
     public boolean isGamePaused() {
         return !running;
-    }
-
-    public long getTime() {
-        return lastAction;
     }
 
     private enum Button {
