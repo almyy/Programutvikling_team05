@@ -6,14 +6,14 @@ package no.hist.gruppe5.pvu;
  */
 public class ScoreHandler {
 
-    public static final int VISION = 0;
-    public static final int CODE = 1;
-    public static final int QUIZ = 2;
+    public static final int VISION = 1;
+    public static final int CODE = 2;
+    public static final int QUIZ = 0;
     public static final int UMLBLOCKS = 3;
     public static final int TODO2 = 4;
     private static float[] totalScore;
     private static boolean completedAllLevels;
-    private static int total;
+    private static float total;
 
     /**
      *
@@ -105,7 +105,6 @@ public class ScoreHandler {
      */
     public static Character getGrade() {
       float average = total /(float)numberOfGamesCompleted();
-        
         if (average > 0.9) {
             return 'A';
         } else if (average > 0.8) {
