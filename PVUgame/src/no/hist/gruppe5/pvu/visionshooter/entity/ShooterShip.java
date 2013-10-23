@@ -1,10 +1,9 @@
 package no.hist.gruppe5.pvu.visionshooter.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.*;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 
 public class ShooterShip {
@@ -17,8 +16,8 @@ public class ShooterShip {
     private float shipX = 3f;
     private float shipY = 10; 
     
-    private float shipSpeed = 54f;  
-    
+    private float shipSpeed = 54f;
+
     public ShooterShip(){
         shipSprite = new Sprite(Assets.visionShooterShipRegion); 
         shipSprite.setSize(shipHeight, shipWidth);
@@ -34,12 +33,12 @@ public class ShooterShip {
     }
 
     public void update(float delta) {
-        if(Gdx.input.isKeyPressed(Keys.W)){
+        if(Input.continuousUp()){
             if((shipY+shipHeight)<PVU.GAME_HEIGHT){
                 shipY += shipSpeed*delta;
             }
         }
-        if(Gdx.input.isKeyPressed(Keys.S)){
+        if(Input.continuousDown()){
             if(shipY>0){
                 shipY -= shipSpeed*delta;
             } 
