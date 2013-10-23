@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.GameScreen;
-import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.*;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 
 public class ScoreScreen extends GameScreen {
@@ -136,9 +133,6 @@ public class ScoreScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Input.back()) {
-            game.setScreen(PVU.MAIN_SCREEN);
-        }
     }
 
     @Override

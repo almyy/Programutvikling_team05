@@ -1,16 +1,12 @@
 package no.hist.gruppe5.pvu.mainroom;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.GameScreen;
-import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.*;
 import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.dialogdrawer.DialogDrawer;
 import no.hist.gruppe5.pvu.dialogdrawer.PopupBox;
@@ -23,8 +19,6 @@ import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
  */
 public class MainScreen extends GameScreen {
 
-    private static final float WORLD_TO_BOX = 0.01f;
-    private static final float BOX_TO_WORLD = 100f;
     public static final String TRYKK = "Trykk på E for å ";
     public static final String PAA_PC = TRYKK + "jobbe på PC-en";
     public static final String PAA_CART = TRYKK + "se på burndown-cart";
@@ -182,9 +176,6 @@ public class MainScreen extends GameScreen {
             checkWithinRayCastInput();
         }
 
-        if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
-            mInputHandled = false;
-        }
         updateMainScreenSoundButton();
         mDialog.intro();
     }
@@ -203,7 +194,7 @@ public class MainScreen extends GameScreen {
     }
 
     private void checkWithinRayCastInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.E) && !mInputHandled) {
+        if (Input.alternateAction()) {
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
                     mInputHandled = true;
