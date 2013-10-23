@@ -123,7 +123,7 @@ public class MinigameSelectorScreen extends GameScreen {
                 game.setScreen(new VisionIntroScreen(game));
                 break;
             case REQFINDER:
-                game.setScreen(new ReqFinderScreen(game));
+                game.setScreen(new ReqFinderIntroScreen(game));
                 break;
             case SEQJUMPER:
                 game.setScreen(new JumperScreen(game));
