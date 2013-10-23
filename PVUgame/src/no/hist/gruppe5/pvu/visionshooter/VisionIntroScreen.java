@@ -48,7 +48,7 @@ public class VisionIntroScreen extends GameScreen {
 
         mInput = new Input();
 
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mIntroText = Assets.readFile("data/visionScreen_intro/Intro.txt");
         mYoutubeText = Assets.readFile("data/visionScreen_intro/Youtube.txt");
         mFacebookText = Assets.readFile("data/visionScreen_intro/Facebook.txt");
@@ -94,7 +94,15 @@ public class VisionIntroScreen extends GameScreen {
         mLcontinue.setFontScale(3f);
         mStage.addActor(mLcontinue);
 
+        mSyoutube = new Sprite(Assets.visionShooterYoutubeRegion);
+        mSyoutube.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 2.3f);
 
+        mSfacebook = new Sprite(Assets.visionShooterFacebookRegion);
+        mSfacebook.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 3);
+
+        mSdoc = new Sprite(Assets.visionShooterDocumentRegion);
+        mSdoc.setPosition(PVU.GAME_WIDTH / 9.5f, PVU.GAME_HEIGHT / 5);
+        mSdoc.scale(-0.3f);
 
     }
 
@@ -106,22 +114,13 @@ public class VisionIntroScreen extends GameScreen {
 
         batch.begin();
         
-        mStage.getSpriteBatch().draw(Assets.visionShooterRegion, 0, 0);
-        mSyoutube = new Sprite(Assets.visionShooterYoutubeRegion);
-        mSyoutube.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 2.3f);
+        batch.draw(Assets.visionShooterRegion, 0, 0);
         mSyoutube.draw(batch);
-        
-        mSfacebook = new Sprite(Assets.visionShooterFacebookRegion);
-        mSfacebook.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 3);
         mSfacebook.draw(batch);
-        
-        mSdoc = new Sprite(Assets.visionShooterDocumentRegion);
-        mSdoc.setPosition(PVU.GAME_WIDTH / 9.5f, PVU.GAME_HEIGHT / 5);
-        mSdoc.scale(-0.3f);
         mSdoc.draw(batch);
-        
-  
+
         batch.end();
+
         mStage.draw();
     }
 
