@@ -128,7 +128,7 @@ public class ScoreScreen extends GameScreen {
         batch.begin();
         //stage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
         batch.end();
-        stage.draw();
+        stage.draw(); 
     }
 
     @Override
