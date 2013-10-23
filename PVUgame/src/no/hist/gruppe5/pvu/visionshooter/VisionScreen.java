@@ -28,7 +28,7 @@ public class VisionScreen extends GameScreen {
     public int mPoints = 0;
     private Label mPointTextLabel;
     private Label mPointValueLabel;
-    private String mPointText = "Points: ";
+    private String mPointText = "Poeng: ";
     private Sounds mSound;
     private TweenManager mTweenManager;
     private static int MAX_POINTS = 200;
@@ -78,7 +78,7 @@ public class VisionScreen extends GameScreen {
         checkBulletHit();
         checkShipHit();
 
-        if ((TimeUtils.millis() - mLastElementSpawned) > 1500L) {
+        if ((TimeUtils.millis() - mLastElementSpawned) > 700L) {
             addElement();
         }
 
@@ -101,7 +101,7 @@ public class VisionScreen extends GameScreen {
     }
 
     private void shootBullet() {
-        if ((TimeUtils.millis() - mLastBulletShot) > 800L) {
+        if ((TimeUtils.millis() - mLastBulletShot) > 400L) {
             Bullet vB = new Bullet();
             vB.setProjectileY(mVisionShooterShip.getShipY() + (mVisionShooterShip.getShipHeight() / 2));
             vB.setProjectileX(mVisionShooterShip.getShipX());
