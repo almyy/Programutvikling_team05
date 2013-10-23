@@ -13,7 +13,7 @@ import no.hist.gruppe5.pvu.Assets;
 public class Platform {
 
     private static final float BOX_MARGIN_X = 0.6f;
-    private static final float BOX_MARGIN_Y = 0.45f;
+    private static final float BOX_MARGIN_Y = -0.1f;
     private BodyDef groundBodyDef;
     private Body groundBody;
     private PolygonShape groundBox;
@@ -35,7 +35,7 @@ public class Platform {
     }
 
     public void update(float delta) {
-        updateBox();
+        updatePlatform();
     }
 
     public Body getBody() {
@@ -60,7 +60,7 @@ public class Platform {
         return groundBody;
     }
 
-    protected void updateBox() {
+    protected void updatePlatform() {
         // Update sprite position based on the Box2d body
         for (int i = 0; i < mSprite.size(); i++) {
             Vector2 pos = positions.get(i);

@@ -83,7 +83,6 @@ public class DialogDrawer {
 
     public void update() {
         if (mInput.action()) {
-            System.out.println("iz here: " + mTextCounter);
             mTextCounter++;
             if (mTextCounter == 1) {
                 mMainText.setText(LINE_2);

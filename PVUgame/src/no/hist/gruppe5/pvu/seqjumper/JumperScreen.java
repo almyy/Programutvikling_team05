@@ -1,7 +1,6 @@
 package no.hist.gruppe5.pvu.seqjumper;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,7 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.umlblocks.ScrollingBackground;
 
 public class JumperScreen extends GameScreen {
 
@@ -57,6 +58,7 @@ public class JumperScreen extends GameScreen {
     private JumperScreenBackground background;
     // GUI
     private GUI mGui;
+    private ScrollingBackground mBackground;
     private Sprite mHead;
     private Sprite mLine;
     private boolean movem = true;
@@ -66,6 +68,8 @@ public class JumperScreen extends GameScreen {
 
     public JumperScreen(PVU game) {
         super(game);
+        
+        mBackground = new ScrollingBackground(Assets.msBackground);
 
         mGui = new GUI(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
 
@@ -113,7 +117,8 @@ public class JumperScreen extends GameScreen {
         clearCamera(0f, 0f, 0f, 1f);
 
         batch.begin();
-        background.draw(batch);
+        mBackground.draw(batch);
+        //background.draw(batch);
         mPlatform.draw(batch);
         mBall.draw(batch);
         switch (checkCollision()) {
@@ -211,6 +216,8 @@ public class JumperScreen extends GameScreen {
         checkCollision();
 
         checkInput();
+        
+        mBackground.update(delta);
 
         // Ball update
         mBall.update(delta);
@@ -391,7 +398,7 @@ public class JumperScreen extends GameScreen {
 
         */
          // Ball movement right
-         if (Gdx.input.isKeyPressed(Input.Keys.D) && !hasPressedD) {
+         if (Input.continuousRight() && !hasPressedD) {
          if (powerRight < 0.85) {
          powerRight += 0.008;
          }
@@ -401,11 +408,11 @@ public class JumperScreen extends GameScreen {
          loadedD = true;
          }
 
-         if (!Gdx.input.isKeyPressed(Input.Keys.D) && loadedD) {
+         if (!Input.continuousRight() && loadedD) {
          hasPressedD = true;
          }
 
-         if (!Gdx.input.isKeyPressed(Input.Keys.D) && hasPressedD) {
+         if (!Input.continuousRight() && hasPressedD) {
          mBall.getBody().applyForceToCenter(powerRight, powerHeight, true);
          hasPressedD = false;
          powerRight = 0;
@@ -413,7 +420,7 @@ public class JumperScreen extends GameScreen {
          loadedD = false;
          }
          // Ball movement left
-         if (Gdx.input.isKeyPressed(Input.Keys.A) && !hasPressedA) {
+         if (Input.continuousLeft() && !hasPressedA) {
          if (powerLeft > -0.85) {
          powerLeft -= 0.008;
          }
@@ -423,11 +430,11 @@ public class JumperScreen extends GameScreen {
          loadedA = true;
          }
 
-         if (!Gdx.input.isKeyPressed(Input.Keys.A) && loadedA) {
+         if (!Input.continuousLeft() && loadedA) {
          hasPressedA = true;
          }
 
-         if (!Gdx.input.isKeyPressed(Input.Keys.A) && hasPressedA) {
+         if (!Input.continuousLeft() && hasPressedA) {
          mBall.getBody().applyForceToCenter(powerLeft, powerHeight, true);
          hasPressedA = false;
          powerLeft = 0;
