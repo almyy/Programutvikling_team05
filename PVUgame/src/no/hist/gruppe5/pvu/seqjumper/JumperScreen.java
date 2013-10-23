@@ -69,7 +69,7 @@ public class JumperScreen extends GameScreen {
     public JumperScreen(PVU game) {
         super(game);
         
-        mBackground = new ScrollingBackground(Assets.msBackground);
+        mBackground = new ScrollingBackground(Assets.seqBackground);
 
         mGui = new GUI(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
 

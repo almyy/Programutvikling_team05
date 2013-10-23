@@ -31,86 +31,93 @@ main_room
   orig: 192, 116
   offset: 0, 0
   index: -1
-ub_hard
+sequencebg
   rotate: false
   xy: 389, 119
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
-pcscreen
+ub_hard
   rotate: false
   xy: 389, 1
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
-table
+pcscreen
   rotate: false
   xy: 583, 119
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
-ub_easy
+table
   rotate: false
   xy: 583, 1
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
+ub_easy
+  rotate: false
+  xy: 777, 119
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1
 logo
   rotate: false
-  xy: 777, 200
+  xy: 777, 82
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 trykk
   rotate: false
-  xy: 777, 163
+  xy: 777, 45
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 logo_2_group
   rotate: false
-  xy: 859, 200
+  xy: 859, 82
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 chart
   rotate: false
-  xy: 777, 142
+  xy: 971, 216
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 1
 chart
   rotate: false
-  xy: 859, 179
+  xy: 777, 24
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 0
 chart
   rotate: false
-  xy: 941, 216
+  xy: 859, 61
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 2
 chart
   rotate: false
-  xy: 777, 121
+  xy: 941, 98
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 3
 chart
   rotate: false
-  xy: 803, 142
+  xy: 971, 195
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
