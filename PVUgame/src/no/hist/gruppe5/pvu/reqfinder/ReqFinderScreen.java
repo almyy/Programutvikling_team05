@@ -1,8 +1,6 @@
 package no.hist.gruppe5.pvu.reqfinder;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -19,7 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.quiz.QuizHandler;
 
 /**
  *
@@ -37,7 +38,8 @@ public class ReqFinderScreen extends GameScreen {
     private Label mHighlightedLabel;
     private int mHighlightedIndex;
     private long mLastButtonPressed;
-    private int[] mCorrectWords= {76, 105, 141, 177, 186, 196};
+    private String[] mCorrectWords= {"interaktivt", "skjema,", "kundeprofil", "profilside", "instant", "messaging-tjeneste", "(IM-tjeneste).", "prosjektbestillinger", "fysikksimulator"};
+    private Input mInput = new Input();
             
     public ReqFinderScreen(PVU pvu) {
         super(pvu);
@@ -89,43 +91,60 @@ public class ReqFinderScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+        if (mInput.back()) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
-        else if (Gdx.input.isKeyPressed(Keys.D) && !isRightmost() && enoughTimePassed((long) 200d)) {
-            mHighlightedLabel.setStyle(mLabelStyle);
+        else if (mInput.right() && !isRightmost()) {
             mHighlightedIndex++;
-            mHighlightedLabel = mLabels.get(mHighlightedIndex);
-            mHighlightedLabel.setStyle(mHighlightedLabelStyle);
-            mLastButtonPressed = TimeUtils.millis();
+            if(mHighlightedLabel.getStyle().equals(mHighlightedLabelStyle)) {
+                mHighlightedLabel.setStyle(mLabelStyle);
+            }
+            mHighlightedLabel = mLabels.get(mHighlightedIndex); 
+            if(mHighlightedLabel.getStyle().equals(mLabelStyle)) {
+                mHighlightedLabel.setStyle(mHighlightedLabelStyle);
+            }
         }
-        else if (Gdx.input.isKeyPressed(Keys.A) && !isLeftmost() && enoughTimePassed((long) 200)) {
-            mHighlightedLabel.setStyle(mLabelStyle);
+        else if (mInput.left() && !isLeftmost()) {
             mHighlightedIndex--;
-            mHighlightedLabel = mLabels.get(mHighlightedIndex);
-            mHighlightedLabel.setStyle(mHighlightedLabelStyle);
-            mLastButtonPressed = TimeUtils.millis();
+            
+            if(mHighlightedLabel.getStyle().equals(mHighlightedLabelStyle)) {
+                mHighlightedLabel.setStyle(mLabelStyle);
+            }
+            mHighlightedLabel = mLabels.get(mHighlightedIndex); 
+            if(mHighlightedLabel.getStyle().equals(mLabelStyle)) {
+                mHighlightedLabel.setStyle(mHighlightedLabelStyle);
+            }
         }
-        else if (Gdx.input.isKeyPressed(Keys.S) && !isBotmost() && enoughTimePassed((long) 200)) {
-            mHighlightedLabel.setStyle(mLabelStyle);
+        else if (mInput.down() && !isBotmost()) {
             mHighlightedIndex = findLabelUnder(mHighlightedLabel);
-            mHighlightedLabel = mLabels.get(mHighlightedIndex);
-            mHighlightedLabel.setStyle(mHighlightedLabelStyle);
-            mLastButtonPressed = TimeUtils.millis();
+            if(mHighlightedLabel.getStyle().equals(mHighlightedLabelStyle)) {
+                mHighlightedLabel.setStyle(mLabelStyle);
+            }
+            mHighlightedLabel = mLabels.get(mHighlightedIndex); 
+            if(mHighlightedLabel.getStyle().equals(mLabelStyle)) {
+                mHighlightedLabel.setStyle(mHighlightedLabelStyle);
+            }
         }
-        else if (Gdx.input.isKeyPressed(Keys.W) && !isUpmost() && enoughTimePassed((long) 200)) {
-            mHighlightedLabel.setStyle(mLabelStyle);
-            mHighlightedIndex = findLabelAbove(mHighlightedLabel);
-            mHighlightedLabel = mLabels.get(mHighlightedIndex);
-            mHighlightedLabel.setStyle(mHighlightedLabelStyle);
-            mLastButtonPressed = TimeUtils.millis();
+        else if (mInput.up() && !isUpmost()) {
+            mHighlightedIndex = findLabelAbove(mHighlightedLabel);  
+            if(mHighlightedLabel.getStyle().equals(mHighlightedLabelStyle)) {
+                mHighlightedLabel.setStyle(mLabelStyle);
+            }
+            mHighlightedLabel = mLabels.get(mHighlightedIndex); 
+            if(mHighlightedLabel.getStyle().equals(mLabelStyle)) {
+                mHighlightedLabel.setStyle(mHighlightedLabelStyle);
+            }
         }
-        else if (Gdx.input.isKeyPressed(Keys.SPACE) && enoughTimePassed((long) 200)) {
+        else if (mInput.action()) {
             if(isCorrect()) {
                 mHighlightedLabel.setStyle(mCorrectLabelStyle);
             } else {
                 mHighlightedLabel.setStyle(mWrongLabelStyle);
             }
+        }
+        else if (mInput.alternateAction()) {
+            QuizHandler.updateQuizScore(10, ScoreHandler.REQ);
+            game.setScreen(PVU.MAIN_SCREEN);
         }
     }
 
@@ -171,9 +190,6 @@ public class ReqFinderScreen extends GameScreen {
             }
         }
         return true;
-    }
-    private boolean enoughTimePassed(long time) {
-        return (TimeUtils.millis() - mLastButtonPressed) > time;
     }
     private int findLabelUnder(Label current) {
         int nextRowStart = 0;
@@ -233,7 +249,7 @@ public class ReqFinderScreen extends GameScreen {
     }
     private boolean isCorrect() {
         for(int i = 0; i < mCorrectWords.length; i++) {
-            if(mHighlightedIndex == mCorrectWords[i]) return true;
+            if(mCorrectWords[i].equalsIgnoreCase(mHighlightedLabel.getText().toString())) return true;
         }
         return false;
     }
