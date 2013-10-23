@@ -225,13 +225,6 @@ public abstract class GameScreen implements Screen {
     public void resume() {
     }
 
-    /**
-     * Method to update soundbutton in (static) main screen room.
-     */
-    public void updateMainScreenSoundButton() {
-        //styleSoundButton.up = (Settings.GLOBAL_SOUND) ? skinSoundButton.getDrawable("sound.up") : skinSoundButton.getDrawable("nosound.up");
-    }
-
     public boolean isGamePaused() {
         return !running;
     }

@@ -31,13 +31,14 @@ public class DialogDrawer {
     private Label mPressEnter;
 
     // Navigation
-    private boolean mButtonPressed;
+    private Input mInput;
     private int mTextCounter = 0;
-
     private boolean mShow;
 
     public DialogDrawer() {
         this.mShow = false;
+
+        mInput = new Input();
 
         init();
     }
@@ -80,8 +81,9 @@ public class DialogDrawer {
         mStage.draw();
     }
 
-    public void intro() {
-        if (Input.action()) {
+    public void update() {
+        if (mInput.action()) {
+            System.out.println("iz here: " + mTextCounter);
             mTextCounter++;
             if (mTextCounter == 1) {
                 mMainText.setText(LINE_2);

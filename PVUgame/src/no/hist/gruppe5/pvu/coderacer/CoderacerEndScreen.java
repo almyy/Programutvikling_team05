@@ -28,9 +28,13 @@ public class CoderacerEndScreen extends GameScreen {
     private Stage mStage;
     private Label.LabelStyle mLabelstyle;
     private Skin mSkin;
+    private Input mInput;
 
     public CoderacerEndScreen(PVU game, int points) {
         super(game);
+
+        mInput = new Input();
+
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mPointTextLabel = makeHeadLabel(mPointText);
@@ -66,7 +70,7 @@ public class CoderacerEndScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Input.action()) {
+        if (mInput.action()) {
             game.setScreen(new MinigameSelectorScreen(game));
         }
     }

@@ -43,6 +43,7 @@ public class MainScreen extends GameScreen {
     private boolean mShowingHint = false;
     private int mCurrentHint = -1;
     private DialogDrawer mDialog;
+    private Input mInput;
 
     public MainScreen(PVU game) {
         super(game);
@@ -50,6 +51,7 @@ public class MainScreen extends GameScreen {
         mWorld = new World(new Vector2(0, 0), true);
         mDialog = new DialogDrawer();
         mDialog.setShow(true);
+        mInput = new Input();
 
         // DEBUG
         mDebugRenderer = new Box2DDebugRenderer();
@@ -143,6 +145,9 @@ public class MainScreen extends GameScreen {
         mPlayer.setMoveable(!mDialog.isShow());
         mRayCastManager.update(delta);
 
+        if(mDialog.isShow())
+            mDialog.update();
+
         for (RayCastManager.RayCast rc : mRayCastManager.getRayCasts()) {
             mWorld.rayCast(rc.callBack, rc.from, rc.to);
         }
@@ -176,8 +181,6 @@ public class MainScreen extends GameScreen {
             checkWithinRayCastInput();
         }
 
-        updateMainScreenSoundButton();
-        mDialog.intro();
     }
 
     private void drawDebug(boolean onlyRayCasts) {
@@ -194,7 +197,7 @@ public class MainScreen extends GameScreen {
     }
 
     private void checkWithinRayCastInput() {
-        if (Input.alternateAction()) {
+        if (mInput.alternateAction()) {
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
                     mInputHandled = true;

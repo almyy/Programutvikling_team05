@@ -36,6 +36,7 @@ public class CoderacerScreen extends GameScreen {
     private boolean pause;
     private boolean mDoneHandled;
     private long mTimeDone;
+    private Input mInput;
     private Timer.Task task = new Timer.Task() {
 
         @Override
@@ -47,6 +48,8 @@ public class CoderacerScreen extends GameScreen {
 
     public CoderacerScreen(PVU game) {
         super(game);
+
+        mInput = new Input();
 
         mShape = new ShapeRenderer();
 
@@ -136,7 +139,7 @@ public class CoderacerScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Input.action() && !start) {
+        if (mInput.action() && !start) {
             codeOutput.setText(code.getCode());
             start = true;
             updateOutput();

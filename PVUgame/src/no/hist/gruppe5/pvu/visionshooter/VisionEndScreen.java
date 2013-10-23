@@ -4,10 +4,7 @@
  */
 package no.hist.gruppe5.pvu.visionshooter;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,7 +12,6 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
 
 /**
  *
@@ -31,9 +27,13 @@ public class VisionEndScreen extends GameScreen {
     private Stage mStage;
     private Label.LabelStyle mLabelstyle;
     private Skin mSkin;
+    private Input mInput;
 
     public VisionEndScreen(PVU game, int points) {
         super(game);
+
+        mInput = new Input();
+
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mPointTextLabel = makeHeadLabel(mPointText);
         mPointTextLabel.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT * 0.8f);
@@ -68,7 +68,7 @@ public class VisionEndScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if(Input.action()){
+        if(mInput.action()){
             game.setScreen(PVU.MAIN_SCREEN);
         }
     }

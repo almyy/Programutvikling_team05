@@ -41,9 +41,13 @@ public class VisionIntroScreen extends GameScreen {
     private Sprite mSyoutube;
     private Sprite mSfacebook;
     private Sprite mSdoc;
+    private Input mInput;
 
     public VisionIntroScreen(PVU game) throws FileNotFoundException, IOException {
         super(game);
+
+        mInput = new Input();
+
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mIntroText = Assets.readFile("data/visionScreen_intro/Intro.txt");
         mYoutubeText = Assets.readFile("data/visionScreen_intro/Youtube.txt");
@@ -123,7 +127,7 @@ public class VisionIntroScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Input.action()) {
+        if (mInput.action()) {
             game.setScreen(new VisionScreen(game));
         }
     }
