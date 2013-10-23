@@ -56,19 +56,19 @@ public class BookScreen extends GameScreen {
     }
 
     private void createContent() {
-        TextureAtlas atlas = new TextureAtlas("data/bookscreen/button.pack");
+        TextureAtlas atlas = new TextureAtlas("data/menuButtons/menubuttons.pack");
         skin = new Skin(atlas);
         stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true);
         buttonStyle = new TextButtonStyle();
-        buttonStyle.up = skin.getDrawable("buttonprev.up");
-        buttonStyle.down = skin.getDrawable("buttonprev.down");
+        buttonStyle.up = skin.getDrawable("menubutton.up");
+        buttonStyle.down = skin.getDrawable("menubutton.down");
         buttonStyle.pressedOffsetX = -1;
         buttonStyle.pressedOffsetY = -1;
         buttonStyle.font = Assets.primaryFont10px;
         buttonStyle.fontColor = Color.BLACK;
         buttonStylePressed = new TextButtonStyle();
-        buttonStylePressed.up = skin.getDrawable("buttonprev.down");
-        buttonStylePressed.down = skin.getDrawable("buttonprev.down");
+        buttonStylePressed.up = skin.getDrawable("menubutton.down");
+        buttonStylePressed.down = skin.getDrawable("menubutton.down");
         buttonStylePressed.pressedOffsetX = -1;
         buttonStylePressed.pressedOffsetY = -1;
         buttonStylePressed.font = Assets.primaryFont10px;
@@ -219,7 +219,7 @@ public class BookScreen extends GameScreen {
         headerLeftPage.setFontScale(3.8f);
         headerRightPage.setPosition(850, 800);
         headerRightPage.setFontScale(3.8f);
-    }
+    } 
 
     @Override
     protected void cleanUp() {
