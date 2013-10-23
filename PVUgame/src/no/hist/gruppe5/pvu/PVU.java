@@ -24,6 +24,7 @@ import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.seqjumper.JumperScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionEndScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
+import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class PVU extends Game {
 

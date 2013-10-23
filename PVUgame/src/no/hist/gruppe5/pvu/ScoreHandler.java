@@ -10,7 +10,7 @@ public class ScoreHandler {
     public static final int CODE = 2;
     public static final int QUIZ = 0;
     public static final int UMLBLOCKS = 3;
-    public static final int TODO2 = 4;
+    public static final int REQ = 4;
     private static float[] totalScore;
     private static boolean completedAllLevels;
     private static float total;

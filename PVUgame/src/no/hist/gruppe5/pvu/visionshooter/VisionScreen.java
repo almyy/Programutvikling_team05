@@ -3,18 +3,16 @@ package no.hist.gruppe5.pvu.visionshooter;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.Quint;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
 import java.util.Random;
-
 import no.hist.gruppe5.pvu.*;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
-import no.hist.gruppe5.pvu.visionshooter.entity.*;
 import no.hist.gruppe5.pvu.sound.Sounds;
+import no.hist.gruppe5.pvu.visionshooter.entity.*;
 
 public class VisionScreen extends GameScreen {
 
