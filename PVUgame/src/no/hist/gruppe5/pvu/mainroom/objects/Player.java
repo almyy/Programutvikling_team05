@@ -1,12 +1,12 @@
 package no.hist.gruppe5.pvu.mainroom.objects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import no.hist.gruppe5.pvu.Assets;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 
 /**
@@ -97,21 +97,21 @@ public class Player {
         Vector2 newSpeed = new Vector2();
 
         if(mMoveable) {
-            if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+            if(Input.continuousUp()) {
                 newSpeed.y = PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_BACK;
                 keyPressed = true;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            } else if (Input.continuousDown()) {
                 newSpeed.y = -PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_FRONT;
                 keyPressed = true;
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            if (Input.continuousRight()) {
                 newSpeed.x = PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_RIGHT;
                 keyPressed = true;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            } else if (Input.continuousLeft()) {
                 newSpeed.x = -PLAYER_SPEED;
                 mCurrentAnimaion = PLAYER_LEFT;
                 keyPressed = true;
