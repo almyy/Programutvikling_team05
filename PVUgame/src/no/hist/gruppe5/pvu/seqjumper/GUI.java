@@ -49,7 +49,7 @@ public class GUI {
         mSuccess.setFontScale(3f);
         mSuccess.setAlignment(Align.top | Align.right);
         mSuccess.setFillParent(true);
-        
+
         mLife = new Label("", mLabelStyle);
         mLife.setFontScale(3f);
         mLife.setAlignment(Align.top | Align.center);
@@ -86,22 +86,32 @@ public class GUI {
     }
 
     public void setJumps(int jumps) {
-        mJumps.setText(" Jumps: " + jumps);
+        int level = jumps - 1;
+        if (level > 0) {
+            mJumps.setText(" Jumps: " + level);
+        } else {
+            mJumps.setText(" Jumps: " + 0);
+        }
     }
 
     public void setSuccess(int jumps) {
-        mPercent = Math.round((float) jumps / (float) 11 * 100f);
+        if (jumps - 1 > 0) {
+            float startJump = jumps - 1;
+            mPercent = Math.round((float) startJump / (float) 10 * 100f);
+        }
         if (mHighscore < mPercent) {
             mHighscore = mPercent;
-            mSuccess.setText("Success: " + mHighscore + "% ");
+            mSuccess.setText("Success: " + mPercent + "% ");
+        } else if (mPercent == 0) {
+            mSuccess.setText("Success: " + 0 + "% ");
         }
     }
-    
-    public void setLife(int life){
+
+    public void setLife(int life) {
         mLife.setText("Life: " + life);
     }
-    
-    public void setGameFeedback(){
+
+    public void setGameFeedback() {
         mGameFeedback.setText("Din score ble: " + mHighscore + "% ");
     }
 
@@ -115,5 +125,9 @@ public class GUI {
 
     public void enableScoreDisplay() {
         mChangeStage = false;
+    }
+    
+    public void setLifeLoss(){
+        mPercent = 0;
     }
 }

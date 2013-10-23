@@ -24,6 +24,13 @@ ball
   orig: 128, 128
   offset: 0, 0
   index: -1
+box
+  rotate: false
+  xy: 645, 61
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 head
   rotate: false
   xy: 773, 191
