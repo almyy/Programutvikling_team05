@@ -237,7 +237,7 @@ public class MainScreen extends GameScreen {
             setBurnDownCart(++mCurrentCart % 5);
             game1Checked = true;
         }
-        if (!game2Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.TODO2)) {
+        if (!game2Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.REQ)) {
             setBurnDownCart(++mCurrentCart % 5);
             game2Checked = true;
         }
