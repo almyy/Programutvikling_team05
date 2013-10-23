@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import no.hist.gruppe5.pvu.*;
 import no.hist.gruppe5.pvu.mainroom.objects.Player;
+import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 
 /**
@@ -115,6 +116,9 @@ public class IntroScreen extends GameScreen {
             QuizHandler.setNoQuiz();
         } else if (Settings.PLAYER_NAME.toLowerCase().equals("penis")) {
             Player.lol();
+        } else if (Settings.PLAYER_NAME.toLowerCase().equals("meth")) {
+            TeamMates.lol();
+            Player.speedLol();
         }
         game.setScreen(PVU.MAIN_SCREEN);
     }
