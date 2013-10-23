@@ -2,9 +2,8 @@ package no.hist.gruppe5.pvu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.mainroom.BurndownScreen;
@@ -39,6 +39,8 @@ public abstract class GameScreen implements Screen {
     private int selectedButton;
     private TextButtonStyle selectedButtonStyle;
     private TextButtonStyle buttonStyle;
+
+    private Texture mPauseOverlay;
 
     private Input input;
 
@@ -151,8 +153,11 @@ public abstract class GameScreen implements Screen {
     }
 
     private void drawPauseMenu() {
-        clearCamera(1, 1, 1, 1);
         batch.begin();
+
+        // Create transparent overlay
+        batch.draw(mPauseOverlay, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
+
         batch.draw(Assets.introMainLogo, 55, 70);
 
         batch.end();
@@ -176,6 +181,13 @@ public abstract class GameScreen implements Screen {
         pauseLabel = new Label("PAUSE", labelStyle);
         pauseLabel.setPosition(PVU.SCREEN_WIDTH / 2 - 55, PVU.SCREEN_HEIGHT / 2);
         pauseLabel.setFontScale(3.9f);
+
+        // Transparent overlay
+        Pixmap pix = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
+        pix.setColor(new Color(1f, 1f, 1f, 0.7f));
+        pix.fill();
+
+        mPauseOverlay = new Texture(pix);
 
         String[] pauseButtonText = {"Fortsett", "Til rommet", "Lyd på", "Exit"};
         pauseButtons = new TextButton[pauseButtonText.length];
