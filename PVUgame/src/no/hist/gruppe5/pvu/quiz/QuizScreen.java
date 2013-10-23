@@ -95,7 +95,7 @@ public class QuizScreen extends GameScreen {
                 initiateSelectorBounds();
                 registerSelectorAnswer();
             }
-            if (mInput.isActionReady() && mGetNewAnswers) {
+            if (mGetNewAnswers) {
                 initNewAnswers();
             }
             if (mQuestionCounter == mNumberOfQuestions) {
