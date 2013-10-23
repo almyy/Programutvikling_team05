@@ -219,7 +219,7 @@ public class BookScreen extends GameScreen {
         headerLeftPage.setFontScale(3.8f);
         headerRightPage.setPosition(850, 800);
         headerRightPage.setFontScale(3.8f);
-    }
+    } 
 
     @Override
     protected void cleanUp() {
