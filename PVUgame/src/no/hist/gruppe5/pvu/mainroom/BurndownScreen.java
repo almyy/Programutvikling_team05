@@ -4,19 +4,14 @@
  */
 package no.hist.gruppe5.pvu.mainroom;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.GameScreen;
-import no.hist.gruppe5.pvu.PVU;
-import no.hist.gruppe5.pvu.ScoreHandler;
+
+import no.hist.gruppe5.pvu.*;
 
 /**
  *
@@ -72,7 +67,7 @@ public class BurndownScreen extends GameScreen {
     @Override
     protected void update(float delta) {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Input.action()) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
     }
