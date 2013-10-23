@@ -4,33 +4,33 @@ Hva illustrerer sekvensdiagrammene?
 Hvilken av disse er ikke et perspektiv til arkitekturmodellen?
 Hvilke av disse diagrammene hører til designmodellen?
 
-1
-2
-3
-4
+Arkitekturmodellen
+Use case-modellen
+Problemdomenemodellen
+Stolpediagram
 
-1
-2
-3
-4
+God grafikk
+Klare og detaljerte krav
+Flinke programmerere
+En grafisk designer
 
-1
-2
-3
-4
+Systemets returverdier
+Systemets responstid
+Sammenhengen mellom systemets objekter
+Arkitekturen
 
-1
-2
-3
-4
+Logisk perspektiv
+Deployment-perspektiv
+Prosessperspektiv
+Fugleperspektiv
 
-2
-3
-4
-5
+Klassediagram
+Systemsekvensdiagram
+Problemdomenemodellen
+Logisk perspektiv
 
 0
 1
 2
 3
-3
+0

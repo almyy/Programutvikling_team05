@@ -10,7 +10,7 @@ import no.hist.gruppe5.pvu.Assets;
  */
 public class Bullet {
     
-    private final float projectileSpeed = 66f;
+    private final float projectileSpeed = 100f;
     
     private float projectileHeight = 4.5f;
     private float projectileWidth = 4.5f; 
