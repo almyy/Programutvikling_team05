@@ -33,10 +33,10 @@ public class CoderacerEndScreen extends GameScreen {
     public CoderacerEndScreen(PVU game, int points) {
         super(game);
 
-        mInput = new Input();
+        mInput = new Input(200L, 2000L);
 
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mPointTextLabel = makeHeadLabel(mPointText);
         mPointTextLabel.setPosition(PVU.SCREEN_WIDTH / 3, PVU.SCREEN_HEIGHT * 0.8f);
         mPointTextLabel.setFontScale(5f);
@@ -53,6 +53,7 @@ public class CoderacerEndScreen extends GameScreen {
         mLcontinue.setPosition(PVU.SCREEN_WIDTH / 3, PVU.SCREEN_HEIGHT / 1.5f);
         mLcontinue.setFontScale(2f);
         mLcontinue.setWrap(true);
+        mLcontinue.setLayoutEnabled(false);
         mStage.addActor(mLcontinue);
 
 
@@ -72,6 +73,10 @@ public class CoderacerEndScreen extends GameScreen {
     protected void update(float delta) {
         if (mInput.action()) {
             game.setScreen(new MinigameSelectorScreen(game));
+        }
+
+        if (mInput.isActionReady()) {
+            mLcontinue.setLayoutEnabled(true);
         }
     }
 

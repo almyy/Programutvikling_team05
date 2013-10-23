@@ -56,7 +56,7 @@ public class CoderacerScreen extends GameScreen {
         pause = false;
         start = false;
 
-        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
 
         Group outputGroup = new Group();
         Group inputGroup = new Group();
