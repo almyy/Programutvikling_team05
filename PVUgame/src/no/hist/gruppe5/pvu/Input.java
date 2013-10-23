@@ -39,6 +39,17 @@ public class Input {
     }
 
     /**
+     * This is required to stop the game from accepting input a few ms after the screen
+     * is started.
+     */
+    private void initLastPressed() {
+        long now = TimeUtils.millis();
+        mLastPress = now;
+        mLastPressBack = now;
+        mLastPressAction = now;
+    }
+
+    /**
      * Returns true once every 200ms if ESCAPE is pressed. Use for navigating back.
      */
     public boolean back() {
