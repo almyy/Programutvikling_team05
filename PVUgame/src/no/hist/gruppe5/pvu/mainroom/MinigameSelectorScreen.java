@@ -24,9 +24,9 @@ import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
 import no.hist.gruppe5.pvu.reqfinder.ReqFinderScreen;
+import no.hist.gruppe5.pvu.seqjumper.JumperScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
-import no.hist.gruppe5.pvu.temp.SeqJumpIntroScreen;
 
 public class MinigameSelectorScreen extends GameScreen {
 
@@ -123,7 +123,7 @@ public class MinigameSelectorScreen extends GameScreen {
                 game.setScreen(new ReqFinderScreen(game));
                 break;
             case SEQJUMPER:
-                game.setScreen(new SeqJumpIntroScreen(game));
+                game.setScreen(new JumperScreen(game));
                 break;
             case UMLBLOCKS:
                 game.setScreen(new BlocksScreen(game));

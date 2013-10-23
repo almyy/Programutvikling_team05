@@ -5,7 +5,6 @@
 package no.hist.gruppe5.pvu.visionshooter;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
 
@@ -68,6 +68,9 @@ public class VisionEndScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
+        if(Input.action()){
+            game.setScreen(PVU.MAIN_SCREEN);
+        }
     }
 
     @Override

@@ -108,11 +108,11 @@ public class ScoreHandler {
         
         if (average > 0.9) {
             return 'A';
-        } else if (total > 0.8) {
+        } else if (average > 0.8) {
             return 'B';
-        } else if (total > 0.7) {
+        } else if (average > 0.7) {
             return 'C';
-        } else if (total > 0.6) {
+        } else if (average > 0.6) {
             return 'D';
         } else {
             return 'E';
