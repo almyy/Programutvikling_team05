@@ -22,25 +22,21 @@ import no.hist.gruppe5.pvu.PVU;
  */
 public class VisionIntroScreen extends GameScreen {
 
-    private String mTitleText = "VisionShooter";
+    // Stage
+    private Stage mStage;
+
+    // Strings for description
+    private String mTitleText = "Visjonsdokument";
     private String mIntroText;
     private String mYoutubeText;
     private String mFacebookText;
     private String mVisionDocText;
-    private Label mLtitle;
-    private Label mLintro;
-    private Label mLyoutube;
-    private Label mLfacebook;
-    private Label mLvision;
-    private Label mLcontinue;
-    private Stage mStage;
-    private Label.LabelStyle mLabelstyle;
-    private Skin mSkin;
-    
-    
-    private Sprite mSyoutube;
-    private Sprite mSfacebook;
-    private Sprite mSdoc;
+
+    // Graphics
+    private Label.LabelStyle mLabelStyle;
+    private Sprite mYoutube;
+    private Sprite mFacebook;
+    private Sprite mDoc;
     private Input mInput;
 
     public VisionIntroScreen(PVU game) throws FileNotFoundException, IOException {
@@ -48,54 +44,64 @@ public class VisionIntroScreen extends GameScreen {
 
         mInput = new Input();
 
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        // Read descriptions from file
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mIntroText = Assets.readFile("data/visionScreen_intro/Intro.txt");
         mYoutubeText = Assets.readFile("data/visionScreen_intro/Youtube.txt");
         mFacebookText = Assets.readFile("data/visionScreen_intro/Facebook.txt");
         mVisionDocText = Assets.readFile("data/visionScreen_intro/Vision.txt");
 
-        mLtitle = makeHeadLabel(mTitleText);
-        mLtitle.setPosition(PVU.SCREEN_WIDTH / 4, PVU.SCREEN_HEIGHT * 0.9f);
-        mLtitle.setFontScale(6f);
-        mLtitle.setWrap(true);
-        mStage.addActor(mLtitle);
-        
-        mLintro = makeLabel(mIntroText);
-        mLintro.setPosition(PVU.SCREEN_WIDTH / 10, PVU.SCREEN_HEIGHT * 0.65f);
-        mLintro.setWrap(true);
-        mLintro.setWidth(PVU.GAME_WIDTH * 1.5f );
-        mLintro.setFontScale(3f);
-        mStage.addActor(mLintro);
-        
-        mLyoutube = makeLabel(mYoutubeText);
-        mLyoutube.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT / 2.2f);
-        mLyoutube.setWrap(true);
-        mLyoutube.setWidth(PVU.GAME_WIDTH *2);
-        mLyoutube.setFontScale(2f);
-        mStage.addActor(mLyoutube);
-        
-        mLfacebook = makeLabel(mFacebookText);
-        mLfacebook.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT / 2.8f);
-        mLfacebook.setWrap(true);
-        mLfacebook.setWidth(PVU.GAME_WIDTH*2);
-        mLfacebook.setFontScale(2f);
-        mStage.addActor(mLfacebook);
-        
-        mLvision = makeLabel(mVisionDocText);
-        mLvision.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT / 4f);
-        mLvision.setWrap(true);
-        mLvision.setWidth(PVU.GAME_WIDTH*2);
-        mLvision.setFontScale(2f);
-        mStage.addActor(mLvision);
-        
-        mLcontinue = makeHeadLabel("Trykk SPACE for aa fortsette");
-        mLcontinue.setPosition(PVU.SCREEN_WIDTH/4, PVU.SCREEN_HEIGHT / 7f);
-        mLcontinue.setWrap(true);
-        mLcontinue.setFontScale(3f);
-        mStage.addActor(mLcontinue);
+        // Set up everything stage related
+        Label title = makeHeadLabel(mTitleText);
+        title.setPosition(PVU.SCREEN_WIDTH / 4, PVU.SCREEN_HEIGHT * 0.9f);
+        title.setFontScale(6f);
+        title.setWrap(true);
+        mStage.addActor(title);
 
+        Label intro = makeLabel(mIntroText);
+        intro.setPosition(PVU.SCREEN_WIDTH / 10, PVU.SCREEN_HEIGHT * 0.65f);
+        intro.setWrap(true);
+        intro.setWidth(PVU.GAME_WIDTH * 1.5f);
+        intro.setFontScale(3f);
+        mStage.addActor(intro);
 
+        Label youtube = makeLabel(mYoutubeText);
+        youtube.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT / 2.2f);
+        youtube.setWrap(true);
+        youtube.setWidth(PVU.GAME_WIDTH * 2);
+        youtube.setFontScale(2f);
+        mStage.addActor(youtube);
 
+        Label facebook = makeLabel(mFacebookText);
+        facebook.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT / 2.8f);
+        facebook.setWrap(true);
+        facebook.setWidth(PVU.GAME_WIDTH * 2);
+        facebook.setFontScale(2f);
+        mStage.addActor(facebook);
+
+        Label vision = makeLabel(mVisionDocText);
+        vision.setPosition(PVU.SCREEN_WIDTH / 6, PVU.SCREEN_HEIGHT / 4f);
+        vision.setWrap(true);
+        vision.setWidth(PVU.GAME_WIDTH * 2);
+        vision.setFontScale(2f);
+        mStage.addActor(vision);
+
+        Label continueLabel = makeHeadLabel("Trykk SPACE for å fortsette");
+        continueLabel.setPosition(PVU.SCREEN_WIDTH / 4, PVU.SCREEN_HEIGHT / 7f);
+        continueLabel.setWrap(true);
+        continueLabel.setFontScale(3f);
+        mStage.addActor(continueLabel);
+
+        // Initialise sprites
+        mYoutube = new Sprite(Assets.visionShooterYoutubeRegion);
+        mYoutube.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 2.3f);
+
+        mFacebook = new Sprite(Assets.visionShooterFacebookRegion);
+        mFacebook.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 3);
+
+        mDoc = new Sprite(Assets.visionShooterDocumentRegion);
+        mDoc.setPosition(PVU.GAME_WIDTH / 9.5f, PVU.GAME_HEIGHT / 5);
+        mDoc.scale(-0.3f);
     }
 
     
@@ -106,22 +112,13 @@ public class VisionIntroScreen extends GameScreen {
 
         batch.begin();
         
-        mStage.getSpriteBatch().draw(Assets.visionShooterRegion, 0, 0);
-        mSyoutube = new Sprite(Assets.visionShooterYoutubeRegion);
-        mSyoutube.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 2.3f);
-        mSyoutube.draw(batch);
-        
-        mSfacebook = new Sprite(Assets.visionShooterFacebookRegion);
-        mSfacebook.setPosition(PVU.GAME_WIDTH / 9, PVU.GAME_HEIGHT / 3);
-        mSfacebook.draw(batch);
-        
-        mSdoc = new Sprite(Assets.visionShooterDocumentRegion);
-        mSdoc.setPosition(PVU.GAME_WIDTH / 9.5f, PVU.GAME_HEIGHT / 5);
-        mSdoc.scale(-0.3f);
-        mSdoc.draw(batch);
-        
-  
+        batch.draw(Assets.visionShooterRegion, 0, 0);
+        mYoutube.draw(batch);
+        mFacebook.draw(batch);
+        mDoc.draw(batch);
+
         batch.end();
+
         mStage.draw();
     }
 
@@ -138,19 +135,15 @@ public class VisionIntroScreen extends GameScreen {
     }
 
     private Label makeHeadLabel(String text) {
-        mSkin = new Skin();
-        mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        mLabelstyle.font = Assets.primaryFont10px;
-        mLabelstyle.fontColor = Color.RED;
-        Label l = new Label(text, mLabelstyle);
-        return l;
+        mLabelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
+        mLabelStyle.font = Assets.primaryFont10px;
+        mLabelStyle.fontColor = Color.RED;
+        return new Label(text, mLabelStyle);
     }
 
     private Label makeLabel(String text) {
-        mSkin = new Skin();
-        mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        mLabelstyle.font = Assets.primaryFont10px;
-        Label l = new Label(text, mLabelstyle);
-        return l;
+        mLabelStyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
+        mLabelStyle.font = Assets.primaryFont10px;
+        return new Label(text, mLabelStyle);
     }
 }
