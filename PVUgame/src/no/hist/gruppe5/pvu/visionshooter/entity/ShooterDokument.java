@@ -11,7 +11,7 @@ import no.hist.gruppe5.pvu.visionshooter.ShooterElement;
 public class ShooterDokument extends ShooterElement {
     
     public ShooterDokument(float elementY) {
-        super(new Sprite(Assets.visionShooterDocumentRegion),elementY, 30f);
+        super(new Sprite(Assets.visionShooterDocumentRegion),elementY, 60f);
     }
 
 }

@@ -74,12 +74,13 @@ public class Assets {
     public static TextureRegion ubHard;
     // BOOK SCREEN
     public static TextureRegion bookBook;
-    // BORDER
+    // SeqJumper
     public static TextureRegion borderBorder;
     public static TextureRegion seqHead;
     public static TextureRegion seqBackground;
     public static TextureRegion seqBall;
     public static TextureRegion seqLine;
+    public static TextureRegion seqBox;
 
     public static void load() {
         minecraftFont10px = new BitmapFont(
@@ -138,22 +139,22 @@ public class Assets {
         ubMedium = msAtlas.findRegion("ub_medium");
         ubHard = msAtlas.findRegion("ub_hard");
 
-
         // BOOK
         bookBook = msAtlas.findRegion("book");
 
-
-        borderBorder = borderAtlas.findRegion("BorderChooser");
-
-
-        // Simple "loading" hack, always put last
-        IS_LOADED = true;
+        // SeqJumper
+        seqBackground = msAtlas.findRegion("sequencebg");
 
         TextureAtlas seqAtlas = new TextureAtlas(Gdx.files.internal("data/seqjumper.atlas"));
         seqHead = seqAtlas.findRegion("head");
         seqLine = seqAtlas.findRegion("line");
-        seqBackground = seqAtlas.findRegion("white");
         seqBall = seqAtlas.findRegion("ball");
+        seqBox = seqAtlas.findRegion("box");
+
+        borderBorder = borderAtlas.findRegion("BorderChooser");
+
+        // Simple "loading" hack, always put last
+        IS_LOADED = true;
     }
 
     public static TextureRegion getAvatarRegion(int region) {

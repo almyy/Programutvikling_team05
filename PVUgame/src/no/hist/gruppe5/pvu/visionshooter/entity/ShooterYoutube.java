@@ -11,6 +11,6 @@ import no.hist.gruppe5.pvu.visionshooter.ShooterElement;
 public class ShooterYoutube extends ShooterElement {
 
     public ShooterYoutube(float elementY) {
-        super(new Sprite(Assets.visionShooterYoutubeRegion), elementY,20f);
+        super(new Sprite(Assets.visionShooterYoutubeRegion), elementY,70f);
     }
 }

@@ -1,22 +1,22 @@
-Hva er visjonsdokumentets hovedhensikt?
-Hva formidler systemsekvensdiagrammene?
-Hvordan utformes et systemsekvensdiagram syntaktisk?
-Hvordan utformes en enkelt use case syntaktisk? 
+ï»¿Hva er visjonsdokumentets hovedhensikt?
+Hva formidler systemsekvensdiagrammene? 
+Hvordan utformes et systemsekvensdiagram?
+Hvordan utformes en enkelt use case? 
 Hvem skal visjonsdokumentet i hovedsak kommunisere til?
 
-Beslutningsgrunnlag for gjennomføring av prosjekt
+Beslutningsgrunnlag for gjennomfÃ¸ring av prosjekt
 Utforming av krav
 Beskrive design
 Godt lesestoff
 
 Systemets ikke-funksjonelle krav
 Systemets interne funksjonalitet
-Systemets returverdier
+Meldingutveksling mellom system og bruker
 Utviklerenes arbeidsmengde
 
 Tekstlig beskrivelse
 UML-diagrammer
-Søylediagrammer
+SÃ¸ylediagrammer
 Burndown chart
 
 Use case-diagram
@@ -25,9 +25,9 @@ Muntlig beskrivelse
 Ved hjelp av visjonsdokumentet
 
 Erna Solberg
-Sensor
 Utviklerene
-Systemets oppdragsgivere
+Systemets oppdrasgivere
+Utviklerene og systemets oppdragsgivere
 
 0
 2

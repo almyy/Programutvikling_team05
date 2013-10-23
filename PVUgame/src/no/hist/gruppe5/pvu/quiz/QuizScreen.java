@@ -5,8 +5,6 @@
 package no.hist.gruppe5.pvu.quiz;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -22,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.io.BufferedReader;
@@ -34,6 +31,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
+import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
 
@@ -64,6 +62,7 @@ public class QuizScreen extends GameScreen {
     private long mLastButtonPressed = 0;
     boolean mGetNewAnswers = false;
     int mQuizNumber;
+    private Input mInput;
 
     public QuizScreen(PVU game, int mQuizNumber) throws FileNotFoundException, IOException {
         super(game);
@@ -71,7 +70,7 @@ public class QuizScreen extends GameScreen {
         mStage = new Stage();
         mQuestionGroup = new Group();
         mAnswerGroup = new Group();
-
+        mInput = new Input(75L,1500L);
         defineStyles();
         readQuiz(mQuizNames[mQuizNumber]);
         initializeQuestions();
@@ -96,13 +95,13 @@ public class QuizScreen extends GameScreen {
                 initiateSelectorBounds();
                 registerSelectorAnswer();
             }
-            if (enoughTimePassed(1500L) && mGetNewAnswers) {
+            if (mInput.isActionReady() && mGetNewAnswers) {
                 initNewAnswers();
             }
             if (mQuestionCounter == mNumberOfQuestions) {
                 presentQuizScore();
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        } else if (mInput.action()) {
             endQuiz();
         }
     }
@@ -238,16 +237,16 @@ public class QuizScreen extends GameScreen {
     }
 
     private void initiateSelectorBounds() {
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && mSelectorLeft) {
+        if (mInput.right() && mSelectorLeft) {
             mSelectorX = 305;
             mSelectorLeft = false;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !mSelectorLeft) {
+        } else if (mInput.left() && !mSelectorLeft) {
             mSelectorX = 0;
             mSelectorLeft = true;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && mSelectorTop) {
+        } else if (mInput.down() && mSelectorTop) {
             mSelectorY = 0;
             mSelectorTop = false;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !mSelectorTop) {
+        } else if (mInput.up() && !mSelectorTop) {
             mSelectorY = 105;
             mSelectorTop = true;
         }
@@ -280,7 +279,7 @@ public class QuizScreen extends GameScreen {
     }
 
     private void registerSelectorAnswer() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (mInput.action()) {
             if (mSelectorTop) {
                 mAnswer = (mSelectorLeft) ? 0 : 1;
             } else {
