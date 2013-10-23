@@ -34,12 +34,15 @@ public class ReqFinderScreen extends GameScreen {
     private LabelStyle mCorrectLabelStyle;
     private LabelStyle mWrongLabelStyle;
     private LabelStyle mHighlightedLabelStyle;
+    private LabelStyle mLivesStyle;
     private ArrayList<Label> mLabels = new ArrayList<>();
     private Label mHighlightedLabel;
     private int mHighlightedIndex;
     private long mLastButtonPressed;
     private String[] mCorrectWords= {"interaktivt", "skjema,", "kundeprofil", "profilside", "instant", "messaging-tjeneste", "(IM-tjeneste).", "prosjektbestillinger", "fysikksimulator"};
     private Input mInput = new Input();
+    private int mLives = mCorrectWords.length;
+    private Label mLivesLabel;
             
     public ReqFinderScreen(PVU pvu) {
         super(pvu);
@@ -57,6 +60,8 @@ public class ReqFinderScreen extends GameScreen {
         mHighlightedLabelStyle = new LabelStyle(kopiert, Color.BLUE);
         mWrongLabelStyle = new LabelStyle(kopiert, Color.RED);
         mCorrectLabelStyle = new LabelStyle(kopiert, Color.GREEN);
+        mLivesStyle = new LabelStyle(kopiert, Color.RED);
+        
 
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
         mStage.setViewport(mStage.getWidth(), mStage.getHeight(), true, 0, 0, mStage.getWidth(), mStage.getHeight());
@@ -81,6 +86,10 @@ public class ReqFinderScreen extends GameScreen {
             labelLength = mLabels.get(mLabels.size() - 1).getX() + mLabels.get(mLabels.size() - 1).getWidth();
             mStage.addActor(mLabels.get(mLabels.size() - 1));
         }
+        
+        mLivesLabel = new Label(""+mLives, mLivesStyle);
+        mLivesLabel.setPosition(PVU.SCREEN_WIDTH-mLivesLabel.getWidth() - 5, 5);
+        mStage.addActor(mLivesLabel);
     }
 
     @Override
@@ -138,12 +147,16 @@ public class ReqFinderScreen extends GameScreen {
         else if (mInput.action()) {
             if(isCorrect()) {
                 mHighlightedLabel.setStyle(mCorrectLabelStyle);
+                
             } else {
                 mHighlightedLabel.setStyle(mWrongLabelStyle);
+                mLives--;
+                mLivesLabel.setText(""+mLives);
             }
         }
         else if (mInput.alternateAction()) {
             QuizHandler.updateQuizScore(10, ScoreHandler.REQ);
+            ScoreHandler.updateScore(ScoreHandler.REQ, 10);
             game.setScreen(PVU.MAIN_SCREEN);
         }
     }
@@ -249,7 +262,9 @@ public class ReqFinderScreen extends GameScreen {
     }
     private boolean isCorrect() {
         for(int i = 0; i < mCorrectWords.length; i++) {
-            if(mCorrectWords[i].equalsIgnoreCase(mHighlightedLabel.getText().toString())) return true;
+            if(mCorrectWords[i].equalsIgnoreCase(mHighlightedLabel.getText().toString())) {
+                return true;
+            }
         }
         return false;
     }
