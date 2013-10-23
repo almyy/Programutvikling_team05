@@ -47,7 +47,7 @@ public class QuizHandler {
         if (score > 0) {
             int previousScore = 0; 
             mTotalCorrect[miniGame] = score;
-            for (int i = 0; i < mTotalCorrect.length; i++) {
+            for (int i = quizzesCompleted; i < mTotalCorrect.length; i++) {
                 if (mTotalCorrect[i] == 0 && previousScore>=PASS_GRADE) {
                     quizzesCompleted = i;
                     break;
