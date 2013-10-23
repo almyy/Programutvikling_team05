@@ -77,19 +77,19 @@ public class ScoreScreen extends GameScreen {
         minigame5.setWrap(true);
         stage.addActor(minigame5);
 
-        score1 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.CODE));
+        score1 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.VISION));
         score1.setPosition(PVU.SCREEN_WIDTH / 1.5f, PVU.SCREEN_HEIGHT * 0.7f);
         score1.setFontScale(3f);
         score1.setWrap(true);
         stage.addActor(score1);
 
-        score2 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.VISION));
+        score2 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.REQ));
         score2.setPosition(PVU.SCREEN_WIDTH / 1.5f, PVU.SCREEN_HEIGHT * 0.6f);
         score2.setFontScale(3f);
         score2.setWrap(true);
         stage.addActor(score2);
 
-        score3 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.QUIZ));
+        score3 = makeLabel("" + ScoreHandler.getMiniGameGrade(ScoreHandler.SEQ));
         score3.setPosition(PVU.SCREEN_WIDTH / 1.5f, PVU.SCREEN_HEIGHT * 0.5f);
         score3.setFontScale(3f);
         score3.setWrap(true);
