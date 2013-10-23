@@ -1,8 +1,6 @@
 package no.hist.gruppe5.pvu.coderacer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,13 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
-import sun.nio.cs.US_ASCII;
+import no.hist.gruppe5.pvu.Input;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:49 AM
@@ -140,7 +136,7 @@ public class CoderacerScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Keys.SPACE) && !start) {
+        if (Input.action() && !start) {
             codeOutput.setText(code.getCode());
             start = true;
             updateOutput();
@@ -154,12 +150,6 @@ public class CoderacerScreen extends GameScreen {
             mDoneHandled = true;
         } else if (!mDoneHandled) {
             time.setText(remainingTime + "");
-        }
-
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            pause = true;
-            game.setScreen(PVU.MAIN_SCREEN);
         }
     }
 
