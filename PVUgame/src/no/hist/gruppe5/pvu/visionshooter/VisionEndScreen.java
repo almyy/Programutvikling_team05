@@ -68,9 +68,6 @@ public class VisionEndScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new MinigameSelectorScreen(game));
-        }
     }
 
     @Override
