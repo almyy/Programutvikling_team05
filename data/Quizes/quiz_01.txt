@@ -4,33 +4,33 @@ Hva beskriver use case-modellen?
 Hvordan beskrives problemdomenemodellen?
 Hvor spesifiseres ikke-funksjonelle krav?
 
-1
-2
-3
-4
+Use case-modellen
+Systemsekvensdiagram
+Problemdomenemodellen
+Visjonsdokumentet
 
-1
-2
-3
-4
+God kode
+Godt kravdokument 
+Godt visjonsdokument
+Programmeringsevne
 
-1
-2
-3
-4
+Systemets funksjonelle krav
+Systemets brukevennlighet
+Systemets omfang
+Det er en brukermanual
 
-1
-2
-3
-4
+Tekstlig beskrivelse
+Kakediagram
+Stenografi
+UML-diagram
 
-2
-3
-4
-5
+Visjonsdokumentet
+Arkitekturdokumentet
+Kravdokumentet
+Designdokumentet
 
 0
-1
 2
+0
 3
-3
+2

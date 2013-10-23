@@ -19,6 +19,7 @@ import no.hist.gruppe5.pvu.mainroom.MainScreen;
 
 public class Player {
 
+    private static boolean mLol = false;
     private final float PLAYER_SIZE;
 
     private final Animation PLAYER_BACK;
@@ -86,6 +87,8 @@ public class Player {
         if(!mSitting) {
             Vector2 pos = mPlayerBody.getPosition();
             mPlayerSprite.setPosition(pos.x - (mPlayerSprite.getWidth() / 2), pos.y - mPlayerSprite.getHeight() / 4.6f);
+            if(mLol)
+                mPlayerSprite.rotate(10f);
         }
 
         float dt = Gdx.graphics.getDeltaTime();
@@ -158,5 +161,9 @@ public class Player {
 
     public void setMoveable(boolean moveable) {
         this.mMoveable = moveable;
+    }
+
+    public static void lol() {
+        mLol = true;
     }
 }

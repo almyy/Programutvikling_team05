@@ -11,7 +11,7 @@ import no.hist.gruppe5.pvu.visionshooter.ShooterElement;
 public class ShooterFacebook extends ShooterElement {
 
     public ShooterFacebook(float elementY) {
-        super(new Sprite(Assets.visionShooterFacebookRegion), elementY,30f);
+        super(new Sprite(Assets.visionShooterFacebookRegion), elementY,60f);
     }
  
     

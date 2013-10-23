@@ -16,7 +16,7 @@ public class ShooterShip {
     private float shipX = 3f;
     private float shipY = 10; 
     
-    private float shipSpeed = 54f;
+    private float shipSpeed = 130f;
 
     public ShooterShip(){
         shipSprite = new Sprite(Assets.visionShooterShipRegion); 
