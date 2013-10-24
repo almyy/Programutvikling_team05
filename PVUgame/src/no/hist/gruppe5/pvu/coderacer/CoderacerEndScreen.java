@@ -20,8 +20,8 @@ import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
  */
 public class CoderacerEndScreen extends GameScreen {
 
-    private String mPointText = "Points: ";
-    private String mContinue = "Trykk SPACE for aa avslutte";
+    private String mPointText = "Du fikk    prosent";
+    private String mContinue = "Trykk SPACE for å gå tilbake";
     private Label mLcontinue;
     private Label mPointTextLabel;
     private Label mPointValueLabel;
@@ -30,7 +30,7 @@ public class CoderacerEndScreen extends GameScreen {
     private Skin mSkin;
     private Input mInput;
 
-    public CoderacerEndScreen(PVU game, int points) {
+    public CoderacerEndScreen(PVU game, float score) {
         super(game);
 
         mInput = new Input(200L, 2000L);
@@ -39,13 +39,13 @@ public class CoderacerEndScreen extends GameScreen {
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mPointTextLabel = makeHeadLabel(mPointText);
         mPointTextLabel.setPosition(PVU.SCREEN_WIDTH / 3, PVU.SCREEN_HEIGHT * 0.8f);
-        mPointTextLabel.setFontScale(5f);
+        mPointTextLabel.setFontScale(3f);
         mPointTextLabel.setWrap(true);
         mStage.addActor(mPointTextLabel);
 
-        mPointValueLabel = makeHeadLabel(String.valueOf(points));
-        mPointValueLabel.setPosition(PVU.SCREEN_WIDTH / 1.8f, PVU.SCREEN_HEIGHT * 0.8f);
-        mPointValueLabel.setFontScale(5f);
+        mPointValueLabel = makeHeadLabel(String.valueOf(Math.round(score*100)));
+        mPointValueLabel.setPosition(PVU.SCREEN_WIDTH / 2.1f, PVU.SCREEN_HEIGHT * 0.8f);
+        mPointValueLabel.setFontScale(3f);
         mPointValueLabel.setWrap(true);
         mStage.addActor(mPointValueLabel);
 
