@@ -114,6 +114,7 @@ public class JumperScreen extends GameScreen {
         mBall.draw(batch);
         mPowerBar.draw(batch);
 
+        // Moving the arrow accordingly to movement of ball
         switch (checkCollision()) {
             case 1:
                 if (mJumps == 1) {
@@ -192,7 +193,9 @@ public class JumperScreen extends GameScreen {
                 break;
         }
         batch.end();
+        // Drawing labels on the platforms
         mPlatform.drawOutside(batch);
+        // Turning off the powerbar after ended game
         if (!mGameOver) {
             mPlatform.drawRedBar();
         }
@@ -242,7 +245,8 @@ public class JumperScreen extends GameScreen {
     private int checkCollision() {
         //Platform 1
         if (checkHit(0)) {
-            if (mJumps == 0 || mJumps == 1 || mJumps == 5 || mJumps == 6 || mJumps == 7 || mJumps == 8 || mJumps == 10 || mJumps == 11) {
+            if (mJumps == 0 || mJumps == 1 || mJumps == 5 || mJumps == 6 || mJumps == 7
+                    || mJumps == 8 || mJumps == 10 || mJumps == 11) {
                 if (mJumps == 0 && mPlatformJumped[0] == false) {
                     mJumps++;
                 } else if (mJumps == 5 && mPlatformJumped[5] == false) {
@@ -256,7 +260,8 @@ public class JumperScreen extends GameScreen {
                 } else if (mJumps == 10 && mPlatformJumped[10] == false) {
                     mJumps++;
                     mPlatformJumped[7] = false;
-                } else if (mPlatformJumped[0] == true || mPlatformJumped[5] == true || mPlatformJumped[7] == true || mPlatformJumped[10] == true) {
+                } else if (mPlatformJumped[0] == true || mPlatformJumped[5] == true
+                        || mPlatformJumped[7] == true || mPlatformJumped[10] == true) {
                     failJump();
                 }
             } else {
@@ -352,8 +357,10 @@ public class JumperScreen extends GameScreen {
     }
 
     private void failJump() {
+        // Destroys ball and creates a new one
         mWorld.destroyBody(mBall.getBody());
         mBall = new Ball(mWorld);
+        // Resetting the table of platforms jumped
         for (int i = 0; i < mJumps; i++) {
             mPlatformJumped[i] = false;
         }
@@ -364,14 +371,17 @@ public class JumperScreen extends GameScreen {
     }
 
     private void gameOver() {
+        // Remove ball when the game is over
         if (!mGameOver) {
             mWorld.destroyBody(mBall.getBody());
         }
+        // Update score when the game is over
         if (!mOnce) {
             ScoreHandler.updateScore(ScoreHandler.SEQ, mPercent / 100);
             mOnce = true;
         }
         mGameOver = true;
+        // Going out of the game
         if (Input.continuousAction()) {
             game.setScreen(PVU.MAIN_SCREEN);
         }
@@ -381,8 +391,10 @@ public class JumperScreen extends GameScreen {
         if (mJumps - 1 > 0) {
             float startJump = mJumps - 1;
             mPercent = Math.round((float) startJump / (float) 10 * 100f);
+            mGui.setSuccess(mPercent);
+        } else if (mJumps - 1 == 0) {
+            mGui.setSuccess(0);
         }
-        mGui.setSuccess(mPercent);
     }
 
     private void checkInput() {

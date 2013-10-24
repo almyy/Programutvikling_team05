@@ -105,10 +105,8 @@ public class GUI {
         mPercent = score;
         if (mHighscore < mPercent) {
             mHighscore = mPercent;
-            mSuccess.setText("Success: " + mPercent + "% ");
-        } else if (mPercent == 0) {
-            mSuccess.setText("Success: " + 0 + "% ");
         }
+        mSuccess.setText("Success: " + mPercent + "% ");
     }
 
     public void setLife(int life) {
