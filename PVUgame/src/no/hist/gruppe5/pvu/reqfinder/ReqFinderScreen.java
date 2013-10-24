@@ -159,7 +159,6 @@ public class ReqFinderScreen extends GameScreen {
             }
         }
         else if (mInput.alternateAction()) {
-            QuizHandler.updateFinishedMiniGame();
             ScoreHandler.updateScore(ScoreHandler.REQ, 10);
             game.setScreen(PVU.MAIN_SCREEN);
             reportScore();
