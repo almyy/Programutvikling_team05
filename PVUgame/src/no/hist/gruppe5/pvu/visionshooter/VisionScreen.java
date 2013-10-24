@@ -226,29 +226,24 @@ public class VisionScreen extends GameScreen {
         while(mNoElements[index] == 0) {
             index = mRandom.nextInt(3);
             if(counts > 10) {
-                System.out.println("None left");
                 return;
             }
             counts++;
         }
 
         Element newElement = null;
-        System.out.print("Adding..");
         if (index == 1 && (mNoElements[1] > 0)) {
             newElement = new Facebook(0);
             mElements.add(newElement);
             mNoElements[1]--;
-            System.out.println(" one");
         } else if (index == 2 && (mNoElements[2] > 0)) {
             newElement = new Youtube(0);
             mElements.add(newElement);
             mNoElements[2]--;
-            System.out.println(" two");
         } else if (index == 0 && mNoElements[0] > 0) {
             newElement = new Document(0);
             mElements.add(newElement);
             mNoElements[0]--;
-            System.out.println(" three");
         }
 
         if (newElement != null) {
