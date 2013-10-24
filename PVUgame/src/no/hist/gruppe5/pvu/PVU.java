@@ -52,7 +52,7 @@ public class PVU extends Game {
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
         MAIN_SCREEN = new MainScreen(this);
 
-        setScreen(new IntroScreen(this));
+        setScreen(new JumperScreen(this));
 
     }
 
