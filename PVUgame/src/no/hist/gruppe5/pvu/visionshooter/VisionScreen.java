@@ -4,6 +4,9 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.Quint;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -17,12 +20,12 @@ import no.hist.gruppe5.pvu.visionshooter.entity.*;
 public class VisionScreen extends GameScreen {
 
     private static int MAX_POINTS = 400;
+    private static long FLASH_TIME = 80;
 
     // Game elements
     private ShooterShip mVisionShooterShip = new ShooterShip();
     private ArrayList<Bullet> mShipProjectiles = new ArrayList<Bullet>();
     private ArrayList<Element> mElements = new ArrayList<Element>();
-    private Element[] mAllElements = {new Facebook(0), new Youtube(0), new Document(0)};//Used for adding mRandom elements to mElements
 
     // Game variables
     private long mLastBulletShot = 0;
@@ -30,6 +33,10 @@ public class VisionScreen extends GameScreen {
     private int[] mElementsGot = {0, 0, 0};
     private long mLastElementSpawned = 0;
     public int mPoints = 0;
+
+    // Red flash
+    public long mLastFlash;
+    private boolean mIsFlashing;
 
     // Other
     private Random mRandom = new Random();
@@ -40,6 +47,7 @@ public class VisionScreen extends GameScreen {
     private ScrollingBackground mBackground;
     private Label mPointTextLabel;
     private Label mPointValueLabel;
+    private Sprite mFlashTexture;
 
     public VisionScreen(PVU game) {
         super(game);
@@ -57,6 +65,15 @@ public class VisionScreen extends GameScreen {
 
         mTweenManager = new TweenManager();
         Tween.registerAccessor(Element.class, new ElementAccessor());
+
+        // Transparent overlay
+        Pixmap pix = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
+        pix.setColor(new Color(1f, 0f, 0f, 1f));
+        pix.fill();
+
+        mFlashTexture = new Sprite(new Texture(pix));
+        mFlashTexture.setColor(new Color(1, 1, 0, 0.5f));
+        mIsFlashing = true;
     }
 
     @Override
@@ -71,15 +88,12 @@ public class VisionScreen extends GameScreen {
         mVisionShooterShip.draw(batch);
         mPointTextLabel.draw(batch, 1f);
         mPointValueLabel.draw(batch, 1f);
+        drawFlash();
         batch.end();
-
     }
-
-    float high, low;
 
     @Override
     protected void update(float delta) {
-
         mVisionShooterShip.update(delta);
         if (Input.continuousAction()) {
             shootBullet();
@@ -87,17 +101,20 @@ public class VisionScreen extends GameScreen {
         mBackground.update(delta);
         updateBulletPos(delta);
         updateElementPos(delta);
-
+        updateFlash(delta);
         checkBulletHit();
         checkShipHit();
 
-        if ((TimeUtils.millis() - mLastElementSpawned) > 700L) {
+        if ((TimeUtils.millis() - mLastElementSpawned) > 700L && !noElementsLeft()) {
             addElement();
         }
 
-
         checkFinish();
         mTweenManager.update(delta);
+    }
+
+    private boolean noElementsLeft() {
+        return (mNoElements[0] == 0 && mNoElements[1] == 0 && mNoElements[2] == 0);
     }
 
     @Override
@@ -141,13 +158,34 @@ public class VisionScreen extends GameScreen {
             } else if (mElements.get(i) instanceof Document) {
                 mPoints -= 20;
                 mElements.remove(i);
+                flash();
             } else   {
                 mPoints -= 10;
                 mElements.remove(i);
+                flash();
             }
         }
 
         if(mPoints < 0) mPoints = 0;
+    }
+
+    private void flash() {
+        mLastFlash = TimeUtils.millis();
+        mIsFlashing = true;
+    }
+
+    private void updateFlash(float delta) {
+        if((TimeUtils.millis() - mLastFlash) > FLASH_TIME)
+            mIsFlashing = false;
+    }
+
+    private void drawFlash() {
+        if(mIsFlashing) {
+            Color c = batch.getColor();
+            batch.setColor(1, 0, 0, 0.5f);
+            batch.draw(mFlashTexture, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
+            batch.setColor(c);
+        }
     }
 
     private void drawBullets() {
@@ -180,34 +218,48 @@ public class VisionScreen extends GameScreen {
         }
     }
 
-    private void addElement() {//adds element to the arrray-list
+    private void addElement() {
+        mLastElementSpawned = TimeUtils.millis();
+
         int index = mRandom.nextInt(3);
-        Element i = mAllElements[index];
-        Element help = null;
-        if (i instanceof Facebook && (mNoElements[1] > 0)) {
-            help = new Facebook(mAllElements[index].getElementY());
-            mElements.add(help);
-            mNoElements[1]--;
-        } else if (i instanceof Youtube && (mNoElements[2] > 0)) {
-            help = new Youtube(mAllElements[index].getElementY());
-            mElements.add(help);
-            mNoElements[2]--;
-        } else if (mNoElements[0] > 0) {
-            help = new Document(mAllElements[index].getElementY());
-            mElements.add(help);
-            mNoElements[0]--;
+        int counts = 0;
+        while(mNoElements[index] == 0) {
+            index = mRandom.nextInt(3);
+            if(counts > 10) {
+                System.out.println("None left");
+                return;
+            }
+            counts++;
         }
 
-        if (help != null) {
-            help.setElementY(mRandom.nextInt(Math.round(PVU.GAME_HEIGHT - help.getElementHeight())));
-            help.setElementX(210f);
-            Tween.to(help, ElementAccessor.POS_X, 1f)
+        Element newElement = null;
+        System.out.print("Adding..");
+        if (index == 1 && (mNoElements[1] > 0)) {
+            newElement = new Facebook(0);
+            mElements.add(newElement);
+            mNoElements[1]--;
+            System.out.println(" one");
+        } else if (index == 2 && (mNoElements[2] > 0)) {
+            newElement = new Youtube(0);
+            mElements.add(newElement);
+            mNoElements[2]--;
+            System.out.println(" two");
+        } else if (index == 0 && mNoElements[0] > 0) {
+            newElement = new Document(0);
+            mElements.add(newElement);
+            mNoElements[0]--;
+            System.out.println(" three");
+        }
+
+        if (newElement != null) {
+            newElement.setElementY(mRandom.nextInt(Math.round(PVU.GAME_HEIGHT - newElement.getElementHeight())));
+            newElement.setElementX(210f);
+            Tween.to(newElement, ElementAccessor.POS_X, 1f)
                     .target(160f)
                     .ease(Quint.IN)
                     .start(mTweenManager);
         }
 
-        mLastElementSpawned = TimeUtils.millis();
     }
 
     private void checkBulletHit() {
@@ -217,6 +269,7 @@ public class VisionScreen extends GameScreen {
                     if (mElements.get(i) instanceof Document) {
                         // Do not kill document!
                         mPoints -= 20;
+                        flash();
                     } else {
                         // Killed bad activity, more points!
                         mPoints += 10;
@@ -253,15 +306,9 @@ public class VisionScreen extends GameScreen {
                 }
             } else {
                 if (mElements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
-                    if (mPoints - 40 > 0) {
-                        mPoints -= 40;
-                        mElements.remove(i);
-
-                    } else {
-                        mPoints = 0;
-                        mElements.remove(i);
-
-                    }
+                    mPoints -= 40;
+                    mElements.remove(i);
+                    flash();
                 }
             }
         }
