@@ -33,7 +33,7 @@ public class VisionEndScreen extends GameScreen {
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mContinue = "Gratulerer! Du er nå ferdig å skrive visjonsdokumentet.\n\n" 
                 + "Trykk SPACE for å avslutte";
-        mPointText = "Poeng: " + String.valueOf(points);
+        mPointText = "Poeng: " + String.valueOf(points) + " av 400!";
         createLabels();
 
         this.mElementsGot = elementsGot;
@@ -42,7 +42,7 @@ public class VisionEndScreen extends GameScreen {
     private void createLabels() {
         mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.RED);
         mPointTextLabel = new Label(mPointText, mLabelstyle);
-        mPointTextLabel.setPosition(PVU.SCREEN_WIDTH /2-200, PVU.SCREEN_HEIGHT * 0.6f);
+        mPointTextLabel.setPosition(PVU.SCREEN_WIDTH / 2 - 370, PVU.SCREEN_HEIGHT * 0.6f);
         mPointTextLabel.setFontScale(7f);
         mPointTextLabel.setWrap(true);
         mStage.addActor(mPointTextLabel);

@@ -22,7 +22,7 @@ public class VisionScreen extends GameScreen {
     private ArrayList<Bullet> mShipProjectiles = new ArrayList<Bullet>();
     private long mLastBulletShot = 0;
     private ArrayList<Element> mElements = new ArrayList<Element>();
-    private int[] mNoElements = {5, 8, 8};//Number of elements: dokument, facebook, youtube
+    private int[] mNoElements = {7, 8, 8};//Number of elements: dokument, facebook, youtube
     private int[] mElementsGot = {0, 0, 0}; // TODO set to 0
     private Element[] mAllElements = {new Facebook(0), new Youtube(0), new Document(0)};//Used for adding mRandom elements to mElements
     private long mLastElementSpawned = 0;
