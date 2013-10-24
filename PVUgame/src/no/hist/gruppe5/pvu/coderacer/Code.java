@@ -16,8 +16,8 @@ public class Code {
         this.codes = new ArrayList();
         codes.add("class HelloWorld implements World {");
         codes.add("private ArrayList<World> mWorlds = new ArrayList<>();");
-        codes.add("Label label = new Label(\"Hei på deg\", new LabelStyle(DEFAULT_FONT_TYPE, Color.BLACK));");
-        codes.add("String left = getCode().substring(charCounter, getCode().length());");
+        codes.add("public HelloWorld(World world) {");
+        codes.add("public static void main(String[] args) {");
         
         correct = "";
         left = getCode();
