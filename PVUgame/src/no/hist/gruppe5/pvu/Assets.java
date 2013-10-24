@@ -131,6 +131,8 @@ public class Assets {
             msBurndownCarts[i] = (TextureRegion) carts.get(i);
         }
 
+        exclamationMark = mainAvatar[24];
+
         // INTRO
         introMainLogo = msAtlas.findRegion("logo");
         introTeamLogo = msAtlas.findRegion("logo_2_group");
