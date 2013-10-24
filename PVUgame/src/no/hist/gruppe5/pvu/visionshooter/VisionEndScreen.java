@@ -25,8 +25,9 @@ public class VisionEndScreen extends GameScreen {
     private Stage mStage;
     private Label.LabelStyle mLabelstyle;
     private Input mInput;
+    private int[] mElementsGot;
 
-    public VisionEndScreen(PVU game, int points) {
+    public VisionEndScreen(PVU game, int points, int[] elementsGot) {
         super(game);
         mInput = new Input();
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
@@ -34,12 +35,14 @@ public class VisionEndScreen extends GameScreen {
                 + "Trykk SPACE for å avslutte";
         mPointText = "Poeng: " + String.valueOf(points);
         createLabels();
+
+        this.mElementsGot = elementsGot;
     }
 
     private void createLabels() {
         mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.RED);
         mPointTextLabel = new Label(mPointText, mLabelstyle);
-        mPointTextLabel.setPosition(PVU.SCREEN_WIDTH /2-200, PVU.SCREEN_HEIGHT * 0.8f);
+        mPointTextLabel.setPosition(PVU.SCREEN_WIDTH /2-200, PVU.SCREEN_HEIGHT * 0.6f);
         mPointTextLabel.setFontScale(7f);
         mPointTextLabel.setWrap(true);
         mStage.addActor(mPointTextLabel);
@@ -47,11 +50,25 @@ public class VisionEndScreen extends GameScreen {
         mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
         mLcontinue = new Label(mContinue, mLabelstyle);
         mLcontinue.setWidth(200);
-        mLcontinue.setPosition(PVU.SCREEN_WIDTH/2-320, PVU.SCREEN_HEIGHT / 2);
+        mLcontinue.setPosition(PVU.SCREEN_WIDTH/2-320, PVU.SCREEN_HEIGHT * 0.3f);
         mLcontinue.setFontScale(4f);
         mLcontinue.setWrap(true);
         
         mStage.addActor(mLcontinue);
+    }
+
+    private void drawElementsGui() {
+        for(int i = 0; i < mElementsGot[0]; i++) {
+            batch.draw(Assets.visionShooterDocumentRegion, 1 + (2 * (i * 4)), PVU.GAME_HEIGHT - 9, 7, 8);
+        }
+
+        for(int i = 0; i < mElementsGot[1]; i++) {
+            batch.draw(Assets.visionShooterFacebookRegion, (PVU.GAME_WIDTH - 9) - (2 * (i * 4)), PVU.GAME_HEIGHT - 9, 7, 8);
+        }
+
+        for(int i = 0; i < mElementsGot[2]; i++) {
+            batch.draw(Assets.visionShooterYoutubeRegion, (PVU.GAME_WIDTH - 9) - (2 * (i * 4)), PVU.GAME_HEIGHT - 18, 7, 8);
+        }
     }
 
     @Override
@@ -59,6 +76,7 @@ public class VisionEndScreen extends GameScreen {
         clearCamera(1, 1, 1, 1);
         batch.begin();
         batch.draw(Assets.visionShooterRegion, 0, 0);
+        drawElementsGui();
         batch.end();
         mStage.draw();
     }

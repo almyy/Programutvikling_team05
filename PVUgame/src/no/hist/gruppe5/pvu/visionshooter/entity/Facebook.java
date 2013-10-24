@@ -1,16 +1,14 @@
 package no.hist.gruppe5.pvu.visionshooter.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.visionshooter.ShooterElement;
 
 /**
  *
  * @author Frode
  */
-public class ShooterFacebook extends ShooterElement {
+public class Facebook extends Element {
 
-    public ShooterFacebook(float elementY) {
+    public Facebook(float elementY) {
         super(new Sprite(Assets.visionShooterFacebookRegion), elementY,77f);
     }
  

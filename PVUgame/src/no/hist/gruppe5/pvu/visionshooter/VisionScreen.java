@@ -10,19 +10,21 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
 import java.util.Random;
 import no.hist.gruppe5.pvu.*;
-import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.sound.Sounds;
+import no.hist.gruppe5.pvu.umlblocks.ScrollingBackground;
 import no.hist.gruppe5.pvu.visionshooter.entity.*;
 
 public class VisionScreen extends GameScreen {
 
     private ShooterShip mVisionShooterShip = new ShooterShip();
+    private ScrollingBackground mBackground;
     //Spawning of elements
     private ArrayList<Bullet> mShipProjectiles = new ArrayList<Bullet>();
     private long mLastBulletShot = 0;
-    private ArrayList<ShooterElement> mElements = new ArrayList<ShooterElement>();
-    private int[] mNoElements = {5, 7, 8};//Number of elements: dokument, facebook, youtube
-    private ShooterElement[] mAllElements = {new ShooterFacebook(0), new ShooterYoutube(0), new ShooterDokument(0)};//Used for adding mRandom elements to mElements
+    private ArrayList<Element> mElements = new ArrayList<Element>();
+    private int[] mNoElements = {5, 8, 8};//Number of elements: dokument, facebook, youtube
+    private int[] mElementsGot = {0, 0, 0}; // TODO set to 0
+    private Element[] mAllElements = {new Facebook(0), new Youtube(0), new Document(0)};//Used for adding mRandom elements to mElements
     private long mLastElementSpawned = 0;
     private Random mRandom = new Random();
     public int mPoints = 0;
@@ -46,9 +48,10 @@ public class VisionScreen extends GameScreen {
         mPointValueLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
         mPointValueLabel.setFontScale(0.8f);
 
+        mBackground = new ScrollingBackground(Assets.visionShooterRegion, 50);
 
         mTweenManager = new TweenManager();
-        Tween.registerAccessor(ShooterElement.class, new ShooterElemementAccessor());
+        Tween.registerAccessor(Element.class, new ElementAccessor());
     }
 
     @Override
@@ -56,9 +59,10 @@ public class VisionScreen extends GameScreen {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
-        batch.draw(Assets.visionShooterRegion, 0, 0, PVU.GAME_WIDTH, PVU.GAME_HEIGHT);
+        mBackground.draw(batch);
         drawBullets();
         drawElements();
+        drawElementsGui();
         mVisionShooterShip.draw(batch);
         mPointTextLabel.draw(batch, 1f);
         mPointValueLabel.draw(batch, 1f);
@@ -72,6 +76,7 @@ public class VisionScreen extends GameScreen {
         if (Input.continuousAction()) {
             shootBullet();
         }
+        mBackground.update(delta);
         updateBulletPos(delta);
         updateElementPos(delta);
 
@@ -124,16 +129,18 @@ public class VisionScreen extends GameScreen {
 
     private void updateElementPos(float delta) {
         for (int i = 0; i < mElements.size(); i++) {
-            if (mElements.get(i).getElementX() > 0) {
+            if (mElements.get(i).getElementX() > - 30f) {
                 mElements.get(i).update(delta);
-            } else if ((mPoints - 20) > 0) {
+            } else if (mElements.get(i) instanceof Document) {
                 mPoints -= 20;
                 mElements.remove(i);
-            } else {
-                mPoints = 0;
+            } else   {
+                mPoints -= 10;
                 mElements.remove(i);
             }
         }
+
+        if(mPoints < 0) mPoints = 0;
     }
 
     private void drawBullets() {
@@ -152,28 +159,42 @@ public class VisionScreen extends GameScreen {
         }
     }
 
+    private void drawElementsGui() {
+        for(int i = 0; i < mElementsGot[0]; i++) {
+            batch.draw(Assets.visionShooterDocumentRegion, 1 + (2 * (i * 4)), PVU.GAME_HEIGHT - 9, 7, 8);
+        }
+
+        for(int i = 0; i < mElementsGot[1]; i++) {
+            batch.draw(Assets.visionShooterFacebookRegion, (PVU.GAME_WIDTH - 9) - (2 * (i * 4)), PVU.GAME_HEIGHT - 9, 7, 8);
+        }
+
+        for(int i = 0; i < mElementsGot[2]; i++) {
+            batch.draw(Assets.visionShooterYoutubeRegion, (PVU.GAME_WIDTH - 9) - (2 * (i * 4)), PVU.GAME_HEIGHT - 18, 7, 8);
+        }
+    }
+
     private void addElement() {//adds element to the arrray-list
         int index = mRandom.nextInt(3);
-        ShooterElement i = mAllElements[index];
-        ShooterElement help = null;
-        if (i instanceof ShooterFacebook && (mNoElements[1] > 0)) {
-            help = new ShooterFacebook(mAllElements[index].getElementY());
+        Element i = mAllElements[index];
+        Element help = null;
+        if (i instanceof Facebook && (mNoElements[1] > 0)) {
+            help = new Facebook(mAllElements[index].getElementY());
             mElements.add(help);
             mNoElements[1]--;
-        } else if (i instanceof ShooterYoutube && (mNoElements[2] > 0)) {
-            help = new ShooterYoutube(mAllElements[index].getElementY());
+        } else if (i instanceof Youtube && (mNoElements[2] > 0)) {
+            help = new Youtube(mAllElements[index].getElementY());
             mElements.add(help);
             mNoElements[2]--;
         } else if (mNoElements[0] > 0) {
-            help = new ShooterDokument(mAllElements[index].getElementY());
+            help = new Document(mAllElements[index].getElementY());
             mElements.add(help);
             mNoElements[0]--;
         }
 
         if (help != null) {
             help.setElementY(mRandom.nextInt(Math.round(PVU.GAME_HEIGHT - help.getElementHeight())));
-            help.setElementX(200f);
-            Tween.to(help, ShooterElemementAccessor.POS_X, 1f)
+            help.setElementX(210f);
+            Tween.to(help, ElementAccessor.POS_X, 1f)
                     .target(160f)
                     .ease(Quint.IN)
                     .start(mTweenManager);
@@ -186,16 +207,24 @@ public class VisionScreen extends GameScreen {
         for (int i = 0; i < mElements.size(); i++) {
             for (int j = 0; j < mShipProjectiles.size();) {
                 if (mShipProjectiles.get(j).getBulletSprite().getBoundingRectangle().overlaps(mElements.get(i).getElementSprite().getBoundingRectangle())) {
-                    if (mElements.get(i) instanceof ShooterDokument) {
-                        if ((mPoints - 60) > 0) {
-                            mPoints -= 60;
-                        } else {
-                            mPoints = 0;
-                        }
+                    if (mElements.get(i) instanceof Document) {
+                        // Do not kill document!
+                        mPoints -= 20;
+                    } else {
+                        // Killed bad activity, more points!
+                        mPoints += 10;
                     }
+
+                    if(mElements.get(i) instanceof Facebook)
+                        mElementsGot[1]++;
+                    else if(mElements.get(i) instanceof Youtube)
+                        mElementsGot[2]++;
+
+
                     mSound.playSound(1);
                     mShipProjectiles.remove(j);
                     mElements.remove(i);
+
                     i--;
                     break;
                 } else {
@@ -210,10 +239,11 @@ public class VisionScreen extends GameScreen {
 
     private void checkShipHit() {
         for (int i = 0; i < mElements.size(); i++) {
-            if (mElements.get(i) instanceof ShooterDokument) {
+            if (mElements.get(i) instanceof Document) {
                 if (mElements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
                     mPoints += 40;
                     mElements.remove(i);
+                    mElementsGot[0]++;
                 }
             } else {
                 if (mElements.get(i).getElementSprite().getBoundingRectangle().overlaps(mVisionShooterShip.getShipSprite().getBoundingRectangle())) {
@@ -235,7 +265,7 @@ public class VisionScreen extends GameScreen {
     private void checkFinish() {
         if (mElements.isEmpty() && finish()) {
             ScoreHandler.updateScore(ScoreHandler.VISION, (float)mPoints/(float)MAX_POINTS);
-            game.setScreen(new VisionEndScreen(game,mPoints));
+            game.setScreen(new VisionEndScreen(game,mPoints, mElementsGot));
 
         }
     }

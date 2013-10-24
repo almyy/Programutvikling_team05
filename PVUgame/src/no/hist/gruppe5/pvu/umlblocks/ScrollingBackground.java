@@ -16,7 +16,7 @@ import no.hist.gruppe5.pvu.PVU;
  */
 public class ScrollingBackground {
 
-    private static final float SPEED = 5f;
+    private static float SPEED = 5f;
 
     private Sprite mBack1;
     private Sprite mBack2;
@@ -26,7 +26,12 @@ public class ScrollingBackground {
     }
 
     public ScrollingBackground(TextureRegion background) {
-        init(background) ;
+        init(background);
+    }
+
+    public ScrollingBackground(TextureRegion background, float speed) {
+        init(background);
+        this.SPEED = speed;
     }
 
     private void init(TextureRegion background) {

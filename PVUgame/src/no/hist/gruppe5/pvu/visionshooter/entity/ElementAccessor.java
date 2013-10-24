@@ -1,6 +1,7 @@
-package no.hist.gruppe5.pvu.visionshooter;
+package no.hist.gruppe5.pvu.visionshooter.entity;
 
 import aurelienribon.tweenengine.TweenAccessor;
+import no.hist.gruppe5.pvu.visionshooter.entity.Element;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,12 +10,12 @@ import aurelienribon.tweenengine.TweenAccessor;
  * Time: 12:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ShooterElemementAccessor implements TweenAccessor<ShooterElement> {
+public class ElementAccessor implements TweenAccessor<Element> {
 
     public final static int POS_X = 0;
 
     @Override
-    public int getValues(ShooterElement target, int tweenType, float[] returnValues) {
+    public int getValues(Element target, int tweenType, float[] returnValues) {
         switch(tweenType) {
             case POS_X:
                 returnValues[0] = target.getElementX();
@@ -25,7 +26,7 @@ public class ShooterElemementAccessor implements TweenAccessor<ShooterElement> {
     }
 
     @Override
-    public void setValues(ShooterElement target, int tweenType, float[] newValues) {
+    public void setValues(Element target, int tweenType, float[] newValues) {
         switch(tweenType) {
             case POS_X:
                 target.setElementX(newValues[0]);

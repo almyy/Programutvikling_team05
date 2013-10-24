@@ -1,4 +1,4 @@
-package no.hist.gruppe5.pvu.visionshooter;
+package no.hist.gruppe5.pvu.visionshooter.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
@@ -6,7 +6,7 @@ import no.hist.gruppe5.pvu.Assets;
  *
  * @author Frode
  */
-public abstract class ShooterElement {
+public abstract class Element {
     private Sprite elementSprite;
     private float elementWidth = 10f;
     private float elementHeight = 10f;
@@ -14,12 +14,12 @@ public abstract class ShooterElement {
     private float elementY;
     private float speed;
 
-    public ShooterElement(Sprite elementSprite, float elementY, float newSpeed) {
+    public Element(Sprite elementSprite, float elementY, float newSpeed) {
         this.elementSprite = elementSprite;
         this.elementY = elementY;
         this.speed = newSpeed;
         elementSprite.setSize(elementHeight, elementWidth);
-        elementSprite.setPosition(elementX,elementY);
+        elementSprite.setPosition(300f, 300f);
     }
 
     public void draw(SpriteBatch batch) {

@@ -42,7 +42,7 @@ public class PVU extends Game {
         ScoreHandler.load();
         QuizHandler.load();
         Assets.load();
-        Sounds.playMusic();
+        //Sounds.playMusic();
 
         float loadTook = (TimeUtils.millis() - gameStart) / 1000f;
 
@@ -52,7 +52,7 @@ public class PVU extends Game {
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
         MAIN_SCREEN = new MainScreen(this);
 
-        setScreen(new IntroScreen(this));
+        setScreen(new VisionScreen(this));
 
     }
 
