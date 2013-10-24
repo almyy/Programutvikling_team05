@@ -43,7 +43,7 @@ public class MinigameSelectorScreen extends GameScreen {
     private TextButtonStyle mMiniGameStylePassed;
     private TextButtonStyle mMiniGameStyleLocked;
     private TextButtonStyle mMiniGameStyleQuizNeeded;
-    private String[] mLabels = {"Visjonsdokument", "Kravdokument", "Sekvensdiagrammer", "Arkitektur", "Programmering"};
+    private String[] mLabels = {"Visionsdokument", "Kravdokument", "Sekvensdiagrammer", "Designdokument", "Implementasjon"};
     private Stage mStage;
     private Button mSelector;
     private ArrayList<TextButton> mMiniGames = new ArrayList<>();
