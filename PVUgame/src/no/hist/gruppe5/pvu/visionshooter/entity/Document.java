@@ -1,16 +1,14 @@
 package no.hist.gruppe5.pvu.visionshooter.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.hist.gruppe5.pvu.Assets;
-import no.hist.gruppe5.pvu.visionshooter.ShooterElement;
 
 /**
  *
  * @author Frode
  */
-public class ShooterDokument extends ShooterElement {
+public class Document extends Element {
     
-    public ShooterDokument(float elementY) {
+    public Document(float elementY) {
         super(new Sprite(Assets.visionShooterDocumentRegion),elementY, 77f);
     }
 

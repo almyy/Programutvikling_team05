@@ -17,6 +17,7 @@ public class GUI {
 
     // Intermediate
     public Label mGameFeedback;
+    private Label mPressKey;
 
     // Stages
     private Stage mScoreStage;
@@ -65,8 +66,14 @@ public class GUI {
         mGameFeedback.setFontScale(3f);
         mGameFeedback.setAlignment(Align.center);
         mGameFeedback.setFillParent(true);
+        
+        mPressKey = new Label("Trykk space for å fortsette!", mLabelStyle);
+        mPressKey.setFontScale(3f);
+        mPressKey.setPosition(250, -100);
+        mPressKey.setFillParent(true);
 
         mIntermediateStage.addActor(mGameFeedback);
+        mIntermediateStage.addActor(mPressKey);
     }
 
     public void draw() {
@@ -109,7 +116,7 @@ public class GUI {
     }
 
     public void setGameFeedback() {
-        mGameFeedback.setText("Din score ble: " + mHighscore + "% ");
+        mGameFeedback.setText("Din score ble: " + mHighscore);
     }
 
     public void setIntermediateText() {

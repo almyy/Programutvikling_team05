@@ -59,7 +59,10 @@ public class JumperScreen extends GameScreen {
     private boolean[] mPlatformJumped;
     private int mLife;
     private boolean mGameOver;
-    private int mPercent;
+    private float mPercent;
+    // Report score
+    private boolean once;
+    
 
     public JumperScreen(PVU game) {
         super(game);
@@ -369,8 +372,14 @@ public class JumperScreen extends GameScreen {
         if (!mGameOver) {
             mWorld.destroyBody(mBall.getBody());
         }
-        ScoreHandler.updateScore(ScoreHandler.SEQ, mPercent);
+        if(!once){
+            ScoreHandler.updateScore(ScoreHandler.SEQ, mPercent/100);
+            once = true;
+        }
         mGameOver = true;
+        if (Input.continuousAction()) {
+            game.setScreen(PVU.MAIN_SCREEN);
+        }
     }
 
     public void reportScore() {

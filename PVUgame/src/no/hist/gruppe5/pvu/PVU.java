@@ -42,7 +42,7 @@ public class PVU extends Game {
         ScoreHandler.load();
         QuizHandler.load();
         Assets.load();
-        Sounds.playMusic();
+        //Sounds.playMusic();
 
         float loadTook = (TimeUtils.millis() - gameStart) / 1000f;
 
