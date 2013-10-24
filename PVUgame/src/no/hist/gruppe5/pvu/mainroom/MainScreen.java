@@ -129,11 +129,11 @@ public class MainScreen extends GameScreen {
             mTeammates.draw(batch);
         }
 
+        batch.end();
+
         if (mShowingHint && !mPlayer.isSitting()) {
             mPopupBox.draw(delta);
         }
-
-        batch.end();
 
         if (mDialog.isShow()) {
             mDialog.draw();
