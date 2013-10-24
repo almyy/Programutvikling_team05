@@ -159,9 +159,8 @@ public class ReqFinderScreen extends GameScreen {
             }
         }
         else if (mInput.alternateAction()) {
-            ScoreHandler.updateScore(ScoreHandler.REQ, 10);
-            game.setScreen(PVU.MAIN_SCREEN);
             reportScore();
+            game.setScreen(PVU.MAIN_SCREEN);
         }
     }
 
@@ -275,7 +274,6 @@ public class ReqFinderScreen extends GameScreen {
     private void reportScore() {
         float score = (float) (1.0-((float)mCorrectWords.length-(float)mLives)/(float)mCorrectWords.length);
         System.out.println((int)(score*100));
-        QuizHandler.updateQuizScore((int)(score*100), ScoreHandler.REQ);
         ScoreHandler.updateScore(ScoreHandler.REQ, score);
     }
 }

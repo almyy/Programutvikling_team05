@@ -63,18 +63,7 @@ public class MinigameSelectorScreen extends GameScreen {
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
 
         defineStyles();
-
-        for (int i = 0; i < 5; i++) {
-            if (i < QuizHandler.quizzesCompleted) {
-                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_PASSED, i));
-            } else if (i == QuizHandler.completedMiniGames) {
-                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_NEEDED, i));
-            } else {
-                mMiniGames.add(makeButton(mLabels[i], QuizHandler.LOCKED, i));
-            }
-            mMenu.addActor(mMiniGames.get(i));
-        }
-
+        defineButtonStates();
         initMakeButton();
 
         mMenu.addActor(mSelector);
@@ -120,7 +109,18 @@ public class MinigameSelectorScreen extends GameScreen {
     @Override
     protected void cleanUp() {
     }
-
+    private void defineButtonStates(){
+        for (int i = 0; i < 5; i++) {
+            if (i < ScoreHandler.getQuizzesCompleted()) {
+                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_PASSED, i));
+            } else if (i == ScoreHandler.numberOfGamesCompleted()) {
+                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_NEEDED, i));
+            } else {
+                mMiniGames.add(makeButton(mLabels[i], QuizHandler.LOCKED, i));
+            }
+            mMenu.addActor(mMiniGames.get(i));
+        }
+    }
     private void selectMiniGame() throws IOException {
         switch (mMiniGameSelected) {
             case VISIONSHOOTER:
@@ -155,7 +155,7 @@ public class MinigameSelectorScreen extends GameScreen {
             if (quizNumber < ScoreHandler.numberOfGamesCompleted()) {
                 mMiniGameSelected = quizNumber;
             } else if (quizNumber == ScoreHandler.numberOfGamesCompleted()) {
-                if (quizNumber < QuizHandler.quizzesCompleted) {
+                if (quizNumber < ScoreHandler.getQuizzesCompleted()) {
                     mMiniGameSelected = quizNumber;
                 } else {
                     game.setScreen(new QuizScreen(game, quizNumber));
