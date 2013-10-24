@@ -23,7 +23,7 @@ public class MainScreen extends GameScreen {
     // Text for popup boxes
     public static final String TRYKK = "Trykk på E for å ";
     public static final String PAA_PC = TRYKK + "jobbe på PC-en";
-    public static final String PAA_CART = TRYKK + "se på burndown-cart";
+    public static final String PAA_CART = TRYKK + "se på burndown chart";
     public static final String PAA_BORD = TRYKK + "se på fremgangen din";
     public static final String PAA_BOK = TRYKK + "lese i boken";
 
