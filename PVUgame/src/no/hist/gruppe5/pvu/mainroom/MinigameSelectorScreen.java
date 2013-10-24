@@ -20,11 +20,14 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
 import no.hist.gruppe5.pvu.reqfinder.ReqFinderIntroScreen;
 import no.hist.gruppe5.pvu.reqfinder.ReqFinderScreen;
+import no.hist.gruppe5.pvu.seqjumper.JumperIntroScreen;
 import no.hist.gruppe5.pvu.seqjumper.JumperScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
@@ -127,13 +130,13 @@ public class MinigameSelectorScreen extends GameScreen {
                 game.setScreen(new ReqFinderIntroScreen(game));
                 break;
             case SEQJUMPER:
-                game.setScreen(new JumperScreen(game));
+                game.setScreen(new JumperIntroScreen(game));
                 break;
             case UMLBLOCKS:
                 game.setScreen(new BlocksScreen(game));
                 break;
             case CODERACER:
-                game.setScreen(new CoderacerScreen(game));
+                game.setScreen(new CoderacerIntroScreen(game));
                 break;
         }
     }
@@ -149,9 +152,9 @@ public class MinigameSelectorScreen extends GameScreen {
         }
         if (mInput.action()) {
             int quizNumber = 4 - ((int) (mSelector.getY() / 105f));
-            if (quizNumber < QuizHandler.completedMiniGames) {
+            if (quizNumber < ScoreHandler.numberOfGamesCompleted()) {
                 mMiniGameSelected = quizNumber;
-            } else if (quizNumber == QuizHandler.completedMiniGames) {
+            } else if (quizNumber == ScoreHandler.numberOfGamesCompleted()) {
                 if (quizNumber < QuizHandler.quizzesCompleted) {
                     mMiniGameSelected = quizNumber;
                 } else {

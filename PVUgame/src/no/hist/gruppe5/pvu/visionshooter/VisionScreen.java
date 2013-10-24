@@ -235,7 +235,6 @@ public class VisionScreen extends GameScreen {
     private void checkFinish() {
         if (mElements.isEmpty() && finish()) {
             ScoreHandler.updateScore(ScoreHandler.VISION, (float)mPoints/(float)MAX_POINTS);
-            QuizHandler.updateFinishedMiniGame();
             game.setScreen(new VisionEndScreen(game,mPoints));
 
         }

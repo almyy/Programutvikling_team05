@@ -1,0 +1,5 @@
+﻿Velkommen til SequenceJumper! Her skal du få "aktøren", altså ballen, til å havne på riktig kloss 
+som representerer en entitet. Pilen forteller retningen og lengden på hoppet.
+Du bruker tastene A og D for å hoppe til henholdsvis høyre og venstre. 
+Hold inn den aktuelle knappen for å hoppe lengre.
+
