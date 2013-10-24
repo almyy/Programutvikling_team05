@@ -80,6 +80,4 @@ out/
 # *.jar
 *.war
 *.ear
-
-## Temporary ignore
-*/PVU.java
+META-INF
