@@ -29,10 +29,6 @@ public class QuizHandler {
         quizzesCompleted = 5;
     }
 
-    public static int miniGameCompleted(){
-        
-    }
-    
     public static boolean miniGameUnlocked(int miniGame) {
         return mTotalCorrect[miniGame] >= PASS_GRADE;
     }
