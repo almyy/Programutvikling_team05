@@ -99,11 +99,11 @@ public class ReqFinderScreen extends GameScreen {
         if (mCorrectCounter == mCorrectWords.length) {
             //won
             reportScore();
-            game.setScreen(new ReqFinderEndScreen(game, mLives, mCorrectWords.length));
+            game.setScreen(new ReqFinderEndScreen(game, mCorrectCounter, mCorrectWords.length));
         }
         if (mLives <= 0) {
             reportScore();
-            game.setScreen(new ReqFinderEndScreen(game, mLives, mCorrectWords.length));
+            game.setScreen(new ReqFinderEndScreen(game, mCorrectCounter, mCorrectWords.length));
         }
         if (mInput.right() && !isRightmost()) {
             mHighlightedIndex++;
@@ -146,10 +146,12 @@ public class ReqFinderScreen extends GameScreen {
                 mHighlightedLabel.setStyle(mHighlightedLabelStyle);
             }
         }
-        else if (mLives != 0 && mInput.action()) {
+        else if (mLives != 0 && mInput.action() && mHighlightedLabel.getStyle() == mHighlightedLabelStyle) {
             if(isCorrect()) {
                 mHighlightedLabel.setStyle(mCorrectLabelStyle);
                 mCorrectCounter++;
+                mLives--;
+                mLivesLabel.setText(""+mLives);
                 
             } else {
                 mHighlightedLabel.setStyle(mWrongLabelStyle);
@@ -271,7 +273,7 @@ public class ReqFinderScreen extends GameScreen {
         return false;
     }
     private void reportScore() {
-        float score = (float) (1.0-((float)mCorrectWords.length-(float)mLives)/(float)mCorrectWords.length);
+        float score = (float) ((float)mCorrectCounter/(float)mCorrectWords.length);
         System.out.println((int)(score*100));
         ScoreHandler.updateScore(ScoreHandler.REQ, score);
     }
