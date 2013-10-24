@@ -62,7 +62,6 @@ public class BlocksScreen extends GameScreen {
         mWorld = new World(new Vector2(0, -10), false);
         mGui = new Gui(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
 
-
         mBackground = new ScrollingBackground();
 
         mGameCam = new OrthographicCamera();
@@ -72,10 +71,6 @@ public class BlocksScreen extends GameScreen {
 
         mCurrentGame = Room.EASY;
         startNewGame(true);
-
-        Settings.setSound(false);
-        Settings.setSound(false);
-        Settings.setSound(false);
 
     }
 
