@@ -16,36 +16,41 @@ import no.hist.gruppe5.pvu.visionshooter.entity.*;
 
 public class VisionScreen extends GameScreen {
 
+    private static int MAX_POINTS = 400;
+
+    // Game elements
     private ShooterShip mVisionShooterShip = new ShooterShip();
-    private ScrollingBackground mBackground;
-    //Spawning of elements
     private ArrayList<Bullet> mShipProjectiles = new ArrayList<Bullet>();
-    private long mLastBulletShot = 0;
     private ArrayList<Element> mElements = new ArrayList<Element>();
-    private int[] mNoElements = {7, 8, 8};//Number of elements: dokument, facebook, youtube
-    private int[] mElementsGot = {0, 0, 0}; // TODO set to 0
     private Element[] mAllElements = {new Facebook(0), new Youtube(0), new Document(0)};//Used for adding mRandom elements to mElements
+
+    // Game variables
+    private long mLastBulletShot = 0;
+    private int[] mNoElements = {6, 8, 8};//Number of elements: dokument, facebook, youtube
+    private int[] mElementsGot = {0, 0, 0};
     private long mLastElementSpawned = 0;
-    private Random mRandom = new Random();
     public int mPoints = 0;
+
+    // Other
+    private Random mRandom = new Random();
+    private String mPointText = "Poeng: ";
+    private TweenManager mTweenManager;
+
+    // GUI
+    private ScrollingBackground mBackground;
     private Label mPointTextLabel;
     private Label mPointValueLabel;
-    private String mPointText = "Poeng: ";
-    private Sounds mSound;
-    private TweenManager mTweenManager;
-    private static int MAX_POINTS = 200;
 
     public VisionScreen(PVU game) {
         super(game);
         LabelStyle pointStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
-        mSound = new Sounds();
 
         mPointTextLabel = new Label(mPointText, pointStyle);
-        mPointTextLabel.setPosition((PVU.GAME_WIDTH * 0.9f) - mPointTextLabel.getPrefWidth(), PVU.GAME_HEIGHT * 0.05f);
+        mPointTextLabel.setPosition(1, 1);
         mPointTextLabel.setFontScale(0.8f);
 
         mPointValueLabel = new Label(String.valueOf(mPoints), pointStyle);
-        mPointValueLabel.setPosition((PVU.GAME_WIDTH) * 0.87f, PVU.GAME_HEIGHT * 0.05f);
+        mPointValueLabel.setPosition(mPointTextLabel.getX() + mPointTextLabel.getPrefWidth(), mPointTextLabel.getY());
         mPointValueLabel.setFontScale(0.8f);
 
         mBackground = new ScrollingBackground(Assets.visionShooterRegion, 50);
@@ -70,8 +75,11 @@ public class VisionScreen extends GameScreen {
 
     }
 
+    float high, low;
+
     @Override
     protected void update(float delta) {
+
         mVisionShooterShip.update(delta);
         if (Input.continuousAction()) {
             shootBullet();
@@ -112,7 +120,6 @@ public class VisionScreen extends GameScreen {
             vB.setProjectileX(mVisionShooterShip.getShipX());
             mShipProjectiles.add(vB);
             mLastBulletShot = TimeUtils.millis();
-            mSound.playSound(0);
         }
 
     }
@@ -221,7 +228,6 @@ public class VisionScreen extends GameScreen {
                         mElementsGot[2]++;
 
 
-                    mSound.playSound(1);
                     mShipProjectiles.remove(j);
                     mElements.remove(i);
 
