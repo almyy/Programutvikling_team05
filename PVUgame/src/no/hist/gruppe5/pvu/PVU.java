@@ -8,23 +8,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.intro.SpriteAccessor;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
-import no.hist.gruppe5.pvu.sound.Sounds;
-import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
-
-import java.util.concurrent.ExecutorService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import no.hist.gruppe5.pvu.mainroom.MinigameSelectorScreen;
-import no.hist.gruppe5.pvu.quiz.QuizHandler;
-import no.hist.gruppe5.pvu.seqjumper.JumperScreen;
-import no.hist.gruppe5.pvu.visionshooter.VisionEndScreen;
-import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
-import no.hist.gruppe5.pvu.visionshooter.VisionScreen;
 
 public class PVU extends Game {
 
@@ -40,7 +26,6 @@ public class PVU extends Game {
         long gameStart = TimeUtils.millis();
 
         ScoreHandler.load();
-        QuizHandler.load();
         Assets.load();
         //Sounds.playMusic();
 
