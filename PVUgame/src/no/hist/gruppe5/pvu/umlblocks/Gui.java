@@ -60,7 +60,6 @@ public class Gui {
         mTutorialText.setFontScale(2f);
         mTutorialText.setWrap(true);
         mTutorialText.setWidth(450f);
-        System.out.println(mTutorialText.getWidth());
         mTutorialText.setX(50f);
         mTutorialText.setY(PVU.SCREEN_HEIGHT - 250f);
 
