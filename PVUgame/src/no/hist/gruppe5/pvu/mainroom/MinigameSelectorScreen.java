@@ -1,6 +1,5 @@
 package no.hist.gruppe5.pvu.mainroom;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,13 +21,9 @@ import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
 import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
-import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
-import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.quiz.QuizScreen;
 import no.hist.gruppe5.pvu.reqfinder.ReqFinderIntroScreen;
-import no.hist.gruppe5.pvu.reqfinder.ReqFinderScreen;
 import no.hist.gruppe5.pvu.seqjumper.JumperIntroScreen;
-import no.hist.gruppe5.pvu.seqjumper.JumperScreen;
 import no.hist.gruppe5.pvu.umlblocks.BlocksScreen;
 import no.hist.gruppe5.pvu.visionshooter.VisionIntroScreen;
 
@@ -43,7 +38,7 @@ public class MinigameSelectorScreen extends GameScreen {
     private TextButtonStyle mMiniGameStylePassed;
     private TextButtonStyle mMiniGameStyleLocked;
     private TextButtonStyle mMiniGameStyleQuizNeeded;
-    private String[] mLabels = {"Visjonsdokument", "Kravdokument", "Sekvensdiagrammer", "Arkitektur", "Programmering"};
+    private String[] mLabels = {"Visionsdokument", "Kravdokument", "Sekvensdiagrammer", "Designdokument", "Implementasjon"};
     private Stage mStage;
     private Button mSelector;
     private ArrayList<TextButton> mMiniGames = new ArrayList<>();
@@ -112,11 +107,11 @@ public class MinigameSelectorScreen extends GameScreen {
     private void defineButtonStates(){
         for (int i = 0; i < 5; i++) {
             if (i < ScoreHandler.getQuizzesCompleted()) {
-                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_PASSED, i));
+                mMiniGames.add(makeButton(mLabels[i], ScoreHandler.QUIZ_PASSED, i));
             } else if (i == ScoreHandler.numberOfGamesCompleted()) {
-                mMiniGames.add(makeButton(mLabels[i], QuizHandler.QUIZ_NEEDED, i));
+                mMiniGames.add(makeButton(mLabels[i], ScoreHandler.QUIZ_NEEDED, i));
             } else {
-                mMiniGames.add(makeButton(mLabels[i], QuizHandler.LOCKED, i));
+                mMiniGames.add(makeButton(mLabels[i], ScoreHandler.LOCKED, i));
             }
             mMenu.addActor(mMiniGames.get(i));
         }
@@ -201,13 +196,13 @@ public class MinigameSelectorScreen extends GameScreen {
     private TextButton makeButton(String text, int status, int counter) {
         TextButtonStyle miniGameStatus = null;
         switch (status) {
-            case QuizHandler.LOCKED:
+            case ScoreHandler.LOCKED:
                 miniGameStatus = mMiniGameStyleLocked;
                 break;
-            case QuizHandler.QUIZ_NEEDED:
+            case ScoreHandler.QUIZ_NEEDED:
                 miniGameStatus = mMiniGameStyleQuizNeeded;
                 break;
-            case QuizHandler.QUIZ_PASSED:
+            case ScoreHandler.QUIZ_PASSED:
                 miniGameStatus = mMiniGameStylePassed;
                 break;
         }

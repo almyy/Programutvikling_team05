@@ -93,7 +93,7 @@ public class Assets {
         primaryFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         minecraftFont10px.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionShooterTexture.pack"));
+        TextureAtlas visionShooterAtlas = new TextureAtlas(Gdx.files.internal("data/VisionshooterPack/VisionShooter.pack"));
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
         TextureAtlas borderAtlas = new TextureAtlas(Gdx.files.internal("data/border/BorderPack.pack"));
         TextureAtlas umlBlocksAtlas = new TextureAtlas(Gdx.files.internal("data/UMLBlocks/UMLBlocks.pack"));

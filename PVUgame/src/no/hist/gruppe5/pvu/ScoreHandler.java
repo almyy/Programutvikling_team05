@@ -12,6 +12,10 @@ public class ScoreHandler {
     public static final int UMLBLOCKS = 3;
     public static final int CODE = 4;
     
+    public static final int LOCKED = 0;
+    public static final int QUIZ_NEEDED = 1;
+    public static final int QUIZ_PASSED = 2; 
+    
     private static float[] totalScore;
     private static int quizzesCompleted; 
     private static boolean completedAllLevels;
@@ -99,6 +103,7 @@ public class ScoreHandler {
      * @return if the total score was modified
      */
     public static boolean updateScore(int miniGame, float percent) {
+        if(percent > 1) return false;
         if (miniGame < totalScore.length) {
             updateQuizzesCompleted();
             totalScore[miniGame] = percent;
@@ -109,6 +114,10 @@ public class ScoreHandler {
             return true;
         }
         return false;
+    }
+    
+    public static void setNoQuiz(){
+        quizzesCompleted = 5; 
     }
 
     /**
