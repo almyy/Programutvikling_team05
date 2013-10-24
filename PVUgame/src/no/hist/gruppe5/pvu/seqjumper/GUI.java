@@ -24,8 +24,8 @@ public class GUI {
     private boolean mChangeStage;
 
     // Score 
-    private int mPercent = 0;
-    private int mHighscore = 0;
+    private float mPercent = 0;
+    private float mHighscore = 0;
 
     public GUI(float width, float height, boolean keepAspectRation) {
         this.mScoreStage = new Stage(width, height, keepAspectRation);
@@ -94,11 +94,8 @@ public class GUI {
         }
     }
 
-    public void setSuccess(int jumps) {
-        if (jumps - 1 > 0) {
-            float startJump = jumps - 1;
-            mPercent = Math.round((float) startJump / (float) 10 * 100f);
-        }
+    public void setSuccess(float score) {
+        mPercent = score;
         if (mHighscore < mPercent) {
             mHighscore = mPercent;
             mSuccess.setText("Success: " + mPercent + "% ");
@@ -129,9 +126,5 @@ public class GUI {
     
     public void setLifeLoss(){
         mPercent = 0;
-    }
-    
-    public void boostPowerBar(float power){
-        
     }
 }
