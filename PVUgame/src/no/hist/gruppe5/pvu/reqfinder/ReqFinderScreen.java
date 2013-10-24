@@ -159,9 +159,8 @@ public class ReqFinderScreen extends GameScreen {
             }
         }
         else if (mInput.alternateAction()) {
-            ScoreHandler.updateScore(ScoreHandler.REQ, 10);
-            game.setScreen(PVU.MAIN_SCREEN);
             reportScore();
+            game.setScreen(PVU.MAIN_SCREEN);
         }
     }
 
