@@ -11,7 +11,7 @@ import no.hist.gruppe5.pvu.*;
 
 public class ScoreScreen extends GameScreen {
 
-    private String[] mMinigameNames = {"Visionsdokument", "Kravdokument", "Sekvensdiagrammer", "Designdokument", "Implementasjon", "Minigames"};
+    private String[] mMinigameNames = {"Visionsdokument", "Kravdokument", "Sekvensdiagrammer", "Designdokument", "Implementasjon", "Minispill"};
     private Stage mStage;
     private Group mLabelGroup; 
 
@@ -43,7 +43,7 @@ public class ScoreScreen extends GameScreen {
         mStage.addActor(mFinalGradeLabel);
 
 
-        mGradeTextLabel = makeLabel("Grade: ");
+        mGradeTextLabel = makeLabel("Karakter: ");
         mGradeTextLabel.setPosition(PVU.SCREEN_WIDTH / 3.5f, PVU.SCREEN_HEIGHT * 0.1f);
         mGradeTextLabel.setFontScale(6f);
         mStage.addActor(mGradeTextLabel);
@@ -57,7 +57,7 @@ public class ScoreScreen extends GameScreen {
                 placeHolder = makeLabel(mMinigameNames[i]);
                 placeHolder.setPosition(PVU.SCREEN_WIDTH / 3.5f, PVU.SCREEN_HEIGHT * (0.7f-(i/10f)));
             }else{
-                placeHolder = makeLabel("" + ScoreHandler.getMiniGameGrade(i-5));
+                placeHolder = makeLabel("" + Math.round(ScoreHandler.getMiniGameGrade(i-5) * 100f) + "/100");
                 placeHolder.setPosition(PVU.SCREEN_WIDTH / 1.5f, PVU.SCREEN_HEIGHT * (0.7f-((i-5)/10f)));
             }
             placeHolder.setFillParent(true);

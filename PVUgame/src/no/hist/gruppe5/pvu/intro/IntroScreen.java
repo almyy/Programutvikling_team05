@@ -122,6 +122,9 @@ public class IntroScreen extends GameScreen {
                 TeamMates.lol();
                 Player.speedLol();
                 break;
+            case "linnk":
+                System.exit(0);
+                break;
         }
         game.setScreen(PVU.MAIN_SCREEN);
     }
