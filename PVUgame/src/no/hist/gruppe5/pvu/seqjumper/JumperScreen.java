@@ -14,6 +14,7 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
 import no.hist.gruppe5.pvu.umlblocks.ScrollingBackground;
 
@@ -58,6 +59,7 @@ public class JumperScreen extends GameScreen {
     private boolean[] mPlatformJumped;
     private int mLife;
     private boolean mGameOver;
+    private int mPercent;
 
     public JumperScreen(PVU game) {
         super(game);
@@ -191,8 +193,9 @@ public class JumperScreen extends GameScreen {
                 break;
         }
         batch.end();
-
-        mPlatform.drawRedBar();
+        if (!mGameOver) {
+            mPlatform.drawRedBar();
+        }
 
         //Drawing GUI
         mGui.draw();
@@ -205,6 +208,8 @@ public class JumperScreen extends GameScreen {
         checkCollision();
         checkInput();
 
+        reportScore();
+
         mBackground.update(delta);
 
         // Ball update
@@ -216,7 +221,6 @@ public class JumperScreen extends GameScreen {
         // GUI update
         mGui.update(delta);
         mGui.setJumps(level);
-        mGui.setSuccess(level);
 
         // End of game
         if (mLife > 0) {
@@ -364,9 +368,17 @@ public class JumperScreen extends GameScreen {
     private void gameOver() {
         if (!mGameOver) {
             mWorld.destroyBody(mBall.getBody());
-            QuizHandler.updateFinishedMiniGame();
         }
+        ScoreHandler.updateScore(ScoreHandler.SEQ, mPercent);
         mGameOver = true;
+    }
+
+    public void reportScore() {
+        if (level - 1 > 0) {
+            float startJump = level - 1;
+            mPercent = Math.round((float) startJump / (float) 10 * 100f);
+        }
+        mGui.setSuccess(mPercent);
     }
 
     private void checkInput() {
@@ -424,6 +436,7 @@ public class JumperScreen extends GameScreen {
             }
             // Setting power to the bar
             mPlatform.setRedBar(-powerLeft);
+
             loadedA = true;
         }
 
