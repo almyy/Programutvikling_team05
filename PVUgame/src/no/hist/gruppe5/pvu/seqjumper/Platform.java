@@ -25,19 +25,17 @@ public class Platform {
     private Body groundBody;
     private PolygonShape groundBox;
     //Sprites and positions
-    private ArrayList<Sprite> mPlatformSprite;
-    private ArrayList<Vector2> mPlatformPositions;
-    private ArrayList<Sprite> mPlatformNames;
+    private final ArrayList<Sprite> mPlatformSprite;
+    private final ArrayList<Vector2> mPlatformPositions;
     // Bar
-    private Sprite mPowerBar;
-    private Sprite mRedBar;
-    private ShapeRenderer mShape;
+    private final Sprite mPowerBar;
+    private final Sprite mRedBar;
+    private final ShapeRenderer mShape;
     private float mShapeSize;
     // Labels
-    private Stage mStage;
-    private Group mLabelGroup;
-    private Label headMinigames;
-    private String[] mMinigameNames = {"Class 1", "Class 2","Class 3", "Class 4","Class 5"};
+    private final Stage mStage;
+    private final Group mLabelGroup;
+    private final String[] mMinigameNames = {"Class 5", "Class 4", "Class 3", "Class 2", "Class 1"};
     private Label.LabelStyle labelstyle;
 
     public Platform(World world) {
@@ -56,19 +54,14 @@ public class Platform {
         initLabels();
     }
 
-    public void draw(SpriteBatch batch) {
+    public void drawInside(SpriteBatch batch) {
         for (int i = 0; i < mPlatformSprite.size(); i++) {
             mPlatformSprite.get(i).draw(batch);
         }
-        //mStage.draw();
     }
 
-    private void initLabels() {
-        headMinigames = makeLabel(mMinigameNames[4]);
-        headMinigames.setPosition(PVU.SCREEN_WIDTH / 3, PVU.SCREEN_HEIGHT * 0.9f);
-        headMinigames.setFontScale(2f);
-        headMinigames.setWrap(true);
-        mStage.addActor(headMinigames);
+    public void drawOutside(SpriteBatch batch) {
+        mStage.draw();
     }
 
     public void update(float delta) {
@@ -97,13 +90,13 @@ public class Platform {
         return groundBody;
     }
 
-    public void positionPlatformName() {
+    private void initLabels() {
         Label placeHolder;
-        for (int i = 0; i < (mMinigameNames.length - 1) * 2; i++) {
+        for (int i = 0; i < mMinigameNames.length; i++) {
             placeHolder = makeLabel(mMinigameNames[i]);
-            placeHolder.setPosition(PVU.SCREEN_WIDTH / 3.5f, PVU.SCREEN_HEIGHT * (0.7f - (i / 10f)));
+            placeHolder.setPosition(PVU.SCREEN_WIDTH * (0.79f - (i*1.67f / 10f)), PVU.SCREEN_HEIGHT / 9.5f);
             placeHolder.setFillParent(true);
-            placeHolder.setFontScale(3f);
+            placeHolder.setFontScale(2f);
             placeHolder.setWrap(true);
             mLabelGroup.addActor(placeHolder);
         }

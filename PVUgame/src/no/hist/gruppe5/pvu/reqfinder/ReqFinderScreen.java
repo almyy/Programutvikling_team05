@@ -17,7 +17,6 @@ import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
-import no.hist.gruppe5.pvu.quiz.QuizHandler;
 
 /**
  *
