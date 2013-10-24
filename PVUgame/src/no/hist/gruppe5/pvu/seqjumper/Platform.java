@@ -9,8 +9,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
+import no.hist.gruppe5.pvu.PVU;
 
 public class Platform {
 
@@ -29,6 +33,12 @@ public class Platform {
     private Sprite mRedBar;
     private ShapeRenderer mShape;
     private float mShapeSize;
+    // Labels
+    private Stage mStage;
+    private Group mLabelGroup;
+    private Label headMinigames;
+    private String[] mMinigameNames = {"Class 1", "Class 2","Class 3", "Class 4","Class 5"};
+    private Label.LabelStyle labelstyle;
 
     public Platform(World world) {
         mPlatformSprite = new ArrayList<>();
@@ -39,16 +49,30 @@ public class Platform {
         this.mPowerBar = new Sprite(Assets.seqBox);
         this.mRedBar = new Sprite(Assets.redBar);
         this.mShape = new ShapeRenderer();
+
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
+        mLabelGroup = new Group();
+
+        initLabels();
     }
 
     public void draw(SpriteBatch batch) {
         for (int i = 0; i < mPlatformSprite.size(); i++) {
             mPlatformSprite.get(i).draw(batch);
         }
+        //mStage.draw();
+    }
+
+    private void initLabels() {
+        headMinigames = makeLabel(mMinigameNames[4]);
+        headMinigames.setPosition(PVU.SCREEN_WIDTH / 3, PVU.SCREEN_HEIGHT * 0.9f);
+        headMinigames.setFontScale(2f);
+        headMinigames.setWrap(true);
+        mStage.addActor(headMinigames);
     }
 
     public void update(float delta) {
-        updatePlatform();
+        initPlatform();
     }
 
     public Body getBody() {
@@ -73,25 +97,20 @@ public class Platform {
         return groundBody;
     }
 
-    public Body createPlatformName(Vector2 from, float size, World world, boolean flat) {
-        groundBox = new PolygonShape();
-        groundBodyDef = new BodyDef();
-        groundBox = new PolygonShape();
-        this.mPlatformPositions.add(from);
-        groundBodyDef.position.set(from);
-        groundBody = world.createBody(groundBodyDef);
-        if (flat) {
-            groundBox.setAsBox(size, 0.05f);
-        } else {
-            groundBox.setAsBox(0.05f, size);
+    public void positionPlatformName() {
+        Label placeHolder;
+        for (int i = 0; i < (mMinigameNames.length - 1) * 2; i++) {
+            placeHolder = makeLabel(mMinigameNames[i]);
+            placeHolder.setPosition(PVU.SCREEN_WIDTH / 3.5f, PVU.SCREEN_HEIGHT * (0.7f - (i / 10f)));
+            placeHolder.setFillParent(true);
+            placeHolder.setFontScale(3f);
+            placeHolder.setWrap(true);
+            mLabelGroup.addActor(placeHolder);
         }
-
-        groundBody.createFixture(groundBox, 0.0f);
-        groundBox.dispose();
-        return groundBody;
+        mStage.addActor(mLabelGroup);
     }
 
-    protected void updatePlatform() {
+    protected void initPlatform() {
         // Update sprite position based on the Box2d body
         for (int i = 0; i < mPlatformSprite.size(); i++) {
             Vector2 pos = mPlatformPositions.get(i);
@@ -118,5 +137,11 @@ public class Platform {
 
     public void setRedBar(float y) {
         mShapeSize = y;
+    }
+
+    private Label makeLabel(String text) {
+        labelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
+        Label l = new Label(text, labelstyle);
+        return l;
     }
 }
