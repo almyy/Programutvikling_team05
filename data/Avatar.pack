@@ -5,161 +5,175 @@ filter: Nearest,Nearest
 repeat: none
 Avatar
   rotate: false
-  xy: 0, 12
+  xy: 0, 0
+  size: 25, 32
+  orig: 25, 32
+  offset: 0, 0
+  index: 23
+Avatar
+  rotate: false
+  xy: 25, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 10
 Avatar
   rotate: false
-  xy: 13, 12
+  xy: 38, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 11
 Avatar
   rotate: false
-  xy: 26, 12
+  xy: 51, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 12
 Avatar
   rotate: false
-  xy: 39, 12
+  xy: 64, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 13
 Avatar
   rotate: false
-  xy: 52, 12
+  xy: 77, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 14
 Avatar
   rotate: false
-  xy: 65, 12
+  xy: 90, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 15
 Avatar
   rotate: false
-  xy: 78, 12
+  xy: 103, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 16
 Avatar
   rotate: false
-  xy: 91, 12
+  xy: 116, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 17
 Avatar
   rotate: false
-  xy: 104, 12
+  xy: 129, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 18
 Avatar
   rotate: false
-  xy: 117, 12
+  xy: 142, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 19
 Avatar
   rotate: false
-  xy: 130, 12
+  xy: 155, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 20
 Avatar
   rotate: false
-  xy: 143, 12
+  xy: 168, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 21
 Avatar
   rotate: false
-  xy: 156, 12
+  xy: 181, 12
   size: 13, 20
   orig: 13, 20
   offset: 0, 0
   index: 22
 Avatar
   rotate: false
-  xy: 169, 16
+  xy: 194, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 0
 Avatar
   rotate: false
-  xy: 180, 16
+  xy: 205, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 1
 Avatar
   rotate: false
-  xy: 191, 16
+  xy: 216, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 2
 Avatar
   rotate: false
-  xy: 202, 16
+  xy: 227, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 3
 Avatar
   rotate: false
-  xy: 213, 16
+  xy: 238, 16
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 4
 Avatar
   rotate: false
-  xy: 224, 16
+  xy: 249, 17
+  size: 7, 15
+  orig: 7, 15
+  offset: 0, 0
+  index: 24
+Avatar
+  rotate: false
+  xy: 194, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 5
 Avatar
   rotate: false
-  xy: 235, 16
+  xy: 205, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 6
 Avatar
   rotate: false
-  xy: 169, 0
+  xy: 216, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 7
 Avatar
   rotate: false
-  xy: 180, 0
+  xy: 227, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
   index: 8
 Avatar
   rotate: false
-  xy: 191, 0
+  xy: 238, 0
   size: 11, 16
   orig: 11, 16
   offset: 0, 0
