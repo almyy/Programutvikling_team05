@@ -47,7 +47,6 @@ public class ScoreScreen extends GameScreen {
         mGradeTextLabel.setPosition(PVU.SCREEN_WIDTH / 3.5f, PVU.SCREEN_HEIGHT * 0.1f);
         mGradeTextLabel.setFontScale(6f);
         mStage.addActor(mGradeTextLabel);
-        //mGradeTextLabel.setPosition(x, y);
     }
 
     private void initiateLabels() {

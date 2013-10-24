@@ -291,7 +291,7 @@ public class BlocksScreen extends GameScreen {
             goRight();
         }
 
-        if(mIdleBeforeNextGame && mInput.continuousAction()) {
+        if(mIdleBeforeNextGame && mInput.action()) {
             if(mCurrentGame != Room.DONE) {
                 resetVariables();
                 startNewGame(false);
