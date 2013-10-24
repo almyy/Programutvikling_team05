@@ -99,6 +99,7 @@ public class ScoreHandler {
      * @return if the total score was modified
      */
     public static boolean updateScore(int miniGame, float percent) {
+        if(percent > 1) return false;
         if (miniGame < totalScore.length) {
             updateQuizzesCompleted();
             totalScore[miniGame] = percent;
