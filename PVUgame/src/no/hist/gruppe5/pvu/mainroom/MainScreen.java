@@ -51,7 +51,7 @@ public class MainScreen extends GameScreen {
 
     public MainScreen(PVU game) {
         super(game);
-
+        
         mWorld = new World(new Vector2(0, 0), true);
         mDialog = new DialogDrawer();
         mDialog.setShow(true);
@@ -128,7 +128,7 @@ public class MainScreen extends GameScreen {
             mTables.draw(batch);
             mTeammates.draw(batch);
         }
-
+        drawExclamationMarks();
         batch.end();
 
         if (mShowingHint && !mPlayer.isSitting()) {
@@ -259,5 +259,9 @@ public class MainScreen extends GameScreen {
             num = 4;
         }
         mCurrentCart = num;
+    }
+    
+    private void drawExclamationMarks(){
+
     }
 }
