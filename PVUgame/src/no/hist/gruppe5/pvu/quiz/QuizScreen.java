@@ -298,16 +298,21 @@ public class QuizScreen extends GameScreen {
     }
 
     private void presentQuizScore() {
-        Label finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", mOutputStyle);
-        finishLabel.setFontScale(5);
+        Label finishLabel;
+        if(mNumberOfCorrectAnswers>3){
+            ScoreHandler.updateQuizzesCompleted();
+            finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", mOutputStyle);
+        }else{
+            finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Du må prøve på nytt for å låse opp neste spill \n Press space for å avslutte", mOutputStyle);
+        }
+        
+        finishLabel.setFontScale(4);
         finishLabel.setWrap(true);
         finishLabel.setWidth(400);
         finishLabel.setPosition(PVU.SCREEN_WIDTH/2 - finishLabel.getWidth(), PVU.SCREEN_HEIGHT/2);
         mStage.addActor(finishLabel);
         mAnswerGroup.clear();
         mQuizDone = true;
-        float score = (float) mNumberOfCorrectAnswers / (float) mNumberOfQuestions;
-        QuizHandler.updateQuizScore(mNumberOfCorrectAnswers, mQuizNumber);
     }
 
     private void endQuiz() {

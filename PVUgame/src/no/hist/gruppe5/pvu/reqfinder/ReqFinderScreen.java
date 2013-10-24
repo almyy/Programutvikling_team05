@@ -275,7 +275,6 @@ public class ReqFinderScreen extends GameScreen {
     private void reportScore() {
         float score = (float) (1.0-((float)mCorrectWords.length-(float)mLives)/(float)mCorrectWords.length);
         System.out.println((int)(score*100));
-        QuizHandler.updateQuizScore((int)(score*100), ScoreHandler.REQ);
         ScoreHandler.updateScore(ScoreHandler.REQ, score);
     }
 }

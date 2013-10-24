@@ -44,6 +44,10 @@ public class ScoreHandler {
         }
     }
 
+    public static int getQuizzesCompleted() {
+        return quizzesCompleted;
+    }
+
     /**
      * Returns the score of a certain minigame
      *
@@ -81,7 +85,7 @@ public class ScoreHandler {
         return true;
     }
     
-    private static void updateQuizzesCompleted(){
+    public static void updateQuizzesCompleted(){
         if(quizzesCompleted <= numberOfGamesCompleted()){
             quizzesCompleted++;
         } 
@@ -96,9 +100,9 @@ public class ScoreHandler {
      */
     public static boolean updateScore(int miniGame, float percent) {
         if (miniGame < totalScore.length) {
+            updateQuizzesCompleted();
             totalScore[miniGame] = percent;
             total += percent;
-            updateQuizzesCompleted();
             if (checkScore()) {
                 completedAllLevels = true;
             }
