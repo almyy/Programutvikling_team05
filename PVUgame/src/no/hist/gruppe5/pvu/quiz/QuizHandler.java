@@ -18,8 +18,6 @@ public class QuizHandler {
     public static final int LOCKED = 0;
     public static final int QUIZ_NEEDED = 1;
     public static final int QUIZ_PASSED = 2;
-    
-    
 
     public static void load() {
         mTotalCorrect = new int[5];
@@ -31,16 +29,16 @@ public class QuizHandler {
         quizzesCompleted = 5;
     }
 
+    public static int miniGameCompleted(){
+        
+    }
+    
     public static boolean miniGameUnlocked(int miniGame) {
         return mTotalCorrect[miniGame] >= PASS_GRADE;
     }
 
     public static boolean miniGameQuizAvailable(int miniGame) {
         return (miniGame == 0) ? true : ScoreHandler.isMinigameCompleted(miniGame - 1);
-    }
-    
-    public static void updateFinishedMiniGame(){
-        completedMiniGames++;
     }
 
     public static void updateQuizScore(int score, int miniGame) {

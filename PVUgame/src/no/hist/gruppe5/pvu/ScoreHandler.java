@@ -11,7 +11,9 @@ public class ScoreHandler {
     public static final int SEQ = 2;
     public static final int UMLBLOCKS = 3;
     public static final int CODE = 4;
+    
     private static float[] totalScore;
+    private static int quizzesCompleted; 
     private static boolean completedAllLevels;
     private static float total;
 
@@ -62,7 +64,6 @@ public class ScoreHandler {
                 return i;
             }
         }
-
         return totalScore.length;
     }
 
@@ -79,6 +80,12 @@ public class ScoreHandler {
         }
         return true;
     }
+    
+    private static void updateQuizzesCompleted(){
+        if(quizzesCompleted <= numberOfGamesCompleted()){
+            quizzesCompleted++;
+        } 
+    }
 
     /**
      * Updates totalscore based on the result of current minigame.
@@ -91,6 +98,7 @@ public class ScoreHandler {
         if (miniGame < totalScore.length) {
             totalScore[miniGame] = percent;
             total += percent;
+            updateQuizzesCompleted();
             if (checkScore()) {
                 completedAllLevels = true;
             }

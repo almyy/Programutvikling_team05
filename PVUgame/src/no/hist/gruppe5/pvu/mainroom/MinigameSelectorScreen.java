@@ -20,6 +20,7 @@ import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
+import no.hist.gruppe5.pvu.ScoreHandler;
 import no.hist.gruppe5.pvu.coderacer.CoderacerIntroScreen;
 import no.hist.gruppe5.pvu.coderacer.CoderacerScreen;
 import no.hist.gruppe5.pvu.quiz.QuizHandler;
@@ -151,9 +152,9 @@ public class MinigameSelectorScreen extends GameScreen {
         }
         if (mInput.action()) {
             int quizNumber = 4 - ((int) (mSelector.getY() / 105f));
-            if (quizNumber < QuizHandler.completedMiniGames) {
+            if (quizNumber < ScoreHandler.numberOfGamesCompleted()) {
                 mMiniGameSelected = quizNumber;
-            } else if (quizNumber == QuizHandler.completedMiniGames) {
+            } else if (quizNumber == ScoreHandler.numberOfGamesCompleted()) {
                 if (quizNumber < QuizHandler.quizzesCompleted) {
                     mMiniGameSelected = quizNumber;
                 } else {

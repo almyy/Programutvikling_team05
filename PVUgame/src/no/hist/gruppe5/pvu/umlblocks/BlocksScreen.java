@@ -305,7 +305,6 @@ public class BlocksScreen extends GameScreen {
             } else {
                 // Report the final score
                 float totalScore = getTotalScore();
-                QuizHandler.updateFinishedMiniGame();
                 ScoreHandler.updateScore(ScoreHandler.UMLBLOCKS, totalScore / 100);
 
                 // Let's go back.
