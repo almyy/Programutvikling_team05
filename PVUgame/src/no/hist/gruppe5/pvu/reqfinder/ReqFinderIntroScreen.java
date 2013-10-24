@@ -26,6 +26,7 @@ public class ReqFinderIntroScreen extends GameScreen {
     private LabelStyle mLabelStyle;
     private Stage mStage;
     private BitmapFont mFont;
+    private Input mInput = new Input(200, 1500);
     public ReqFinderIntroScreen(PVU pvu) {
         super(pvu);
         try {
@@ -58,7 +59,7 @@ public class ReqFinderIntroScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        if(Input.continuousAction()) {
+        if(mInput.action()) {
             game.setScreen(new ReqFinderScreen(game));
         }
     }

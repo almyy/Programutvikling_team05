@@ -14,10 +14,11 @@ public class Code {
 
     public Code() {
         this.codes = new ArrayList();
-        codes.add("package no.hist.gruppe5.pvu.coderacer;");
+        codes.add("class HelloWorld implements World {");
+        codes.add("private ArrayList<World> mWorlds = new ArrayList<>();");
+        codes.add("public HelloWorld(World world) {");
         codes.add("public static void main(String[] args) {");
-        codes.add("Label label = new Label(\"Hei på deg\", new LabelStyle(DEFAULT_FONT_TYPE, Color.BLACK));");
-        codes.add("String left = getCode().substring(charCounter, getCode().length());");
+        
         correct = "";
         left = getCode();
     }

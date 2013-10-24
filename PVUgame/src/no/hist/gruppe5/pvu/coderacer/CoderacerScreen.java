@@ -149,7 +149,7 @@ public class CoderacerScreen extends GameScreen {
         if ((code.isFinished() || remainingTime <= 0) && !mDoneHandled) {
             mTimeDone = TimeUtils.millis();
             ScoreHandler.updateScore(ScoreHandler.CODE, code.getGrade(score));
-            game.setScreen(new CoderacerEndScreen(game,score));
+            game.setScreen(new CoderacerEndScreen(game, code.getGrade(score)));
             mDoneHandled = true;
         } else if (!mDoneHandled) {
             time.setText(remainingTime + "");
