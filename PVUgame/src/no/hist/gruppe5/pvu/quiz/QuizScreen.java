@@ -60,8 +60,8 @@ public class QuizScreen extends GameScreen {
     private int mNumberOfCorrectAnswers = 0;
     private int mAnswer = -1;
     private long mLastButtonPressed = 0;
-    boolean mGetNewAnswers = false;
-    int mQuizNumber;
+    private boolean mGetNewAnswers = false;
+    private int mQuizNumber;
     private Input mInput;
 
     public QuizScreen(PVU game, int mQuizNumber) throws FileNotFoundException, IOException {
@@ -300,7 +300,7 @@ public class QuizScreen extends GameScreen {
     private void presentQuizScore() {
         Label finishLabel;
         if(mNumberOfCorrectAnswers>3){
-            ScoreHandler.updateQuizzesCompleted();
+            ScoreHandler.updateQuizzesCompleted(mQuizNumber);
             finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", mOutputStyle);
         }else{
             finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Du må prøve på nytt for å låse opp neste spill \n Press space for å avslutte", mOutputStyle);
