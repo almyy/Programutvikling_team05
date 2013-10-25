@@ -17,7 +17,7 @@ public class ScoreHandler {
     public static final int QUIZ_PASSED = 2; 
     
     private static float[] totalScore;
-    private static int quizzesCompleted; 
+    private static boolean[] quizzesCompleted;
     private static boolean completedAllLevels;
     private static float total;
 
@@ -28,6 +28,7 @@ public class ScoreHandler {
         totalScore = new float[5];
         completedAllLevels = false;
         total = 0;
+        quizzesCompleted = new boolean[5];
     }
 
     /**
@@ -49,7 +50,12 @@ public class ScoreHandler {
     }
 
     public static int getQuizzesCompleted() {
-        return quizzesCompleted;
+        for(int i = 0; i < quizzesCompleted.length; i++){
+            if(!quizzesCompleted[i]){
+                return i; 
+            }
+        }
+        return quizzesCompleted.length+1;
     }
 
     /**
@@ -89,10 +95,8 @@ public class ScoreHandler {
         return true;
     }
     
-    public static void updateQuizzesCompleted(){
-        if(quizzesCompleted <= numberOfGamesCompleted()){
-            quizzesCompleted++;
-        } 
+    public static void updateQuizzesCompleted(int number){
+        quizzesCompleted[number]=true; 
     }
 
     /**
@@ -105,7 +109,6 @@ public class ScoreHandler {
     public static boolean updateScore(int miniGame, float percent) {
         if(percent > 1) return false;
         if (miniGame < totalScore.length) {
-            updateQuizzesCompleted();
             totalScore[miniGame] = percent;
             total += percent;
             if (checkScore()) {
@@ -117,7 +120,9 @@ public class ScoreHandler {
     }
     
     public static void setNoQuiz(){
-        quizzesCompleted = 5; 
+        for(int i = 0; i < quizzesCompleted.length; i++){
+            quizzesCompleted[i]=true; 
+        }
     }
 
     /**
