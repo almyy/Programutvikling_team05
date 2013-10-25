@@ -34,11 +34,10 @@ public class DialogDrawer {
     private Input mInput;
     private int mTextCounter = 0;
     private boolean mShow;
+    private boolean mFirstTime = true;
 
     public DialogDrawer() {
         this.mShow = false;
-
-        mInput = new Input();
 
         init();
     }
@@ -82,6 +81,11 @@ public class DialogDrawer {
     }
 
     public void update() {
+        if(mFirstTime) {
+            mFirstTime = false;
+            mInput = new Input();
+        }
+
         if (mInput.action()) {
             mTextCounter++;
             if (mTextCounter == 1) {

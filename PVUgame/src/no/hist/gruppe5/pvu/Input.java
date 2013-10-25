@@ -80,13 +80,6 @@ public class Input {
     }
 
     /**
-     * Returns true once if SPACE is pressed, no delay. Use action() if you want slower input.
-     */
-    public static boolean continuousAction() {
-        return isKey(SPACE);
-    }
-
-    /**
      * Returns true once every 200ms if E. Use for MENU action. Has no continuous
      * counterpart.
      */
@@ -138,6 +131,13 @@ public class Input {
             return keyAndTime();
         }
         return false;
+    }
+
+    /**
+     * Returns true once if SPACE is pressed, no delay. Use action() if you want slower input.
+     */
+    public static boolean continuousAction() {
+        return isKey(SPACE) || isKey(ENTER);
     }
 
     /**
