@@ -5,119 +5,126 @@ filter: Nearest,Nearest
 repeat: none
 ub_medium
   rotate: false
-  xy: 1, 119
+  xy: 1, 392
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 umlbackground
   rotate: false
-  xy: 1, 1
+  xy: 1, 274
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 book
   rotate: false
-  xy: 195, 119
+  xy: 195, 392
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 main_room
   rotate: false
-  xy: 195, 1
+  xy: 1, 156
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 sequencebg
   rotate: false
-  xy: 389, 119
+  xy: 195, 274
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1
+quizbg
+  rotate: false
+  xy: 389, 392
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 ub_hard
   rotate: false
-  xy: 389, 1
+  xy: 1, 38
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 pcscreen
   rotate: false
-  xy: 583, 119
+  xy: 195, 156
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 table
   rotate: false
-  xy: 583, 1
+  xy: 389, 274
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 ub_easy
   rotate: false
-  xy: 777, 119
+  xy: 583, 392
   size: 192, 116
   orig: 192, 116
   offset: 0, 0
   index: -1
 logo
   rotate: false
-  xy: 777, 82
+  xy: 1, 1
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 trykk
   rotate: false
-  xy: 777, 45
+  xy: 195, 119
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 logo_2_group
   rotate: false
-  xy: 859, 82
+  xy: 389, 237
   size: 80, 35
   orig: 80, 35
   offset: 0, 0
   index: -1
 chart
   rotate: false
-  xy: 971, 216
+  xy: 583, 371
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 1
 chart
   rotate: false
-  xy: 777, 24
+  xy: 777, 489
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 0
 chart
   rotate: false
-  xy: 859, 61
+  xy: 83, 17
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 2
 chart
   rotate: false
-  xy: 941, 98
+  xy: 195, 98
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
   index: 3
 chart
   rotate: false
-  xy: 971, 195
+  xy: 277, 135
   size: 24, 19
   orig: 24, 19
   offset: 0, 0
