@@ -7,12 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created with IntelliJ IDEA. User: karl Date: 8/28/13 Time: 10:06 AM
@@ -185,10 +182,11 @@ public class Assets {
 
     public static String readFile(String fileName) throws IOException {
         String text = "";
-        DataInputStream in = new DataInputStream(new FileInputStream(fileName));
-        BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
+        FileInputStream file = new FileInputStream(fileName);
+        Reader chars = new InputStreamReader(file, StandardCharsets.UTF_8);
+        BufferedReader lines = new BufferedReader(chars);
         String strLine;
-        while ((strLine = inBR.readLine()) != null) {
+        while ((strLine = lines.readLine()) != null) {
             if (!"".equals(strLine)) {
                 text += strLine;
             }

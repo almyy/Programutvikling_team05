@@ -127,17 +127,9 @@ public class QuizScreen extends GameScreen {
     }
 
     private void readQuiz(String fileName) throws FileNotFoundException, IOException {
-        //DataInputStream in = new DataInputStream(new FileInputStream(fileName));
-        //BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
-
-        PVU.log(this, "Testing new file reading!");
-
-        //DRITT
-          /* See how I'm specifying the UTF-8 encoding explicitly? */
         FileInputStream file = new FileInputStream(fileName);
         Reader chars = new InputStreamReader(file, StandardCharsets.UTF_8);
         BufferedReader lines = new BufferedReader(chars);
-        // DRITT
         String strLine;
         int counter = 0;
         int answerCounter = 0;
