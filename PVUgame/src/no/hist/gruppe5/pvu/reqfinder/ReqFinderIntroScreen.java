@@ -42,7 +42,7 @@ public class ReqFinderIntroScreen extends GameScreen {
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mLabelStyle = new LabelStyle(mFont, Color.BLACK);
-        mLabelStyle.font.scale(2f);
+        mLabelStyle.font.scale(1.7f);
         mLabel = new Label(mText, mLabelStyle);
         
         mLabel.setAlignment(Align.center);

@@ -2,7 +2,7 @@
 <book>
 	<title>Book</title>
 	<Innledning size="3">
-		<page1>Vi skal i dette spillet basere oss på den objektorienterte tankegang og fremgangsmåten er modellbasert. Det betyr at man i alle trinnene lager modeller fremfor omfattende tekstlige dokumenter. Modellene kan evalueres og trinnene fra ett trinn danner grunnlaget for aktivitetene og modellene i neste trinn. Det er disse modellene du vil få en innføring i ved hjelp av dette spillet. Trinnene i “tråden” er:
+		<page1 header="Innledning">Vi skal i dette spillet basere oss på den objektorienterte tankegang og fremgangsmåten er modellbasert. Det betyr at man i alle trinnene lager modeller fremfor omfattende tekstlige dokumenter. Modellene kan evalueres og trinnene fra ett trinn danner grunnlaget for aktivitetene og modellene i neste trinn. Det er disse modellene du vil få en innføring i ved hjelp av dette spillet. Trinnene i “tråden” er:
 		</page1>
 		<page2>
 		1. Objektorientert analyse hvor resultatet er analysemodellen. De viktigste modellene er:
@@ -20,7 +20,7 @@
 	</Innledning>
 
 	<Analyse size="12">
-<page1>Under analysedelen av spillet vil du støte på det som er relevant i programvareutviklingsprosessen. Dette vil i spillet bestå av å utforme visjonsdokument og kravdokument, samt å svare på to forskjellige quizzer som omhandler analysedelen av utviklingsprosessen. I analysen er de tre viktigste modellene visjonsdokument, use case-modellen og systemsekvensdiagram.</page1>
+<page1 header="Analyse">Under analysedelen av spillet vil du støte på det som er relevant i programvareutviklingsprosessen. Dette vil i spillet bestå av å utforme visjonsdokument og kravdokument, samt å svare på to forskjellige quizzer som omhandler analysedelen av utviklingsprosessen. I analysen er de tre viktigste modellene visjonsdokument, use case-modellen og systemsekvensdiagram.</page1>
 
 <page2>Visjonsdokumentet skal gjøre klart for utviklingsteamet og oppdragsgiver hva som skal lages, for å forsikre at det er enighet mellom begge parter. Visjonsdokumentets blir da beslutningsgrunnlaget for gjennomføringen av et prosjekt. I visjonsdokumentet skal det fokuseres på interessentenes behov, men samtidig også noe informasjon om hvordan disse behovene skal utføres.  </page2>
 
@@ -43,19 +43,93 @@
 <page11 header="Hvordan spille ReqFinder:">Når du klikker på ReqFinder ved din personlige datamaskin, vil du bli sendt til en ny skjerm. Her vil du bli presentert for en tekst. Dette er en fiktiv case, gitt av et firma. Oppdraget ditt her, vil være å plukke ut ord som vil kunne gjøres om til realiserbare krav i prosessen. I teksten vil første ord være markert av en markør. For å flytte markøren til andre ord, kan den beveges til høyre (D), venstre (A), opp (W) eller ned (S).</page11> 	
 	<page12>Når markøren ligger på et ord du mener kan gjøres til et realiserbart krav, velger du ordet dette ordet (SPACE). Dersom dette ordet er et realiserbart krav, vil ordet skifte farge til grønn, og poengsummen din øker. Dersom dette ordet ikke er et realiserbart krav, vil ordet bli rødt, og poengsummen din minker. Du har et visst antall trykk, og når disse er brukt opp, er spillet ferdig. Hvor mange poeng du klarer å samle opp i ReqFinder vil bestemme hvor mange poeng du maksimalt kan opptjene under neste minispill.</page12></Analyse>
 
-	<section3>
-		Dette er section3
-	</section3>
-
-	<section4>
-		Dette er section4
-	</section4>
-
-	<section5>
-		Dette er section5
-	</section5>
-
-	<section6>
-		Dette er section6
-	</section6>
+	<Design size="9">
+		<page1 header="Design">
+			Under designdelen av prosessen vil du måtte designe kravene du fant i analysedelen av spillet. Dette er en viktig del av prosessen hvor man skal prøve å finne den beste og mest effektive arkitektoniske stilen for systemet som skal utvikles. 
+		</page1>
+		<page2>
+			I designtrinnet av prosessen, har vi to sentrale modeller. Den første vil være arkitekturmodellen, sett fra flere forskjellige perspektiver. Arkitekturmodellen er essensiell for å beskrive den underliggende arkitektoniske oppbyggingen av systemet, sett fra flere forskjellige perspektiver. 
+		</page2>
+		<page3>
+			Den brukes til å illustrere hvordan systemet er oppbygd til utviklere, og eventuelle driftere av systemet. Forutsetningene for en godt utformet arkitekturmodell, er klare og synliggjorte krav. Syntakitisk beskrivelse av arkitekturmodellen vil være UML-diagrammer, supplert med en tekstlig forklaring eller beskrivelse av diagrammene, og deres hensikt. 
+		</page3>
+		<page4>
+			I designmodellen skal man bygge videre på de kravene spesifisert i kravdokumentet ved hjelp av de forskjellige modellene benyttet der. Man vil for hvert use case, lage et detaljert sekvensdiagram som forklarer hva som skjer internt i systemet når disse kjøres. Forutsetningen for å lage en designmodell, er at man har utformet gode og klare krav under analysedelen av utviklingsprosessen. Man skal også utforme et detaljert klassediagram som forklarer sammenhengen mellom objekter. Begge disse modellene fremstilles syntaktisk av UML-standarden. I spillet vil dette representeres av å utforme design- og arkitekturdokumentene. 
+		</page4>
+		<page5 header="Utforming av designdokument">
+			Utformingen av designdokumentet vil i spillet representeres av det tredje minispillet, SeqJumper.
+		</page5>
+		<page6 header="Hvordan spille SeqJumper">
+			Når du velger “Sekvensdiagrammer” ved din personlige datamaskin, vil du bli sendt til en ny skjerm. Her skal du styre en ball som skal hoppe til de forskjellige plattformene på skjermen. Det vil være en pil tilstede som forteller deg til hvilken plattform du skal hoppe. 
+		</page6>
+		<page7>
+			Man kan hoppe ved å “lade opp” kaft når man holder inn (A) til venstre, eller (D) til høyre. Man har fem liv, og dersom man faller utenfor, eller hopper til feil plattform, vil man måtte starte på nytt. Beste poengsum blir tellende. Det er også en kraftbar til venstre i spillbildet, som viser hvor mye kraft du har ladet opp.
+		</page7>
+		<page8 header="Utforme arkitekturdokument">
+			Utformingen av arkitekturdokumentet vil i spillet representeres av det fjerde minispillet, UMLBlocks. 
+		</page8>
+		<page9 header="Hvordan spille UMLBlocks">
+			Når du velger “Designdokument” ved din personlige datamaskin, vil du bli sendt til en ny skjerm. Her er formålet å plassere alle de forksjellige blokkene på platformen i spillet. Man styrer en blokk mot venstre (A) eller høyre (D), og slipper den ned på platformen (SPACE) når man er fornøyd med posisjonen. Desto flere blokker som faller av platformen, jo dårligere poengsum får man. Man må gjennomføre tre forskjellige nivå, men inkrementell vanslighetsgrad. 
+		</page9>
+	</Design>
+	<Implementasjon size="14">
+		<page1 header="Implementasjon">
+			Implementasjon av modeller og design er siste steg i enhver iterasjon. Det er i denne delen av prosessen de forskjellige kravene blir realisert i faktisk kode. Sluttproduktet av implementasjonen vil alltid være et kjørbart resultat, selv om ikke all funksjonalitet vil være tilgjengelig. Det er her styrken av en iterativ, inkrementell prosess viser seg. Etter første iterasjon vil man alltid ha noe å jobbe videre på. 
+		</page1>
+		<page2 header="Utføring av implementasjon">
+			I spillet vil utføring av implementasjonen bli representert med spillet Coderacer. Dette vil være det siste minispillet i historien, og maksimalt antall poeng er avhengig av hvor bra de andre delene av spillet er blitt utført. Etter at alle tidligere minispill, samt implementasjonsquizen er bestått, vil dette minispillet være tilgjengelig.
+		</page2>
+		<page3 header="Hvordan spille coderacer">
+			Når du velger “Implementasjon” ved din personlige datamaskin, vil datamaskinen bli fylt med en introduksjonsskjerm til spillet. Formålet er å skrive ned så mye en klarer av koden som kommer på skjermen i løpet av 30 sekunder. Hvor mange karakterer du klarer å skrive ned korrekt i løpet av denne tiden vil bestemme din poengsum. Tasting av feil karakter, vil ikke gi noen negativ poengsum. 
+		</page3>
+		<page4 header="Scrum">
+			Scrum er metode for prosjektstyring og prosjektkontroll. Teorien er basert på empirisk prosjektkontroll og er en inkrementell og iterativ prosess. Man prøver først å realisere de mest problematiske og kritiske kravene og få på plass en overordnet arkitektur. Det vil være mindre behov for oppfølging og styring, og dette gjør Scrum mer effektiv enn tradisjonelle metoder. 
+		</page4>
+		<page5 header="Roller i Scrum">
+			- Produkteier
+			    Funksjon: Kundekontakten
+			- Scrummaster
+			    Funksjon: Fasilitatoren, ansvar for at teamet fungerer
+			- Scrumteam
+				Funksjon: 5-9 personer, tverrfaglig og selvstyrt
+		</page5>
+		<page6 header="Artefakter">
+			Det er tre artefakter i scrum; Product backlog, Sprint backlog og Burndown chart. Vi skal nå se nærmere på disse.
+		</page6>
+		<page7 header="Product backlog">
+			Skal inneholde alle krav til systemet under utvikling. Her benyttes prioritering. Det vil si at hvert krav skal gis en verdi i henhold til hvor viktig det aktuelle kravet er. Det er produkteier som definerer og prioriterer kravene som stilles til systemet. Product backlogen oppdateres underveis i prosessen av produkteier.
+		</page7>
+		<page8 header="Sprint backlog">
+			Sprint backlog er scrumteamets egen liste over hvilke oppgaver som skal gjennomføres i den kommende sprinten. Teamet estimerer hvor mye tid som trengs for hver oppgave. 
+		</page8>
+		<page9 header="Burndown chart">
+			Graf over gjenstående tid på oppgavene i sprinten.
+		</page9>
+		<page10 header="Prosesser i Scrum">
+			Det er fire prosesser i Scrum; Sprint planning, Daily Scrum, Sprint Review og Sprint Retrospective. Vi skal nå se nærmere på disse.
+		</page10>
+		<page11 header="Sprint planning">
+			Starter sprinten med å finne ut av hvordan teamet skal nå målet i sprinten. Deretter må teamet velge ut elementer fra product backlogen som de tror at kan gjennomføres i løpet av kommende sprint. Disse kravene deles normalt inn i flere små oppgaver og tilslutt estimeres antall timer som er nødvendig for hver oppgave.
+		</page11>
+		<page12 header="Daily Scrum">
+			Hver dag i sprinten skal starte med et kort møte for at team-medlemmer skal få et helhetlig bilde av prosessen. Da unngår man andre unødvendige møter. Alle skal svare på tre spørsmål:
+			- Hva gjorde du i går?
+			- Hva skal du gjøre i dag?
+			- Er det noen problemer?
+		</page12>
+		<page13 header="Sprint Review">
+			Etter hver sprint holdes det et uformelt møte hvor hele teamet deltar. På dette møtet vises normalt en demo av nye funksjoner eller underliggende arkitektur som er implementert i løpet av sprinten. 
+		</page13>
+		<page14 header="Sprint Retrospective">
+			Etter hver sprint skal man også gå over sluttresultatet. Det skal diskuteres hva som fungerer og hva som ikke fungerer.
+		</page14>
+	</Implementasjon>
+	<Sluttrapport size="2">
+		<page1 header="Sluttrapport">
+			En rapport av denne typen vil naturlig avslutte arbeidet med mange typer studentprosjekter. Den kommer i tillegg til den øvrige dokumentasjonen og skal blant annet vurdere prosessen og hvorvidt prosessmålene som var satt opp tidlig i prosjektet er nådd. Rapporten skal også gi en oppsummering og oversikt over prosjektet.
+		</page1>
+		<page2>
+			Det er vanlig å skrive veldig kort på de aktuelle kapitlene i sluttrapporten, og ta med henvisning til den andre rapporten.
+		</page2>
+	</Sluttrapport>
 </book>

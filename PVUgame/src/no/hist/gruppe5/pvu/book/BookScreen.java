@@ -129,7 +129,8 @@ public class BookScreen extends GameScreen {
 
     public void checkActions() {
         if (input.right()) {
-            if (currentPageNumber < section.getSize() - 1) {
+            if (currentPageNumber < section.getSize() - 2) {
+                System.out.println("Side: " + currentPageNumber + "; section: "+ currentSectionNumber + ", size: " + section.getSize());
                 flipPage(2);
             } else {
                 if (currentSectionNumber < sections.length - 1) {
