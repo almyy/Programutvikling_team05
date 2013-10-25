@@ -72,4 +72,14 @@ public class PVU extends Game {
 
         new LwjglApplication(new PVU(), cfg);
     }
+
+    /**
+     * Used for logging instead of random sysouts.
+     *
+     * @param c this class
+     * @param msg Message
+     */
+    public static void log(Object c, Object msg) {
+        Gdx.app.log(c.toString(), msg.toString());
+    }
 }
