@@ -183,10 +183,6 @@ public class ReqFinderScreen extends GameScreen {
                 mLivesLabel.setText("Du har "+mLives + " trykk igjen");
             }
         }
-        else if (mInput.alternateAction()) {
-            reportScore();
-            game.setScreen(PVU.MAIN_SCREEN);
-        }
     }
 
     @Override
