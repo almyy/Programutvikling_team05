@@ -65,8 +65,7 @@ public class QuizScreen extends GameScreen {
     private Skin mQuizSkin = new Skin();
     private LabelStyle mOutputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
     private TextButtonStyle mAnswerStyle = new TextButtonStyle();
-    private TextButtonStyle mAnswerStyleCorrect;
-    private TextButtonStyle mAnswerStyleWrong;
+    private TextButtonStyle mPostAnswerStyle;
     private Button mSelector = new Button();
     private ScrollingBackground mBackground;
 
@@ -108,7 +107,7 @@ public class QuizScreen extends GameScreen {
                 initiateSelectorBounds();
                 registerSelectorAnswer();
             }
-            if (mGetNewAnswers) {
+            if (mInput.isActionReady() && mGetNewAnswers) {
                 initNewAnswers();
             }
             if (mQuestionCounter == mNumberOfQuestions) {
@@ -163,25 +162,24 @@ public class QuizScreen extends GameScreen {
 
         mQuizSkin.add("Green", new Texture(pixmap));
         
-        pixmap.setColor(Color.RED);
+        pixmap.setColor(new Color(0.855f, 0.647f, 0.125f, 1f));
         pixmap.fill();
         
         BitmapFont myFont = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
         
-        mQuizSkin.add("Red", new Texture(pixmap));
+        mQuizSkin.add("Yellow", new Texture(pixmap));
         mQuizSkin.add("default", myFont);
         
         Drawable gray = mQuizSkin.newDrawable("Gray");
         Drawable green = mQuizSkin.newDrawable("Green");
-        Drawable red = mQuizSkin.newDrawable("Red");
+        Drawable red = mQuizSkin.newDrawable("Yellow");
 
         mQuizSkin.getFont("default").scale(1.3f);
         
         mAnswerStyle = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
-        mAnswerStyleCorrect = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
-        mAnswerStyleWrong = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
+        mPostAnswerStyle = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
         
     }
 
@@ -300,13 +298,7 @@ public class QuizScreen extends GameScreen {
             } else {
                 mAnswer = (mSelectorLeft) ? 2 : 3;
             }
-            for (int i = 0; i < 4; i++) {
-                if (i != mAnswersNumbered[mQuestionCounter]) {
-                    changeColor((TextButton) mAnswerGroup.getChildren().items[i], mAnswerStyleWrong);
-                } else {
-                    changeColor((TextButton) mAnswerGroup.getChildren().items[i], mAnswerStyleCorrect);
-                }
-            }
+            changeColor((TextButton) mAnswerGroup.getChildren().items[mAnswer], mPostAnswerStyle);
             mLastButtonPressed = TimeUtils.millis();
             mGetNewAnswers = true;
         }
