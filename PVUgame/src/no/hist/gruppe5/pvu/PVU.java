@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.intro.IntroScreen;
 import no.hist.gruppe5.pvu.intro.SpriteAccessor;
+import no.hist.gruppe5.pvu.mainroom.EndScreen;
 import no.hist.gruppe5.pvu.mainroom.MainScreen;
 import no.hist.gruppe5.pvu.sound.Sounds;
 

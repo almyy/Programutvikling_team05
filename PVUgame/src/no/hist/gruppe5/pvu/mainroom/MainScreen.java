@@ -258,6 +258,10 @@ public class MainScreen extends GameScreen {
             setBurnDownCart(++mCurrentCart % 5);
             mGamesChecked[3] = true;
         }
+
+        if (ScoreHandler.isGameOver()) {
+            game.setScreen(new EndScreen(game));
+        }
     }
 
     private void setBurnDownCart(int num) {

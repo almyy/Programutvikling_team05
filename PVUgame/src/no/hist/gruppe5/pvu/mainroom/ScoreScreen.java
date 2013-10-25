@@ -25,7 +25,7 @@ public class ScoreScreen extends GameScreen {
     
     public ScoreScreen(PVU game) {
         super(game);
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mLabelGroup = new Group();
         initiatePaper();
         initiateLabels();
@@ -47,6 +47,7 @@ public class ScoreScreen extends GameScreen {
         mGradeTextLabel.setPosition(PVU.SCREEN_WIDTH / 3.5f, PVU.SCREEN_HEIGHT * 0.1f);
         mGradeTextLabel.setFontScale(6f);
         mStage.addActor(mGradeTextLabel);
+
     }
 
     private void initiateLabels() {
@@ -83,7 +84,6 @@ public class ScoreScreen extends GameScreen {
 
         batch.begin();
         batch.draw(mPaperBackground, 30f, 0, PVU.GAME_WIDTH-60f, PVU.GAME_HEIGHT);
-        //stage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
         batch.end();
         mStage.draw();
     }

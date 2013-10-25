@@ -55,7 +55,7 @@ public class MinigameSelectorScreen extends GameScreen {
 
         mInput = new Input();
         mMenu = new Group();
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_WIDTH, true);
 
         defineStyles();
         defineButtonStates();
@@ -71,7 +71,7 @@ public class MinigameSelectorScreen extends GameScreen {
         clearCamera(1, 1, 1, 1);
 
         batch.begin();
-        mStage.getSpriteBatch().draw(Assets.msPcBackground, 0, 0);
+        batch.draw(Assets.msPcBackground, 0, 0);
         batch.end();
         mStage.draw();
     }

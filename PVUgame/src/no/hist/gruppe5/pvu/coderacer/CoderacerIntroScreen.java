@@ -34,11 +34,11 @@ public class CoderacerIntroScreen extends GameScreen {
     private Label mTitleTextLabel;
     private Input mInput;
 
-    public CoderacerIntroScreen(PVU game) throws FileNotFoundException, IOException {
+    public CoderacerIntroScreen(PVU game) throws IOException {
         super(game);
 
         mInput = new Input();
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mTitleTextLabel = makeHeadLabel(mTitleText);
         mTitleTextLabel.setFontScale(6f);
         mTitleTextLabel.setWrap(true);

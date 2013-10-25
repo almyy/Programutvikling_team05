@@ -29,7 +29,7 @@ public class BurndownScreen extends GameScreen {
 
     public BurndownScreen(PVU game) {
         super(game);
-        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true, batch);
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mInput = new Input();
 
         try {

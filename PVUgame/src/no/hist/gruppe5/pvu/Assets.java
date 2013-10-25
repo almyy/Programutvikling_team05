@@ -85,7 +85,9 @@ public class Assets {
     public static TextureRegion redBar;
     // QUIZ
     public static TextureRegion quizBg;
-    
+    // End screen
+    public static TextureRegion endScreenBackground;
+
 
     public static void load() {
         minecraftFont10px = new BitmapFont(
@@ -101,6 +103,7 @@ public class Assets {
         TextureAtlas mainAvatarAtlas = new TextureAtlas(Gdx.files.internal("data/Avatar.pack"));
         TextureAtlas borderAtlas = new TextureAtlas(Gdx.files.internal("data/border/BorderPack.pack"));
         TextureAtlas umlBlocksAtlas = new TextureAtlas(Gdx.files.internal("data/UMLBlocks/UMLBlocks.pack"));
+        TextureAtlas endScreenAtlas = new TextureAtlas(Gdx.files.internal("data/EndScreen/EndScreen.pack"));
 
         visionShooterRegion = visionShooterAtlas.findRegion("VisionShooterTexture");
         visionShooterDocumentRegion = visionShooterAtlas.findRegion("Document");
@@ -162,6 +165,9 @@ public class Assets {
 
         // QUIZ
         quizBg = msAtlas.findRegion("quizbg");
+
+        // END SCREEN
+        endScreenBackground = endScreenAtlas.findRegion("End_screen");
 
         // Simple "loading" hack, always put last
         IS_LOADED = true;
