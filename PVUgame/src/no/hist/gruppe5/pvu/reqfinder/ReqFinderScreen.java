@@ -34,7 +34,7 @@ public class ReqFinderScreen extends GameScreen {
     private ArrayList<Label> mLabels = new ArrayList<>();
     private Label mHighlightedLabel;
     private int mHighlightedIndex;
-    private String[] mCorrectWords= {"interaktivt", "skjema,", "kundeprofil", "profilside", "instant", "messaging-tjeneste", "(IM-tjeneste).", "prosjektbestillinger", "fysikksimulator"};
+    private String[] mCorrectWords= {"interaktivt skjema,", "kundeprofil", "profilside", "instant messaging-tjeneste(IM-tjeneste).", "prosjektbestillinger", "fysikksimulator"};
     private Input mInput;
     private int mLives = mCorrectWords.length;
     private Label mLivesLabel;
@@ -78,12 +78,18 @@ public class ReqFinderScreen extends GameScreen {
         float labelLength = 0;
         while (st.hasMoreTokens()) {
             mLabels.add(new Label(st.nextToken(" "), mLabelStyle));
+            if(mLabels.get(mLabels.size()-1).textEquals("interaktivt")) {
+                mLabels.get(mLabels.size()-1).setText("interaktivt " + st.nextToken(" "));
+            }
+            if(mLabels.get(mLabels.size()-1).textEquals("Instant")) {
+                mLabels.get(mLabels.size()-1).setText("Instant " + st.nextToken(" "));
+            }
             if(mLabels.size() == 1) {
                 mLabels.get(mLabels.size()-1).setPosition(20, PVU.SCREEN_HEIGHT - mLabels.get(mLabels.size()-1).getHeight() - 15);
                 mHighlightedLabel = mLabels.get(mLabels.size()-1);
                 mHighlightedLabel.setStyle(mHighlightedLabelStyle);
             }
-            else if (labelLength + mLabels.get(mLabels.size() - 1).getWidth() > PVU.SCREEN_WIDTH - 20) {
+            else if (labelLength + mLabels.get(mLabels.size() - 1).getPrefWidth() > PVU.SCREEN_WIDTH - 20) {
                 mLabels.get(mLabels.size() - 1).setPosition(20, mLabels.get(mLabels.size() - 2).getY() - mLabels.get(mLabels.size() - 1).getHeight()-5);
                 labelLength = 0;
             }
@@ -92,9 +98,9 @@ public class ReqFinderScreen extends GameScreen {
                 labelLength = 0;
                 mNewLine = false;
             } else {
-                mLabels.get(mLabels.size() - 1).setPosition(mLabels.get(mLabels.size() - 2).getX() + mLabels.get(mLabels.size() - 2).getWidth() + 5, mLabels.get(mLabels.size() - 2).getY());
+                mLabels.get(mLabels.size() - 1).setPosition(mLabels.get(mLabels.size() - 2).getX() + mLabels.get(mLabels.size() - 2).getPrefWidth() + 5, mLabels.get(mLabels.size() - 2).getY());
             }
-            labelLength = mLabels.get(mLabels.size() - 1).getX() + mLabels.get(mLabels.size() - 1).getWidth();
+            labelLength = mLabels.get(mLabels.size() - 1).getX() + mLabels.get(mLabels.size() - 1).getPrefWidth();
             mStage.addActor(mLabels.get(mLabels.size() - 1));
             if(mLabels.get(mLabels.size()-1).textEquals("foregå.")) {
                 mNewLine = true;
@@ -102,7 +108,7 @@ public class ReqFinderScreen extends GameScreen {
         }
         
         mLivesLabel = new Label("Du har "+mLives + " trykk igjen", mLivesStyle);
-        mLivesLabel.setPosition(PVU.SCREEN_WIDTH-mLivesLabel.getWidth() - 5, 5);
+        mLivesLabel.setPosition(PVU.SCREEN_WIDTH-mLivesLabel.getPrefWidth() - 5, 5);
         mStage.addActor(mLivesLabel);
     }
 
@@ -241,11 +247,11 @@ public class ReqFinderScreen extends GameScreen {
                 break;
             }
         }
-        float currentXAvg = (current.getX() + (current.getX()+current.getWidth()))/2;
-        float shortestDistance = Math.abs(currentXAvg-(mLabels.get(nextRowStart).getX() + (mLabels.get(nextRowStart).getX() + mLabels.get(nextRowStart).getWidth()))/2);
+        float currentXAvg = (current.getX() + (current.getX()+current.getPrefWidth()))/2;
+        float shortestDistance = Math.abs(currentXAvg-(mLabels.get(nextRowStart).getX() + (mLabels.get(nextRowStart).getX() + mLabels.get(nextRowStart).getPrefWidth()))/2);
         int shortestIndex = nextRowStart;
         for(int i = nextRowStart+1; i <= nextRowEnd; i++) {
-            float distance = Math.abs(currentXAvg-(mLabels.get(i).getX() + (mLabels.get(i).getX() + mLabels.get(i).getWidth()))/2);
+            float distance = Math.abs(currentXAvg-(mLabels.get(i).getX() + (mLabels.get(i).getX() + mLabels.get(i).getPrefWidth()))/2);
             if(distance < shortestDistance) {
                 shortestDistance = distance;
                 shortestIndex = i;
@@ -269,11 +275,11 @@ public class ReqFinderScreen extends GameScreen {
                 break;
             }
         }
-        float currentXAvg = (current.getX() + (current.getX()+current.getWidth()))/2;
-        float shortestDistance = Math.abs(currentXAvg-(mLabels.get(nextRowStart).getX() + (mLabels.get(nextRowStart).getX() + mLabels.get(nextRowStart).getWidth()))/2);
+        float currentXAvg = (current.getX() + (current.getX()+current.getPrefWidth()))/2;
+        float shortestDistance = Math.abs(currentXAvg-(mLabels.get(nextRowStart).getX() + (mLabels.get(nextRowStart).getX() + mLabels.get(nextRowStart).getPrefWidth()))/2);
         int shortestIndex = nextRowStart;
         for(int i = nextRowStart+1; i <= nextRowEnd; i++) {
-            float distance = Math.abs(currentXAvg-(mLabels.get(i).getX() + (mLabels.get(i).getX() + mLabels.get(i).getWidth()))/2);
+            float distance = Math.abs(currentXAvg-(mLabels.get(i).getX() + (mLabels.get(i).getX() + mLabels.get(i).getPrefWidth()))/2);
             if(distance < shortestDistance) {
                 shortestDistance = distance;
                 shortestIndex = i;

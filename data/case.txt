@@ -4,4 +4,4 @@ Det viktigste for oss er bestillingsskjemaet. Her ser vi for oss et interaktivt 
 
  Vi vil ha en egen profilside med informasjon av våre ansatte og noen av våre viktigste konstruerte bruer.
 
-Vårt interne system skal være inkludert i denne web-løsningen. Her vil vi ha en intern Instant-Messaging-tjeneste(IM-tjeneste). Vi skal også ha en oversikt over alle prosjektbestillinger og godkjente prosjekt. I tillegg vil vi ha en fysikksimulator som skal avgjøre om brua vil rase eller ikke.
+Vårt interne system skal være inkludert i denne web-løsningen. Her vil vi ha en intern Instant Messaging-tjeneste(IM-tjeneste). Vi skal også ha en oversikt over alle prosjektbestillinger og godkjente prosjekt. I tillegg vil vi ha en fysikksimulator som skal avgjøre om brua vil rase eller ikke.
