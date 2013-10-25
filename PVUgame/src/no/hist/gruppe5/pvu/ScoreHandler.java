@@ -107,16 +107,23 @@ public class ScoreHandler {
      * @return if the total score was modified
      */
     public static boolean updateScore(int miniGame, float percent) {
-        if(percent > 1) return false;
+        if(percent > 1 || percent < 0) return false;
         if (miniGame < totalScore.length) {
             totalScore[miniGame] = percent;
-            total += percent;
             if (checkScore()) {
                 completedAllLevels = true;
             }
             return true;
         }
         return false;
+    }
+
+    public static float getTotalScore() {
+        float total = 0;
+        for(float f : totalScore) {
+            total += f;
+        }
+        return total;
     }
     
     public static void setNoQuiz(){
@@ -130,7 +137,11 @@ public class ScoreHandler {
      * @return a grade based on the total score.
      */
     public static Character getGrade() {
-      float average = total /(float)numberOfGamesCompleted();
+        if(numberOfGamesCompleted() == 0) return 'F'; // No need to calculate further
+
+        float average = getTotalScore() / (float) numberOfGamesCompleted();
+        PVU.log(ScoreHandler.class, "Total score is " + getTotalScore() + ", average is " + average + ". Games completed is " + numberOfGamesCompleted());
+
         if (average > 0.9) {
             return 'A';
         } else if (average > 0.8) {
@@ -139,8 +150,10 @@ public class ScoreHandler {
             return 'C';
         } else if (average > 0.6) {
             return 'D';
-        } else {
+        } else if (average > 0.4) {
             return 'E';
+        } else {
+            return 'F';
         }
     }
 }
