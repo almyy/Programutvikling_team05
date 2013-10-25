@@ -39,6 +39,7 @@ public class ReqFinderScreen extends GameScreen {
     private int mLives = mCorrectWords.length;
     private Label mLivesLabel;
     private int mCorrectCounter = 0;
+    private boolean mNewLine;
             
     public ReqFinderScreen(PVU pvu) {
         super(pvu);
@@ -62,28 +63,42 @@ public class ReqFinderScreen extends GameScreen {
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mStage.setViewport(mStage.getWidth(), mStage.getHeight(), true, 0, 0, mStage.getWidth(), mStage.getHeight());
         StringTokenizer st = new StringTokenizer(mCaseText);
-        mLabelStyle.font.scale(1.5f);
-        Label initLabel = new Label("Hei", mHighlightedLabelStyle);
-        initLabel.setPosition(0, PVU.SCREEN_HEIGHT - initLabel.getHeight());
+        mLabelStyle.font.scale(1.2f);
+        /*Label initLabel = new Label("Hei", mHighlightedLabelStyle);
+        initLabel.setPosition(10, PVU.SCREEN_HEIGHT - initLabel.getHeight() - 15);
         System.out.println(initLabel.getX() + " " + initLabel.getY());
         mLabels.add(initLabel);
         mStage.addActor(initLabel);
         mHighlightedLabel = initLabel;
+        */
         mHighlightedIndex = 0;
         float labelLength = 0;
         while (st.hasMoreTokens()) {
             mLabels.add(new Label(st.nextToken(" "), mLabelStyle));
-            if (labelLength + mLabels.get(mLabels.size() - 1).getWidth() > PVU.SCREEN_WIDTH - 5) {
-                mLabels.get(mLabels.size() - 1).setPosition(0, mLabels.get(mLabels.size() - 2).getY() - mLabels.get(mLabels.size() - 1).getHeight());
+            if(mLabels.size() == 1) {
+                mLabels.get(mLabels.size()-1).setPosition(20, PVU.SCREEN_HEIGHT - mLabels.get(mLabels.size()-1).getHeight() - 15);
+                mHighlightedLabel = mLabels.get(mLabels.size()-1);
+                mHighlightedLabel.setStyle(mHighlightedLabelStyle);
+            }
+            else if (labelLength + mLabels.get(mLabels.size() - 1).getWidth() > PVU.SCREEN_WIDTH - 20) {
+                mLabels.get(mLabels.size() - 1).setPosition(20, mLabels.get(mLabels.size() - 2).getY() - mLabels.get(mLabels.size() - 1).getHeight()-5);
                 labelLength = 0;
+            }
+            else if(mNewLine){ 
+                mLabels.get(mLabels.size() - 1).setPosition(20, mLabels.get(mLabels.size() - 2).getY() - mLabels.get(mLabels.size() - 1).getHeight()-30);
+                labelLength = 0;
+                mNewLine = false;
             } else {
                 mLabels.get(mLabels.size() - 1).setPosition(mLabels.get(mLabels.size() - 2).getX() + mLabels.get(mLabels.size() - 2).getWidth() + 5, mLabels.get(mLabels.size() - 2).getY());
             }
             labelLength = mLabels.get(mLabels.size() - 1).getX() + mLabels.get(mLabels.size() - 1).getWidth();
             mStage.addActor(mLabels.get(mLabels.size() - 1));
+            if(mLabels.get(mLabels.size()-1).textEquals("foregå.")) {
+                mNewLine = true;
+            }
         }
         
-        mLivesLabel = new Label(""+mLives, mLivesStyle);
+        mLivesLabel = new Label("Du har "+mLives + " trykk igjen", mLivesStyle);
         mLivesLabel.setPosition(PVU.SCREEN_WIDTH-mLivesLabel.getWidth() - 5, 5);
         mStage.addActor(mLivesLabel);
     }
@@ -156,7 +171,7 @@ public class ReqFinderScreen extends GameScreen {
             } else {
                 mHighlightedLabel.setStyle(mWrongLabelStyle);
                 mLives--;
-                mLivesLabel.setText(""+mLives);
+                mLivesLabel.setText("Du har "+mLives + " trykk igjen");
             }
         }
         else if (mInput.alternateAction()) {
