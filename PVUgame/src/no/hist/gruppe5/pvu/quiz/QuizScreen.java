@@ -34,23 +34,18 @@ import no.hist.gruppe5.pvu.GameScreen;
 import no.hist.gruppe5.pvu.Input;
 import no.hist.gruppe5.pvu.PVU;
 import no.hist.gruppe5.pvu.ScoreHandler;
+import no.hist.gruppe5.pvu.umlblocks.ScrollingBackground;
 
 public class QuizScreen extends GameScreen {
 
-    private Stage mStage;
-    private Group mQuestionGroup;
-    private Group mAnswerGroup;
-    private Skin mQuizSkin = new Skin();
-    private ArrayList<Label> mQuestions = new ArrayList();
-    private ArrayList<TextButton> mAnswers = new ArrayList();
+    // QUIZ
     private String[] mQuizNames = {"data/Quizes/quiz_00.txt", "data/Quizes/quiz_01.txt", "data/Quizes/quiz_02.txt", "data/Quizes/quiz_03.txt", "data/Quizes/quiz_04.txt"};
     private final int mNumberOfQuestions = mQuizNames.length;
+    private ArrayList<Label> mQuestions = new ArrayList();
+    private ArrayList<TextButton> mAnswers = new ArrayList();
+
+    // Quiz variables
     private int[] mAnswersNumbered = new int[mNumberOfQuestions];
-    private LabelStyle mOutputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
-    private TextButtonStyle mAnswerStyle = new TextButtonStyle();
-    private TextButtonStyle mAnswerStyleCorrect;
-    private TextButtonStyle mAnswerStyleWrong;
-    private Button mSelector = new Button();
     private boolean mSelectorLeft = true;
     private boolean mSelectorTop = true;
     private boolean mQuizDone = false;
@@ -60,17 +55,31 @@ public class QuizScreen extends GameScreen {
     private int mNumberOfCorrectAnswers = 0;
     private int mAnswer = -1;
     private long mLastButtonPressed = 0;
-    boolean mGetNewAnswers = false;
-    int mQuizNumber;
+    private boolean mGetNewAnswers = false;
+    private int mQuizNumber;
+
+    // GUI
+    private Stage mStage;
+    private Group mQuestionGroup;
+    private Group mAnswerGroup;
+    private Skin mQuizSkin = new Skin();
+    private LabelStyle mOutputStyle = new LabelStyle(Assets.primaryFont10px, Color.BLACK);
+    private TextButtonStyle mAnswerStyle = new TextButtonStyle();
+    private TextButtonStyle mPostAnswerStyle;
+    private Button mSelector = new Button();
+    private ScrollingBackground mBackground;
+
+    // Input
     private Input mInput;
 
-    public QuizScreen(PVU game, int mQuizNumber) throws FileNotFoundException, IOException {
+    public QuizScreen(PVU game, int mQuizNumber) throws IOException {
         super(game);
         this.mQuizNumber = mQuizNumber;
         mStage = new Stage();
         mQuestionGroup = new Group();
         mAnswerGroup = new Group();
         mInput = new Input(75L,1500L);
+        mBackground = new ScrollingBackground(Assets.quizBg);
         defineStyles();
         readQuiz(mQuizNames[mQuizNumber]);
         initializeQuestions();
@@ -85,6 +94,9 @@ public class QuizScreen extends GameScreen {
     @Override
     protected void draw(float delta) {
         clearCamera(1, 1, 1, 1);
+        batch.begin();
+        mBackground.draw(batch);
+        batch.end();
         mStage.draw();
     }
 
@@ -95,7 +107,7 @@ public class QuizScreen extends GameScreen {
                 initiateSelectorBounds();
                 registerSelectorAnswer();
             }
-            if (mGetNewAnswers) {
+            if (mInput.isActionReady() && mGetNewAnswers) {
                 initNewAnswers();
             }
             if (mQuestionCounter == mNumberOfQuestions) {
@@ -104,6 +116,8 @@ public class QuizScreen extends GameScreen {
         } else if (mInput.action()) {
             endQuiz();
         }
+
+        mBackground.update(delta);
     }
 
     @Override
@@ -148,25 +162,24 @@ public class QuizScreen extends GameScreen {
 
         mQuizSkin.add("Green", new Texture(pixmap));
         
-        pixmap.setColor(Color.RED);
+        pixmap.setColor(new Color(0.855f, 0.647f, 0.125f, 1f));
         pixmap.fill();
         
         BitmapFont myFont = new BitmapFont(
                 Gdx.files.internal("data/LucidaBitmap10px.fnt"),
                 Gdx.files.internal("data/LucidaBitmap10px_0.png"), false);
         
-        mQuizSkin.add("Red", new Texture(pixmap));
+        mQuizSkin.add("Yellow", new Texture(pixmap));
         mQuizSkin.add("default", myFont);
         
         Drawable gray = mQuizSkin.newDrawable("Gray");
         Drawable green = mQuizSkin.newDrawable("Green");
-        Drawable red = mQuizSkin.newDrawable("Red");
+        Drawable red = mQuizSkin.newDrawable("Yellow");
 
         mQuizSkin.getFont("default").scale(1.3f);
         
         mAnswerStyle = new TextButtonStyle(gray, gray, gray, mQuizSkin.getFont("default"));
-        mAnswerStyleCorrect = new TextButtonStyle(green, green, green, mQuizSkin.getFont("default"));
-        mAnswerStyleWrong = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
+        mPostAnswerStyle = new TextButtonStyle(red, red, red, mQuizSkin.getFont("default"));
         
     }
 
@@ -285,13 +298,7 @@ public class QuizScreen extends GameScreen {
             } else {
                 mAnswer = (mSelectorLeft) ? 2 : 3;
             }
-            for (int i = 0; i < 4; i++) {
-                if (i != mAnswersNumbered[mQuestionCounter]) {
-                    changeColor((TextButton) mAnswerGroup.getChildren().items[i], mAnswerStyleWrong);
-                } else {
-                    changeColor((TextButton) mAnswerGroup.getChildren().items[i], mAnswerStyleCorrect);
-                }
-            }
+            changeColor((TextButton) mAnswerGroup.getChildren().items[mAnswer], mPostAnswerStyle);
             mLastButtonPressed = TimeUtils.millis();
             mGetNewAnswers = true;
         }
@@ -300,10 +307,10 @@ public class QuizScreen extends GameScreen {
     private void presentQuizScore() {
         Label finishLabel;
         if(mNumberOfCorrectAnswers>3){
-            ScoreHandler.updateQuizzesCompleted();
-            finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Press space for å avslutte", mOutputStyle);
+            ScoreHandler.updateQuizzesCompleted(mQuizNumber);
+            finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + ", gratulerer!\n\n Du kan nå gå videre.\n\n Press space for å avslutte", mOutputStyle);
         }else{
-            finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n Du må prøve på nytt for å låse opp neste spill \n Press space for å avslutte", mOutputStyle);
+            finishLabel = new Label("Din score ble " + mNumberOfCorrectAnswers + "\n\n Du må prøve på nytt for\nå låse opp neste spill\n\n Press space for å avslutte", mOutputStyle);
         }
         
         finishLabel.setFontScale(4);

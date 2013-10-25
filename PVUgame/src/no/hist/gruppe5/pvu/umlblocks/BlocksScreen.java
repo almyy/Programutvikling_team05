@@ -26,7 +26,7 @@ public class BlocksScreen extends GameScreen {
     public static final float WORLD_WIDTH = 3f;
     public static final float WORLD_HEIGHT = 1.8125f;
 
-    private final float BLOCK_DROP_LOCK = 1.5f;
+    private final float BLOCK_DROP_LOCK_Y = 1.5f;
 
     private World mWorld;
     private OrthographicCamera mGameCam;
@@ -39,7 +39,7 @@ public class BlocksScreen extends GameScreen {
 
     // Game variables
     private long mLastDrop = -1;
-    private float mBlockDropLoc = 1.5f;
+    private float mBlockDropLocationX = 1.5f;
     private int mInitialBlockCount = -1;
     private int mBlocksLeftCount = -1;
     private int mBlocksDead = 0;
@@ -54,7 +54,7 @@ public class BlocksScreen extends GameScreen {
     public BlocksScreen(PVU game) {
         super(game);
 
-        mInput = new Input();
+        mInput = new Input(200, 500L);
 
         mActiveBlocks = new ArrayList<>(30);
         mBlocksLeft = new ArrayList<>(15);
@@ -97,6 +97,38 @@ public class BlocksScreen extends GameScreen {
 
         // And finally clear the ArrayList
         mActiveBlocks.clear();
+    }
+
+    private void gameIsDone() {
+        mBlocksLeftCount = 0;
+
+        int score = mCurrentScore;
+
+        mGui.enableIntermediateDisplay();
+        mGui.setIntermediateText(score, mCurrentGame / 100);
+
+        switch (mCurrentGame) {
+            case Room.EASY:
+                mEasyScore = score;
+                mCurrentGame = Room.MEDIUM;
+                break;
+            case Room.MEDIUM:
+                mMediumScore = score;
+                mCurrentGame = Room.HARD;
+                break;
+            case Room.HARD:
+                mHardScore = score;
+                mCurrentGame = Room.DONE;
+                mGui.enableSummarizeText(Math.round(getTotalScore()));
+                break;
+            case Room.DONE:
+                // TODO?
+                break;
+        }
+
+        PVU.log(this, "Game is done!");
+
+        mIdleBeforeNextGame = true;
     }
 
     private void populateBlocksLeft(int game_type) {
@@ -174,31 +206,31 @@ public class BlocksScreen extends GameScreen {
 
     @Override
     protected void update(float delta) {
-        // Chek all user input
+        // Check all user input
         checkInput();
 
         // Update everything physics related
         mWorld.step(1 / 60f, 6, 2);
         mRoom.update(delta);
-        for(Block b : mActiveBlocks)
+        for(Block b : mActiveBlocks) {
             b.update(delta);
+        }
 
-        // Update block drop positioning
+        // Update block override drop positioning
         if(!mActiveBlocks.isEmpty()) {
             Block block = getLastBlock();
-            if(block.isLock()) {
-                block.setPosition(mBlockDropLoc, BLOCK_DROP_LOCK);
+            if(block.isLock()) { // It rhymes!
+                block.setPosition(mBlockDropLocationX, BLOCK_DROP_LOCK_Y);
             }
         }
 
         // Check whether or not to end game or add a new block
-        if(mBlocksLeft.isEmpty() && isReadyToDrop() && isPreviousDropped() && hasBodiesHitTheFloor()) {
-            if(!mIdleBeforeNextGame)
+        if(mBlocksLeft.isEmpty() && isReadyToDrop() && isPreviousDropped()) {
+            if(!mIdleBeforeNextGame && isReadyToEnd())
                 gameIsDone();
-        } else if(isReadyToDrop() && isPreviousDropped() && hasBodiesHitTheFloor()) {
+        } else if(isReadyToDrop() && isPreviousDropped()) {
             popNewBlock();
         }
-
         // Update everything background and bg related
         mBackground.update(delta);
         mGui.update(delta);
@@ -209,51 +241,9 @@ public class BlocksScreen extends GameScreen {
         removeDeadBlocks();
     }
 
-    private boolean hasBodiesHitTheFloor() {
-        if(mActiveBlocks.isEmpty()) return true;
-
-        for(Block b : mActiveBlocks) {
-            if(b.isMoving())
-                return false;
-        }
-
-        return true;
-
-    }
-
     private void popNewBlock() {
         mActiveBlocks.add(mBlocksLeft.remove(0));
         mBlocksLeftCount--;
-    }
-
-    private void gameIsDone() {
-        mBlocksLeftCount = 0;
-
-        int score = mCurrentScore;
-
-        mGui.enableIntermediateDisplay();
-        mGui.setIntermediateText(score, mCurrentGame / 100);
-
-        switch (mCurrentGame) {
-            case Room.EASY:
-                mEasyScore = score;
-                mCurrentGame = Room.MEDIUM;
-                break;
-            case Room.MEDIUM:
-                mMediumScore = score;
-                mCurrentGame = Room.HARD;
-                break;
-            case Room.HARD:
-                mHardScore = score;
-                mCurrentGame = Room.DONE;
-                mGui.enableSummarizeText(Math.round(getTotalScore()));
-                break;
-            case Room.DONE:
-                // TODO?
-                break;
-        }
-
-        mIdleBeforeNextGame = true;
     }
 
     private boolean isPreviousDropped() {
@@ -277,33 +267,30 @@ public class BlocksScreen extends GameScreen {
     }
 
     private void checkInput() {
-        if (mInput.continuousAction()) {
+        if (mInput.action()) {
             if(mGui.isTutorial()) {
                 mGui.enableGameDisplay();
-                mLastDrop = TimeUtils.millis();
-            } else if(!mActiveBlocks.isEmpty() && isReadyToDrop()) {
+            } else if(!mActiveBlocks.isEmpty() && isReadyToDrop() && getLastBlock().isLock()) {
                 getLastBlock().release().activate();
                 mLastDrop = TimeUtils.millis();
+            } else if(mIdleBeforeNextGame) {
+                if(mCurrentGame != Room.DONE) {
+                    resetVariables();
+                    startNewGame(false);
+                } else {
+                    // Report the final score
+                    float totalScore = getTotalScore();
+                    ScoreHandler.updateScore(ScoreHandler.UMLBLOCKS, totalScore / 100);
+
+                    // Let's go back.
+                    game.setScreen(PVU.MAIN_SCREEN);
+                }
             }
-        } else if (mInput.continuousLeft()) {
+
+        } else if (Input.continuousLeft()) {
             goLeft();
-        } else if (mInput.continuousRight()) {
+        } else if (Input.continuousRight()) {
             goRight();
-        }
-
-        if(mIdleBeforeNextGame && mInput.action()) {
-            if(mCurrentGame != Room.DONE) {
-                resetVariables();
-                startNewGame(false);
-                mLastDrop = TimeUtils.millis();
-            } else {
-                // Report the final score
-                float totalScore = getTotalScore();
-                ScoreHandler.updateScore(ScoreHandler.UMLBLOCKS, totalScore / 100);
-
-                // Let's go back.
-                game.setScreen(PVU.MAIN_SCREEN);
-            }
         }
 
     }
@@ -312,27 +299,31 @@ public class BlocksScreen extends GameScreen {
         return (TimeUtils.millis() - mLastDrop) > 800L;
     }
 
+    public boolean isReadyToEnd() {
+        return (TimeUtils.millis() - mLastDrop) > 2000L;
+    }
+
     public static final float LOC_SPEED = 0.02f;
 
     private void goRight() {
-        if(mBlockDropLoc < WORLD_WIDTH)
-            mBlockDropLoc += LOC_SPEED;
+        if(mBlockDropLocationX < WORLD_WIDTH)
+            mBlockDropLocationX += LOC_SPEED;
     }
 
     private void goLeft() {
-        if(mBlockDropLoc > 0)
-            mBlockDropLoc -= LOC_SPEED;
+        if(mBlockDropLocationX > 0)
+            mBlockDropLocationX -= LOC_SPEED;
     }
 
-    @Override
-    protected void cleanUp() {
-    }
-
-    public Block getLastBlock() {
+    private Block getLastBlock() {
         return mActiveBlocks.get(mActiveBlocks.size() - 1);
     }
 
     private float getTotalScore() {
         return ((mEasyScore + mMediumScore + mHardScore) / 3);
+    }
+
+    @Override
+    protected void cleanUp() {
     }
 }

@@ -63,6 +63,7 @@ public class Assets {
     public static TextureRegion msTable;
     public static TextureRegion msPcBackground;
     public static TextureRegion[] msBurndownCarts;
+    public static TextureRegion exclamationMark;
     // INTRO SCREEN
     public static TextureRegion introMainLogo;
     public static TextureRegion introTeamLogo;
@@ -82,8 +83,9 @@ public class Assets {
     public static TextureRegion seqLine;
     public static TextureRegion seqBox;
     public static TextureRegion redBar;
+    // QUIZ
+    public static TextureRegion quizBg;
     
-    public static TextureRegion exclamationMark; 
 
     public static void load() {
         minecraftFont10px = new BitmapFont(
@@ -149,7 +151,6 @@ public class Assets {
 
         // SeqJumper
         seqBackground = msAtlas.findRegion("sequencebg");
-
         TextureAtlas seqAtlas = new TextureAtlas(Gdx.files.internal("data/seqjumper.atlas"));
         seqHead = seqAtlas.findRegion("head");
         seqLine = seqAtlas.findRegion("line");
@@ -158,6 +159,9 @@ public class Assets {
         redBar = seqAtlas.findRegion("redbar");
 
         borderBorder = borderAtlas.findRegion("BorderChooser");
+
+        // QUIZ
+        quizBg = msAtlas.findRegion("quizbg");
 
         // Simple "loading" hack, always put last
         IS_LOADED = true;
