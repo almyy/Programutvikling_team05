@@ -1,8 +1,8 @@
-Hvilken av disse modellene er en del av designtrinnet?
+﻿Hvilken av disse modellene er en del av designtrinnet?
 Hva er forutsetningen for god design?
 Hva illustrerer sekvensdiagrammene?
 Hvilken av disse er ikke et perspektiv til arkitekturmodellen?
-Hvilke av disse diagrammene h�rer til designmodellen?
+Hvilke av disse diagrammene hører til designmodellen?
 
 Arkitekturmodellen
 Use case-modellen

@@ -1,5 +1,5 @@
-Hvilken modell presenterer informasjon om et systems funskjonelle krav?
-Hva er forutsetningene for � utforme klare krav?
+﻿Hvilken modell presenterer informasjon om et systems funskjonelle krav?
+Hva er forutsetningene for å utforme klare krav?
 Hva beskriver use case-modellen?
 Hvordan beskrives problemdomenemodellen?
 Hvor spesifiseres ikke-funksjonelle krav?
