@@ -67,13 +67,6 @@ public class ReqFinderScreen extends GameScreen {
         mStage.setViewport(mStage.getWidth(), mStage.getHeight(), true, 0, 0, mStage.getWidth(), mStage.getHeight());
         StringTokenizer st = new StringTokenizer(mCaseText);
         mLabelStyle.font.scale(1.2f);
-        /*Label initLabel = new Label("Hei", mHighlightedLabelStyle);
-        initLabel.setPosition(10, PVU.SCREEN_HEIGHT - initLabel.getHeight() - 15);
-        System.out.println(initLabel.getX() + " " + initLabel.getY());
-        mLabels.add(initLabel);
-        mStage.addActor(initLabel);
-        mHighlightedLabel = initLabel;
-        */
         mHighlightedIndex = 0;
         float labelLength = 0;
         while (st.hasMoreTokens()) {
@@ -293,8 +286,7 @@ public class ReqFinderScreen extends GameScreen {
         return false;
     }
     private void reportScore() {
-        float score = (float) ((float)mCorrectCounter/(float)mCorrectWords.length);
-        System.out.println((int)(score*100));
+        float score = ((float)mCorrectCounter/(float)mCorrectWords.length);
         ScoreHandler.updateScore(ScoreHandler.REQ, score);
     }
 }

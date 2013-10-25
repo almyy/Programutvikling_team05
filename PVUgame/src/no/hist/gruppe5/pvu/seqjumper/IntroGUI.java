@@ -57,9 +57,7 @@ public class IntroGUI {
          try {
             mText = Assets.readFile("data/seqJump_intro/Intro.txt");
         } catch (FileNotFoundException e) {
-            System.out.println("fail");
         } catch (IOException e) {
-            System.out.println("fail");
 
         }
         mLtext = makeLabel(mText);
@@ -68,12 +66,6 @@ public class IntroGUI {
         mLtext.setWidth(PVU.GAME_WIDTH *2);
         mLtext.setFontScale(2f);
         mStage.addActor(mLtext);
-        
-       
-        
-     
-        
-        
     }
     
     private Label makeHeadLabel(String text) {

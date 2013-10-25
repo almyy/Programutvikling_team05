@@ -36,10 +36,9 @@ public class BurndownScreen extends GameScreen {
             mText = Assets.readFile("data/burndownScreen/text.txt");
 
         } catch (FileNotFoundException e) {
-            System.out.println("failure");
         } catch (IOException e) {
-            System.out.println("failure");
         }
+
         mLabelstyle = new Label.LabelStyle(Assets.primaryFont10px, Color.BLACK);
         mTextLabel = new Label(mText, mLabelstyle);
         mTextLabel.setPosition(PVU.SCREEN_WIDTH / 4, PVU.SCREEN_HEIGHT / 5.3f);

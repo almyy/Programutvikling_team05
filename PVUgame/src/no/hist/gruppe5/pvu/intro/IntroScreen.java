@@ -112,7 +112,7 @@ public class IntroScreen extends GameScreen {
         Settings.setPlayerName(mCurrentInput.toString());
         switch (Settings.PLAYER_NAME.toLowerCase()) {
             case "noquiz":
-                System.out.println("Setting no quiz, hooraay!");
+                PVU.log(this, "Setting no quiz, hooraay!");
                 ScoreHandler.setNoQuiz();
                 break;
             case "penis":
