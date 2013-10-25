@@ -191,6 +191,6 @@ public class Assets {
                 text += strLine;
             }
         }
-        return new String(text.getBytes("UTF-8"));
+        return text;
     }
 }
