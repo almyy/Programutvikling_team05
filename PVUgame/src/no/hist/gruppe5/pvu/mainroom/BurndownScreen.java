@@ -51,7 +51,7 @@ public class BurndownScreen extends GameScreen {
         for (int i = 0; i < Assets.msBurndownCarts.length; i++) {
             mBurndownCarts[i] = new Sprite(Assets.msBurndownCarts[i]);
             mBurndownCarts[i].setPosition(PVU.GAME_WIDTH / 2.5f - mBurndownCarts[i].getWidth(), PVU.GAME_HEIGHT / 3);
-            mBurndownCarts[i].setSize(PVU.GAME_WIDTH / 2, PVU.GAME_HEIGHT / 2);
+            mBurndownCarts[i].setSize(PVU.GAME_WIDTH / 2, PVU.GAME_HEIGHT / 1.6f);
         }
         checkCompletion();
     }
