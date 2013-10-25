@@ -22,12 +22,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.TimeUtils;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import no.hist.gruppe5.pvu.Assets;
 import no.hist.gruppe5.pvu.GameScreen;
@@ -130,12 +127,21 @@ public class QuizScreen extends GameScreen {
     }
 
     private void readQuiz(String fileName) throws FileNotFoundException, IOException {
-        DataInputStream in = new DataInputStream(new FileInputStream(fileName));
-        BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
+        //DataInputStream in = new DataInputStream(new FileInputStream(fileName));
+        //BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
+
+        PVU.log(this, "Testing new file reading!");
+
+        //DRITT
+          /* See how I'm specifying the UTF-8 encoding explicitly? */
+        FileInputStream file = new FileInputStream(fileName);
+        Reader chars = new InputStreamReader(file, StandardCharsets.UTF_8);
+        BufferedReader lines = new BufferedReader(chars);
+        // DRITT
         String strLine;
         int counter = 0;
         int answerCounter = 0;
-        while ((strLine = inBR.readLine()) != null) {
+        while ((strLine = lines.readLine()) != null) {
             if (!"".equals(strLine)) {
                 if (counter < mNumberOfQuestions) {
                     mQuestions.add(new Label(strLine, mOutputStyle));

@@ -22,105 +22,104 @@ import no.hist.gruppe5.pvu.Input;
  */
 public class CoderacerScreen extends GameScreen {
 
-    ShapeRenderer mShape;
+    ShapeRenderer mShapeRenderer;
 
-    private Label finishedCode;
-    private Label codeOutput;
-    private Label firstLine;
-    private Label time;
-    private Code code = new Code();
-    private Stage stage;
-    private int remainingTime = 30;
-    private int score = 0;
-    private boolean start;
-    private boolean pause;
-    private boolean mDoneHandled;
-    private long mTimeDone;
+    // GUI
+    private Stage mStage;
+    private Label mFinishedCode;
+    private Label mCodeoutput;
+    private Label mFirstLine;
+    private Label mTimeLabel;
     private Input mInput;
+
+    // Game Variables
+    private Code mCode;
+    private int mRemainingTime = 30;
+    private int mScore = 0;
+    private boolean start;
+    private boolean mDoneHandled;
+
+    // Time countdown
     private Timer.Task task = new Timer.Task() {
 
         @Override
         public void run() {
             if(isGamePaused()) return;
-            remainingTime--;
+            mRemainingTime--;
         }
     };
 
     public CoderacerScreen(PVU game) {
         super(game);
 
+        mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
+        mShapeRenderer = new ShapeRenderer();
         mInput = new Input();
-
-        mShape = new ShapeRenderer();
-
-        pause = false;
-        start = false;
-
-        stage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
+        mCode = new Code();
 
         Group outputGroup = new Group();
         Group inputGroup = new Group();
 
         LabelStyle outputStyle = new LabelStyle(Assets.primaryFont10px, Color.GREEN);
-        codeOutput = new Label("Du har 30 sekunder på å skrive så mye av koden som mulig.\n\nTrykk space for å begynne.", outputStyle);
-        codeOutput.setFontScale(3f);
-        codeOutput.setFillParent(true);
-        codeOutput.setWrap(true);
-        codeOutput.setAlignment(Align.top | Align.left);
+        mCodeoutput = new Label("Du har 30 sekunder på å skrive så mye av koden som mulig.\n\nTrykk space for å begynne.", outputStyle);
+        mCodeoutput.setFontScale(3f);
+        mCodeoutput.setFillParent(true);
+        mCodeoutput.setWrap(true);
+        mCodeoutput.setAlignment(Align.top | Align.left);
 
-        firstLine = new Label(" ", outputStyle);
-        firstLine.setFontScale(3f);
-        firstLine.setFillParent(true);
-        firstLine.setWrap(true);
-        firstLine.setAlignment(Align.top | Align.left);
-        firstLine.setY(firstLine.getHeight() * 3);
+        mFirstLine = new Label(" ", outputStyle);
+        mFirstLine.setFontScale(3f);
+        mFirstLine.setFillParent(true);
+        mFirstLine.setWrap(true);
+        mFirstLine.setAlignment(Align.top | Align.left);
+        mFirstLine.setY(mFirstLine.getHeight() * 3);
 
         LabelStyle finishedStyle = new LabelStyle(Assets.primaryFont10px, Color.RED);
-        finishedCode = new Label("", finishedStyle);
-        finishedCode.setFontScale(3f);
-        finishedCode.setFillParent(true);
-        finishedCode.setWrap(true);
-        finishedCode.setAlignment(Align.bottom | Align.left);
+        mFinishedCode = new Label("", finishedStyle);
+        mFinishedCode.setFontScale(3f);
+        mFinishedCode.setFillParent(true);
+        mFinishedCode.setWrap(true);
+        mFinishedCode.setAlignment(Align.bottom | Align.left);
 
      
 
-        time = new Label("" + remainingTime, finishedStyle);
-        time.setFontScale(3f);
+        mTimeLabel = new Label("" + mRemainingTime, finishedStyle);
+        mTimeLabel.setFontScale(3f);
 
-        outputGroup.addActor(codeOutput);
+        outputGroup.addActor(mCodeoutput);
         outputGroup.setWidth(120);
         outputGroup.setHeight(40);
-        outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() * 1.4f, 450 - firstLine.getHeight() * 3);
+        outputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - outputGroup.getWidth() * 1.4f, 450 - mFirstLine.getHeight() * 3);
 
-        outputGroup.addActor(firstLine);
+        outputGroup.addActor(mFirstLine);
 
-        inputGroup.addActor(finishedCode);
+        inputGroup.addActor(mFinishedCode);
         inputGroup.setWidth(120);
         inputGroup.setHeight(40);
         inputGroup.setPosition(PVU.SCREEN_WIDTH / 2 - inputGroup.getWidth() * 1.4f, 190);
 
 
-        stage.addActor(outputGroup);
-        stage.addActor(inputGroup);
-        stage.addActor(time);
+        mStage.addActor(outputGroup);
+        mStage.addActor(inputGroup);
+        mStage.addActor(mTimeLabel);
 
-        time.setPosition(PVU.SCREEN_WIDTH * 0.9f, PVU.SCREEN_HEIGHT * 0.1f);
+        mTimeLabel.setPosition(PVU.SCREEN_WIDTH * 0.9f, PVU.SCREEN_HEIGHT * 0.1f);
 
         Gdx.input.setInputProcessor(new inputListener());
     }
 
     private void updateOutput() {
-        StringBuilder codeLeft = new StringBuilder(code.getLeft());
+        StringBuilder codeLeft = new StringBuilder(mCode.getLeft());
         int max = (codeLeft.length() >= 18) ? 18 : codeLeft.length();
-        firstLine.setText("" + codeLeft.subSequence(0, max));
+        mFirstLine.setText("" + codeLeft.subSequence(0, max));
         if (codeLeft.length() > 0 && codeLeft.charAt(0) == " ".charAt(0)) {
-            firstLine.setX(6f * 3f);
+            mFirstLine.setX(6f * 3f);
         } else {
-            firstLine.setX(0f);
+            mFirstLine.setX(0f);
         }
         codeLeft.delete(0, max);
-        codeOutput.setText(codeLeft);
-        finishedCode.setText(code.getCorrect());
+        mCodeoutput.setText(codeLeft);
+        mFinishedCode.setText(mCode.getCorrect());
     }
 
     @Override
@@ -129,30 +128,29 @@ public class CoderacerScreen extends GameScreen {
         batch.begin();
         batch.draw(Assets.msPcBackground, 0, 0);
         batch.end();
-        stage.draw();
+        mStage.draw();
         if(start && !mDoneHandled) {
-            mShape.begin(ShapeRenderer.ShapeType.Filled);
-            mShape.rect(310f, 458f, 6 * 3, 2f);
-            mShape.end();
+            mShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            mShapeRenderer.rect(310f, 458f, 6 * 3, 2f);
+            mShapeRenderer.end();
         }
     }
 
     @Override
     protected void update(float delta) {
         if (mInput.action() && !start) {
-            codeOutput.setText(code.getCode());
+            mCodeoutput.setText(mCode.getCode());
             start = true;
             updateOutput();
             Timer.schedule(task, 1f, 1f);
         }
 
-        if ((code.isFinished() || remainingTime <= 0) && !mDoneHandled) {
-            mTimeDone = TimeUtils.millis();
-            ScoreHandler.updateScore(ScoreHandler.CODE, code.getGrade(score));
-            game.setScreen(new CoderacerEndScreen(game, code.getGrade(score)));
+        if ((mCode.isFinished() || mRemainingTime <= 0) && !mDoneHandled) {
+            ScoreHandler.updateScore(ScoreHandler.CODE, mCode.getGrade(mScore));
+            game.setScreen(new CoderacerEndScreen(game, mCode.getGrade(mScore)));
             mDoneHandled = true;
         } else if (!mDoneHandled) {
-            time.setText(remainingTime + "");
+            mTimeLabel.setText(mRemainingTime + "");
         }
     }
 
@@ -174,11 +172,11 @@ public class CoderacerScreen extends GameScreen {
 
         @Override
         public boolean keyTyped(char character) {
-            if (!code.isFinished() && !isGamePaused()) {
+            if (!mCode.isFinished() && !isGamePaused()) {
                 if (character > 31) {
-                    if (code.equals(character)) {
-                        score++;
-                        if (!code.isFinished()) {
+                    if (mCode.equals(character)) {
+                        mScore++;
+                        if (!mCode.isFinished()) {
                             updateOutput();
                         }
                     }
