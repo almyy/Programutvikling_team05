@@ -82,6 +82,8 @@ public class Assets {
     public static TextureRegion seqLine;
     public static TextureRegion seqBox;
     public static TextureRegion redBar;
+    
+    public static TextureRegion exclamationMark; 
 
     public static void load() {
         minecraftFont10px = new BitmapFont(
@@ -104,13 +106,13 @@ public class Assets {
         visionShooterBullet = visionShooterAtlas.findRegion("Bullet");
         visionShooterFacebookRegion = visionShooterAtlas.findRegion("Facebook");
         visionShooterYoutubeRegion = visionShooterAtlas.findRegion("YouTube");
-
+        
         Array mainAvatarArray = mainAvatarAtlas.findRegions("Avatar");
         mainAvatar = new TextureRegion[mainAvatarArray.size];
         for (int i = 0; i < mainAvatarArray.size; i++) {
             mainAvatar[i] = (TextureRegion) mainAvatarArray.get(i);
         }
-
+        
         Array umlBlocksArray = umlBlocksAtlas.findRegions("uml");
         umlBlocks = new TextureRegion[umlBlocksArray.size];
         for (int i = 0; i < umlBlocks.length; i++) {
@@ -128,6 +130,8 @@ public class Assets {
         for (int i = 0; i < carts.size; i++) {
             msBurndownCarts[i] = (TextureRegion) carts.get(i);
         }
+
+        exclamationMark = mainAvatar[24];
 
         // INTRO
         introMainLogo = msAtlas.findRegion("logo");

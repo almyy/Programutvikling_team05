@@ -29,7 +29,7 @@ public class VisionEndScreen extends GameScreen {
 
     public VisionEndScreen(PVU game, int points, int[] elementsGot) {
         super(game);
-        mInput = new Input();
+        mInput = new Input(200, 2000L);
         mStage = new Stage(PVU.SCREEN_WIDTH, PVU.SCREEN_HEIGHT, true);
         mContinue = "Gratulerer! Du er nå ferdig å skrive visjonsdokumentet.\n\n" 
                 + "Trykk SPACE for å avslutte";
@@ -53,6 +53,7 @@ public class VisionEndScreen extends GameScreen {
         mLcontinue.setPosition(PVU.SCREEN_WIDTH/2-320, PVU.SCREEN_HEIGHT * 0.3f);
         mLcontinue.setFontScale(4f);
         mLcontinue.setWrap(true);
+        mLcontinue.setLayoutEnabled(false);
         
         mStage.addActor(mLcontinue);
     }
@@ -85,6 +86,10 @@ public class VisionEndScreen extends GameScreen {
     protected void update(float delta) {
         if (mInput.action()) {
             game.setScreen(PVU.MAIN_SCREEN);
+        }
+
+        if(mInput.isActionReady()) {
+            mLcontinue.setLayoutEnabled(true);
         }
     }
 

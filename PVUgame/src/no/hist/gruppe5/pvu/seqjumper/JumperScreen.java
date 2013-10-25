@@ -59,6 +59,7 @@ public class JumperScreen extends GameScreen {
     private float mPercent;
     // Report score
     private boolean mOnce;
+    private float mHighscore;
 
     public JumperScreen(PVU game) {
         super(game);
@@ -231,12 +232,12 @@ public class JumperScreen extends GameScreen {
         if (mLife > 0) {
             mGui.setLife(mLife);
         } else {
-            mGui.setGameFeedback();
+            mGui.setGameFeedback(mHighscore);
             mGui.enableIntermediateDisplay();
             gameOver();
         }
         if (mJumps == 11) {
-            mGui.setGameFeedback();
+            mGui.setGameFeedback(mHighscore);
             mGui.enableIntermediateDisplay();
             gameOver();
         }
@@ -365,7 +366,6 @@ public class JumperScreen extends GameScreen {
             mPlatformJumped[i] = false;
         }
         // GUI updates
-        mGui.setLifeLoss();
         mLife--;
         mJumps = 0;
     }
@@ -377,7 +377,7 @@ public class JumperScreen extends GameScreen {
         }
         // Update score when the game is over
         if (!mOnce) {
-            ScoreHandler.updateScore(ScoreHandler.SEQ, mPercent / 100);
+            ScoreHandler.updateScore(ScoreHandler.SEQ, mHighscore / 100);
             mOnce = true;
         }
         mGameOver = true;
@@ -394,6 +394,9 @@ public class JumperScreen extends GameScreen {
             mGui.setSuccess(mPercent);
         } else if (mJumps - 1 == 0) {
             mGui.setSuccess(0);
+        }
+        if (mHighscore < mPercent) {
+            mHighscore = mPercent;
         }
     }
 

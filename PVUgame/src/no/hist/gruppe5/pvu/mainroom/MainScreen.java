@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.TimeUtils;
 import no.hist.gruppe5.pvu.*;
 import no.hist.gruppe5.pvu.book.BookScreen;
 import no.hist.gruppe5.pvu.dialogdrawer.DialogDrawer;
@@ -19,39 +20,47 @@ import no.hist.gruppe5.pvu.mainroom.objects.TeamMates;
  */
 public class MainScreen extends GameScreen {
 
+    // Text for popup boxes
     public static final String TRYKK = "Trykk på E for å ";
     public static final String PAA_PC = TRYKK + "jobbe på PC-en";
-    public static final String PAA_CART = TRYKK + "se på burndown-cart";
+    public static final String PAA_CART = TRYKK + "se på burndown chart";
     public static final String PAA_BORD = TRYKK + "se på fremgangen din";
     public static final String PAA_BOK = TRYKK + "lese i boken";
+
+    // Object identifiers
     public static final int OBJECT_PLAYER = 0;
     public static final int OBJECT_ROOM = 1;
-    private PopupBox mPopupBox;
+
+    // Box2D
     private World mWorld;
-    private Box2DDebugRenderer mDebugRenderer;
     private Player mPlayer;
     private TeamMates mTeammates;
-    private boolean mInputHandled = false;
+
+    // Sprite drawing
     private Sprite mBackground;
     private Sprite mTables;
     private Sprite[] mBurndownCarts;
-    private int mCurrentCart = 0;
-    private boolean burndownChecked = true;
-    private boolean game1Checked = false;
-    private boolean game2Checked = false;
-    private boolean game3Checked = false;
-    private boolean game4Checked = false;
+
+    // Game variables
     private RayCastManager mRayCastManager;
-    // DEBUG
-    private ShapeRenderer mShapeDebugRenderer;
+    private int mCurrentCart = 0;
+    private float mExlBob = 0;
+    private float mExlBobCounter;
+    private boolean[] mGamesChecked = {false, false, false ,false};
     private boolean mShowingHint = false;
-    private int mCurrentHint = -1;
+
+    // GUI
+    private PopupBox mPopupBox;
     private DialogDrawer mDialog;
     private Input mInput;
 
+    // DEBUG
+    private ShapeRenderer mShapeDebugRenderer;
+    private Box2DDebugRenderer mDebugRenderer;
+
     public MainScreen(PVU game) {
         super(game);
-
+        
         mWorld = new World(new Vector2(0, 0), true);
         mDialog = new DialogDrawer();
         mDialog.setShow(true);
@@ -128,16 +137,23 @@ public class MainScreen extends GameScreen {
             mTables.draw(batch);
             mTeammates.draw(batch);
         }
+        drawExclamationMarks();
+        batch.end();
 
         if (mShowingHint && !mPlayer.isSitting()) {
             mPopupBox.draw(delta);
         }
 
-        batch.end();
-
         if (mDialog.isShow()) {
             mDialog.draw();
         }
+    }
+
+    private void drawExclamationMarks() {
+        batch.draw(Assets.exclamationMark, 40, 97 - mExlBob, 7 , 15);
+        batch.draw(Assets.exclamationMark, 88, 100 - mExlBob, 7 , 15);
+        batch.draw(Assets.exclamationMark, 94, 40 - mExlBob, 7 , 15);
+        batch.draw(Assets.exclamationMark, 184, 70 - mExlBob, 7 , 15);
     }
 
     @Override
@@ -160,7 +176,6 @@ public class MainScreen extends GameScreen {
 
         if (mRayCastManager.getInfront() != -1 && !mShowingHint) {
             mShowingHint = true;
-            mCurrentHint = mRayCastManager.getInfront();
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
                     mPopupBox.setText(PAA_BOK);
@@ -187,6 +202,9 @@ public class MainScreen extends GameScreen {
             checkWithinRayCastInput();
         }
 
+        mExlBobCounter += delta;
+        mExlBob = 1 - (float) Math.sin(mExlBobCounter * 3);
+
     }
 
     private void drawDebug(boolean onlyRayCasts) {
@@ -206,48 +224,39 @@ public class MainScreen extends GameScreen {
         if (mInput.alternateAction()) {
             switch (mRayCastManager.getInfront()) {
                 case RayCastManager.BOOK:
-                    mInputHandled = true;
                     game.setScreen(new BookScreen(game));
                     break;
                 case RayCastManager.PC:
                     game.setScreen(new MinigameSelectorScreen(game));
                     mPlayer.sitDown();
                     mShowingHint = false;
-                    mInputHandled = true;
-                    burndownChecked = false;
                     break;
                 case RayCastManager.CART:
                     game.setScreen(new BurndownScreen(game));
-                    mInputHandled = true;
                     break;
                 case RayCastManager.TABLE:
-                    mInputHandled = true;
                     game.setScreen(new ScoreScreen(game));
                     break;
             }
         }
     }
 
-    @Override
-    protected void cleanUp() {
-    }
-
     private void checkCompletion() {
-        if (!game1Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.VISION)) {
+        if (!mGamesChecked[0] && ScoreHandler.isMinigameCompleted(ScoreHandler.VISION)) {
             setBurnDownCart(++mCurrentCart % 5);
-            game1Checked = true;
+            mGamesChecked[0] = true;
         }
-        if (!game2Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.REQ)) {
+        if (!mGamesChecked[1] && ScoreHandler.isMinigameCompleted(ScoreHandler.REQ)) {
             setBurnDownCart(++mCurrentCart % 5);
-            game2Checked = true;
+            mGamesChecked[1] = true;
         }
-        if (!game3Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.UMLBLOCKS)) {
+        if (!mGamesChecked[2] && ScoreHandler.isMinigameCompleted(ScoreHandler.UMLBLOCKS)) {
             setBurnDownCart(++mCurrentCart % 5);
-            game3Checked = true;
+            mGamesChecked[2] = true;
         }
-        if (!game4Checked && ScoreHandler.isMinigameCompleted(ScoreHandler.CODE)) {
+        if (!mGamesChecked[3] && ScoreHandler.isMinigameCompleted(ScoreHandler.CODE)) {
             setBurnDownCart(++mCurrentCart % 5);
-            game4Checked = true;
+            mGamesChecked[3] = true;
         }
     }
 
@@ -259,5 +268,9 @@ public class MainScreen extends GameScreen {
             num = 4;
         }
         mCurrentCart = num;
+    }
+
+    @Override
+    protected void cleanUp() {
     }
 }

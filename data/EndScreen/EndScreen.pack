@@ -1,0 +1,12 @@
+
+EndScreen.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+End_screen
+  rotate: false
+  xy: 0, 0
+  size: 192, 116
+  orig: 192, 116
+  offset: 0, 0
+  index: -1

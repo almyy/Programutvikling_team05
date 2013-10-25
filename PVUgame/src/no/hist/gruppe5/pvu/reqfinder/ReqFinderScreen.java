@@ -35,7 +35,7 @@ public class ReqFinderScreen extends GameScreen {
     private Label mHighlightedLabel;
     private int mHighlightedIndex;
     private String[] mCorrectWords= {"interaktivt", "skjema,", "kundeprofil", "profilside", "instant", "messaging-tjeneste", "(IM-tjeneste).", "prosjektbestillinger", "fysikksimulator"};
-    private Input mInput = new Input();
+    private Input mInput;
     private int mLives = mCorrectWords.length;
     private Label mLivesLabel;
     private int mCorrectCounter = 0;
@@ -43,6 +43,9 @@ public class ReqFinderScreen extends GameScreen {
             
     public ReqFinderScreen(PVU pvu) {
         super(pvu);
+
+        mInput = new Input(100, 200);
+
         try {
             mCaseText = Assets.readFile("data/case.txt");
         } catch (FileNotFoundException ex) {

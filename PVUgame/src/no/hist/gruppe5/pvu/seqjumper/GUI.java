@@ -24,10 +24,6 @@ public class GUI {
     private Stage mIntermediateStage;
     private boolean mChangeStage;
 
-    // Score 
-    private float mPercent = 0;
-    private float mHighscore = 0;
-
     public GUI(float width, float height, boolean keepAspectRation) {
         this.mScoreStage = new Stage(width, height, keepAspectRation);
         this.mIntermediateStage = new Stage(width, height, keepAspectRation);
@@ -102,18 +98,14 @@ public class GUI {
     }
 
     public void setSuccess(float score) {
-        mPercent = score;
-        if (mHighscore < mPercent) {
-            mHighscore = mPercent;
-        }
-        mSuccess.setText("Success: " + mPercent + "% ");
+        mSuccess.setText("Success: " + score + "% ");
     }
 
     public void setLife(int life) {
         mLife.setText("Life: " + life);
     }
 
-    public void setGameFeedback() {
+    public void setGameFeedback(float mHighscore) {
         mGameFeedback.setText("Din score ble: " + mHighscore);
     }
 
@@ -127,9 +119,5 @@ public class GUI {
 
     public void enableScoreDisplay() {
         mChangeStage = false;
-    }
-    
-    public void setLifeLoss(){
-        mPercent = 0;
     }
 }
