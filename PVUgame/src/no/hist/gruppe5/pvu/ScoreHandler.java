@@ -26,13 +26,9 @@ public class ScoreHandler {
      */
     public static void load() {
         totalScore = new float[5];
-        for(int i = 0; i < 4; i++)
-            totalScore[i] = 1;
         mCompletedAllLevels = false;
         total = 0;
         quizzesCompleted = new boolean[5];
-        for(int i = 0; i < 4; i++)
-            quizzesCompleted[i] = true;
     }
 
     /**
