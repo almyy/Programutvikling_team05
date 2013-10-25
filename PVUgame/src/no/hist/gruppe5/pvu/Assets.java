@@ -183,7 +183,7 @@ public class Assets {
     public static void dispose() {
     }
 
-    public static String readFile(String fileName) throws FileNotFoundException, IOException {
+    public static String readFile(String fileName) throws IOException {
         String text = "";
         DataInputStream in = new DataInputStream(new FileInputStream(fileName));
         BufferedReader inBR = new BufferedReader(new InputStreamReader(in));
@@ -193,6 +193,6 @@ public class Assets {
                 text += strLine;
             }
         }
-        return text;
+        return new String(text.getBytes("UTF-8"));
     }
 }
