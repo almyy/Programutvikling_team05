@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import no.hist.gruppe5.pvu.PVU;
 
 /**
  * Created with IntelliJ IDEA.
@@ -101,10 +102,6 @@ public abstract class Block {
         body.setActive(true);
         subActivate();
         return this;
-    }
-
-    public boolean isMoving() {
-        return (body.getLinearVelocity().x == 0 && body.getLinearVelocity().y == 0);
     }
 
     // User for more advanced bodies
